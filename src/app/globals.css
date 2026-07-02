@@ -75,7 +75,13 @@ h6 {
 }
 
 .gold-text {
-  color: var(--gold-primary);
+  background: linear-gradient(180deg,
+      #9A6410 0%,
+      #C98A18 25%,
+      #F0C24E 65%,
+      #FFE8A3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Custom interactive elements */
@@ -632,7 +638,7 @@ h6 {
 
 /* StatsBar Styles */
 .stats-bar-ribbon {
-  background: linear-gradient(90deg, #FCD46A 0%, #D89E2B 50%, #FCD46A 100%);
+  background: linear-gradient(180deg, #c69c2a 0%, hsl(40, 78%, 77%) 50%, #c69c2a 100%);
   width: 100%;
   padding: 1.35rem 0;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
@@ -658,7 +664,7 @@ h6 {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #060B1E;
+  background: #101c4e;
   color: var(--gold-primary);
   display: flex;
   align-items: center;
