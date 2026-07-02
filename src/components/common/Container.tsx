@@ -1,0 +1,17 @@
+'use client';
+
+import React from 'react';
+
+interface ContainerProps {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}
+
+export default function Container({ children, className = '', id }: ContainerProps) {
+  return (
+    <div id={id} className={`container ${className}`}>
+      {children}
+    </div>
+  );
+}

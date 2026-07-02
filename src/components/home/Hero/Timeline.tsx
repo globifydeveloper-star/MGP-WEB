@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function DottedCurve() {
+export default function Timeline() {
   return (
     <div className="dotted-curve-container">
       {/* SVG Dotted Arc */}
