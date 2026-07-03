@@ -16,6 +16,9 @@ export default function Home() {
       {/* 1. Navbar Navigation */}
       <Navbar />
 
+      {/* Hero Section */}
+      <Hero />
+
       {/* 2. Mobile Van Banner */}
       <MobileVan />
       {/* 3. The Gold Point Difference */}
