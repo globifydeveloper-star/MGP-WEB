@@ -1,7 +1,7 @@
-import MobileVan from '@/components/home/MobileVan/mobilevan';
-import TheGpDiff from '@/components/home/The_gp_diff/the_gp_diff';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero/Hero';
+import MobileVan from '@/components/home/MobileVan/mobilevan';
+import TheGpDiff from '@/components/home/The_gp_diff/the_gp_diff';
 import SellMethods from '@/components/home/SellMethods';
 import Process from '@/components/home/Process';
 import Testimonials from '@/components/home/Testimonials';
@@ -16,9 +16,11 @@ export default function Home() {
       {/* 1. Navbar Navigation */}
       <Navbar />
 
+      {/* Hero Section */}
+      <Hero />
+
       {/* 2. Mobile Van Banner */}
       <MobileVan />
-
       {/* 3. The Gold Point Difference */}
       <TheGpDiff />
 
@@ -41,23 +43,7 @@ export default function Home() {
       <RecentPost />
 
       {/* 10. Footer Section */}
-      {/* 2. Hero Area Section */}
-      <Hero />
-
-      {/* 3. Selling Methods Section */}
-      <SellMethods />
-
-      {/* 4. Transparent Process Section */}
-      <Process />
-
-      {/* 5. Customer Testimonials Section */}
-      <Testimonials />
-
-      {/* 6. FAQs Accordion Section */}
-      <FAQ />
-
-      {/* 7. Footer Section */}
       <Footer />
     </main>
-  );
+  )
 }
