@@ -201,6 +201,21 @@
   object-fit: contain;
   object-position: bottom right;
   filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.5));
+  position: relative;
+  z-index: 2;
+}
+
+.hero-model-bg-ellipse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 750px;
+  height: 750px;
+  max-width: none;
+  object-fit: contain;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Floating Sparkle Star Icon */
