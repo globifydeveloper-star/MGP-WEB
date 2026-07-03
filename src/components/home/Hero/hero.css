@@ -1,0 +1,823 @@
+/* Custom Hero Section Stylesheet - GOLDPOINT */
+
+/* Gilroy font family token fallback */
+.hero-font-gilroy {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+/* Full Hero Section Wrapper */
+.hero-section-root-v2 {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #06132E 0%, #0F224C 55%, #163376 100%);
+  overflow: hidden;
+  padding-top: 100px;
+  /* Spacer below sticky/absolute Navbar */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Circle outline decor removed as it is now pre-rendered in the curve image */
+.hero-circle-outline-deco {
+  display: none;
+}
+
+/* Grid Container */
+.hero-container-v2 {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 3rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+/* Left copy column */
+.hero-left-column-v2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 680px;
+}
+
+/* Trust Badge Row */
+.hero-trust-badge-v2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 2.25rem;
+  width: fit-content;
+}
+
+.trust-badge-circle-icon {
+  width: 22px;
+  height: 22px;
+  color: #EBAF20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trust-badge-circle-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.trust-badge-text-v2 {
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.trust-badge-text-v2 .gold-highlight {
+  color: #EBAF20;
+  font-weight: 700;
+}
+
+/* Headlines */
+.hero-main-title-v2 {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-size: 4.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #FFFFFF;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.hero-gold-text {
+  background: linear-gradient(180deg, #9A6410 0%, #C98A18 25%, #F0C24E 65%, #FFE8A3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Subcopy with dashed horizontal divider */
+.hero-subcopy-wrapper-v2 {
+  position: relative;
+  padding-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.hero-subcopy-text-v2 {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 520px;
+}
+
+.hero-subcopy-wrapper-v2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background-image: linear-gradient(to right, rgba(235, 175, 32, 0.3) 60%, transparent 40%);
+  background-size: 10px 1.5px;
+  background-repeat: repeat-x;
+}
+
+/* CTA buttons group */
+.hero-cta-group-v2 {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Button variants styling to match Gilroy & spec */
+.btn-gold-gradient {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #06132E;
+  background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
+  border: none;
+  box-shadow: 0 4px 18px rgba(235, 175, 32, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 1.1rem 2.25rem;
+  border-radius: 8px;
+}
+
+.btn-gold-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(235, 175, 32, 0.45);
+  filter: brightness(1.05);
+}
+
+.btn-white-outline-v2 {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #FFFFFF;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 1.1rem 2.25rem;
+  border-radius: 8px;
+}
+
+.btn-white-outline-v2:hover {
+  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Right column (Model + Badges) */
+.hero-right-column-v2 {
+  position: relative;
+  height: 580px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* Model Photo Wrapper */
+.hero-model-photo-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  z-index: 2;
+}
+
+.hero-model-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom right;
+  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.5));
+}
+
+/* Floating Sparkle Star Icon */
+.hero-sparkle-star {
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  z-index: 3;
+  color: #EBAF20;
+  filter: drop-shadow(0 0 10px rgba(235, 175, 32, 0.8));
+  animation: float-sparkle 3s ease-in-out infinite alternate;
+}
+
+@keyframes float-sparkle {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-8px) scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* New Design Curve Wrapper & absolute Text Labels next to pre-rendered icons */
+.hero-curve-wrapper {
+  position: absolute;
+  left: -50px;
+  top: -150px;
+  width: 872px;
+  height: 847px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hero-curve-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.curve-text-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+.label-text-white {
+  font-size: 0.95rem;
+  color: #FFFFFF;
+  line-height: 1.35;
+}
+
+.label-text-gold {
+  font-size: 1.05rem;
+  color: #EBAF20;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Adjust label positions to map exactly to the icons on the transparent image */
+.curve-text-label.label-top {
+  top: 29.5%;
+  left: 11%;
+}
+
+.curve-text-label.label-middle {
+  top: 48.5%;
+  left: 7.5%;
+}
+
+.curve-text-label.label-bottom {
+  top: 66.5%;
+  left: 11%;
+}
+
+/* Today's Gold Rate Card overlay */
+.hero-gold-rate-card-v2 {
+  position: absolute;
+  bottom: 12%;
+  right: -50px;
+  width: 256.18px;
+  height: 258.18px;
+  background: #111A41;
+  border-radius: 16.01px;
+  outline: 1px #EBAF20 solid;
+  outline-offset: -1px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  z-index: 5;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-gold-rate-card-v2:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(235, 175, 32, 0.15), 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+/* Animated Golden Beam overlay traversing the border */
+.gold-beam-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+.gold-beam-rect {
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 3px rgba(235, 175, 32, 0.4)) drop-shadow(0 0 6px rgba(235, 175, 32, 0.2));
+  opacity: 0.9;
+}
+
+.rate-card-header-v2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.rate-card-title-v2 {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+.rate-card-live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #244153;
+  border: 1px solid #4ADE80;
+  padding: 0.2rem 0.6rem;
+  border-radius: 30px;
+  color: #4ADE80;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.live-dot-v2 {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #4ADE80;
+  animation: pulse-live 1.6s infinite;
+}
+
+@keyframes pulse-live {
+  0% {
+    transform: scale(0.85);
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(74, 222, 128, 0);
+  }
+
+  100% {
+    transform: scale(0.85);
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
+}
+
+.rate-card-divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 0.5rem 0;
+}
+
+.rate-card-purity-v2 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.15rem;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+.rate-card-price-value {
+  display: flex;
+  align-items: baseline;
+  color: #EBAF20;
+  font-weight: 700;
+  font-size: 2.25rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+.rate-card-price-unit {
+  font-size: 1rem;
+  color: #EBAF20;
+  font-weight: 500;
+  margin-left: 0.15rem;
+}
+
+.btn-rate-card-cta-v2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid #EBAF20;
+  border-radius: 8px;
+  color: #EBAF20;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+.btn-rate-card-cta-v2:hover {
+  background: rgba(235, 175, 32, 0.08);
+  box-shadow: 0 0 12px rgba(235, 175, 32, 0.2);
+}
+
+.rate-card-cta-arrow {
+  font-size: 1rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.btn-rate-card-cta-v2:hover .rate-card-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* Dismissible Bottom Branch-Selector Bar */
+.hero-branch-selector-bar-v2 {
+  width: 100%;
+  background-image: url('../../../assets/images/NAVBAR BG.png');
+  background-repeat: repeat;
+  background-size: auto;
+  background-position: left top;
+  border-top: 1px solid rgba(235, 175, 32, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.15rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.branch-bar-text-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.branch-bar-top-label {
+  font-size: 0.72rem;
+  color: #EBAF20;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.branch-bar-main-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-top: 0.1rem;
+}
+
+.branch-bar-price-badge {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  padding-left: 1.5rem;
+  flex-shrink: 0;
+}
+
+.price-badge-purity {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+.price-badge-value {
+  font-size: 1.15rem;
+  color: #EBAF20;
+  font-weight: 700;
+}
+
+.branch-bar-controls {
+  display: flex;
+  gap: 1.15rem;
+  flex-grow: 1;
+  max-width: 550px;
+}
+
+.branch-select-container-v2 {
+  position: relative;
+  flex-grow: 1;
+}
+
+.branch-select-field-v2 {
+  width: 100%;
+  background: rgba(6, 19, 44, 0.7);
+  border: 1px solid rgba(235, 175, 32, 0.35);
+  border-radius: 6px;
+  padding: 0.75rem 2.25rem 0.75rem 1rem;
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.3s ease;
+}
+
+.branch-select-field-v2:focus {
+  outline: none;
+  border-color: #EBAF20;
+  background: #0c183a;
+  box-shadow: 0 0 0 2px rgba(235, 175, 32, 0.18);
+}
+
+.branch-select-field-v2:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.branch-select-field-v2 option {
+  background-color: #0c132c;
+  color: #FFFFFF;
+}
+
+.branch-select-chevron-v2 {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #EBAF20;
+  display: flex;
+  align-items: center;
+}
+
+.btn-branch-bar-direction-v2 {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #06132E;
+  background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-branch-bar-direction-v2:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.btn-branch-bar-direction-v2:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.branch-bar-close-btn-v2 {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.branch-bar-close-btn-v2:hover {
+  color: #FFFFFF;
+  transform: scale(1.1);
+}
+
+.branch-bar-close-icon-v2 {
+  width: 22px;
+  height: 22px;
+}
+
+.hero-branch-bar-wave-bg {
+  position: absolute;
+  top: -350px;
+  left: -100px;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+/* Stats Ribbon at the very bottom */
+.hero-stats-ribbon-v2 {
+  background: linear-gradient(180deg, #c69c2a 0%, hsl(40, 78%, 77%) 50%, #c69c2a 100%);
+  width: 100%;
+  padding: 1.5rem 2.5rem;
+  z-index: 10;
+}
+
+.hero-stats-container-v2 {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.hero-stat-item-v2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1 1 230px;
+}
+
+.hero-stat-circle-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #101c4e;
+  color: #EBAF20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.hero-stat-item-icon-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.hero-stat-info-v2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-metric-value {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #06132E;
+  line-height: 1.1;
+}
+
+.hero-stat-metric-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(6, 19, 46, 0.8);
+  line-height: 1.25;
+  margin-top: 0.15rem;
+}
+
+/* Responsive Media Queries */
+
+@media (max-width: 1300px) {
+  .hero-container-v2 {
+    gap: 2rem;
+  }
+
+  .hero-main-title-v2 {
+    font-size: 3.5rem;
+  }
+
+  .hero-circle-outline-deco {
+    width: 900px;
+    height: 900px;
+    right: -150px;
+  }
+
+  .hero-floating-badges-container {
+    left: -40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-section-root-v2 {
+    padding-top: 90px;
+  }
+
+  .hero-container-v2 {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-left-column-v2 {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .hero-trust-badge-v2 {
+    justify-content: center;
+  }
+
+  .hero-subcopy-text-v2 {
+    max-width: 100%;
+  }
+
+  .hero-cta-group-v2 {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-circle-outline-deco {
+    display: none;
+    /* Hide outline circle on tablets for layout cleanups */
+  }
+
+  .hero-right-column-v2 {
+    height: 480px;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .hero-model-photo-wrapper {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .hero-floating-badges-container {
+    display: none;
+    /* Hide floating badge nodes or stack below */
+  }
+
+  .hero-gold-rate-card-v2 {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    margin: 2rem auto 0 auto;
+    width: 100%;
+    max-width: 340px;
+    z-index: 10;
+  }
+
+  .hero-branch-selector-bar-v2 {
+    flex-direction: column;
+    padding: 1.5rem 2rem;
+    gap: 1.25rem;
+  }
+
+  .branch-bar-price-badge {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.75rem 0;
+    width: 100%;
+    align-items: center;
+  }
+
+  .branch-bar-controls {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .btn-branch-bar-direction-v2 {
+    width: 100%;
+    padding: 0.85rem;
+  }
+
+  .branch-bar-close-btn-v2 {
+    position: absolute;
+    top: 1.15rem;
+    right: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-main-title-v2 {
+    font-size: 2.75rem;
+  }
+
+  .hero-cta-group-v2 {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn-gold-gradient,
+  .btn-white-outline-v2 {
+    width: 100%;
+    padding: 0.95rem;
+  }
+
+  .hero-stats-container-v2 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-stat-item-v2 {
+    flex: 1 1 auto;
+  }
+}

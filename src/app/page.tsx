@@ -1,4 +1,5 @@
-import HeroSection from '@/components/home/Hero/HeroSection';
+import Navbar from '@/components/layout/Navbar';
+import Hero from '@/components/home/Hero/Hero';
 import SellMethods from '@/components/home/SellMethods';
 import Process from '@/components/home/Process';
 import Testimonials from '@/components/home/Testimonials';
@@ -8,22 +9,25 @@ import Footer from '@/components/layout/Footer';
 export default function Home() {
   return (
     <main>
-      {/* 1. Hero Area (includes background, Navbar, Hero Grid, BranchSelector, StatsBar) */}
-      <HeroSection />
+      {/* 1. Navbar Navigation */}
+      <Navbar />
 
-      {/* 2. Selling Methods Section */}
+      {/* 2. Hero Area Section */}
+      <Hero />
+
+      {/* 3. Selling Methods Section */}
       <SellMethods />
 
-      {/* 3. Transparent Process Section */}
+      {/* 4. Transparent Process Section */}
       <Process />
 
-      {/* 4. Customer Testimonials Section */}
+      {/* 5. Customer Testimonials Section */}
       <Testimonials />
 
-      {/* 5. FAQs Accordion Section */}
+      {/* 6. FAQs Accordion Section */}
       <FAQ />
 
-      {/* 6. Footer Section */}
+      {/* 7. Footer Section */}
       <Footer />
     </main>
   );
