@@ -1,5 +1,6 @@
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero/Hero';
+import GoldSellProcess from '@/components/home/gold_sell/gold_sell_process';
 import MobileVan from '@/components/home/MobileVan/mobilevan';
 import TheGpDiff from '@/components/home/The_gp_diff/the_gp_diff';
 import SellMethods from '@/components/home/SellMethods';
@@ -18,6 +19,9 @@ export default function Home() {
 
       {/* Hero Section */}
       <Hero />
+
+      {/* Gold Selling Process Section */}
+      <GoldSellProcess />
 
       {/* 2. Mobile Van Banner */}
       <MobileVan />
