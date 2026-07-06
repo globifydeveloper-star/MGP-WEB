@@ -1922,7 +1922,7 @@ h6 {
 }
 
 .gp-diff-highlight {
-  color: #2E9FE0;
+  color: #CB9224;
 }
 
 .gp-diff-subtitle {
@@ -2073,7 +2073,7 @@ h6 {
 }
 
 .recent-post-highlight {
-  color: #2E9FE0;
+  color: #CB9224;
   font-weight: 800;
 }
 
@@ -2197,7 +2197,7 @@ h6 {
 .feedback-title-main {
   font-size: 2.35rem;
   font-weight: 800;
-  color: #2E9FE0;
+  color: #CB9224;
   margin-bottom: 1rem;
   line-height: 1.25;
 }
@@ -2230,7 +2230,7 @@ h6 {
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 1.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .feedback-card {
@@ -2239,7 +2239,7 @@ h6 {
   flex-direction: column;
   flex: 0 0 calc(36% - 1.34rem);
   min-height: 350px;
-  background: linear-gradient(160deg, #10204f 0%, #0a1638 60%, #08122e 100%);
+  background: linear-gradient(130deg, #070e23 0%, #12265f 60%, #072e97 100%);
   border-radius: 16px;
   padding: 2rem 1.75rem 2.25rem 1.75rem;
   overflow: hidden;
@@ -2261,6 +2261,7 @@ h6 {
   height: 100%;
   object-fit: cover;
   object-position: left center;
+  transform: rotate(25deg) scale(1.1);
   mix-blend-mode: screen;
   opacity: 0.9;
 }

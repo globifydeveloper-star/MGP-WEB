@@ -1,0 +1,83 @@
+/* New Section — auto-sliding image + heading/para */
+.ns-section {
+  position: relative;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.ns-viewport {
+  overflow: hidden;
+}
+
+.ns-track {
+  display: flex;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ns-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.ns-slide-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3.5rem;
+  padding: 5rem 2rem;
+}
+
+.ns-image-col {
+  width: 100%;
+}
+
+.ns-image-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.ns-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ns-content-col {
+  color: #ffffff;
+}
+
+.ns-heading {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 1.25rem;
+}
+
+.ns-heading-highlight {
+  color: var(--gold-primary);
+}
+
+.ns-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 480px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .ns-slide-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3.5rem 1.5rem;
+  }
+
+  .ns-heading {
+    font-size: 1.9rem;
+  }
+}

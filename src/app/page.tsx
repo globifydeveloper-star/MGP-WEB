@@ -1,7 +1,10 @@
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero/Hero';
 import GoldSellProcess from '@/components/home/gold_sell/gold_sell_process';
+import GoldValueForm from '@/components/home/gold_value_form/gold_value_form';
+import VideoSection from '@/components/home/video_section/video_section';
 import MobileVan from '@/components/home/MobileVan/mobilevan';
+import NewSection from '@/components/home/new_section/new_section';
 import TheGpDiff from '@/components/home/The_gp_diff/the_gp_diff';
 import SellMethods from '@/components/home/SellMethods';
 import Process from '@/components/home/Process';
@@ -23,8 +26,17 @@ export default function Home() {
       {/* Gold Selling Process Section */}
       <GoldSellProcess />
 
+      {/* Estimate The Value Of Your Gold Section */}
+      <GoldValueForm />
+
+      {/* Video Section */}
+      <VideoSection />
+
       {/* 2. Mobile Van Banner */}
       <MobileVan />
+
+      {/* New Section */}
+      <NewSection />
       {/* 3. The Gold Point Difference */}
       <TheGpDiff />
 
