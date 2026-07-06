@@ -6,6 +6,7 @@ import HeroLeftColumn from './HeroLeftColumn';
 import HeroRightColumn from './HeroRightColumn';
 import Image from 'next/image';
 import heroWaveImg from '@/assets/images/hero-wave.png';
+import coinImg from '@/assets/images/COIN.png';
 
 const branchData: Record<string, string[]> = {
   'Karnataka': ['Bengaluru - Jayanagar', 'Bengaluru - Indiranagar', 'Bengaluru - Koramangala'],
@@ -38,6 +39,15 @@ export default function Hero() {
 
       {/* Main Grid Content Container */}
       <div className="hero-container-v2">
+        {/* Decorative Floating Coin */}
+        <Image
+          src={coinImg}
+          alt=""
+          aria-hidden="true"
+          className="hero-floating-coin-left"
+          priority
+        />
+
         {/* Left Column (Branding & Copy) */}
         <HeroLeftColumn />
 
