@@ -1,0 +1,252 @@
+/* Video Section — language-switchable demo video + brand card */
+.vs-section {
+  background: #ffffff;
+  padding: 4rem 0;
+}
+
+.vs-section .container {
+  max-width: 1412.5px;
+}
+
+.vs-grid {
+  display: grid;
+  grid-template-columns: 772.5px 548px;
+  gap: 1.75rem;
+  align-items: stretch;
+  justify-content: center;
+}
+
+/* Left: video card */
+.vs-video-card {
+  position: relative;
+  width: 772.5px;
+  height: 526.21px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a1440;
+  box-shadow: 0 10px 30px rgba(12, 24, 53, 0.18);
+}
+
+.vs-video-poster,
+.vs-video-el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+
+.vs-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(12, 24, 53, 0.55);
+  backdrop-filter: blur(2px);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.vs-play-btn svg {
+  width: 26px;
+  height: 26px;
+}
+
+.vs-play-btn:not(.vs-play-btn-playing) svg {
+  margin-left: 3px;
+}
+
+.vs-play-btn:hover {
+  background: rgba(12, 24, 53, 0.75);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.vs-play-btn-playing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vs-video-card:hover .vs-play-btn-playing {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vs-play-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Language switcher bar */
+.vs-lang-bar {
+  position: absolute;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  padding: 0.4rem 0.5rem;
+}
+
+.vs-lang-btn {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.vs-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.vs-lang-btn.vs-lang-active {
+  background: #ffffff;
+  color: var(--bg-primary);
+}
+
+.vs-lang-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 0.15rem;
+}
+
+.vs-lang-more-wrap {
+  position: relative;
+}
+
+.vs-lang-more-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.vs-lang-more-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.vs-lang-more-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.vs-lang-dropdown {
+  position: absolute;
+  bottom: calc(100% + 0.6rem);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  background: rgba(10, 19, 44, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 0.4rem;
+  min-width: 140px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  z-index: 5;
+}
+
+.vs-lang-dropdown-item {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-smooth);
+}
+
+.vs-lang-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.vs-lang-dropdown-item.vs-lang-active {
+  background: #ffffff;
+  color: var(--bg-primary);
+}
+
+/* Right: brand card */
+.vs-brand-card {
+  position: relative;
+  width: 548px;
+  height: 526.21px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(150deg, #0a1440 0%, #0c1a4a 55%, #14265c 100%);
+  box-shadow: 0 10px 30px rgba(12, 24, 53, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+}
+
+.vs-brand-logo {
+  width: 100%;
+  max-width: 458px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .vs-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .vs-video-card,
+  .vs-brand-card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 772.5 / 526.21;
+  }
+
+  .vs-brand-card {
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .vs-lang-bar {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    padding: 0.35rem;
+  }
+
+  .vs-lang-btn {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
+  }
+}

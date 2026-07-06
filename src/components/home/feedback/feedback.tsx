@@ -54,13 +54,43 @@ const StarIcon = () => (
   </svg>
 );
 
+const LOOPED_REVIEWS = [...REVIEWS, ...REVIEWS];
+
 export default function Feedback() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [offset, setOffset] = useState(0);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [jumpingBack, setJumpingBack] = useState(false);
 
   const maxIndex = REVIEWS.length - 1;
+
+  // Auto-advance left, one card at a time, looping endlessly.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => prev + 1);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Once we've slid onto the duplicated first card, snap back to the
+  // real first card with no transition so the loop looks seamless.
+  useEffect(() => {
+    if (index !== REVIEWS.length) return;
+    const resetTimer = setTimeout(() => {
+      setJumpingBack(true);
+      setIndex(0);
+    }, 1150);
+    return () => clearTimeout(resetTimer);
+  }, [index]);
+
+  useEffect(() => {
+    if (!jumpingBack) return;
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setJumpingBack(false));
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [jumpingBack]);
 
   useEffect(() => {
     function recompute() {
@@ -111,9 +141,12 @@ export default function Feedback() {
             <div
               className="feedback-track"
               ref={trackRef}
-              style={{ transform: `translateX(-${offset}px)` }}
+              style={{
+                transform: `translateX(-${offset}px)`,
+                transition: jumpingBack ? 'none' : undefined,
+              }}
             >
-              {REVIEWS.map((review) => {
+              {LOOPED_REVIEWS.map((review, idx) => {
                 const isLong = review.text.length > TEXT_LIMIT;
                 const isExpanded = expanded.has(review.name);
                 const displayText = isLong && !isExpanded
@@ -121,7 +154,7 @@ export default function Feedback() {
                   : review.text;
 
                 return (
-                  <div className="feedback-card" key={review.name}>
+                  <div className="feedback-card" key={`${review.name}-${idx}`}>
                     <div className="feedback-card-swirl">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="/feedback_bg.png" alt="" className="feedback-card-swirl-img" />

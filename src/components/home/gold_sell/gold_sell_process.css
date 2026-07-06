@@ -1,0 +1,228 @@
+/* Gold Selling Process Section */
+.gsp-section {
+  background: #ffffff;
+  padding: 6rem 0;
+}
+
+.gsp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+/* Left column */
+.gsp-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.gsp-heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #14162E;
+  line-height: 1.2;
+  margin-bottom: 1.1rem;
+}
+
+.gsp-heading-highlight {
+  color: #CB9224;
+}
+
+.gsp-desc {
+  font-size: 0.98rem;
+  color: #41444f;
+  ;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 460px;
+}
+
+.gsp-image-wrap {
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 460px;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 14px 30px rgba(20, 22, 46, 0.14);
+}
+
+.gsp-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right column - steps */
+.gsp-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.gsp-step-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px -2px rgba(155, 206, 231, 0.85);
+  padding: 0;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease;
+}
+
+.gsp-step-card.gsp-step-open {
+  box-shadow: 0 6px 12px -2px rgba(155, 206, 231, 0.85);
+}
+
+.gsp-step-body {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gsp-step-num-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding-left: 0.6rem;
+}
+
+.gsp-step-badge-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.9rem;
+  color: #41444f;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.gsp-step-badge-num {
+  font-size: 2.3rem;
+  font-weight: 500;
+  color: #14162E;
+  line-height: 1;
+}
+
+.gsp-step-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #0F1A4D;
+  border: none;
+  border-radius: 18px 0 18px 18px;
+  padding: 1.1rem 1.1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.25s ease, border-radius 0.25s ease;
+  font-family: inherit;
+  width: 100%;
+}
+
+.gsp-step-bar:hover {
+  background: #16225C;
+}
+
+.gsp-step-card.gsp-step-open .gsp-step-bar {
+  background: #16225C;
+  border-radius: 18px 0 4px 4px;
+}
+
+.gsp-step-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.35;
+}
+
+.gsp-step-icon {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FCD46A 0%, #DAA12E 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gsp-step-icon-svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s ease;
+}
+
+.gsp-step-icon-svg.gsp-rotate {
+  transform: rotate(90deg);
+}
+
+.gsp-step-desc-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  display: grid;
+  grid-template-columns: 68px 1fr;
+}
+
+.gsp-step-desc-wrapper.gsp-expanded {
+  max-height: 220px;
+  opacity: 1;
+}
+
+.gsp-step-desc-content {
+  grid-column: 2;
+  padding: 0.6rem 1.1rem 0.4rem;
+}
+
+.gsp-step-desc-content p {
+  font-size: 0.85rem;
+  color: #41444f;
+  ;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gsp-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .gsp-left {
+    max-width: 100%;
+  }
+
+  .gsp-desc,
+  .gsp-image-wrap {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .gsp-section {
+    padding: 4rem 0;
+  }
+
+  .gsp-heading {
+    font-size: 2rem;
+  }
+
+  .gsp-step-body,
+  .gsp-step-desc-wrapper {
+    grid-template-columns: 52px 1fr;
+  }
+
+  .gsp-step-badge-num {
+    font-size: 1.8rem;
+  }
+
+  .gsp-step-bar {
+    padding: 0.9rem 0.85rem;
+  }
+
+  .gsp-step-title {
+    font-size: 0.88rem;
+  }
+}

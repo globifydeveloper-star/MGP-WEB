@@ -1,0 +1,328 @@
+/* Estimate The Value Of Your Gold — Section */
+.gvf-section {
+  position: relative;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(218, 161, 46, 0.28) 0%, transparent 42%),
+    radial-gradient(circle at 6% 92%, rgba(218, 161, 46, 0.2) 0%, transparent 38%),
+    linear-gradient(135deg, #0a1440 0%, #0c1a4a 45%, #16224f 100%);
+  padding: 6rem 0 7.5rem;
+  overflow: hidden;
+}
+
+.gvf-pattern-band {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 240px;
+  background-color: #E8B84B;
+  -webkit-mask-repeat: repeat, no-repeat;
+  mask-repeat: repeat, no-repeat;
+  -webkit-mask-size: 170px 170px, 100% 100%;
+  mask-size: 170px 170px, 100% 100%;
+  -webkit-mask-position: center, center;
+  mask-position: center, center;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gvf-pattern-top {
+  top: 0;
+  -webkit-mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to bottom, #000 0%, transparent 100%);
+  mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+.gvf-pattern-bottom {
+  bottom: 0;
+  -webkit-mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, transparent 100%);
+  mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.gvf-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.gvf-heading {
+  text-align: center;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 3.5rem;
+}
+
+.gvf-heading-highlight {
+  color: var(--gold-primary);
+  font-weight: 800;
+}
+
+.gvf-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3rem;
+  align-items: stretch;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* Left column: image + floating rate badge */
+.gvf-image-col {
+  position: relative;
+}
+
+.gvf-image-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10.5;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.gvf-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gvf-rate-badge {
+  position: absolute;
+  right: -1.5rem;
+  bottom: 7.5rem;
+  width: 260px;
+  background: var(--gold-gradient);
+  border-radius: 14px;
+  padding: 1.1rem 1.4rem 1.3rem;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+  animation: gvf-badge-float 3.5s ease-in-out infinite;
+}
+
+@keyframes gvf-badge-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.gvf-rate-badge-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  gap: 0.5rem;
+}
+
+.gvf-rate-badge-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #14162E;
+}
+
+.gvf-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #244153;
+  border: 1px solid #4ADE80;
+  color: #4ADE80;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.22rem 0.6rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.gvf-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ADE80;
+  display: inline-block;
+  animation: pulse 1.8s infinite;
+}
+
+.gvf-rate-purity {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.75);
+  margin-bottom: 0.3rem;
+}
+
+.gvf-rate-value {
+  display: flex;
+  align-items: baseline;
+}
+
+.gvf-rupee {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #14162E;
+  letter-spacing: -0.01em;
+}
+
+.gvf-rate-unit {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.75);
+  margin-left: 0.15rem;
+}
+
+/* Right column: form card */
+.gvf-form-col {
+  position: relative;
+  display: flex;
+}
+
+.gvf-form {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(135deg, #06132E 0%, #0F224C 50%, #163376 100%);
+  border: 1px solid rgba(241, 185, 51, 0.35);
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Animated Golden Beam overlay traversing the border */
+.gvf-gold-beam-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+.gvf-gold-beam-rect {
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 3px rgba(235, 175, 32, 0.4)) drop-shadow(0 0 6px rgba(235, 175, 32, 0.2));
+  opacity: 0.9;
+}
+
+.gvf-field {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0.9rem;
+}
+
+.gvf-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.35rem;
+}
+
+.gvf-required {
+  color: var(--gold-primary);
+  margin-left: 2px;
+}
+
+.gvf-input {
+  width: 100%;
+  background: rgba(15, 28, 65, 0.4);
+  border: 1px solid rgba(241, 185, 51, 0.45);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.gvf-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.gvf-input:focus {
+  border-color: var(--gold-primary);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(241, 185, 51, 0.15);
+}
+
+.gvf-submit-btn {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-top: 0.4rem;
+  background: var(--gold-gradient);
+  color: #0c1835;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(218, 161, 46, 0.3);
+  transition: var(--transition-smooth);
+}
+
+.gvf-submit-btn:hover {
+  background: var(--gold-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(218, 161, 46, 0.4);
+}
+
+.gvf-form-note {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 0.6rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gvf-grid {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .gvf-image-col {
+    padding-bottom: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .gvf-section {
+    padding: 4rem 0 5rem;
+  }
+
+  .gvf-heading {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .gvf-rate-badge {
+    right: 0.75rem;
+    width: 210px;
+    padding: 0.9rem 1.1rem 1.1rem;
+
+  }
+
+  .gvf-rupee {
+    font-size: 1.5rem;
+  }
+
+  .gvf-form {
+    padding: 1.75rem 1.5rem;
+  }
+}
