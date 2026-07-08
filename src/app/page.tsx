@@ -6,12 +6,9 @@ import VideoSection from '@/components/home/VideoSection/VideoSection';
 import MobileVan from '@/components/home/MobileVan/MobileVan';
 import NewSection from '@/components/home/NewSection/NewSection';
 import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
-import SellMethods from '@/components/home/SellMethods/SellMethods';
-import Process from '@/components/home/Process/Process';
-import Testimonials from '@/components/home/Testimonials/Testimonials';
-import FAQ from '@/components/home/FAQ/FAQ';
 import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
+import FAQ from '@/components/home/faq/faq';
 import Footer from '@/components/layout/Footer';
 
 export default function Home() {
@@ -32,22 +29,15 @@ export default function Home() {
       {/* Video Section */}
       <VideoSection />
 
+      {/* 3. The Gold Point Difference */}
+      <TheGpDiff />
+
       {/* 2. Mobile Van Banner */}
       <MobileVan />
 
       {/* New Section */}
       <NewSection />
-      {/* 3. The Gold Point Difference */}
-      <TheGpDiff />
 
-      {/* 4. Selling Methods Section */}
-      <SellMethods />
-
-      {/* 5. Transparent Process Section */}
-      <Process />
-
-      {/* 6. Customer Testimonials Section */}
-      <Testimonials />
 
       {/* 7. Feedback Testimonial Slider */}
       <Feedback />

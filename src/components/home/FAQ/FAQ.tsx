@@ -1,78 +1,80 @@
 'use client';
 
 import React, { useState } from 'react';
-import './FAQ.css';
+import './faq.css';
 
 const faqs = [
   {
-    question: 'What documents are required to sell gold at Muthoot Goldpoint?',
-    answer: 'To ensure legal compliance and safety, you need to provide a valid photo ID (PAN Card, Aadhaar Card, Passport, or Voter ID), proof of address, and ownership declaration for the gold ornaments being sold.'
+    question: 'Why Should I Choose Muthoot Gold Point to Sell my Gold?',
+    answer: 'Citizenship by Investment (CBI) is a process where individuals can gain citizenship by  investing in a country. The process involves applying to a government-approved program, undergoing a background check, and, if approved, making an economic contribution and Citizenship by Investment (CBI) is a process where in'
   },
   {
-    question: 'Do you charge any testing or melting fees?',
-    answer: 'We do not charge any fees for initial weight checks or XRF spectrometer testing. If melting is required, it is done with your prior consent. Any minor melting losses are standard, but the process itself is fully transparent and visible to you.'
+    question: 'How Much Do Gold Buyers Pay For Gold?',
+    answer: 'Dummy content — the payout is based on the live market rate of gold, adjusted for purity and the net weight of your ornaments. Will be replaced later.'
   },
   {
-    question: 'How is the final gold rate determined?',
-    answer: 'The payout rate is based on the live market price of gold at that exact time, adjusted for the purity karat value (24K, 22K, 18K, etc.) and the net weight of your gold ornaments, excluding stones and dust.'
+    question: 'How Is Valuation Done And How Long Does It Take?',
+    answer: 'Dummy content — valuation is done using XRF technology right in front of you and typically takes only a few minutes to complete. Will be replaced later.'
   },
   {
-    question: 'Can I sell gold that is currently pledged with another financier or bank?',
-    answer: 'Yes! We specialise in releasing pledged gold. We will accompany you or pay the required loan amount directly to the bank/financier on your behalf to release your gold. We then evaluate it and pay you the remaining balance value instantly.'
+    question: 'How Is Gold Price Per Gram Calculated?',
+    answer: 'Dummy content — the price per gram is calculated using the live gold rate multiplied by the purity percentage of your gold. Will be replaced later.'
   },
   {
-    question: 'How will I receive the payment?',
-    answer: 'Payment is transferred instantly to your verified bank account via IMPS/NEFT. For smaller amounts (as per current regulatory limits), cash payments can also be made.'
+    question: 'Do I need any documents for selling my jewelry?',
+    answer: 'Dummy content — yes, a valid photo ID and address proof are required to complete the sale. Will be replaced later.'
   }
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className="section-root faq-section" id="faq">
+    <section className="faq2-section" id="faq">
       <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <span className="section-subtitle">Got Questions?</span>
-          <h2 className="section-title">
-            Frequently Asked <span className="gold-text">Questions</span>
+        <div className="faq2-header">
+          <h2 className="faq2-title">
+            <span className="faq2-title-highlight">Frequently</span> Asked Questions
           </h2>
-          <p className="section-desc">
-            Find answers to common questions regarding gold valuation, payment schemes, and release of pledged gold.
+          <p className="faq2-subtitle">
+            We&apos;re not a jewellery shop or an unorganised buyer. We are a dedicated, ISO-certified gold buying company — built on science, not guesswork.
           </p>
+          <div className="faq2-divider" />
         </div>
 
-        {/* Accordion List */}
-        <div className="faq-accordion-list">
+        <div className="faq2-list">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
-              <div key={idx} className={`faq-item glass-panel ${isOpen ? 'active' : ''}`}>
-                <button 
-                  className="faq-question-btn" 
+              <div key={idx} className={`faq2-item ${isOpen ? 'faq2-item-open' : ''}`}>
+                <button
+                  type="button"
+                  className="faq2-question-btn"
                   onClick={() => toggleFAQ(idx)}
                   aria-expanded={isOpen}
                 >
-                  <span className="faq-question-text">{faq.question}</span>
-                  <span className="faq-toggle-icon">
-                    <svg 
-                      className={`faq-arrow-svg ${isOpen ? 'rotate-180' : ''}`}
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
+                  <span className="faq2-question-text">{faq.question}</span>
+                  <span className="faq2-toggle-icon">
+                    <svg
+                      className={`faq2-arrow-svg ${isOpen ? 'faq2-rotate' : ''}`}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
                       strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <polyline points="6 9 12 15 18 9" />
                     </svg>
                   </span>
                 </button>
-                <div className={`faq-answer-wrapper ${isOpen ? 'expanded' : ''}`}>
-                  <div className="faq-answer-content">
+
+                <div className={`faq2-answer-wrapper ${isOpen ? 'faq2-expanded' : ''}`}>
+                  <div className="faq2-answer-content">
                     <p>{faq.answer}</p>
                   </div>
                 </div>

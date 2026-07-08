@@ -91,7 +91,7 @@
 .gvf-rate-badge {
   position: absolute;
   right: -1.5rem;
-  bottom: 7.5rem;
+  bottom: 3.5rem;
   width: 260px;
   background: var(--gold-gradient);
   border-radius: 14px;
@@ -101,9 +101,12 @@
 }
 
 @keyframes gvf-badge-float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
