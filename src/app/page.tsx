@@ -9,7 +9,9 @@ import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
 import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
 import Footer from '@/components/layout/Footer';
-import FAQ from '@/components/home/faq/faq';
+import FAQ from '@/components/home/FAQ/FAQ';
+
+
 export default function Home() {
   return (
     <main>
