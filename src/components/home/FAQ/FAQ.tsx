@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import './faq.css';
+import './FAQ.css';
 
 const faqs = [
   {
