@@ -36,6 +36,7 @@ export default function Hero() {
     <section className="hero-section-root-v2">
       {/* Decorative Large Circle Outline behind model */}
       <div className="hero-circle-outline-deco" aria-hidden="true" />
+      <div className="hero-pattern-deco" aria-hidden="true" />
 
       {/* Main Grid Content Container */}
       <div className="hero-container-v2">
@@ -67,8 +68,8 @@ export default function Hero() {
             style={{
               width: 1188.93,
               height: 705.97,
-              transform: 'rotate(17deg)',
-              transformOrigin: 'top left',
+              transform: 'rotate(10deg) scale(1.05)',
+              transformOrigin: 'top left'
             }}
             priority
           />
@@ -98,7 +99,9 @@ export default function Hero() {
                   <option key={state} value={state}>{state}</option>
                 ))}
               </select>
-              <span className="branch-select-chevron-v2">&darr;</span>
+              <svg className="branch-select-chevron-v2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
             </div>
 
             {/* Branch Select */}
@@ -114,7 +117,9 @@ export default function Hero() {
                   <option key={branch} value={branch}>{branch}</option>
                 ))}
               </select>
-              <span className="branch-select-chevron-v2">&darr;</span>
+              <svg className="branch-select-chevron-v2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
             </div>
           </div>
 
@@ -147,9 +152,20 @@ export default function Hero() {
           {/* Stat 1: Branches */}
           <div className="hero-stat-item-v2">
             <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1M4.9 19.1l2.1-2.1m10-10l2.1-2.1" />
+              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="4" y1="9" x2="9" y2="4" />
+                <line x1="9" y1="4" x2="16" y2="5" />
+                <line x1="4" y1="9" x2="11" y2="13" />
+                <line x1="11" y1="13" x2="16" y2="5" />
+                <line x1="11" y1="13" x2="14" y2="20" />
+                <line x1="16" y1="5" x2="20" y2="12" />
+                <line x1="14" y1="20" x2="20" y2="12" />
+                <circle cx="4" cy="9" r="2.5" fill="currentColor" />
+                <circle cx="9" cy="4" r="2.5" fill="currentColor" />
+                <circle cx="16" cy="5" r="2.5" fill="currentColor" />
+                <circle cx="11" cy="13" r="2.5" fill="currentColor" />
+                <circle cx="20" cy="12" r="2.5" fill="currentColor" />
+                <circle cx="14" cy="20" r="2.5" fill="currentColor" />
               </svg>
             </div>
             <div className="hero-stat-info-v2">
@@ -161,8 +177,11 @@ export default function Hero() {
           {/* Stat 2: Legacy */}
           <div className="hero-stat-item-v2">
             <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polygon points="12 7.5 13.5 10.5 17 11 14.5 13.3 15.2 16.7 12 15 8.8 16.7 9.5 13.3 7 11 10.5 10.5" fill="currentColor" />
+                <path d="M7 10a3 3 0 0 0 0 4M6 8a5 5 0 0 0 0 8" />
+                <path d="M17 10a3 3 0 0 1 0 4M18 8a5 5 0 0 1 0 8" />
               </svg>
             </div>
             <div className="hero-stat-info-v2">
@@ -174,26 +193,29 @@ export default function Hero() {
           {/* Stat 3: Employees */}
           <div className="hero-stat-item-v2">
             <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 00-3-3.87" />
-                <path d="M16 3.13a4 4 0 010 7.75" />
+              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="7" r="3" />
+                <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+                <circle cx="6" cy="9" r="2.5" />
+                <path d="M2 19v-1a3 3 0 0 1 3-3h1" />
+                <circle cx="18" cy="9" r="2.5" />
+                <path d="M18 15h1a3 3 0 0 1 3 1v1" />
               </svg>
             </div>
             <div className="hero-stat-info-v2">
               <span className="hero-stat-metric-value">24,000</span>
-              <span className="hero-stat-metric-label">Employees serving millions</span>
+              <span className="hero-stat-metric-label">Employees serving millions of customer</span>
             </div>
           </div>
 
           {/* Stat 4: Customers */}
           <div className="hero-stat-item-v2">
             <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                <circle cx="8" cy="7" r="4" />
-                <path d="M22 9l-6 6-4-4" />
+              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m11 17 2 2a1 1 0 0 0 1.4 0l4-4a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.4 1.4" />
+                <path d="m18 10.1 1.4-1.4a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.4 1.4a1 1 0 0 0 0 1.4l1.4 1.4" />
+                <path d="m3 21 9-9" />
+                <path d="m5 13 4-4" />
               </svg>
             </div>
             <div className="hero-stat-info-v2">

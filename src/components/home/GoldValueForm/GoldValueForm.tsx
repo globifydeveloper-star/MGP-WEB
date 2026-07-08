@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import './gold_value_form.css';
+import './GoldValueForm.css';
 
 export default function GoldValueForm() {
   const [formData, setFormData] = useState({

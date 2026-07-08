@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import './MobileVan.css';
 
 export default function MobileVan() {
   return (

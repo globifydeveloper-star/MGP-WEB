@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import './new_section.css';
+import './NewSection.css';
 
 const SLIDES = [
   {

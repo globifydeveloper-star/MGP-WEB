@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import './video_section.css';
+import './VideoSection.css';
 
 const LANGUAGES = [
   { code: 'hi', label: 'हिंदी', poster: '/video_img.png', video: '/videos/goldpoint-hindi.mp4' },

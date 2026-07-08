@@ -1,0 +1,156 @@
+/* The Gold Point Difference Styles */
+.gp-diff-section {
+  background: #ffffff;
+  padding: 6rem 0;
+}
+
+.gp-diff-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3.5rem auto;
+}
+
+.gp-diff-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #14162E;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.gp-diff-highlight {
+  color: #CB9224;
+}
+
+.gp-diff-subtitle {
+  font-size: 1rem;
+  color: #202020;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.gp-diff-divider {
+  width: 250px;
+  height: 1px;
+  margin: 0 auto;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #F1B933, transparent);
+}
+
+.gp-diff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.gp-diff-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #E29D24;
+  border-radius: 14px;
+  padding: 0 1.5rem 1.75rem 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(20, 22, 46, 0.06);
+}
+
+.gp-diff-card-pattern {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 170px;
+  height: 150px;
+  background-color: #E8B84B;
+  -webkit-mask-image: url('/gcard_bg_pattern.png');
+  mask-image: url('/gcard_bg_pattern.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 420px 420px;
+  mask-size: 420px 420px;
+  -webkit-mask-position: bottom right;
+  mask-position: bottom right;
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gp-diff-card-image-wrap {
+  position: relative;
+  z-index: 1;
+  margin: 1.5rem -10px 0 -10px;
+  width: calc(100% + 20px);
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+
+.gp-diff-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gp-diff-card-icon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  margin-bottom: 1rem;
+  border: 1px solid #EBAF20;
+  border-radius: 50%;
+  background: #0F1A4D;
+  box-shadow: 0 4px 10px rgba(15, 26, 77, 0.3);
+}
+
+.gp-diff-card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.gp-diff-rupee {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.gp-diff-card-title {
+  position: relative;
+  z-index: 2;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #14162E;
+  margin-bottom: 0.6rem;
+}
+
+.gp-diff-card-desc {
+  position: relative;
+  z-index: 2;
+  font-size: 0.88rem;
+  color: #6B7080;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .gp-diff-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .gp-diff-section {
+    padding: 4rem 0;
+  }
+
+  .gp-diff-title {
+    font-size: 2rem;
+  }
+}

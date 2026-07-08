@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import './BranchSelector.css';
 
 const branchData: Record<string, string[]> = {
   'Karnataka': ['Bengaluru - Jayanagar', 'Bengaluru - Indiranagar', 'Bengaluru - Koramangala'],
@@ -40,8 +41,8 @@ export default function BranchSelector() {
       <div className="selector-dropdowns">
         {/* State Dropdown */}
         <div className="select-wrapper">
-          <select 
-            value={selectedState} 
+          <select
+            value={selectedState}
             onChange={handleStateChange}
             className="custom-select"
           >
@@ -55,8 +56,8 @@ export default function BranchSelector() {
 
         {/* Branch Dropdown */}
         <div className="select-wrapper">
-          <select 
-            value={selectedBranch} 
+          <select
+            value={selectedBranch}
             onChange={(e) => setSelectedBranch(e.target.value)}
             disabled={!selectedState}
             className="custom-select"
@@ -71,7 +72,7 @@ export default function BranchSelector() {
       </div>
 
       {/* CTA Direction button */}
-      <button 
+      <button
         className="btn btn-primary direction-btn"
         disabled={!selectedBranch}
         onClick={() => {
@@ -84,17 +85,17 @@ export default function BranchSelector() {
       </button>
 
       {/* Close button */}
-      <button 
-        className="close-selector-btn" 
+      <button
+        className="close-selector-btn"
         onClick={() => setIsOpen(false)}
         aria-label="Close branch selector"
       >
-        <svg 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2.5" 
-          strokeLinecap="round" 
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
           strokeLinejoin="round"
           className="close-icon"
         >

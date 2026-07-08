@@ -13,6 +13,7 @@ export default function HeroModelPhoto() {
         className="hero-model-bg-ellipse"
         priority
       />
+      <div className="hero-pattern-deco" aria-hidden="true" />
       <Image
         src={hm6Img01}
         alt="Muthoot Goldpoint Premium Customer Service"

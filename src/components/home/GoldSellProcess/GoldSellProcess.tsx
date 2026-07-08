@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import './gold_sell_process.css';
+import './GoldSellProcess.css';
 
 const steps = [
   {

@@ -1,0 +1,75 @@
+/* StatsBar Styles */
+.stats-bar-ribbon {
+  background: linear-gradient(180deg, #c69c2a 0%, hsl(40, 78%, 77%) 50%, #c69c2a 100%);
+  width: 100%;
+  padding: 1.35rem 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1 1 200px;
+}
+
+.stat-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #101c4e;
+  color: var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.stat-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #060B1E;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(6, 11, 30, 0.85);
+  margin-top: 0.15rem;
+  line-height: 1.2;
+}
+
+/* Responsiveness / Media Queries */
+@media (max-width: 768px) {
+  .stats-container {
+    justify-content: center;
+  }
+
+  .stat-item {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}

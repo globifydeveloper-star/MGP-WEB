@@ -1,6 +1,9 @@
 'use client';
 
 import React from 'react';
+import './Navbar.css';
+import Image from 'next/image';
+import logoImg from '@/assets/images/logo.png';
 
 export default function Navbar() {
   return (
@@ -9,10 +12,13 @@ export default function Navbar() {
         {/* Left Side: Logo & Navigation Links */}
         <div className="navbar-left-group">
           <a href="#" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <img
-              src="https://res.cloudinary.com/dxf3gabsi/image/upload/v1782895726/logo_zggja3.png"
+            <Image
+              src={logoImg}
               alt="GOLDPOINT - We Buy Gold"
-              style={{ width: 183.23, height: 49.88, display: 'block' }}
+              width={183.23}
+              height={49.88}
+              priority
+              style={{ display: 'block' }}
             />
           </a>
           <nav className="navbar-nav-v2">
@@ -28,9 +34,9 @@ export default function Navbar() {
         {/* Right Side: Phone Contact & CTA */}
         <div className="navbar-right-group">
           <a href="tel:+919037921192" className="navbar-phone-group">
-            <svg 
-              viewBox="0 0 24 24" 
-              fill="white" 
+            <svg
+              viewBox="0 0 24 24"
+              fill="white"
               style={{ width: '28px', height: '28px', display: 'block', flexShrink: 0 }}
             >
               {/* Solid Phone Receiver */}
