@@ -8,9 +8,8 @@ import NewSection from '@/components/home/NewSection/NewSection';
 import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
 import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
-import FAQ from '@/components/home/faq/faq';
 import Footer from '@/components/layout/Footer';
-
+import FAQ from '@/components/home/faq/faq';
 export default function Home() {
   return (
     <main>
