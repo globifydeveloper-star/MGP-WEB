@@ -19,13 +19,14 @@
   justify-content: space-between;
 }
 
-/* Floating Gold Coin decorations */
+/* Floating Gold Coin decoration */
 .hero-floating-coin-left {
   position: absolute;
-  left: -110px;
-  top: 10px;
-  width: 110px;
-  height: 110px;
+  left: -35.54px;
+  top: 45.16px;
+  width: 80.04px;
+  height: 84.26px;
+  filter: blur(2.5px);
   z-index: 3;
   pointer-events: none;
   opacity: 0.9;
@@ -40,6 +41,33 @@
 /* Circle outline decor removed as it is now pre-rendered in the curve image */
 .hero-circle-outline-deco {
   display: none;
+}
+
+/* Tiled background pattern squares behind the model, faded top/bottom */
+.hero-pattern-tile {
+  position: absolute;
+  width: 309.4px;
+  height: 309.4px;
+  background:
+    linear-gradient(180deg, #161E45 0%, rgba(22, 30, 69, 0) 0%, #161E45 100%),
+    url('/hero_bg_pattern_square.png');
+  background-size: cover;
+  opacity: 0.10;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Rotated gold wave flourish behind the model */
+.hero-scene-wave {
+  position: absolute;
+  left: 38.77px;
+  top: 431.53px;
+  width: 1124.76px;
+  height: 386.64px;
+  transform: rotate(17deg);
+  transform-origin: top left;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Grid Container */
@@ -193,52 +221,62 @@
   transform: translateY(-2px);
 }
 
-/* Right column (Model + Badges) */
+/* Right column is now just an empty grid track - real visuals live in .hero-figma-canvas */
 .hero-right-column-v2 {
   position: relative;
   height: 580px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+}
+
+/*
+  Shared canvas for every element whose Figma "Position X/Y" was read
+  directly from the "Homepage V2" frame (1441x905): background glow,
+  pattern tiles, wave, model photo, gold rate card, and the curve/icons.
+  Centered the same way hero-container-v2 is (max-width + auto margins)
+  so it tracks the design's content column instead of the raw viewport
+  edge on wide screens.
+*/
+.hero-figma-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1441px;
+  height: 905px;
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* Model Photo Wrapper */
 .hero-model-photo-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 440px;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
+  position: absolute;
+  left: 766px;
+  top: 49px;
+  width: 521.11px;
+  height: 847px;
+  overflow: hidden;
   z-index: 2;
 }
 
 .hero-model-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: bottom right;
-  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.5));
+  object-fit: cover;
   position: relative;
   z-index: 2;
-  transform: scale(1.60);
-  transform-origin: top right;
 }
 
-.hero-model-bg-ellipse {
+/* Warm glow behind the model, matching the Figma blurred-circle spec */
+.hero-model-bg-glow {
   position: absolute;
-  top: 30%;
-  left: 80%;
-  transform: translate(-50%, -50%);
-  width: 750px;
-  height: 750px;
-  max-width: none;
-  background: radial-gradient(circle,
-      rgba(230, 179, 80, 0.45) 0%,
-      rgba(230, 179, 80, 0.22) 30%,
-      rgba(22, 30, 69, 0.08) 55%,
-      rgba(22, 30, 69, 0) 75%);
-  filter: blur(30px);
+  left: 1047px;
+  top: 201px;
+  width: 247.84px;
+  height: 247.84px;
+  background: #EBAF20;
+  border-radius: 9999px;
+  filter: blur(126.74px);
   z-index: 1;
   pointer-events: none;
 }
@@ -266,22 +304,18 @@
   }
 }
 
-/* New Design Curve Wrapper & absolute Text Labels next to pre-rendered icons */
+/*
+  New Design Curve Wrapper & absolute Text Labels next to pre-rendered icons.
+  Centered the same way as hero-container-v2 (max-width + auto margins) so
+  it stays locked to the design's content column instead of the raw
+  viewport edge - otherwise it drifts away from the model/copy on wide
+  screens where hero-container-v2's own max-width kicks in.
+*/
 .hero-curve-wrapper {
   position: absolute;
-  left: -170px;
-  top: -150px;
-  width: 872px;
-  height: 847px;
+  inset: 0;
   pointer-events: none;
   z-index: 3;
-}
-
-.hero-curve-img {
-  width: 130%;
-  height: 130%;
-  object-fit: contain;
-  pointer-events: none;
 }
 
 .curve-text-label {
@@ -306,27 +340,11 @@
   line-height: 1.35;
 }
 
-/* Adjust label positions to map exactly to the icons on the transparent image */
-.curve-text-label.label-top {
-  top: 29.5%;
-  left: 11%;
-}
-
-.curve-text-label.label-middle {
-  top: 48.5%;
-  left: 7.5%;
-}
-
-.curve-text-label.label-bottom {
-  top: 66.5%;
-  left: 11%;
-}
-
 /* Today's Gold Rate Card overlay */
 .hero-gold-rate-card-v2 {
   position: absolute;
-  bottom: 12%;
-  right: -50px;
+  left: 1136.52px;
+  top: 322.02px;
   width: 256.18px;
   height: 258.18px;
   background: #111A41;
@@ -335,6 +353,7 @@
   outline-offset: -1px;
   padding: 1.25rem 1.5rem;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
   z-index: 5;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -485,23 +504,6 @@
 }
 
 /* Dismissible Bottom Branch-Selector Bar */
-.hero-pattern-deco {
-  position: absolute;
-  width: 309.4px;
-  height: 309.4px;
-  right: -144.37px;
-  top: calc(50% - 309.4px / 2 - 269.92px);
-  background:
-    linear-gradient(180deg, #161E45 0%, rgba(22, 30, 69, 0) 40%, #161E45 96.86%),
-    url('/assets/images/hero_bg_pattern_square.png');
-  background-size: cover;
-  opacity: 0.05;
-  transform: rotate(180deg);
-  filter: blur(2px);
-  z-index: 1;
-  pointer-events: none;
-}
-
 .hero-branch-selector-bar-v2 {
   width: 100%;
   background-image: url('../../../assets/images/NAVBAR BG.png');
@@ -813,28 +815,20 @@
     align-items: flex-end;
   }
 
-  .hero-pattern-deco {
-    display: block;
-  }
-
-  .hero-model-photo-wrapper {
-    max-width: 320px;
-    margin: 0 auto;
+  /*
+    The figma-canvas is pixel-pinned to the 1441px desktop frame (model
+    photo, rate card, curve/icons all live here now) - it doesn't reflow,
+    so it's hidden below the tablet breakpoint rather than rendering
+    broken/overlapping content. Mobile needs its own layout for this
+    content, tracked separately.
+  */
+  .hero-figma-canvas {
+    display: none;
   }
 
   .hero-floating-badges-container {
     display: none;
     /* Hide floating badge nodes or stack below */
-  }
-
-  .hero-gold-rate-card-v2 {
-    position: relative;
-    bottom: 0;
-    right: 0;
-    margin: 2rem auto 0 auto;
-    width: 100%;
-    max-width: 340px;
-    z-index: 10;
   }
 
   .hero-branch-selector-bar-v2 {
@@ -894,4 +888,28 @@
   .hero-stat-item-v2 {
     flex: 1 1 auto;
   }
+}
+
+.curve-icon-position {
+  position: absolute;
+  pointer-events: auto;
+}
+
+/* Giant circle whose left arc, traced behind the icons, forms the curve */
+.hero-curve-circle {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid #EBAF20;
+  background: rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+
+/* Sparkle star sitting above the curve */
+/* Sparkle flare graphic (sparkle.png), used at its two Figma-given spots */
+.hero-sparkle-flare {
+  position: absolute;
+  pointer-events: none;
+  z-index: 6;
+  filter: drop-shadow(0 0 6px rgba(235, 175, 32, 0.7));
+  animation: float-sparkle 3s ease-in-out infinite alternate;
 }

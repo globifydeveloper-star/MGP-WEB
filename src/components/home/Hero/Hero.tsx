@@ -4,9 +4,38 @@ import React, { useState } from 'react';
 import './hero.css';
 import HeroLeftColumn from './HeroLeftColumn';
 import HeroRightColumn from './HeroRightColumn';
+import HeroModelPhoto from './HeroModelPhoto';
+import HeroGoldRateCard from './HeroGoldRateCard';
+import HeroCurve from './HeroCurve';
 import Image from 'next/image';
 import heroWaveImg from '@/assets/images/hero-wave.png';
 import coinImg from '@/assets/images/COIN.png';
+import sparkleImg from '@/assets/images/sparkle.png';
+import sparkle2Img from '@/assets/images/sparkle2.png';
+
+// Two sparkles riding the curve: one above the top icon, one below the
+// bottom icon (matches the Figma reference's twinkle accents on the arc).
+// sparkle.png is 42x98 (portrait), scaled down keeping its own aspect ratio.
+const CURVE_SPARKLES = [
+  { left: 684.86, top: 147.65, width: 20, height: 46.7 },
+  { left: 610, top: 745, width: 16, height: 37.3 },
+];
+
+// Rate card gets sparkle2.png (145x34, its natural size) on both corners -
+// these are the exact Figma positions, just outside the card's top-left
+// and inside near the bottom-right CTA button.
+const CARD_SPARKLE_TOP_LEFT = { left: 1098.75, top: 306.23 };
+const CARD_SPARKLE_BOTTOM_RIGHT = { left: 1269.38, top: 564.80 };
+
+// Figma "Position X/Y" for each tiled background square behind the model
+const PATTERN_TILES = [
+  { left: 1274.96, top: 646.68, rotate: 0 },
+  { left: 965.56, top: 646.68, rotate: 0 },
+  { left: 1274.97, top: 337.28, rotate: 180 },
+  { left: 1584.37, top: 337.28, rotate: 180 },
+  { left: 1274.95, top: 337.28, rotate: 0 },
+  { left: 965.56, top: 337.28, rotate: 0 },
+];
 
 const branchData: Record<string, string[]> = {
   'Karnataka': ['Bengaluru - Jayanagar', 'Bengaluru - Indiranagar', 'Bengaluru - Koramangala'],
@@ -34,13 +63,22 @@ export default function Hero() {
 
   return (
     <section className="hero-section-root-v2">
-      {/* Decorative Large Circle Outline behind model */}
-      <div className="hero-circle-outline-deco" aria-hidden="true" />
-      <div className="hero-pattern-deco" aria-hidden="true" />
-
       {/* Main Grid Content Container */}
       <div className="hero-container-v2">
-        {/* Decorative Floating Coin */}
+        {/* Left Column (Branding & Copy) */}
+        <HeroLeftColumn />
+
+        {/* Right Column - empty grid track, real visuals are in hero-figma-canvas below */}
+        <HeroRightColumn />
+      </div>
+
+      {/*
+        Everything below is positioned using exact Figma "Position X/Y"
+        coordinates from the "Homepage V2" frame (1441x905): background
+        tiles/wave/glow, the model photo, the gold rate card, and the
+        curve/icons overlay - all sharing one coordinate space.
+      */}
+      <div className="hero-figma-canvas">
         <Image
           src={coinImg}
           alt=""
@@ -49,11 +87,62 @@ export default function Hero() {
           priority
         />
 
-        {/* Left Column (Branding & Copy) */}
-        <HeroLeftColumn />
+        {PATTERN_TILES.map((tile, i) => (
+          <div
+            key={i}
+            className="hero-pattern-tile"
+            style={{ left: tile.left, top: tile.top, transform: `rotate(${tile.rotate}deg)` }}
+            aria-hidden="true"
+          />
+        ))}
 
-        {/* Right Column (Model, Arc Curve, Gold Rate Overlay) */}
-        <HeroRightColumn />
+        <Image
+          src={heroWaveImg}
+          alt=""
+          aria-hidden="true"
+          className="hero-scene-wave"
+          width={1124.76}
+          height={386.64}
+          priority
+        />
+
+        <div className="hero-model-bg-glow" aria-hidden="true" />
+
+        <HeroModelPhoto />
+        <HeroGoldRateCard />
+        <HeroCurve />
+
+        {CURVE_SPARKLES.map((pos, i) => (
+          <Image
+            key={i}
+            src={sparkleImg}
+            alt=""
+            aria-hidden="true"
+            className="hero-sparkle-flare"
+            style={{ left: pos.left, top: pos.top, width: pos.width, height: pos.height }}
+            width={42}
+            height={98}
+          />
+        ))}
+
+        <Image
+          src={sparkle2Img}
+          alt=""
+          aria-hidden="true"
+          className="hero-sparkle-flare"
+          style={{ left: CARD_SPARKLE_TOP_LEFT.left, top: CARD_SPARKLE_TOP_LEFT.top }}
+          width={145}
+          height={34}
+        />
+        <Image
+          src={sparkle2Img}
+          alt=""
+          aria-hidden="true"
+          className="hero-sparkle-flare"
+          style={{ left: CARD_SPARKLE_BOTTOM_RIGHT.left, top: CARD_SPARKLE_BOTTOM_RIGHT.top }}
+          width={145}
+          height={34}
+        />
       </div>
 
       {/* Dismissible Bottom Branch-Selector Bar */}

@@ -1,19 +1,9 @@
-import React from 'react';
 import hm6Img01 from '@/assets/images/hm6-img01.png';
-import ellipseBg from '@/assets/images/Ellipse 63057.png';
 import Image from 'next/image';
 
 export default function HeroModelPhoto() {
   return (
     <div className="hero-model-photo-wrapper">
-      <Image
-        src={ellipseBg}
-        alt=""
-        aria-hidden="true"
-        className="hero-model-bg-ellipse"
-        priority
-      />
-      <div className="hero-pattern-deco" aria-hidden="true" />
       <Image
         src={hm6Img01}
         alt="Muthoot Goldpoint Premium Customer Service"

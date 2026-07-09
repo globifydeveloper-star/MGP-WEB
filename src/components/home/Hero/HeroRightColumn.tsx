@@ -1,14 +1,7 @@
-import React from 'react';
-import HeroCurve from './HeroCurve';
-import HeroModelPhoto from './HeroModelPhoto';
-import HeroGoldRateCard from './HeroGoldRateCard';
-
 export default function HeroRightColumn() {
-  return (
-    <div className="hero-right-column-v2">
-      <HeroCurve />
-      <HeroModelPhoto />
-      <HeroGoldRateCard />
-    </div>
-  );
+  // Visual content (model photo, gold rate card, curve/icons) is rendered
+  // in .hero-figma-canvas, positioned using exact Figma coordinates. This
+  // element only reserves the grid track so the left column keeps its
+  // intended width.
+  return <div className="hero-right-column-v2" />;
 }
