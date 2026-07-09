@@ -8,24 +8,19 @@ import HeroModelPhoto from './HeroModelPhoto';
 import HeroGoldRateCard from './HeroGoldRateCard';
 import HeroCurve from './HeroCurve';
 import Image from 'next/image';
-import heroWaveImg from '@/assets/images/hero-wave.png';
 import coinImg from '@/assets/images/COIN.png';
 import sparkleImg from '@/assets/images/sparkle.png';
-import sparkle2Img from '@/assets/images/sparkle2.png';
+import starImg from '@/assets/images/Star.png';
+import heroWaveImg from '@/assets/images/hero-wave.png';
 
-// Two sparkles riding the curve: one above the top icon, one below the
-// bottom icon (matches the Figma reference's twinkle accents on the arc).
-// sparkle.png is 42x98 (portrait), scaled down keeping its own aspect ratio.
+// Star vector at the very start (top) of the curve - exact Figma position
+const CURVE_STAR = { left: 730.81, top: 86.66, width: 50.89, height: 52.56 };
+
+// Sparkle below the bottom icon (matches the Figma reference's twinkle
+// accent near the end of the arc).
 const CURVE_SPARKLES = [
-  { left: 684.86, top: 147.65, width: 20, height: 46.7 },
   { left: 610, top: 745, width: 16, height: 37.3 },
 ];
-
-// Rate card gets sparkle2.png (145x34, its natural size) on both corners -
-// these are the exact Figma positions, just outside the card's top-left
-// and inside near the bottom-right CTA button.
-const CARD_SPARKLE_TOP_LEFT = { left: 1098.75, top: 306.23 };
-const CARD_SPARKLE_BOTTOM_RIGHT = { left: 1269.38, top: 564.80 };
 
 // Figma "Position X/Y" for each tiled background square behind the model
 const PATTERN_TILES = [
@@ -63,6 +58,21 @@ export default function Hero() {
 
   return (
     <section className="hero-section-root-v2">
+      {/*
+        Rendered before .hero-container-v2 (and given a lower z-index) so it
+        sits behind the headline/copy instead of drawing over it - it shares
+        the same Figma coordinate space as .hero-figma-canvas below.
+      */}
+      <div className="hero-wave-wrapper">
+        <Image
+          src={heroWaveImg}
+          alt=""
+          aria-hidden="true"
+          className="hero-scene-wave"
+          priority
+        />
+      </div>
+
       {/* Main Grid Content Container */}
       <div className="hero-container-v2">
         {/* Left Column (Branding & Copy) */}
@@ -96,15 +106,7 @@ export default function Hero() {
           />
         ))}
 
-        <Image
-          src={heroWaveImg}
-          alt=""
-          aria-hidden="true"
-          className="hero-scene-wave"
-          width={1124.76}
-          height={386.64}
-          priority
-        />
+
 
         <div className="hero-model-bg-glow" aria-hidden="true" />
 
@@ -124,44 +126,28 @@ export default function Hero() {
             height={98}
           />
         ))}
+      </div>
 
+      {/*
+        Separate sibling of .hero-figma-canvas (not nested inside it) so
+        this star's z-index can actually outrank the navbar - see the
+        .hero-curve-star-wrapper comment in hero.css for why.
+      */}
+      <div className="hero-curve-star-wrapper">
         <Image
-          src={sparkle2Img}
+          src={starImg}
           alt=""
           aria-hidden="true"
           className="hero-sparkle-flare"
-          style={{ left: CARD_SPARKLE_TOP_LEFT.left, top: CARD_SPARKLE_TOP_LEFT.top }}
-          width={145}
-          height={34}
-        />
-        <Image
-          src={sparkle2Img}
-          alt=""
-          aria-hidden="true"
-          className="hero-sparkle-flare"
-          style={{ left: CARD_SPARKLE_BOTTOM_RIGHT.left, top: CARD_SPARKLE_BOTTOM_RIGHT.top }}
-          width={145}
-          height={34}
+          style={{ left: CURVE_STAR.left, top: "100px", width: CURVE_STAR.width, height: CURVE_STAR.height }}
+          width={51}
+          height={53}
         />
       </div>
 
       {/* Dismissible Bottom Branch-Selector Bar */}
       {selectorOpen && (
         <div className="hero-branch-selector-bar-v2">
-          {/* Background Wave Image */}
-          <Image
-            src={heroWaveImg}
-            alt=""
-            aria-hidden="true"
-            className="hero-branch-bar-wave-bg"
-            style={{
-              width: 1188.93,
-              height: 705.97,
-              transform: 'rotate(10deg) scale(1.05)',
-              transformOrigin: 'top left'
-            }}
-            priority
-          />
           {/* Label Info */}
           <div className="branch-bar-text-group">
             <span className="branch-bar-top-label">Sell gold instantly at</span>

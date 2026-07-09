@@ -22,8 +22,8 @@
 /* Floating Gold Coin decoration */
 .hero-floating-coin-left {
   position: absolute;
-  left: -35.54px;
-  top: 45.16px;
+  left: -80.54px;
+  top: 180.16px;
   width: 80.04px;
   height: 84.26px;
   filter: blur(2.5px);
@@ -60,14 +60,33 @@
 /* Rotated gold wave flourish behind the model */
 .hero-scene-wave {
   position: absolute;
-  left: 38.77px;
+  left: -77.11px;
   top: 431.53px;
   width: 1124.76px;
   height: 386.64px;
-  transform: rotate(17deg);
-  transform-origin: top left;
+  transform: rotate(17.44deg);
+  transform-origin: center center;
   pointer-events: none;
   z-index: 1;
+}
+
+/*
+  Separate sibling rendered before .hero-container-v2 so the wave sits
+  behind the headline/copy - .hero-figma-canvas and .hero-container-v2
+  share z-index:2, and being later in the DOM .hero-figma-canvas would
+  otherwise win the stacking tie and draw over the text.
+*/
+.hero-wave-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1441px;
+  height: 905px;
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* Grid Container */
@@ -152,8 +171,7 @@
 /* Subcopy with dashed horizontal divider */
 .hero-subcopy-wrapper-v2 {
   position: relative;
-  padding-bottom: 2.25rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .hero-subcopy-text-v2 {
@@ -161,18 +179,6 @@
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.75);
   max-width: 520px;
-}
-
-.hero-subcopy-wrapper-v2::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1.5px;
-  background-image: linear-gradient(to right, rgba(235, 175, 32, 0.3) 60%, transparent 40%);
-  background-size: 10px 1.5px;
-  background-repeat: repeat-x;
 }
 
 /* CTA buttons group */
@@ -262,6 +268,7 @@
 .hero-model-img {
   width: 100%;
   height: 100%;
+  top: 130px;
   object-fit: cover;
   position: relative;
   z-index: 2;
@@ -316,6 +323,10 @@
   inset: 0;
   pointer-events: none;
   z-index: 3;
+  /* Curve/icons measured 143px too far left vs. the navbar (was landing
+     under "Testimonials" instead of "Gold Rate") - shift the whole group
+     right as one rigid unit so icon/label/circle spacing stays untouched. */
+  transform: translateX(143px);
 }
 
 .curve-text-label {
@@ -517,8 +528,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .branch-bar-text-group {
@@ -904,12 +917,34 @@
   pointer-events: none;
 }
 
-/* Sparkle star sitting above the curve */
-/* Sparkle flare graphic (sparkle.png), used at its two Figma-given spots */
+/* Sparkle flare graphics (sparkle.png / sparkle2.png / Star.png) on the curve */
 .hero-sparkle-flare {
   position: absolute;
   pointer-events: none;
   z-index: 6;
   filter: drop-shadow(0 0 6px rgba(235, 175, 32, 0.7));
-  animation: float-sparkle 3s ease-in-out infinite alternate;
+}
+
+/*
+  The curve-top star's Figma Y (86.66) falls inside the navbar's own band
+  (0-120px). .navbar-header-v2 is an opaque z-index:10 layer, and
+  .hero-figma-canvas establishes its own stacking context (position:absolute
+  + z-index:2) - so a z-index set on a child there can never outrank the
+  navbar. This wrapper is a separate sibling of .hero-figma-canvas (same
+  centering, so it still tracks the design's content column) with a
+  z-index high enough to actually sit above the navbar.
+*/
+.hero-curve-star-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1441px;
+  height: 905px;
+  pointer-events: none;
+  z-index: 11;
+  /* Must match .hero-curve-wrapper's shift so the star stays attached to the curve */
+  transform: translateX(143px);
 }

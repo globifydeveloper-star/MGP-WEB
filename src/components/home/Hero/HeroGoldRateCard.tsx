@@ -1,9 +1,36 @@
 import React from 'react';
+import Image from 'next/image';
 import './hero.css';
+import sparkle2Img from '@/assets/images/sparkle2.png';
 
 export default function HeroGoldRateCard() {
   return (
     <div className="hero-gold-rate-card-v2">
+      {/*
+        Sparkle flares positioned relative to the card itself (not the
+        canvas) so they travel with it if the card ever moves, instead of
+        drifting apart like they did when both were pinned to separate
+        absolute canvas coordinates.
+      */}
+      <Image
+        src={sparkle2Img}
+        alt=""
+        aria-hidden="true"
+        className="hero-sparkle-flare"
+        style={{ left: -37.77, top: -15.79 }}
+        width={145}
+        height={34}
+      />
+      <Image
+        src={sparkle2Img}
+        alt=""
+        aria-hidden="true"
+        className="hero-sparkle-flare"
+        style={{ left: 132.86, top: 242.78 }}
+        width={145}
+        height={34}
+      />
+
       {/* Animated Glowing border beam (aura/shine effect) */}
       <svg className="gold-beam-svg" viewBox="0 0 256 258" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>

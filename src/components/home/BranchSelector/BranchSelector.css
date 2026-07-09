@@ -9,7 +9,8 @@
   padding: 1rem 1.75rem;
   gap: 1.5rem;
   z-index: 10;
-  position: relative;
+  position: sticky;
+  bottom: 0;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   background-image: url('../../../assets/images/NAVBAR BG.png');
   background-repeat: repeat;
