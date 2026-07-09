@@ -14,7 +14,7 @@ import starImg from '@/assets/images/Star.png';
 import heroWaveImg from '@/assets/images/hero-wave.png';
 
 // Star vector at the very start (top) of the curve - exact Figma position
-const CURVE_STAR = { left: 730.81, top: 86.66, width: 50.89, height: 52.56 };
+const CURVE_STAR = { left: 685, top: 125, width: 40.89, height: 42.56 };
 
 // Sparkle below the bottom icon (matches the Figma reference's twinkle
 // accent near the end of the arc).
@@ -139,7 +139,7 @@ export default function Hero() {
           alt=""
           aria-hidden="true"
           className="hero-sparkle-flare"
-          style={{ left: CURVE_STAR.left, top: "100px", width: CURVE_STAR.width, height: CURVE_STAR.height }}
+          style={{ left: CURVE_STAR.left, top: CURVE_STAR.top, width: CURVE_STAR.width, height: CURVE_STAR.height }}
           width={51}
           height={53}
         />

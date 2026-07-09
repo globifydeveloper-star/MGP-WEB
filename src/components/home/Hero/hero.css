@@ -61,10 +61,10 @@
 .hero-scene-wave {
   position: absolute;
   left: -77.11px;
-  top: 431.53px;
-  width: 1124.76px;
-  height: 386.64px;
-  transform: rotate(17.44deg);
+  top: 600.53px;
+  width: 800.88px;
+  height: 292.49px;
+  transform: rotate(0.70deg);
   transform-origin: center center;
   pointer-events: none;
   z-index: 1;
@@ -257,7 +257,7 @@
 /* Model Photo Wrapper */
 .hero-model-photo-wrapper {
   position: absolute;
-  left: 766px;
+  left: 830px;
   top: 49px;
   width: 521.11px;
   height: 847px;
@@ -354,8 +354,8 @@
 /* Today's Gold Rate Card overlay */
 .hero-gold-rate-card-v2 {
   position: absolute;
-  left: 1136.52px;
-  top: 322.02px;
+  left: 1200.52px;
+  top: 482.02px;
   width: 256.18px;
   height: 258.18px;
   background: #111A41;
@@ -906,6 +906,20 @@
 .curve-icon-position {
   position: absolute;
   pointer-events: auto;
+}
+
+.curve-icon-badge {
+  width: 66px;
+  height: 66px;
+  padding: 7px;
+  background: linear-gradient(180deg, #111A41 0%, rgba(0, 149, 218, 0.02) 97%);
+  border-radius: 50%;
+  outline: 1px #E29D24 solid;
+  outline-offset: -1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 /* Giant circle whose left arc, traced behind the icons, forms the curve */
