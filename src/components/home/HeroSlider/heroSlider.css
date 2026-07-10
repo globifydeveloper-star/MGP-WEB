@@ -1,0 +1,234 @@
+/* HeroSlider - crossfades between the untouched Hero section and a second
+   promo slide. Both slides are placed in the same CSS grid cell (grid-area:
+   1 / 1) so they stack directly on top of one another with no JS-measured
+   height math - the row sizes to the taller slide, and each one fades via
+   opacity on .is-active. */
+
+.hero-slider-stack {
+  display: grid;
+  position: relative;
+  width: 100%;
+}
+
+.hero-slider-slide {
+  grid-area: 1 / 1;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hero-slider-slide.is-active {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Slide Two - full-bleed golds.png promo slide, self-contained styling so
+   it doesn't depend on the Hero component's own stylesheet. */
+
+.hero-slide-two-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #06132E 0%, #0F224C 55%, #163376 100%);
+  overflow: hidden;
+  padding-top: 130px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.hero-slide-two-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-slide-two-bg-img {
+  object-fit: cover;
+  object-position: right center;
+}
+
+.hero-slide-two-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      #06132E 0%,
+      rgba(6, 19, 46, 0.94) 28%,
+      rgba(6, 19, 46, 0.62) 52%,
+      rgba(6, 19, 46, 0.15) 72%,
+      rgba(6, 19, 46, 0) 88%);
+}
+
+.hero-slide-two-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 3rem 2.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-slide-two-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 2.25rem;
+  width: fit-content;
+  max-width: 620px;
+}
+
+.hero-slide-two-badge-icon {
+  width: 22px;
+  height: 22px;
+  color: #EBAF20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-slide-two-badge-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide-two-badge-text {
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-slide-two-badge-highlight {
+  color: #EBAF20;
+  font-weight: 700;
+}
+
+.hero-slide-two-title {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-size: 4.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #FFFFFF;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -0.01em;
+  max-width: 720px;
+}
+
+.hero-slide-two-title-gold {
+  background: linear-gradient(180deg, #9A6410 0%, #C98A18 25%, #F0C24E 65%, #FFE8A3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.hero-slide-two-subcopy {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 520px;
+  margin: 0 0 2rem 0;
+}
+
+.hero-slide-two-cta-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.hero-slide-two-btn-gold {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #06132E;
+  background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
+  border: none;
+  box-shadow: 0 4px 18px rgba(235, 175, 32, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 1.1rem 2.25rem;
+  border-radius: 8px;
+}
+
+.hero-slide-two-btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(235, 175, 32, 0.45);
+  filter: brightness(1.05);
+}
+
+.hero-slide-two-btn-outline {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #FFFFFF;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 1.1rem 2.25rem;
+  border-radius: 8px;
+}
+
+.hero-slide-two-btn-outline:hover {
+  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .hero-slide-two-section {
+    padding-top: 90px;
+  }
+
+  .hero-slide-two-overlay {
+    background: linear-gradient(180deg,
+        #06132E 0%,
+        rgba(6, 19, 46, 0.9) 45%,
+        rgba(6, 19, 46, 0.75) 100%);
+  }
+
+  .hero-slide-two-content {
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.75rem 3rem 1.75rem;
+  }
+
+  .hero-slide-two-badge {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-slide-two-cta-group {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-slide-two-title {
+    font-size: 2.75rem;
+  }
+
+  .hero-slide-two-cta-group {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .hero-slide-two-btn-gold,
+  .hero-slide-two-btn-outline {
+    width: 100%;
+    padding: 0.95rem;
+  }
+}

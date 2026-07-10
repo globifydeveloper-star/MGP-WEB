@@ -1,5 +1,5 @@
 import Navbar from '@/components/layout/Navbar';
-import Hero from '@/components/home/Hero/Hero';
+import HeroSlider from '@/components/home/HeroSlider/HeroSlider';
 import GoldSellProcess from '@/components/home/GoldSellProcess/GoldSellProcess';
 import GoldValueForm from '@/components/home/GoldValueForm/GoldValueForm';
 import VideoSection from '@/components/home/VideoSection/VideoSection';
@@ -18,8 +18,8 @@ export default function Home() {
       {/* 1. Navbar Navigation */}
       <Navbar />
 
-      {/* Hero Section */}
-      <Hero />
+      {/* Hero Section - crossfades between the Hero and a second promo slide */}
+      <HeroSlider />
 
       {/* Gold Selling Process Section */}
       <GoldSellProcess />

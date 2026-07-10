@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx eslint *)",
+      "Bash(npm run *)",
+      "Bash(echo \"started, pid $!\")",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/ --max-time 3)",
+      "Bash(tail -80 /tmp/dev.log)",
+      "Read(//tmp/**)",
+      "Bash(tasklist //FI \"IMAGENAME eq node.exe\")",
+      "Bash(netstat -ano)",
+      "Bash(chromium-cli --help)"
+    ]
+  }
+}
