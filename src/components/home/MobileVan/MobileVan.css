@@ -248,6 +248,7 @@
   .van-features-row {
     margin-left: auto;
     margin-right: auto;
+    transform: none;
   }
 }
 
@@ -260,9 +261,15 @@
   .van-features-row {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 1rem;
   }
 
   .van-feature-text {
     white-space: normal;
+  }
+  
+  .van-feature-icon {
+    width: 45px;
+    height: 45px;
   }
 }

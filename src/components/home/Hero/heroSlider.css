@@ -1,0 +1,161 @@
+/* Hero Carousel Chrome - additive only, never overrides hero.css rules */
+
+/*
+  Takes over the flex-grow track that the Hero's own content used to
+  occupy directly inside .hero-section-root-v2 (that rule already gives
+  this a flex-grow:1 sibling behaviour identical to the old .hero-container-v2).
+*/
+.hero-slider-viewport {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.hero-slider-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/*
+  Each panel reproduces the exact flex column behaviour
+  .hero-section-root-v2 used to provide directly, so slide content that
+  relies on flex-grow (the original .hero-container-v2) lays out
+  identically to before.
+*/
+.hero-slide-panel {
+  position: relative;
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hero-slide-panel[aria-hidden='true'] {
+  pointer-events: none;
+}
+
+/* Prev / Next arrows */
+.hero-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(235, 175, 32, 0.45);
+  background: rgba(6, 19, 46, 0.55);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.25s ease;
+}
+
+.hero-slider-arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+.hero-slider-arrow:hover {
+  background: rgba(235, 175, 32, 0.18);
+  border-color: #EBAF20;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.hero-slider-arrow-prev {
+  left: 1.5rem;
+}
+
+.hero-slider-arrow-next {
+  right: 1.5rem;
+}
+
+/* Pagination dots */
+.hero-slider-dots {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.6rem;
+  z-index: 20;
+}
+
+.hero-slider-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-slider-dot:hover {
+  border-color: #EBAF20;
+}
+
+.hero-slider-dot-active {
+  background: #EBAF20;
+  border-color: #EBAF20;
+  width: 26px;
+  border-radius: 6px;
+}
+
+/* Generic data-driven slide (Slide 2+) visual placeholder */
+.hero-right-column-v2.hero-slide-visual {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.hero-slide-visual-frame {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 521 / 580;
+  border-radius: 24px;
+  overflow: hidden;
+  outline: 1px solid rgba(235, 175, 32, 0.35);
+  outline-offset: -1px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.hero-slide-visual-img {
+  object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .hero-right-column-v2.hero-slide-visual {
+    justify-content: center;
+  }
+
+  .hero-slider-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero-slider-arrow-prev {
+    left: 0.75rem;
+  }
+
+  .hero-slider-arrow-next {
+    right: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-slide-visual-frame {
+    max-width: 280px;
+  }
+
+  .hero-slider-dots {
+    bottom: 1rem;
+  }
+}

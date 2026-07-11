@@ -239,10 +239,12 @@
 
 @media (max-width: 640px) {
   .vs-lang-bar {
-    left: 0.75rem;
-    right: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 0.75rem;
     padding: 0.35rem;
+    width: 90%;
+    justify-content: center;
   }
 
   .vs-lang-btn {

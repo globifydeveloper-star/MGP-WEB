@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import './Navbar.css';
 import Image from 'next/image';
 import logoImg from '@/assets/images/logo.png';
 
 export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <header className="navbar-header-v2">
       <div className="navbar-container-v2">
@@ -51,7 +53,32 @@ export default function Navbar() {
           <button className="navbar-cta-btn-v2">
             <span>Sell Your Gold</span>
           </button>
+          
+          {/* Hamburger Menu Toggle (Mobile) */}
+          <button 
+            className="mobile-menu-toggle" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
+      </div>
+      
+      {/* Mobile Menu Dropdown */}
+      <div className={`mobile-menu-dropdown ${isMobileMenuOpen ? 'open' : ''}`}>
+        <nav className="mobile-nav-links">
+          <a href="#" className="active" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
+          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>About Us</a>
+          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Mobile Van</a>
+          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Branches</a>
+          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Testimonials</a>
+          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Gold Rate</a>
+        </nav>
       </div>
     </header>
   );
