@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import BranchSelector from "@/components/home/BranchSelector/BranchSelector";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en" className={outfit.variable}>
       <body>
         {children}
+        <BranchSelector />
       </body>
     </html>
   );

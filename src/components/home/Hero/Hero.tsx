@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
 import './hero.css';
 import HeroLeftColumn from './HeroLeftColumn';
 import HeroRightColumn from './HeroRightColumn';
@@ -32,30 +31,7 @@ const PATTERN_TILES = [
   { left: 965.56, top: 337.28, rotate: 0 },
 ];
 
-const branchData: Record<string, string[]> = {
-  'Karnataka': ['Bengaluru - Jayanagar', 'Bengaluru - Indiranagar', 'Bengaluru - Koramangala'],
-  'Tamil Nadu': ['Chennai - T. Nagar', 'Chennai - Adyar', 'Coimbatore'],
-  'Kerala': ['Kochi - MG Road', 'Trivandrum - East Fort', 'Calicut'],
-  'Maharashtra': ['Mumbai - Andheri', 'Pune - Deccan Gymkhana', 'Nagpur'],
-  'Delhi': ['Connaught Place', 'Karol Bagh', 'Nehru Place']
-};
-
 export default function Hero() {
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
-  const [selectorOpen, setSelectorOpen] = useState(true);
-
-  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedState(e.target.value);
-    setSelectedBranch(''); // Reset branch selection when state changes
-  };
-
-  const handleGetDirection = () => {
-    if (selectedBranch && selectedState) {
-      alert(`Opening directions for Muthoot Goldpoint, ${selectedBranch}, ${selectedState}`);
-    }
-  };
-
   return (
     <section className="hero-section-root-v2">
       {/*
@@ -144,82 +120,6 @@ export default function Hero() {
           height={53}
         />
       </div>
-
-      {/* Dismissible Bottom Branch-Selector Bar */}
-      {selectorOpen && (
-        <div className="hero-branch-selector-bar-v2">
-          {/* Label Info */}
-          <div className="branch-bar-text-group">
-            <span className="branch-bar-top-label">Sell gold instantly at</span>
-            <span className="branch-bar-main-title">Select a branch</span>
-          </div>
-
-          {/* Purity & Rate */}
-          <div className="branch-bar-price-badge">
-            <span className="price-badge-purity">22K/G</span>
-            <span className="price-badge-value">₹8,629</span>
-          </div>
-
-          {/* Dropdown Select Controls */}
-          <div className="branch-bar-controls">
-            {/* State Select */}
-            <div className="branch-select-container-v2">
-              <select
-                value={selectedState}
-                onChange={handleStateChange}
-                className="branch-select-field-v2"
-              >
-                <option value="" disabled>Select State</option>
-                {Object.keys(branchData).map((state) => (
-                  <option key={state} value={state}>{state}</option>
-                ))}
-              </select>
-              <svg className="branch-select-chevron-v2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </div>
-
-            {/* Branch Select */}
-            <div className="branch-select-container-v2">
-              <select
-                value={selectedBranch}
-                onChange={(e) => setSelectedBranch(e.target.value)}
-                disabled={!selectedState}
-                className="branch-select-field-v2"
-              >
-                <option value="" disabled>Select Branch</option>
-                {selectedState && branchData[selectedState].map((branch) => (
-                  <option key={branch} value={branch}>{branch}</option>
-                ))}
-              </select>
-              <svg className="branch-select-chevron-v2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </div>
-          </div>
-
-          {/* Get Direction CTA */}
-          <button
-            onClick={handleGetDirection}
-            disabled={!selectedBranch}
-            className="btn-branch-bar-direction-v2"
-          >
-            Get Direction
-          </button>
-
-          {/* Dismiss button */}
-          <button
-            onClick={() => setSelectorOpen(false)}
-            className="branch-bar-close-btn-v2"
-            aria-label="Close branch selector"
-          >
-            <svg className="branch-bar-close-icon-v2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        </div>
-      )}
 
       {/* Stats Ribbon at the very bottom */}
       <div className="hero-stats-ribbon-v2">
