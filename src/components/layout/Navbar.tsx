@@ -3,10 +3,23 @@
 import React, { useState } from 'react';
 import './Navbar.css';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import logoImg from '@/assets/images/logo.png';
+
+const NAV_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '#' },
+  { label: 'Mobile Van', href: '/mobilevantab' },
+  { label: 'Branches', href: '#' },
+  { label: 'Testimonials', href: '#' },
+  { label: 'Gold Rate', href: '#' },
+  { label: 'Career', href: '/career' },
+];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className={`navbar-header-v2 ${menuOpen ? 'header-menu-active' : ''}`}>
@@ -24,12 +37,15 @@ export default function Navbar() {
             />
           </a>
           <nav className={`navbar-nav-v2 ${menuOpen ? 'menu-active' : ''}`}>
-            <a href="#" className="active">Home</a>
-            <a href="#">About Us</a>
-            <a href="http://localhost:3000/mobilevantab">Mobile Van</a>
-            <a href="#">Branches</a>
-            <a href="#">Testimonials</a>
-            <a href="#">Gold Rate</a>
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={link.href !== '#' && pathname === link.href ? 'active' : ''}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
 
@@ -69,12 +85,16 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown */}
       <div className={`mobile-menu-dropdown ${menuOpen ? 'open' : ''}`}>
         <nav className="mobile-nav-links">
-          <a href="#" className="active" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="#" onClick={() => setMenuOpen(false)}>About Us</a>
-          <a href="#" onClick={() => setMenuOpen(false)}>Mobile Van</a>
-          <a href="#" onClick={() => setMenuOpen(false)}>Branches</a>
-          <a href="#" onClick={() => setMenuOpen(false)}>Testimonials</a>
-          <a href="#" onClick={() => setMenuOpen(false)}>Gold Rate</a>
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={link.href !== '#' && pathname === link.href ? 'active' : ''}
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </header>
