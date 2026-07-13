@@ -6,10 +6,10 @@ import Image from 'next/image';
 import logoImg from '@/assets/images/logo.png';
 
 export default function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="navbar-header-v2">
+    <header className={`navbar-header-v2 ${menuOpen ? 'header-menu-active' : ''}`}>
       <div className="navbar-container-v2">
         {/* Left Side: Logo & Navigation Links */}
         <div className="navbar-left-group">
@@ -23,10 +23,10 @@ export default function Navbar() {
               style={{ display: 'block' }}
             />
           </a>
-          <nav className="navbar-nav-v2">
+          <nav className={`navbar-nav-v2 ${menuOpen ? 'menu-active' : ''}`}>
             <a href="#" className="active">Home</a>
             <a href="#">About Us</a>
-            <a href="#">Mobile Van</a>
+            <a href="http://localhost:3000/mobilevantab">Mobile Van</a>
             <a href="#">Branches</a>
             <a href="#">Testimonials</a>
             <a href="#">Gold Rate</a>
@@ -41,11 +41,8 @@ export default function Navbar() {
               fill="white"
               style={{ width: '28px', height: '28px', display: 'block', flexShrink: 0 }}
             >
-              {/* Solid Phone Receiver */}
               <path d="M20 15.5c-1.25 0-2.45-.2-3.6-.6-.35-.1-.75-.02-1 .25l-2.2 2.2c-2.83-1.44-5.15-3.76-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1-.37-1.15-.57-2.35-.57-3.6 0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z" />
-              {/* Outer Signal Wave */}
               <path d="M15 3c3.31 0 6 2.69 6 6" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              {/* Inner Signal Wave */}
               <path d="M15 7c1.1 0 2 .9 2 2" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
             </svg>
             <div className="navbar-phone-number">+91 9037 921 192</div>
@@ -53,11 +50,11 @@ export default function Navbar() {
           <button className="navbar-cta-btn-v2">
             <span>Sell Your Gold</span>
           </button>
-          
+
           {/* Hamburger Menu Toggle (Mobile) */}
-          <button 
-            className="mobile-menu-toggle" 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle Menu"
           >
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -68,18 +65,18 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-      
+
       {/* Mobile Menu Dropdown */}
-      <div className={`mobile-menu-dropdown ${isMobileMenuOpen ? 'open' : ''}`}>
+      <div className={`mobile-menu-dropdown ${menuOpen ? 'open' : ''}`}>
         <nav className="mobile-nav-links">
-          <a href="#" className="active" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
-          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>About Us</a>
-          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Mobile Van</a>
-          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Branches</a>
-          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Testimonials</a>
-          <a href="#" onClick={() => setIsMobileMenuOpen(false)}>Gold Rate</a>
+          <a href="#" className="active" onClick={() => setMenuOpen(false)}>Home</a>
+          <a href="#" onClick={() => setMenuOpen(false)}>About Us</a>
+          <a href="#" onClick={() => setMenuOpen(false)}>Mobile Van</a>
+          <a href="#" onClick={() => setMenuOpen(false)}>Branches</a>
+          <a href="#" onClick={() => setMenuOpen(false)}>Testimonials</a>
+          <a href="#" onClick={() => setMenuOpen(false)}>Gold Rate</a>
         </nav>
       </div>
     </header>
   );
-}
+}     

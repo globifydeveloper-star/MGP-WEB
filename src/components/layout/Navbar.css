@@ -245,6 +245,43 @@
   opacity: 0.10;
 }
 
+/* Hamburger Toggle Button Style */
+.navbar-mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 101;
+}
+
+.navbar-mobile-toggle .bar {
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Transform Hamburger to 'X' when active */
+.navbar-mobile-toggle .bar.active:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+  background-color: #EBAF20;
+}
+
+.navbar-mobile-toggle .bar.active:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-mobile-toggle .bar.active:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+  background-color: #EBAF20;
+}
+
 /* Responsiveness */
 .mobile-menu-toggle {
   display: none;
@@ -301,10 +338,40 @@
 }
 
 @media (max-width: 1024px) {
+  .navbar-mobile-toggle {
+    display: flex;
+  }
+
   .navbar-nav-v2 {
     display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 120px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #111A41;
+    padding: 2rem 24px;
+    gap: 1.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    z-index: 99;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
-  
+
+  .navbar-nav-v2.menu-active {
+    display: flex;
+  }
+
+  .navbar-nav-v2 a {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
   .mobile-menu-toggle {
     display: flex;
     align-items: center;
@@ -332,20 +399,25 @@
   .navbar-phone-group {
     display: none;
   }
-  
+
   .navbar-cta-btn-v2 {
     padding: 10px 16px;
   }
-  
+
   .navbar-cta-btn-v2 span {
     font-size: 14px;
   }
-  
+
   .navbar-left-group {
     gap: 20px;
   }
-  
+
   .navbar-right-group {
     gap: 12px;
+  }
+
+  .navbar-nav-v2 {
+    top: 90px;
+    height: calc(100vh - 90px);
   }
 }

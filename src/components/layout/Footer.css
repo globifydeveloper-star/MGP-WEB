@@ -244,10 +244,46 @@
   .footer-container {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+    text-align: center;
+  }
+
+  .brand-col {
+    max-width: 100%;
+    align-items: center;
+  }
+
+  .logo-img {
+    margin: 0 auto;
+  }
+
+  .footer-socials {
+    justify-content: center;
+  }
+
+  .footer-col-title {
+    margin-bottom: 1rem;
+  }
+
+  .office-item {
+    justify-content: center;
+  }
+
+  .phone-row {
+    justify-content: center;
+  }
+
+  .cert-box {
+    margin: 1.5rem auto 0;
   }
 
   .footer-bottom-container {
     flex-direction: column;
     text-align: center;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 }
