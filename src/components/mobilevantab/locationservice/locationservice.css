@@ -1,0 +1,132 @@
+/* Available Location Services */
+.ls-section {
+  background: #ffffff;
+  padding: 0 0 5rem 0;
+}
+
+.ls-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.ls-title {
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #14162E;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.ls-title-highlight {
+  color: #CB9224;
+  font-weight: 800;
+}
+
+.ls-subtitle {
+  font-size: 1.05rem;
+  color: #41444f;
+  line-height: 1.6;
+}
+
+.ls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.ls-card {
+  background: #111A41;
+  border-radius: 16px;
+  padding: 1.75rem 2rem 2rem;
+}
+
+.ls-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.ls-pin-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--gold-primary);
+}
+
+.ls-pin-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ls-city {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.ls-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #A1ADC4;
+  margin-bottom: 1.5rem;
+}
+
+.ls-phones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.ls-phone-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+.ls-phone-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.ls-phone-link:hover {
+  color: var(--gold-primary);
+  text-decoration: underline;
+}
+
+.ls-phone-icon {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  color: #ffffff;
+}
+
+.ls-phone-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .ls-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ls-section {
+    padding: 4rem 0;
+  }
+
+  .ls-title {
+    font-size: 1.9rem;
+  }
+
+  .ls-grid {
+    grid-template-columns: 1fr;
+  }
+}
