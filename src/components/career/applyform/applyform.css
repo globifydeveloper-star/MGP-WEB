@@ -1,0 +1,207 @@
+/* Application Form Section Styles */
+.career-form-section {
+  position: relative;
+  background: #ffffff;
+  padding: 6rem 0 8rem;
+  overflow: hidden;
+}
+
+.career-form-container {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  scroll-margin-top: 100px;
+}
+
+.career-form-title {
+  text-align: center;
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  color: #cd9b06;
+}
+
+.career-form-subtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: black;
+  margin-bottom: 2.5rem;
+}
+
+.career-form {
+  background: linear-gradient(135deg, #06132E 0%, #0F224C 50%, #163376 100%);
+  border: 1px solid rgba(241, 185, 51, 0.35);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: var(--shadow-gold);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.career-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .career-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.career-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.career-form-group-full {
+  grid-column: 1 / -1;
+}
+
+.career-form-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.5rem;
+}
+
+.career-form-required {
+  color: var(--gold-primary);
+  margin-left: 2px;
+}
+
+.career-form-input,
+.career-form-select,
+.career-form-textarea {
+  width: 100%;
+  background: rgba(15, 28, 65, 0.4);
+  border: 1px solid rgba(241, 185, 51, 0.45);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.career-form-input::placeholder,
+.career-form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.career-form-input:focus,
+.career-form-select:focus,
+.career-form-textarea:focus {
+  border-color: var(--gold-primary);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(241, 185, 51, 0.15);
+}
+
+.career-form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F1B933' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+.career-form-select option {
+  background-color: #0c1a4a;
+  color: #ffffff;
+}
+
+.career-form-file-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(15, 28, 65, 0.4);
+  border: 1px dashed rgba(241, 185, 51, 0.45);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.career-form-file-wrap:hover {
+  border-color: var(--gold-primary);
+  background: rgba(241, 185, 51, 0.05);
+}
+
+.career-form-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.career-form-file-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.career-form-file-label svg {
+  color: var(--gold-primary);
+}
+
+.career-form-file-label span {
+  color: var(--gold-primary);
+  font-weight: 600;
+}
+
+.career-form-submit-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: var(--gold-gradient);
+  color: #0c1835;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(218, 161, 46, 0.3);
+  transition: var(--transition-smooth);
+}
+
+.career-form-submit-btn:hover {
+  background: var(--gold-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(218, 161, 46, 0.4);
+}
+
+.career-form-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.career-form-success {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 12px;
+  color: #4ADE80;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .career-form-title {
+    font-size: 1.75rem;
+  }
+}

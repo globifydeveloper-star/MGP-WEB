@@ -4,14 +4,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import './VideoSection.css';
 
 const LANGUAGES = [
-  { code: 'hi', label: 'हिंदी', poster: '/video_img.png', video: '/videos/goldpoint-hindi.mp4' },
-  { code: 'ml', label: 'മലയാളം', poster: '/video_img.png', video: '/videos/goldpoint-malayalam.mp4' },
-  { code: 'ta', label: 'தமிழ்', poster: '/video_img.png', video: '/videos/goldpoint-tamil.mp4' },
-  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/video_img.png', video: '/videos/goldpoint-kannada.mp4' },
-  { code: 'en', label: 'EN', poster: '/video_img.png', video: null },
-  { code: 'te', label: 'తెలుగు', poster: '/video_img.png', video: null },
-  { code: 'mr', label: 'मराठी', poster: '/video_img.png', video: null },
-  { code: 'bn', label: 'বাংলা', poster: '/video_img.png', video: null },
+  { code: 'hi', label: 'हिंदी', poster: '/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
+  { code: 'ml', label: 'മലയാളം', poster: '/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
+  { code: 'ta', label: 'தமிழ்', poster: '/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
+  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
+  { code: 'en', label: 'EN', poster: '/video_thumb.png', video: null },
+  { code: 'te', label: 'తెలుగు', poster: '/video_thumb.png', video: null },
+  { code: 'mr', label: 'मराठी', poster: '/video_thumb.png', video: null },
+  { code: 'bn', label: 'বাংলা', poster: '/video_thumb.png', video: null },
 ];
 
 const VISIBLE_COUNT = 4;
