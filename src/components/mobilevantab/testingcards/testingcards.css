@@ -1,0 +1,111 @@
+/* Testing Cards — No-Damage Testing / XRF Purity / Digital Invoicing */
+.tc-section {
+  background: #ffffff;
+  padding: 5rem 0 1rem 0;
+}
+
+.tc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 3rem;
+  align-items: stretch;
+}
+
+.tc-cards-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tc-card {
+  background: #111A41;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+}
+
+.tc-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.tc-card-icon {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  color: var(--gold-primary);
+}
+
+.tc-card-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tc-card-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.tc-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #A1ADC4;
+}
+
+.tc-image-col {
+  position: relative;
+  height: 80%;
+}
+
+.tc-image-glow {
+  position: absolute;
+  inset: -15%;
+  background: radial-gradient(circle, rgba(255, 244, 214, 0.55) 0%, rgba(255, 244, 214, 0) 70%);
+  filter: blur(30px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tc-image-box {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+}
+
+.tc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .tc-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .tc-image-col {
+    order: -1;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: 400px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .tc-section {
+    padding: 4rem 0;
+  }
+
+  .tc-card {
+    padding: 1.5rem;
+  }
+}
