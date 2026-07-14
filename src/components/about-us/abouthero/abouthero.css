@@ -1,0 +1,262 @@
+/* About Hero Section Styles — "Legacy of Trust" layout */
+.about-hero-section {
+  position: relative;
+  background: #0c1835;
+  padding: 10rem 0 6rem;
+  overflow: hidden;
+}
+
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left Image Column */
+.about-hero-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-hero-img-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+}
+
+.about-hero-img-clip {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.about-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.about-hero-img-active {
+  opacity: 1;
+}
+
+.experience-badge {
+  position: absolute;
+  right: -1.5rem;
+  bottom: -1.5rem;
+  background: rgba(8, 13, 34, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  min-width: 150px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+  z-index: 3;
+}
+
+.badge-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.badge-num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.badge-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(47, 159, 232, 0.15);
+  color: #2f9fe8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-text {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.3;
+}
+
+/* Right Text Column */
+.about-hero-content {
+  text-align: left;
+}
+
+.about-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #F1B933;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(47, 159, 232, 0.15);
+  color: #2f9fe8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about-hero-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-white);
+  margin-bottom: 1.25rem;
+}
+
+.about-hero-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 520px;
+  margin-bottom: 1.5rem;
+}
+
+.about-hero-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.about-hero-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.check-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff6b4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about-hero-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.about-hero-know-more {
+  background: var(--gold-gradient);
+  color: #0c1835;
+  border: none;
+  box-shadow: 0 4px 14px rgba(218, 161, 46, 0.25);
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.about-hero-know-more:hover {
+  background: var(--gold-gradient);
+  color: #0c1835;
+  border: none;
+  box-shadow: 0 4px 14px rgba(218, 161, 46, 0.25);
+  transform: translateY(-2px);
+}
+
+.about-hero-brand-mark {
+  width: auto;
+  height: 90px;
+  margin-left: 200px;
+  margin-top: -50px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .about-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .about-hero-content {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .about-hero-eyebrow,
+  .about-hero-checklist li {
+    justify-content: center;
+  }
+
+  .about-hero-desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-hero-footer-row {
+    justify-content: center;
+  }
+
+  .about-hero-img-wrapper {
+    max-width: 360px;
+  }
+
+  .experience-badge {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+
+@media (max-width: 576px) {
+  .about-hero-section {
+    padding: 8rem 0 5rem;
+  }
+
+  .about-hero-title {
+    font-size: 2.1rem;
+  }
+
+  .about-hero-footer-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

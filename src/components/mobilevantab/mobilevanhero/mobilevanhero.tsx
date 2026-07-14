@@ -63,12 +63,6 @@ export default function MobileVanHero() {
     <section className="mvh-section">
       <div className="mvh-bg-pattern" aria-hidden="true" />
 
-      <div className="mvh-pattern-row" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/pattern4.png" alt="" className="mvh-pattern-tile" />
-      </div>
-      <div className="mvh-glow" aria-hidden="true" />
-
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/pattern2.png" alt="" className="mvh-swirl" aria-hidden="true" />
 
@@ -93,6 +87,13 @@ export default function MobileVanHero() {
               />
             )}
           </div>
+          <div className="mvh-glow" aria-hidden="true" />
+          <div className="mvh-pattern-row" aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/pattern4.png" alt="" className="mvh-pattern-tile" />
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/vannew.png" alt="Muthoot Gold Point mobile van" className="mvh-van-img" />
         </div>
 
         <div className="mvh-content-col">

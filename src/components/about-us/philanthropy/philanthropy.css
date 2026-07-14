@@ -1,0 +1,227 @@
+/* Philanthropy Section Styles */
+.philanthropy-section {
+  position: relative;
+  background: white;
+  overflow: hidden;
+  border-top: 1px solid rgba(241, 185, 51, 0.1);
+}
+
+.philanthropy-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 5rem auto 5rem;
+}
+
+.philanthropy-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.philanthropy-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #0c1835;
+  margin-bottom: 1.5rem;
+}
+
+.philanthropy-desc {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: #0c1835;
+  ;
+}
+
+/* HEEL Section Layout */
+.heel-container {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 4rem;
+  align-items: flex-start;
+  max-width: 1150px;
+  margin: 0 auto 5rem;
+}
+
+.heel-info-box {
+  order: 2;
+  background: rgba(241, 185, 51, 0.04);
+  border: 1px solid rgba(241, 185, 51, 0.15);
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem;
+  text-align: left;
+}
+
+.heel-info-box h3 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--gold-primary);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.heel-info-box p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #0c1835;
+  ;
+}
+
+.heel-info-box strong {
+  color: var(--gold-primary);
+}
+
+.heel-info-image {
+  margin-top: 1.75rem;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(241, 185, 51, 0.2);
+}
+
+.heel-info-image img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+/* Pillars Grid */
+.heel-pillars-grid {
+  order: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.heel-card {
+  padding: 2.25rem 2rem;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  background: #0c1835;
+}
+
+.heel-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold-primary);
+  box-shadow: var(--shadow-card-glow);
+}
+
+.heel-letter-badge {
+  position: absolute;
+  top: -15px;
+  right: -5px;
+  font-size: 6.5rem;
+  font-weight: 900;
+  opacity: 0.04;
+  color: var(--gold-primary);
+  pointer-events: none;
+  line-height: 1;
+  transition: var(--transition-smooth);
+}
+
+.heel-card:hover .heel-letter-badge {
+  opacity: 0.09;
+  transform: scale(1.1) rotate(5deg);
+}
+
+.heel-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.heel-icon-box {
+  width: 44px;
+  height: 44px;
+  background: rgba(241, 185, 51, 0.1);
+  border: 1px solid rgba(241, 185, 51, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+  flex-shrink: 0;
+}
+
+.heel-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.heel-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* Conclusion */
+.philanthropy-conclusion {
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 3rem 2.25rem;
+  background: radial-gradient(circle, rgba(241, 185, 51, 0.08) 0%, transparent 100%);
+  border-radius: 24px;
+  border: 1px dashed rgba(241, 185, 51, 0.25);
+}
+
+.philanthropy-conclusion p {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #0c1835;
+  font-weight: 500;
+}
+
+.philanthropy-conclusion strong {
+  color: var(--gold-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .heel-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .heel-info-box {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .heel-pillars-grid {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .philanthropy-section {
+    padding: 5rem 0;
+  }
+
+  .philanthropy-title {
+    font-size: 2rem;
+  }
+
+  .heel-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .heel-card {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .philanthropy-conclusion p {
+    font-size: 1.05rem;
+  }
+}
