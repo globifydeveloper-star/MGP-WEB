@@ -92,8 +92,6 @@ export default function MobileVanHero() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/pattern4.png" alt="" className="mvh-pattern-tile" />
           </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/vannew.png" alt="Muthoot Gold Point mobile van" className="mvh-van-img" />
         </div>
 
         <div className="mvh-content-col">

@@ -169,78 +169,77 @@
   }
 
   .mvh-van-container {
-    .mvh-pattern-row {
-      justify-content: center;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 75%, transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 75%, transparent 100%);
-    }
-
-    .mvh-van-img {
-      width: 100%;
-      max-width: 550px;
-      height: auto;
-      aspect-ratio: 1900 / 828;
-      margin-left: 0;
-      margin-top: 0;
-      display: block;
-    }
-
-    .mvh-van-img {
-      width: 100%;
-      height: 100%;
-    }
-
-    .mvh-content-col {
-      margin-top: 2rem;
-      order: 1;
-    }
-
-    .mvh-heading {
-      align-items: center;
-    }
-
-    .mvh-desc {
-      margin: 0 auto;
-    }
-
-    .mvh-swirl {
-      display: none;
-    }
-
-    .mvh-glow {
-      width: 300px;
-      height: 300px;
-    }
+    width: 100%;
+    max-width: 550px;
+    height: auto;
+    aspect-ratio: 1900 / 828;
+    margin-left: 0;
+    margin-top: 0;
+    display: block;
   }
 
-  @media (max-width: 640px) {
-    .mvh-section {
-      padding-top: 100px;
-    }
-
-    .mvh-heading {
-      font-size: 2rem;
-    }
-
-    .mvh-desc {
-      font-size: 0.95rem;
-    }
-
-    .mvh-pattern-tile {
-      height: 200px;
-    }
+  .mvh-van-img {
+    width: 100%;
+    height: 100%;
   }
 
-  @media (max-width: 480px) {
-    .mvh-container {
-      padding: 1.5rem 1rem;
-    }
-
-    .mvh-heading {
-      font-size: 1.75rem;
-    }
-
-    .mvh-desc {
-      font-size: 0.85rem;
-    }
+  .mvh-pattern-row {
+    justify-content: center;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 75%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 75%, transparent 100%);
   }
+
+  .mvh-content-col {
+    margin-top: 2rem;
+    order: 1;
+  }
+
+  .mvh-heading {
+    align-items: center;
+  }
+
+  .mvh-desc {
+    margin: 0 auto;
+  }
+
+  .mvh-swirl {
+    display: none;
+  }
+
+  .mvh-glow {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mvh-section {
+    padding-top: 100px;
+  }
+
+  .mvh-heading {
+    font-size: 2rem;
+  }
+
+  .mvh-desc {
+    font-size: 0.95rem;
+  }
+
+  .mvh-pattern-tile {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mvh-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .mvh-heading {
+    font-size: 1.75rem;
+  }
+
+  .mvh-desc {
+    font-size: 0.85rem;
+  }
+}
