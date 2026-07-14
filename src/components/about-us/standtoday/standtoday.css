@@ -1,0 +1,202 @@
+/* Stand Today Section Styles */
+.stand-today-section {
+  position: relative;
+  background: 
+    radial-gradient(circle at 90% 10%, rgba(241, 185, 51, 0.08) 0%, transparent 50%),
+    linear-gradient(to bottom, #0c153a 0%, #0a1130 100%);
+  padding: 8rem 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(241, 185, 51, 0.1);
+}
+
+.stand-today-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.stand-today-info {
+  text-align: left;
+}
+
+.stand-today-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.stand-today-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-white);
+  margin-bottom: 1.5rem;
+}
+
+.stand-today-desc {
+  font-size: 1.2rem;
+  line-height: 1.65;
+  color: var(--text-white);
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+
+.stand-today-desc strong {
+  color: var(--gold-primary);
+}
+
+.stand-today-subdesc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+}
+
+/* Supermarket highlights card */
+.financial-supermarket-card {
+  padding: 1.75rem;
+  background: rgba(241, 185, 51, 0.05);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.financial-supermarket-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin: 0.75rem 0 0.5rem;
+}
+
+.financial-supermarket-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.highlight-tag {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--gold-gradient);
+  color: #0c1835;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* Right Side - Services */
+.stand-today-services {
+  width: 100%;
+}
+
+.services-title {
+  font-size: 1.35rem;
+  color: var(--text-white);
+  font-weight: 700;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.services-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  background: var(--gold-gradient);
+  border-radius: 2px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.service-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  transition: var(--transition-smooth);
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-primary);
+  box-shadow: var(--shadow-card-glow);
+  background: rgba(10, 19, 44, 0.95);
+}
+
+.service-icon {
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.service-card h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-white);
+  line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .stand-today-grid {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .stand-today-info {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto;
+  }
+
+  .highlight-tag {
+    margin: 0 auto;
+  }
+
+  .financial-supermarket-card {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .stand-today-services {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .stand-today-section {
+    padding: 5rem 0;
+  }
+
+  .stand-today-title {
+    font-size: 2rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    padding: 1rem 1.25rem;
+  }
+}

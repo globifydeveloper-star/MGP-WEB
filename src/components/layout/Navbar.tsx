@@ -9,7 +9,7 @@ import logoImg from '@/assets/images/logo.png';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'About Us', href: '#' },
+  { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
   { label: 'Branches', href: '#' },
   { label: 'Testimonials', href: '#' },

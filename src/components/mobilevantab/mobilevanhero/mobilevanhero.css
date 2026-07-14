@@ -30,11 +30,9 @@
 
 .mvh-pattern-row {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 40%;
-  transform: translateY(-20%);
+  inset: 0;
   display: flex;
+  align-items: center;
   pointer-events: none;
   z-index: 0;
   -webkit-mask-image: linear-gradient(to right, #000 0%, #000 30%, transparent 65%);
@@ -50,14 +48,15 @@
 
 .mvh-glow {
   position: absolute;
-  top: 16%;
-  left: 20%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 480px;
   height: 480px;
   background: radial-gradient(circle, rgba(241, 185, 51, 0.35) 0%, rgba(241, 185, 51, 0) 70%);
   filter: blur(10px);
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 .mvh-swirl {
@@ -86,12 +85,15 @@
 }
 
 .mvh-image-col {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
 .mvh-van-img {
+  position: relative;
+  z-index: 1;
   width: 800px;
   height: 350px;
   display: block;
@@ -150,6 +152,12 @@
     order: 2;
   }
 
+  .mvh-pattern-row {
+    justify-content: center;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 75%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 75%, transparent 100%);
+  }
+
   .mvh-van-img {
     width: 100%;
     max-width: 550px;
@@ -178,9 +186,6 @@
   .mvh-glow {
     width: 300px;
     height: 300px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
   }
 }
 

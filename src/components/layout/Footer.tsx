@@ -40,7 +40,7 @@ export default function Footer() {
         <div className="footer-col links-col">
           <h4 className="footer-col-title">Quick Links</h4>
           <ul className="footer-links-list">
-            <li><a href="#" className="footer-link">About Us</a></li>
+            <li><a href="/about-us" className="footer-link">About Us</a></li>
             <li><a href="#" className="footer-link">Gold Rate</a></li>
             <li><a href="#" className="footer-link">Branch Locator</a></li>
             <li><a href="#" className="footer-link">Privacy Policy</a></li>
