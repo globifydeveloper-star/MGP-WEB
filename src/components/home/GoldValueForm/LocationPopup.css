@@ -1,0 +1,313 @@
+/* Location Popup Modal Styles */
+.lp-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 16px;
+}
+
+.lp-modal-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: lp-slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lp-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.lp-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.4;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  text-align: left;
+}
+
+.lp-modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 4px;
+  margin-left: 12px;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.lp-modal-close-btn:hover {
+  color: #475569;
+  transform: scale(1.1);
+}
+
+.lp-modal-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+}
+
+.lp-form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.lp-select {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #0f172a;
+  background-color: #ffffff;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lp-select:focus {
+  border-color: #EBAF20;
+  box-shadow: 0 0 0 3px rgba(235, 175, 32, 0.15);
+  outline: none;
+}
+
+/* Select wrapper styling for custom dropdown arrows */
+.lp-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.lp-select-wrapper .lp-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.lp-select-chevron {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #64748b;
+}
+
+.lp-select:disabled {
+  background-color: #f8fafc;
+  color: #94a3b8;
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+}
+
+.lp-select:disabled ~ .lp-select-chevron {
+  border-top-color: #cbd5e1;
+}
+
+/* Submit button */
+.lp-submit-btn {
+  width: 100%;
+  height: 50px;
+  background-color: #051336;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-submit-btn:hover {
+  background-color: #11224d;
+  box-shadow: 0 6px 20px rgba(5, 19, 54, 0.2);
+  transform: translateY(-1px);
+}
+
+.lp-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Success View Styling */
+.lp-success-view {
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  animation: lp-slide-up 0.4s ease;
+}
+
+.lp-success-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 8px;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+}
+
+.lp-success-message {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 320px;
+  margin-bottom: 12px;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+}
+
+.lp-success-close-btn {
+  height: 48px;
+  width: 100%;
+  max-width: 240px;
+  background-color: #051336;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-success-close-btn:hover {
+  background-color: #11224d;
+  box-shadow: 0 4px 12px rgba(5, 19, 54, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Checkmark Animation */
+.lp-success-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.lp-checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 4;
+  stroke: #22c55e;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #22c55e;
+  animation: lp-fill .4s ease-in-out .4s forwards, lp-scale .3s ease-in-out 0s both;
+}
+
+.lp-checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+  stroke: #22c55e;
+  fill: none;
+  animation: lp-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.lp-checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke-width: 4;
+  stroke: #ffffff;
+  animation: lp-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes lp-stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes lp-scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes lp-fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 40px #22c55e;
+  }
+}
+
+/* Slide up animation */
+@keyframes lp-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .lp-modal-container {
+    max-height: 95vh;
+  }
+  
+  .lp-modal-header {
+    padding: 16px 20px;
+  }
+  
+  .lp-modal-title {
+    font-size: 17px;
+  }
+  
+  .lp-modal-form {
+    padding: 20px;
+    gap: 14px;
+  }
+}
