@@ -190,3 +190,19 @@
     width: 100%;
   }
 }
+
+@media (max-width: 480px) {
+  .branch-selector-bar {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .info-subtitle {
+    font-size: 0.9rem;
+  }
+  .rate-price {
+    font-size: 1rem;
+  }
+  .custom-select {
+    font-size: 0.85rem;
+  }
+}

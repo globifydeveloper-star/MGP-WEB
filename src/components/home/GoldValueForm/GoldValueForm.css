@@ -328,3 +328,21 @@
     padding: 1.75rem 1.5rem;
   }
 }
+
+@media (max-width: 480px) {
+  .gvf-section {
+    padding: 3rem 0 4rem;
+  }
+  .gvf-heading {
+    font-size: 1.75rem;
+  }
+  .gvf-rate-badge {
+    width: 100%;
+    position: relative;
+    right: 0;
+    bottom: 0;
+    margin-top: -20px;
+    z-index: 3;
+    border-radius: 12px;
+  }
+}

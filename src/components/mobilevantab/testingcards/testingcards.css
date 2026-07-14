@@ -109,3 +109,15 @@
     padding: 1.5rem;
   }
 }
+
+@media (max-width: 480px) {
+  .tc-section {
+    padding: 3rem 0;
+  }
+  .tc-card {
+    padding: 1.25rem;
+  }
+  .tc-card-title {
+    font-size: 1.05rem;
+  }
+}

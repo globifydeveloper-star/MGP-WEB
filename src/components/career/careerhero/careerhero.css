@@ -82,3 +82,15 @@
     margin: 0 auto;
   }
 }
+
+@media (max-width: 480px) {
+  .career-hero-section {
+    padding: 7rem 0 3rem 0;
+  }
+  .career-hero-title {
+    font-size: 1.85rem;
+  }
+  .career-hero-desc {
+    font-size: 0.9rem;
+  }
+}

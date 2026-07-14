@@ -312,3 +312,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .apt-section {
+    padding: 3rem 0;
+  }
+  .apt-heading {
+    font-size: 1.75rem;
+  }
+  .apt-left {
+    padding: 2rem 1.5rem 0;
+  }
+  .apt-right {
+    padding: 1.5rem 1rem;
+  }
+}

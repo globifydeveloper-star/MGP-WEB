@@ -421,3 +421,25 @@
     height: calc(100vh - 90px);
   }
 }
+
+@media (max-width: 480px) {
+  .navbar-container-v2 {
+    padding: 0 16px;
+  }
+  .navbar-left-group {
+    gap: 12px;
+  }
+  .navbar-right-group {
+    gap: 8px;
+  }
+  .navbar-cta-btn-v2 {
+    padding: 8px 12px;
+  }
+  .navbar-cta-btn-v2 span {
+    font-size: 13px;
+  }
+  .logo-img {
+    width: 140px !important;
+    height: auto !important;
+  }
+}

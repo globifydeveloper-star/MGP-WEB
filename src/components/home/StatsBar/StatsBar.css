@@ -73,3 +73,20 @@
     justify-content: center;
   }
 }
+
+@media (max-width: 480px) {
+  .stats-bar-ribbon {
+    padding: 1rem 0;
+  }
+  .stat-value {
+    font-size: 1.35rem;
+  }
+  .stat-icon-circle {
+    width: 40px;
+    height: 40px;
+  }
+  .stat-icon {
+    width: 18px;
+    height: 18px;
+  }
+}

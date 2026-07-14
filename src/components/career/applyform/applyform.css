@@ -205,3 +205,18 @@
     font-size: 1.75rem;
   }
 }
+
+@media (max-width: 480px) {
+  .career-form-section {
+    padding: 3rem 0 4rem;
+  }
+  .career-form-title {
+    font-size: 1.5rem;
+  }
+  .career-form {
+    padding: 1.5rem;
+  }
+  .career-form-subtitle {
+    margin-bottom: 1.5rem;
+  }
+}

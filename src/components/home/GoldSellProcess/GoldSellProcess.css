@@ -224,3 +224,19 @@
     font-size: 0.88rem;
   }
 }
+
+@media (max-width: 480px) {
+  .gsp-section {
+    padding: 3rem 0;
+  }
+  .gsp-heading {
+    font-size: 1.75rem;
+  }
+  .gsp-step-badge-num {
+    font-size: 1.5rem;
+  }
+  .gsp-step-body,
+  .gsp-step-desc-wrapper {
+    grid-template-columns: 44px 1fr;
+  }
+}

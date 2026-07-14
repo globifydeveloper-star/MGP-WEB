@@ -81,3 +81,16 @@
     font-size: 1.9rem;
   }
 }
+
+@media (max-width: 480px) {
+  .ns-slide-inner {
+    padding: 2.5rem 1rem;
+    gap: 1.5rem;
+  }
+  .ns-heading {
+    font-size: 1.6rem;
+  }
+  .ns-desc {
+    font-size: 0.9rem;
+  }
+}

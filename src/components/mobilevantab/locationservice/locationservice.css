@@ -130,3 +130,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .ls-section {
+    padding: 3rem 0;
+  }
+  .ls-title {
+    font-size: 1.7rem;
+  }
+  .ls-card {
+    padding: 1.5rem;
+  }
+}

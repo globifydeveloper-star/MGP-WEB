@@ -201,3 +201,15 @@
     height: 200px;
   }
 }
+
+@media (max-width: 480px) {
+  .mvh-container {
+    padding: 1.5rem 1rem;
+  }
+  .mvh-heading {
+    font-size: 1.75rem;
+  }
+  .mvh-desc {
+    font-size: 0.85rem;
+  }
+}
