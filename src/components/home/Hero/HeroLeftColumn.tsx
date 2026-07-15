@@ -1,41 +1,10 @@
-'use client';
-
 import React from 'react';
-import { motion } from 'framer-motion';
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 25 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring" as const,
-      stiffness: 90,
-      damping: 14
-    }
-  }
-};
 
 export default function HeroLeftColumn() {
   return (
-    <motion.div
-      className="hero-left-column-v2"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="hero-left-column-v2">
       {/* Trust Badge */}
-      <motion.div className="hero-trust-badge-v2" variants={itemVariants}>
+      <div className="hero-trust-badge-v2">
         <span className="trust-badge-circle-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <circle cx="12" cy="12" r="10" />
@@ -45,24 +14,24 @@ export default function HeroLeftColumn() {
         <span className="trust-badge-text-v2">
           Trusted by <span className="gold-highlight">5 Lakh+ Customers</span> Across India
         </span>
-      </motion.div>
+      </div>
 
       {/* Main Headline */}
-      <motion.h1 className="hero-main-title-v2" variants={itemVariants}>
+      <h1 className="hero-main-title-v2">
         Sell Your Gold.<br />
         <span className="hero-gold-text">Get Cash Today.</span>
-      </motion.h1>
+      </h1>
 
       {/* Subcopy Paragraph */}
-      <motion.div className="hero-subcopy-wrapper-v2" variants={itemVariants}>
+      <div className="hero-subcopy-wrapper-v2">
         <p className="hero-subcopy-text-v2">
           Get the True Market Value Old, Unused or pledged gold through a transparent
           process conducted entirely in front of you
         </p>
-      </motion.div>
+      </div>
 
       {/* CTA Buttons */}
-      <motion.div className="hero-cta-group-v2" variants={itemVariants}>
+      <div className="hero-cta-group-v2">
         <button
           className="btn-gold-gradient"
           onClick={() => {
@@ -81,7 +50,7 @@ export default function HeroLeftColumn() {
         >
           See how it works
         </button>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
