@@ -95,6 +95,7 @@
   position: relative;
   width: 800px;
   height: 350px;
+  z-index: 2;
   margin-left: -65px;
   margin-top: 150px;
   display: block;
