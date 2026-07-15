@@ -7,7 +7,7 @@ import HeroStats from './HeroStats';
 import './heroSlider.css';
 
 // How long each full-page slide stays on screen before crossfading to the next.
-const SLIDE_INTERVAL_MS = 6000;
+const SLIDE_INTERVAL_MS = 8000;
 const SLIDE_COUNT = 2;
 
 export default function HeroSlider() {
