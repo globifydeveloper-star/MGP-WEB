@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import './hero.css';
 import HeroLeftColumn from './HeroLeftColumn';
 import HeroRightColumn from './HeroRightColumn';
@@ -14,7 +15,7 @@ import heroWaveImg from '@/assets/images/hero-wave.png';
 import hm6Img01 from '@/assets/images/hm6-img01.png';
 
 // Star vector at the very start (top) of the curve - exact Figma position
-const CURVE_STAR = { left: 685, top: 125, width: 40.89, height: 42.56 };
+const CURVE_STAR = { left: 825, top: 125, width: 40.89, height: 42.56 };
 
 // Sparkle below the bottom icon (matches the Figma reference's twinkle
 // accent near the end of the arc).
@@ -32,9 +33,21 @@ const PATTERN_TILES = [
   { left: 965.56, top: 337.28, rotate: 0 },
 ];
 
+// Figma "Homepage V2" frame width plus margin that the model photo, gold rate card,
+// and curve/icons are pixel-pinned to. Using 1480 ensures the gold rate card
+// does not get clipped on the right.
+const HERO_CANVAS_DESIGN_WIDTH = 1480;
+const HERO_CANVAS_DESIGN_HEIGHT = 905;
+
 export default function Hero() {
+  // Below the design width/height, uniformly scale the pixel-pinned canvas down so
+  // it still fits the viewport instead of overflowing/clipping (e.g. the
+  // gold rate card running off-screen or vertically below the page).
+
+
   return (
-    <section className="hero-section-root-v2">
+    <section
+      className="hero-section-root-v2">
       {/*
         Rendered before .hero-container-v2 (and given a lower z-index) so it
         sits behind the headline/copy instead of drawing over it - it shares
@@ -55,18 +68,19 @@ export default function Hero() {
         <div className="hmv-curve-overlay">
           <svg className="hmv-curve-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
             <path
-              d="M45.3 19.6 A41.3 41.3 0 0 0 18.7 92.5" stroke="#EBAF20"
-              strokeWidth="1.5"
+              d="M40 8 A 46.86 46.86 0 0 0 27.5 86"
+              stroke="#EBAF20"
+              strokeWidth="0.5"
               fill="none"
               vectorEffect="non-scaling-stroke"
             />
           </svg>
 
-          <div className="hmv-star">
+          <div className="hmv-star" style={{ top: '6%', left: '35%' }}>
             <Image src={starImg} alt="" aria-hidden="true" width={32} height={32} />
           </div>
 
-          <div className="hmv-icon-group" style={{ top: '29%', left: '19%' }}>
+          <div className="hmv-icon-group" style={{ top: '24%', left: '14%' }}>
             <div className="curve-icon-badge hmv-badge">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="11" stroke="white" strokeWidth="1.5" />
@@ -83,7 +97,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="hmv-icon-group" style={{ top: '59%', left: '4%' }}>
+          <div className="hmv-icon-group" style={{ top: '50%', left: '8%' }}>
             <div className="curve-icon-badge hmv-badge">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M12 4V20" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
@@ -100,7 +114,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="hmv-icon-group" style={{ top: '89%', left: '15%' }}>
+          <div className="hmv-icon-group" style={{ top: '78%', left: '16%' }}>
             <div className="curve-icon-badge hmv-badge">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="2" y="7" width="20" height="12" rx="2" stroke="white" strokeWidth="1.5" />
@@ -125,7 +139,6 @@ export default function Hero() {
           />
         </div>
       </div>
-
       {/* Main Grid Content Container */}
       <div className="hero-container-v2">
         {/* Left Column (Branding & Copy) */}
@@ -198,6 +211,6 @@ export default function Hero() {
         />
       </div>
 
-    </section>
+    </section >
   );
 }

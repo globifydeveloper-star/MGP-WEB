@@ -188,8 +188,8 @@
 @media (max-width: 1024px) {
   .hero-slide-two-section {
     padding-top: 90px;
-    min-height: auto;
-    height: 100%;
+    min-height: 100vh;
+    height: auto;
   }
 
   .hero-slide-two-overlay {
@@ -239,6 +239,7 @@
   .hero-slide-two-title {
     font-size: 2.25rem;
   }
+
   .hero-slide-two-subcopy {
     font-size: 0.95rem;
   }

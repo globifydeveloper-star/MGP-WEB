@@ -17,12 +17,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  --hero-scale: clamp(0.55, calc(100vw / 1480), 1);
+  /* NEW */
 }
 
 /* Floating Gold Coin decoration */
 .hero-floating-coin-left {
   position: absolute;
-  left: -80.54px;
+  left: -60px;
   top: 180.16px;
   width: 80.04px;
   height: 84.26px;
@@ -76,17 +78,21 @@
   share z-index:2, and being later in the DOM .hero-figma-canvas would
   otherwise win the stacking tie and draw over the text.
 */
-.hero-wave-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1441px;
-  height: 905px;
-  pointer-events: none;
-  z-index: 2;
+@media (min-width: 1025px) {
+  .hero-right-visuals-wrapper {
+    display: block;
+    position: absolute;
+    top: -130px;
+    /* Offset the 130px padding-top of .hero-section-root-v2 */
+    left: -790px;
+    width: 1441px;
+    height: 905px;
+    pointer-events: none;
+    z-index: 2;
+    transform-origin: 790px top;
+    /* Scales based on viewport width vw and viewport height vh for robust cross-browser support */
+    transform: scale(min(1, calc(100vw / 1441), calc((100vh - 210px) / 905)));
+  }
 }
 
 /* Grid Container */
@@ -247,11 +253,13 @@
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 100%;
-  max-width: 1441px;
+  width: 1480px;
+  /* was 1441px */
   height: 905px;
   pointer-events: none;
   z-index: 2;
+  transform: scale(var(--hero-scale, 1));
+  transform-origin: top center;
 }
 
 .hero-mobile-visuals {
@@ -608,8 +616,9 @@
 @media (max-width: 1024px) {
   .hero-section-root-v2 {
     padding-top: 90px;
-    min-height: auto;
-    height: 100%;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
   }
 
   .hero-container-v2 {
@@ -696,6 +705,7 @@
     max-width: 450px;
     margin: 0 auto;
     right: 0;
+    transform: translateX(-30px);
   }
 
   .hmv-curve-svg {
@@ -849,11 +859,17 @@
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 100%;
-  max-width: 1441px;
+  width: 1480px;
+  /* was 1441px */
   height: 905px;
   pointer-events: none;
   z-index: 11;
-  /* Must match .hero-curve-wrapper's shift so the star stays attached to the curve */
-  transform: translateX(143px);
+  /*
+    scale() must come first (applied to the 143px shift, not just the box)
+    so this ends up shifted by 143px * hero-scale in final screen pixels -
+    matching .hero-curve-wrapper, whose own inline 143px shift is nested
+    inside .hero-figma-canvas and gets scaled by that ancestor as a whole.
+  */
+  transform: scale(var(--hero-scale, 1)) translateX(143px);
+  transform-origin: top center;
 }
