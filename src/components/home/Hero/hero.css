@@ -821,8 +821,8 @@
 .hero-curve-circle {
   position: absolute;
   border-radius: 9999px;
-  border: 1px solid #EBAF20;
-  background: rgba(255, 255, 255, 0.02);
+  border-left: 1px solid #EBAF20;
+  background: transparent;
   pointer-events: none;
 }
 
