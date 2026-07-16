@@ -1,0 +1,291 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import './SellGoldModal.css';
+
+interface SellGoldModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const STATE_CITIES: Record<string, string[]> = {
+  'Karnataka': ['Bengaluru', 'Mysore', 'Mangalore', 'Hubli'],
+  'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Trichy'],
+  'Kerala': ['Kochi', 'Trivandrum', 'Calicut', 'Thrissur'],
+  'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Kalyan'],
+  'Delhi': ['Delhi', 'New Delhi']
+};
+
+const PURITIES = [
+  '24K (99.9%)',
+  '22K (91.6%)',
+  '20K (83.3%)',
+  '18K (75.0%)',
+  'Below 18K'
+];
+
+export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    otp: '',
+    state: '',
+    city: '',
+    purity: '',
+    weight: ''
+  });
+
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCountdown, setOtpCountdown] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Close on ESC key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  // Reset form and submission status when modal is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        otp: '',
+        state: '',
+        city: '',
+        purity: '',
+        weight: ''
+      });
+      setOtpSent(false);
+      setOtpCountdown(0);
+      setIsSubmitted(false);
+    }
+  }, [isOpen]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+      // Clear city if state changes
+      ...(name === 'state' ? { city: '' } : {})
+    }));
+  };
+
+  const handleGetOtp = () => {
+    if (!formData.phone || formData.phone.length < 10) {
+      alert('Please enter a valid phone number');
+      return;
+    }
+    setOtpSent(true);
+    setOtpCountdown(30);
+    // Simulating sending OTP
+    alert(`OTP sent to +91 ${formData.phone}`);
+  };
+
+  // Countdown timer for OTP
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (otpCountdown > 0) {
+      timer = setTimeout(() => setOtpCountdown(prev => prev - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [otpCountdown]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Validate inputs
+    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.purity || !formData.weight) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    setIsSubmitted(true);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="sg-modal-overlay" onClick={onClose}>
+      <div className="sg-modal-container" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div className="sg-modal-header">
+          <h2 className="sg-modal-title">
+            {isSubmitted ? "Request Received" : "Sell Your Gold Instantly – Get in Touch"}
+          </h2>
+          <button className="sg-modal-close-btn" onClick={onClose} aria-label="Close modal">
+            &times;
+          </button>
+        </div>
+
+        {isSubmitted ? (
+          <div className="sg-success-view">
+            <div className="sg-success-animation">
+              <svg className="sg-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle className="sg-checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                <path className="sg-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+              </svg>
+            </div>
+            <h3 className="sg-success-title">Thank You!</h3>
+            <p className="sg-success-message">
+              Your details have been successfully submitted. We will reach out to you shortly.
+            </p>
+            <button type="button" className="sg-success-close-btn" onClick={onClose}>
+              Close Window
+            </button>
+          </div>
+        ) : (
+          <form className="sg-modal-form" onSubmit={handleSubmit}>
+            {/* Name */}
+            <div className="sg-form-group">
+              <input
+                type="text"
+                name="name"
+                placeholder="Name*"
+                required
+                className="sg-input"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Email */}
+            <div className="sg-form-group">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email*"
+                required
+                className="sg-input"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Phone with GET OTP */}
+            <div className="sg-form-row sg-phone-row">
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone*"
+                required
+                className="sg-input sg-phone-input"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="sg-otp-btn"
+                onClick={handleGetOtp}
+                disabled={otpCountdown > 0}
+              >
+                {otpCountdown > 0 ? `Resend (${otpCountdown}s)` : 'GET OTP'}
+              </button>
+            </div>
+
+            {/* OTP */}
+            <div className="sg-form-group">
+              <input
+                type="text"
+                name="otp"
+                placeholder="OTP*"
+                required
+                className="sg-input"
+                value={formData.otp}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* State and City (side by side) */}
+            <div className="sg-form-row sg-location-row">
+              <div className="sg-select-wrapper">
+                <select
+                  name="state"
+                  required
+                  className="sg-select"
+                  value={formData.state}
+                  onChange={handleChange}
+                >
+                  <option value="" disabled>Select State</option>
+                  {Object.keys(STATE_CITIES).map(state => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+                <span className="sg-select-chevron"></span>
+              </div>
+
+              <div className="sg-select-wrapper">
+                <select
+                  name="city"
+                  required
+                  disabled={!formData.state}
+                  className="sg-select"
+                  value={formData.city}
+                  onChange={handleChange}
+                >
+                  <option value="" disabled>Select City</option>
+                  {formData.state && STATE_CITIES[formData.state].map(city => (
+                    <option key={city} value={city}>{city}</option>
+                  ))}
+                </select>
+                <span className="sg-select-chevron"></span>
+              </div>
+            </div>
+
+            {/* Gold Purity */}
+            <div className="sg-form-group">
+              <div className="sg-select-wrapper">
+                <select
+                  name="purity"
+                  required
+                  className="sg-select"
+                  value={formData.purity}
+                  onChange={handleChange}
+                >
+                  <option value="" disabled>Gold Purity</option>
+                  {PURITIES.map(purity => (
+                    <option key={purity} value={purity}>{purity}</option>
+                  ))}
+                </select>
+                <span className="sg-select-chevron"></span>
+              </div>
+            </div>
+
+            {/* Gold Weight */}
+            <div className="sg-form-group">
+              <input
+                type="number"
+                step="0.01"
+                name="weight"
+                placeholder="Gold Weight (e.g., 15.5)"
+                required
+                className="sg-input"
+                value={formData.weight}
+                onChange={handleChange}
+              />
+              <span className="sg-input-helper">Enter total weight in grams (e.g., 15.5g)</span>
+            </div>
+
+            {/* Submit Button */}
+            <button type="submit" className="sg-submit-btn">
+              GET MY OFFER
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}

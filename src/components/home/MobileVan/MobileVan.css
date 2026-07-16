@@ -273,3 +273,17 @@
     height: 45px;
   }
 }
+
+@media (max-width: 480px) {
+  .mobile-van-title .title-line-light,
+  .mobile-van-title .title-line-bold {
+    font-size: 1.65rem;
+  }
+  .mobile-van-desc {
+    font-size: 0.85rem;
+  }
+  .van-features-row {
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -11,7 +11,8 @@
       "Read(//tmp/**)",
       "Bash(tasklist //FI \"IMAGENAME eq node.exe\")",
       "Bash(netstat -ano)",
-      "Bash(chromium-cli --help)"
+      "Bash(chromium-cli --help)",
+      "Bash(command -v chromium-cli)"
     ]
   }
 }

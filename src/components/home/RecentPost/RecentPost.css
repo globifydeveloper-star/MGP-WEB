@@ -113,3 +113,18 @@
     font-size: 1.85rem;
   }
 }
+
+@media (max-width: 480px) {
+  .recent-post-section {
+    padding: 3rem 0 4rem 0;
+  }
+  .recent-post-title {
+    font-size: 1.6rem;
+  }
+  .recent-post-body {
+    padding: 1.25rem;
+  }
+  .recent-post-card-title {
+    font-size: 0.95rem;
+  }
+}

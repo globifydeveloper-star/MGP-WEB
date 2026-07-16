@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 import Hero from '@/components/home/Hero/Hero';
 import HeroSlideTwo from './HeroSlideTwo';
+import HeroStats from './HeroStats';
 import './heroSlider.css';
 
 // How long each full-page slide stays on screen before crossfading to the next.
-const SLIDE_INTERVAL_MS = 6000;
+const SLIDE_INTERVAL_MS = 8000;
 const SLIDE_COUNT = 2;
 
 export default function HeroSlider() {
@@ -20,13 +21,16 @@ export default function HeroSlider() {
   }, []);
 
   return (
-    <div className="hero-slider-stack">
-      <div className={`hero-slider-slide${activeSlide === 0 ? ' is-active' : ''}`}>
-        <Hero />
+    <>
+      <div className="hero-slider-stack">
+        <div className={`hero-slider-slide${activeSlide === 0 ? ' is-active' : ''}`}>
+          <Hero />
+        </div>
+        <div className={`hero-slider-slide${activeSlide === 1 ? ' is-active' : ''}`}>
+          <HeroSlideTwo />
+        </div>
       </div>
-      <div className={`hero-slider-slide${activeSlide === 1 ? ' is-active' : ''}`}>
-        <HeroSlideTwo />
-      </div>
-    </div>
+      <HeroStats />
+    </>
   );
 }

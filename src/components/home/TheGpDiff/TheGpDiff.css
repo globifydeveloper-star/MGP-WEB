@@ -154,3 +154,18 @@
     font-size: 2rem;
   }
 }
+
+@media (max-width: 480px) {
+  .gp-diff-section {
+    padding: 3rem 0;
+  }
+  .gp-diff-title {
+    font-size: 1.7rem;
+  }
+  .gp-diff-card {
+    padding: 0 1rem 1.5rem 1rem;
+  }
+  .gp-diff-card-title {
+    font-size: 1.05rem;
+  }
+}

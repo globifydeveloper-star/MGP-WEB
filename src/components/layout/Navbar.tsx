@@ -6,19 +6,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import logoImg from '@/assets/images/logo.png';
+import SellGoldModal from './SellGoldModal';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
   { label: 'Branches', href: '#' },
-  { label: 'Testimonials', href: '#' },
   { label: 'Gold Rate', href: '#' },
   { label: 'Career', href: '/career' },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -63,7 +64,7 @@ export default function Navbar() {
             </svg>
             <div className="navbar-phone-number">+91 9037 921 192</div>
           </a>
-          <button className="navbar-cta-btn-v2">
+          <button className="navbar-cta-btn-v2" onClick={() => setIsSellGoldOpen(true)}>
             <span>Sell Your Gold</span>
           </button>
 
@@ -97,6 +98,8 @@ export default function Navbar() {
           ))}
         </nav>
       </div>
+
+      <SellGoldModal isOpen={isSellGoldOpen} onClose={() => setIsSellGoldOpen(false)} />
     </header>
   );
 }     

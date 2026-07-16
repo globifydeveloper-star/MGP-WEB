@@ -287,3 +287,14 @@
     gap: 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  .cert-box {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+  }
+  .logo-img {
+    width: 180px;
+  }
+}

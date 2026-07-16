@@ -1,9 +1,18 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import './hero.css';
 import sparkle2Img from '@/assets/images/sparkle2.png';
 
 export default function HeroGoldRateCard() {
+  const handleScrollToForm = () => {
+    const element = document.getElementById('gold-value-form');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="hero-gold-rate-card-v2">
       {/*
@@ -72,7 +81,7 @@ export default function HeroGoldRateCard() {
         <span>₹9,185</span>
         <span className="rate-card-price-unit">/g</span>
       </div>
-      <button className="btn-rate-card-cta-v2">
+      <button className="btn-rate-card-cta-v2" onClick={handleScrollToForm}>
         <span>Check Full rate</span>
         <span className="rate-card-cta-arrow">&gt;</span>
       </button>

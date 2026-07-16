@@ -265,3 +265,19 @@
     height: 38px;
   }
 }
+
+@media (max-width: 480px) {
+  .feedback-section {
+    padding: 3rem 0;
+  }
+  .feedback-title-main {
+    font-size: 1.6rem;
+  }
+  .feedback-card {
+    flex-basis: 95%;
+    padding: 1.5rem 1.25rem;
+  }
+  .feedback-slider-wrap {
+    padding: 0.5rem 1rem 1rem 1rem;
+  }
+}

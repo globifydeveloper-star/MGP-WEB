@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import './hero.css';
 import HeroLeftColumn from './HeroLeftColumn';
 import HeroRightColumn from './HeroRightColumn';
@@ -11,9 +12,10 @@ import coinImg from '@/assets/images/COIN.png';
 import sparkleImg from '@/assets/images/sparkle.png';
 import starImg from '@/assets/images/Star.png';
 import heroWaveImg from '@/assets/images/hero-wave.png';
+import hm6Img01 from '@/assets/images/hm6-img01.png';
 
 // Star vector at the very start (top) of the curve - exact Figma position
-const CURVE_STAR = { left: 685, top: 125, width: 40.89, height: 42.56 };
+const CURVE_STAR = { left: 825, top: 125, width: 40.89, height: 42.56 };
 
 // Sparkle below the bottom icon (matches the Figma reference's twinkle
 // accent near the end of the arc).
@@ -31,9 +33,21 @@ const PATTERN_TILES = [
   { left: 965.56, top: 337.28, rotate: 0 },
 ];
 
+// Figma "Homepage V2" frame width plus margin that the model photo, gold rate card,
+// and curve/icons are pixel-pinned to. Using 1480 ensures the gold rate card
+// does not get clipped on the right.
+const HERO_CANVAS_DESIGN_WIDTH = 1480;
+const HERO_CANVAS_DESIGN_HEIGHT = 905;
+
 export default function Hero() {
+  // Below the design width/height, uniformly scale the pixel-pinned canvas down so
+  // it still fits the viewport instead of overflowing/clipping (e.g. the
+  // gold rate card running off-screen or vertically below the page).
+
+
   return (
-    <section className="hero-section-root-v2">
+    <section
+      className="hero-section-root-v2">
       {/*
         Rendered before .hero-container-v2 (and given a lower z-index) so it
         sits behind the headline/copy instead of drawing over it - it shares
@@ -49,6 +63,82 @@ export default function Hero() {
         />
       </div>
 
+      {/* Mobile-only visual layout */}
+      <div className="hero-mobile-visuals">
+        <div className="hmv-curve-overlay">
+          <svg className="hmv-curve-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path
+              d="M40 8 A 46.86 46.86 0 0 0 27.5 86"
+              stroke="#EBAF20"
+              strokeWidth="0.5"
+              fill="none"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+
+          <div className="hmv-star" style={{ top: '6%', left: '35%' }}>
+            <Image src={starImg} alt="" aria-hidden="true" width={32} height={32} />
+          </div>
+
+          <div className="hmv-icon-group" style={{ top: '24%', left: '14%' }}>
+            <div className="curve-icon-badge hmv-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="11" stroke="white" strokeWidth="1.5" />
+                <path d="M8 7.5H16" stroke="#EBAF20" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M8 11H16" stroke="#EBAF20" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M8 7.5C10.5 7.5 12.5 9 12.5 11C12.5 13 10.5 14.5 8 14.5" stroke="#EBAF20" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M8 14.5L14 18" stroke="#EBAF20" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </div>
+            <div className="hmv-label">
+              <span className="label-text-white hmv-text">Get the</span>
+              <span className="label-text-gold hmv-text">Best Value</span>
+              <span className="label-text-white hmv-text">for your gold</span>
+            </div>
+          </div>
+
+          <div className="hmv-icon-group" style={{ top: '50%', left: '8%' }}>
+            <div className="curve-icon-badge hmv-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 4V20" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M6 20H18" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M4 6H20" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M4 6L2 11C2 12.6569 3.34315 14 5 14C6.65685 14 8 12.6569 8 11L4 6Z" stroke="#EBAF20" strokeWidth="1.5" strokeLinejoin="round" />
+                <path d="M20 6L16 11C16 12.6569 17.3431 14 19 14C20.6569 14 22 12.6569 22 11L20 6Z" stroke="#EBAF20" strokeWidth="1.5" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <div className="hmv-label">
+              <span className="label-text-gold hmv-text">Transparent</span>
+              <span className="label-text-white hmv-text">Gold evaluation</span>
+              <span className="label-text-white hmv-text">process</span>
+            </div>
+          </div>
+
+          <div className="hmv-icon-group" style={{ top: '78%', left: '16%' }}>
+            <div className="curve-icon-badge hmv-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="7" width="20" height="12" rx="2" stroke="white" strokeWidth="1.5" />
+                <circle cx="12" cy="13" r="3" stroke="#EBAF20" strokeWidth="1.5" />
+                <path d="M5 10V10.5" stroke="#EBAF20" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M19 15.5V16" stroke="#EBAF20" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </div>
+            <div className="hmv-label">
+              <span className="label-text-gold hmv-text">Instant Payment</span>
+              <span className="label-text-white hmv-text">after valuation</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="hmv-image-wrapper">
+          <Image
+            src={hm6Img01}
+            alt="Muthoot Goldpoint Customer"
+            className="hmv-model-img"
+            priority
+          />
+        </div>
+      </div>
       {/* Main Grid Content Container */}
       <div className="hero-container-v2">
         {/* Left Column (Branding & Copy) */}
@@ -121,85 +211,6 @@ export default function Hero() {
         />
       </div>
 
-      {/* Stats Ribbon at the very bottom */}
-      <div className="hero-stats-ribbon-v2">
-        <div className="hero-stats-container-v2">
-          {/* Stat 1: Branches */}
-          <div className="hero-stat-item-v2">
-            <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="4" y1="9" x2="9" y2="4" />
-                <line x1="9" y1="4" x2="16" y2="5" />
-                <line x1="4" y1="9" x2="11" y2="13" />
-                <line x1="11" y1="13" x2="16" y2="5" />
-                <line x1="11" y1="13" x2="14" y2="20" />
-                <line x1="16" y1="5" x2="20" y2="12" />
-                <line x1="14" y1="20" x2="20" y2="12" />
-                <circle cx="4" cy="9" r="2.5" fill="currentColor" />
-                <circle cx="9" cy="4" r="2.5" fill="currentColor" />
-                <circle cx="16" cy="5" r="2.5" fill="currentColor" />
-                <circle cx="11" cy="13" r="2.5" fill="currentColor" />
-                <circle cx="20" cy="12" r="2.5" fill="currentColor" />
-                <circle cx="14" cy="20" r="2.5" fill="currentColor" />
-              </svg>
-            </div>
-            <div className="hero-stat-info-v2">
-              <span className="hero-stat-metric-value">4,200</span>
-              <span className="hero-stat-metric-label">Branches across India</span>
-            </div>
-          </div>
-
-          {/* Stat 2: Legacy */}
-          <div className="hero-stat-item-v2">
-            <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <polygon points="12 7.5 13.5 10.5 17 11 14.5 13.3 15.2 16.7 12 15 8.8 16.7 9.5 13.3 7 11 10.5 10.5" fill="currentColor" />
-                <path d="M7 10a3 3 0 0 0 0 4M6 8a5 5 0 0 0 0 8" />
-                <path d="M17 10a3 3 0 0 1 0 4M18 8a5 5 0 0 1 0 8" />
-              </svg>
-            </div>
-            <div className="hero-stat-info-v2">
-              <span className="hero-stat-metric-value">133+</span>
-              <span className="hero-stat-metric-label">Years of legacy</span>
-            </div>
-          </div>
-
-          {/* Stat 3: Employees */}
-          <div className="hero-stat-item-v2">
-            <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="7" r="3" />
-                <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
-                <circle cx="6" cy="9" r="2.5" />
-                <path d="M2 19v-1a3 3 0 0 1 3-3h1" />
-                <circle cx="18" cy="9" r="2.5" />
-                <path d="M18 15h1a3 3 0 0 1 3 1v1" />
-              </svg>
-            </div>
-            <div className="hero-stat-info-v2">
-              <span className="hero-stat-metric-value">24,000</span>
-              <span className="hero-stat-metric-label">Employees serving millions of customer</span>
-            </div>
-          </div>
-
-          {/* Stat 4: Customers */}
-          <div className="hero-stat-item-v2">
-            <div className="hero-stat-circle-icon">
-              <svg className="hero-stat-item-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m11 17 2 2a1 1 0 0 0 1.4 0l4-4a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.4 1.4" />
-                <path d="m18 10.1 1.4-1.4a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.4 1.4a1 1 0 0 0 0 1.4l1.4 1.4" />
-                <path d="m3 21 9-9" />
-                <path d="m5 13 4-4" />
-              </svg>
-            </div>
-            <div className="hero-stat-info-v2">
-              <span className="hero-stat-metric-value">1,00,000</span>
-              <span className="hero-stat-metric-label">Customers per day</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </section >
   );
 }

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './GoldValueForm.css';
+import LocationPopup from './LocationPopup';
 
 export default function GoldValueForm() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function GoldValueForm() {
     purity: '',
     weight: ''
   });
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,7 +20,11 @@ export default function GoldValueForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire up API submission
+    if (!formData.name || !formData.phone || !formData.purity || !formData.weight) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    setIsLocationModalOpen(true);
   };
 
   return (
@@ -150,6 +156,20 @@ export default function GoldValueForm() {
           </div>
         </div>
       </div>
+      <LocationPopup
+        isOpen={isLocationModalOpen}
+        onClose={() => setIsLocationModalOpen(false)}
+        clientData={formData}
+        onSuccess={() => {
+          // Reset form on successful estimate submission
+          setFormData({
+            name: '',
+            phone: '',
+            purity: '',
+            weight: ''
+          });
+        }}
+      />
     </section>
   );
 }

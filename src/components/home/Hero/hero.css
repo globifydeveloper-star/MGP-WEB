@@ -17,12 +17,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  --hero-scale: clamp(0.55, calc(100vw / 1480), 1);
+  /* NEW */
 }
 
 /* Floating Gold Coin decoration */
 .hero-floating-coin-left {
   position: absolute;
-  left: -80.54px;
+  left: -60px;
   top: 180.16px;
   width: 80.04px;
   height: 84.26px;
@@ -76,17 +78,21 @@
   share z-index:2, and being later in the DOM .hero-figma-canvas would
   otherwise win the stacking tie and draw over the text.
 */
-.hero-wave-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1441px;
-  height: 905px;
-  pointer-events: none;
-  z-index: 2;
+@media (min-width: 1025px) {
+  .hero-right-visuals-wrapper {
+    display: block;
+    position: absolute;
+    top: -130px;
+    /* Offset the 130px padding-top of .hero-section-root-v2 */
+    left: -790px;
+    width: 1441px;
+    height: 905px;
+    pointer-events: none;
+    z-index: 2;
+    transform-origin: 790px top;
+    /* Scales based on viewport width vw and viewport height vh for robust cross-browser support */
+    transform: scale(min(1, calc(100vw / 1441), calc((100vh - 210px) / 905)));
+  }
 }
 
 /* Grid Container */
@@ -247,11 +253,17 @@
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 100%;
-  max-width: 1441px;
+  width: 1480px;
+  /* was 1441px */
   height: 905px;
   pointer-events: none;
   z-index: 2;
+  transform: scale(var(--hero-scale, 1));
+  transform-origin: top center;
+}
+
+.hero-mobile-visuals {
+  display: none;
 }
 
 /* Model Photo Wrapper */
@@ -371,11 +383,20 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .hero-gold-rate-card-v2:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(235, 175, 32, 0.15), 0 12px 36px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 16px 40px rgba(235, 175, 32, 0.25), 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+.hero-gold-rate-card-v2:hover .gold-beam-rect {
+  filter: drop-shadow(0 0 12px rgba(235, 175, 32, 0.95)) drop-shadow(0 0 28px rgba(235, 175, 32, 0.6)) !important;
+  stroke-width: 2.5px;
+  opacity: 1;
 }
 
 /* Animated Golden Beam overlay traversing the border */
@@ -394,6 +415,21 @@
   stroke-width: 2px;
   filter: drop-shadow(0 0 3px rgba(235, 175, 32, 0.4)) drop-shadow(0 0 6px rgba(235, 175, 32, 0.2));
   opacity: 0.9;
+  animation: gold-card-glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes gold-card-glow-pulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px rgba(235, 175, 32, 0.35)) drop-shadow(0 0 8px rgba(235, 175, 32, 0.15));
+    opacity: 0.75;
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px rgba(235, 175, 32, 0.75)) drop-shadow(0 0 22px rgba(235, 175, 32, 0.4));
+    opacity: 1;
+  }
 }
 
 .rate-card-header-v2 {
@@ -604,6 +640,9 @@
 @media (max-width: 1024px) {
   .hero-section-root-v2 {
     padding-top: 90px;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
   }
 
   .hero-container-v2 {
@@ -637,9 +676,7 @@
   }
 
   .hero-right-column-v2 {
-    height: 480px;
-    justify-content: center;
-    align-items: flex-end;
+    display: none;
   }
 
   /*
@@ -655,9 +692,88 @@
 
   .hero-floating-badges-container {
     display: none;
-    /* Hide floating badge nodes or stack below */
   }
 
+  .hero-mobile-visuals {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-top: 0.5rem;
+    height: 330px;
+  }
+
+  .hmv-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hmv-model-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  }
+
+  .hmv-curve-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    max-width: 320px;
+    margin: 0 auto;
+    right: 0;
+    transform: translateX(-15px);
+  }
+
+  .hmv-curve-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .hmv-star {
+    position: absolute;
+    top: 2%;
+    left: 30%;
+  }
+
+  .hmv-icon-group {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: auto;
+  }
+
+  .hmv-badge {
+    width: 42px;
+    height: 42px;
+    padding: 6px;
+    background: #06132E;
+  }
+
+  .hmv-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hmv-text {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
 }
 
 @media (max-width: 640px) {
@@ -666,23 +782,60 @@
   }
 
   .hero-cta-group-v2 {
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
   }
 
   .btn-gold-gradient,
   .btn-white-outline-v2 {
-    width: 100%;
-    padding: 0.95rem;
+    flex: 1;
+    max-width: 200px;
+    padding: 0.85rem 0.5rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
   }
 
   .hero-stats-container-v2 {
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 1rem;
   }
 
   .hero-stat-item-v2 {
     flex: 1 1 auto;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .hero-stat-circle-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hero-stat-item-icon-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero-stat-metric-value {
+    font-size: 1.15rem;
+  }
+
+  .hero-stat-metric-label {
+    font-size: 0.7rem;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-main-title-v2 {
+    font-size: 2.25rem;
+  }
+
+  .hero-stat-metric-value {
+    font-size: 1.5rem;
   }
 }
 
@@ -705,13 +858,143 @@
   box-sizing: border-box;
 }
 
-/* Giant circle whose left arc, traced behind the icons, forms the curve */
-.hero-curve-circle {
+/* SVG path segment that forms the curve. It features an instant CSS draw-in animation and a pulsing neon gold glow. */
+.hero-curve-svg-path {
+  stroke-dasharray: 1571;
+  stroke-dashoffset: 1571;
+  filter: drop-shadow(0 0 8px rgba(235, 175, 32, 0.55)) drop-shadow(0 0 20px rgba(235, 175, 32, 0.25));
+  animation: draw-arc 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards, line-glow-pulse 4s ease-in-out infinite 0.5s;
+}
+
+@keyframes draw-arc {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* CSS reveals for left and right columns (loads instantly on refresh, bypassing JS lag) */
+@keyframes hero-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-badge-scale-up {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-label-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Left column reveal timings */
+.hero-trust-badge-v2,
+.hero-main-title-v2,
+.hero-subcopy-wrapper-v2,
+.hero-cta-group-v2 {
+  opacity: 0;
+  animation: hero-fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-trust-badge-v2 { animation-delay: 0.02s; }
+.hero-main-title-v2 { animation-delay: 0.08s; }
+.hero-subcopy-wrapper-v2 { animation-delay: 0.14s; }
+.hero-cta-group-v2 { animation-delay: 0.20s; }
+
+/* Right column curve badges, labels and star reveals */
+.curve-icon-position {
+  opacity: 0;
+  animation: hero-badge-scale-up 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.curve-text-label {
+  opacity: 0;
+  animation: hero-label-slide-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.small-star {
+  opacity: 0;
+  animation: hero-badge-scale-up 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.1s;
+}
+
+/* Stagger delays synchronized with the gold line sweep */
+.icon-top { animation-delay: 0.15s; }
+.label-top { animation-delay: 0.25s; }
+
+.icon-middle { animation-delay: 0.30s; }
+.label-middle { animation-delay: 0.40s; }
+
+.icon-bottom { animation-delay: 0.45s; }
+.label-bottom { animation-delay: 0.55s; }
+
+@keyframes line-glow-pulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(235, 175, 32, 0.45)) drop-shadow(0 0 12px rgba(235, 175, 32, 0.2));
+    stroke: rgba(235, 175, 32, 0.35);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px rgba(235, 175, 32, 0.8)) drop-shadow(0 0 28px rgba(235, 175, 32, 0.45));
+    stroke: rgba(235, 175, 32, 0.75);
+  }
+}
+
+.hero-curve-glow-orbit {
   position: absolute;
-  border-radius: 9999px;
-  border: 1px solid #EBAF20;
-  background: rgba(255, 255, 255, 0.02);
+  border-radius: 50%;
   pointer-events: none;
+}
+
+.hero-curve-glow-dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  transform: translate(0, -180%);
+  border-radius: 50%;
+  background: #FFF3D6;
+  box-shadow:
+    0 0 6px 2px #FFF3D6,
+    0 0 14px 5px rgba(235, 175, 32, 0.9),
+    0 0 28px 10px rgba(235, 175, 32, 0.5);
+  animation: curve-glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes curve-glow-pulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
 }
 
 /* Sparkle flare graphics (sparkle.png / sparkle2.png / Star.png) on the curve */
@@ -737,11 +1020,17 @@
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 100%;
-  max-width: 1441px;
+  width: 1480px;
+  /* was 1441px */
   height: 905px;
   pointer-events: none;
   z-index: 11;
-  /* Must match .hero-curve-wrapper's shift so the star stays attached to the curve */
-  transform: translateX(143px);
+  /*
+    scale() must come first (applied to the 143px shift, not just the box)
+    so this ends up shifted by 143px * hero-scale in final screen pixels -
+    matching .hero-curve-wrapper, whose own inline 143px shift is nested
+    inside .hero-figma-canvas and gets scaled by that ancestor as a whole.
+  */
+  transform: scale(var(--hero-scale, 1)) translateX(143px);
+  transform-origin: top center;
 }

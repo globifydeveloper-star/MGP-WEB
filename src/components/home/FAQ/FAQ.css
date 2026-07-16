@@ -141,3 +141,18 @@
     padding: 1.25rem 1.25rem;
   }
 }
+
+@media (max-width: 480px) {
+  .faq2-section {
+    padding: 3rem 0;
+  }
+  .faq2-title {
+    font-size: 1.6rem;
+  }
+  .faq2-question-text {
+    font-size: 0.85rem;
+  }
+  .faq2-answer-content p {
+    font-size: 0.85rem;
+  }
+}
