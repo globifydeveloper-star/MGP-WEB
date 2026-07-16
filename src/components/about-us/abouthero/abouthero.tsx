@@ -68,15 +68,15 @@ export default function AboutHero({ onExploreClick }: AboutHeroProps) {
                   <path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z" />
                 </svg>
               </span>
-              Built on Trust, Driven by Values
+              A Muthoot Exim (P) Ltd. Enterprise
             </span>
 
             <h1 className="about-hero-title">
-              A Legacy of <span className="gold-text">Trust, Truth &amp; Tradition</span>
+              Muthoot Gold Point — Precision You Can <span className="gold-text">Trust</span>
             </h1>
 
             <p className="about-hero-desc">
-              The Muthoot Pappachan Group, with a reputation that has been shaped over decades with high quality practices, total customer satisfaction and steady growth, spanning decades in the field of business, is a legacy built on God-given values of trust, truth, transparency and tradition and has become one of the top business houses today by the grace of God.
+              Muthoot Gold Point is a unit of Muthoot Exim (P) Ltd., the precious metal vertical of the Muthoot Pappachan Group, specialising in innovative products and offerings in the precious metal space. We are India&apos;s first national-level organised sector player in gold recycling — in sync with the Government of India&apos;s vision for the Indian gold industry — giving customers access to quality products at fair, transparent, and scientifically tested prices.
             </p>
 
             <ul className="about-hero-checklist">
@@ -86,7 +86,7 @@ export default function AboutHero({ onExploreClick }: AboutHeroProps) {
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </span>
-                133+ years in business
+                133+ years of Muthoot Pappachan Group legacy
               </li>
               <li>
                 <span className="check-icon" aria-hidden="true">
@@ -94,7 +94,7 @@ export default function AboutHero({ onExploreClick }: AboutHeroProps) {
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </span>
-                One of India&apos;s most trusted names
+                India&apos;s first organised-sector gold recycler
               </li>
             </ul>
 

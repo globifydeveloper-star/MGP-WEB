@@ -9,6 +9,7 @@ import MuthootBlue from './muthootblue/muthootblue';
 import History from './history/history';
 import StandToday from './standtoday/standtoday';
 import Philanthropy from './philanthropy/philanthropy';
+import FAQ from '@/components/home/FAQ/FAQ';
 
 export default function AboutUsPage() {
   const scrollToSection = (id: string) => {
@@ -44,9 +45,13 @@ export default function AboutUsPage() {
 
         {/* 7. Philanthropy & HEEL program details */}
         <Philanthropy />
+
+        {/* 8. Frequently Asked Questions */}
+        <FAQ />
+
       </main>
 
-      {/* 8. Footer Section */}
+      {/* 9. Footer Section */}
       <Footer />
     </>
   );

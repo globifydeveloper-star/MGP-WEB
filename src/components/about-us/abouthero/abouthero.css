@@ -205,8 +205,7 @@
 .about-hero-brand-mark {
   width: auto;
   height: 90px;
-  margin-left: 200px;
-  margin-top: -50px;
+  margin-left: auto;
 }
 
 /* Responsive adjustments */
@@ -236,6 +235,10 @@
     justify-content: center;
   }
 
+  .about-hero-brand-mark {
+    margin-left: 0;
+  }
+
   .about-hero-img-wrapper {
     max-width: 360px;
   }
@@ -258,5 +261,20 @@
   .about-hero-footer-row {
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  .about-hero-img-wrapper {
+    max-width: 300px;
+  }
+
+  .experience-badge {
+    right: 50%;
+    bottom: -1rem;
+    min-width: 130px;
+    padding: 0.85rem 1rem;
+  }
+
+  .badge-num {
+    font-size: 1.35rem;
   }
 }
