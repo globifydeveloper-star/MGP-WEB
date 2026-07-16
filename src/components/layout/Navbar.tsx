@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
   { label: 'Branches', href: '#' },
+  { label: 'Testimonials', href: '#' },
   { label: 'Gold Rate', href: '#' },
   { label: 'Career', href: '/career' },
 ];
@@ -31,8 +32,8 @@ export default function Navbar() {
             <Image
               src={logoImg}
               alt="GOLDPOINT - We Buy Gold"
-              width={183.23}
-              height={49.88}
+              width={220}
+              height={60}
               priority
               style={{ display: 'block' }}
             />
@@ -56,7 +57,7 @@ export default function Navbar() {
             <svg
               viewBox="0 0 24 24"
               fill="white"
-              style={{ width: '28px', height: '28px', display: 'block', flexShrink: 0 }}
+              style={{ width: '32px', height: '32px', display: 'block', flexShrink: 0 }}
             >
               <path d="M20 15.5c-1.25 0-2.45-.2-3.6-.6-.35-.1-.75-.02-1 .25l-2.2 2.2c-2.83-1.44-5.15-3.76-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1-.37-1.15-.57-2.35-.57-3.6 0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z" />
               <path d="M15 3c3.31 0 6 2.69 6 6" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />

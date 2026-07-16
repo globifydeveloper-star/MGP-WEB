@@ -125,13 +125,13 @@
 /* V2 Navbar Styles matching Figma design */
 .navbar-header-v2 {
   width: 100%;
-  height: 120px;
+  height: 144px;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10;
-  background-color: #111A41;
+  background-color: #1E1B4B;
   background-image: url('../../assets/images/NAVBAR BG.png');
   background-repeat: repeat;
   background-size: auto;
@@ -142,7 +142,7 @@
 
 .navbar-container-v2 {
   width: 100%;
-  max-width: 1345.93px;
+  max-width: 1732px;
   margin: 0 auto;
   padding: 0 24px;
   height: 100%;
@@ -160,10 +160,10 @@
 }
 
 .navbar-nav-v2 {
-  width: 648.45px;
-  justify-content: space-between;
-  align-items: center;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
 }
 
 .navbar-nav-v2 a {
@@ -171,19 +171,20 @@
   display: flex;
   flex-direction: column;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .navbar-nav-v2 a.active {
-  color: #EBAF20;
+  color: #FBBF24;
+  font-weight: 600;
 }
 
 .navbar-nav-v2 a:hover {
-  color: #EBAF20;
+  color: #FBBF24;
 }
 
 .navbar-right-group {
@@ -209,16 +210,18 @@
   display: flex;
   flex-direction: column;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
   font-weight: 500;
   white-space: nowrap;
 }
 
 .navbar-cta-btn-v2 {
-  padding: 14px 12px;
-  background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
-  border-radius: 8px;
+  width: 208px;
+  height: 44px;
+  padding: 0;
+  background: linear-gradient(180deg, #FBBF24 0%, #FDE68A 50%, #F59E0B 100%);
+  border-radius: 9.59px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -234,7 +237,7 @@
 .navbar-cta-btn-v2 span {
   text-align: center;
   color: black;
-  font-size: 16px;
+  font-size: 20px;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
   font-weight: 600;
 }
@@ -337,7 +340,7 @@
   color: #EBAF20;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1536px) {
   .navbar-mobile-toggle {
     display: flex;
   }
@@ -346,7 +349,7 @@
     display: none;
     flex-direction: column;
     position: fixed;
-    top: 120px;
+    top: 144px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -356,7 +359,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     z-index: 99;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 144px);
     overflow-y: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
@@ -401,7 +404,8 @@
   }
 
   .navbar-cta-btn-v2 {
-    padding: 10px 16px;
+    width: 168px;
+    height: 40px;
   }
 
   .navbar-cta-btn-v2 span {
@@ -426,18 +430,24 @@
   .navbar-container-v2 {
     padding: 0 16px;
   }
+
   .navbar-left-group {
     gap: 12px;
   }
+
   .navbar-right-group {
     gap: 8px;
   }
+
   .navbar-cta-btn-v2 {
-    padding: 8px 12px;
+    width: 140px;
+    height: 38px;
   }
+
   .navbar-cta-btn-v2 span {
     font-size: 13px;
   }
+
   .logo-img {
     width: 140px !important;
     height: auto !important;

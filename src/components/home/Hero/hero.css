@@ -10,7 +10,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(135deg, #06132E 0%, #0F224C 55%, #163376 100%);
+  background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
   overflow: hidden;
   padding-top: 130px;
   /* Spacer below sticky/absolute Navbar */
@@ -144,11 +144,11 @@
 }
 
 .trust-badge-text-v2 {
-  font-size: 0.88rem;
+  font-family: 'Montserrat', var(--font-montserrat), sans-serif;
+  font-size: 23.32px;
   font-weight: 500;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
+  color: #FFFFFF;
 }
 
 .trust-badge-text-v2 .gold-highlight {
@@ -159,8 +159,8 @@
 /* Headlines */
 .hero-main-title-v2 {
   font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: 4.25rem;
-  font-weight: 800;
+  font-size: 75px;
+  font-weight: 400;
   line-height: 1.1;
   color: #FFFFFF;
   margin-bottom: 1.5rem;
@@ -168,7 +168,8 @@
 }
 
 .hero-gold-text {
-  background: linear-gradient(180deg, #9A6410 0%, #C98A18 25%, #F0C24E 65%, #FFE8A3 100%);
+  font-weight: 700;
+  background: linear-gradient(169.26deg, #E39E23 5.27%, #EEB648 40.63%, #FFE4A6 75.98%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -181,9 +182,11 @@
 }
 
 .hero-subcopy-text-v2 {
-  font-size: 1.05rem;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-size: 25.36px;
+  font-weight: 300;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
+  color: #FFFFFF;
   max-width: 520px;
 }
 
@@ -198,14 +201,19 @@
   font-family: 'Gilroy', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 0.95rem;
-  color: #06132E;
+  color: #000000;
   background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
   border: none;
   box-shadow: 0 4px 18px rgba(235, 175, 32, 0.3);
   transition: all 0.3s ease;
   cursor: pointer;
-  padding: 1.1rem 2.25rem;
-  border-radius: 8px;
+  width: 266px;
+  height: 62px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10.14px;
 }
 
 .btn-gold-gradient:hover {
@@ -220,11 +228,16 @@
   font-size: 0.95rem;
   color: #FFFFFF;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1.26px solid #FFFFFF;
   transition: all 0.3s ease;
   cursor: pointer;
-  padding: 1.1rem 2.25rem;
-  border-radius: 8px;
+  width: 267px;
+  height: 62px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10.14px;
 }
 
 .btn-white-outline-v2:hover {
@@ -368,12 +381,10 @@
   position: absolute;
   left: 1200.52px;
   top: 482.02px;
-  width: 256.18px;
-  height: 258.18px;
+  width: 330px;
+  height: 270px;
   background: #111A41;
-  border-radius: 16.01px;
-  outline: 1px #EBAF20 solid;
-  outline-offset: -1px;
+  border-radius: 19.04px;
   padding: 1.25rem 1.5rem;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
   pointer-events: auto;
@@ -440,7 +451,7 @@
 }
 
 .rate-card-title-v2 {
-  font-size: 0.88rem;
+  font-size: 16.66px;
   font-weight: 500;
   color: #FFFFFF;
   font-family: 'Gilroy', 'Outfit', sans-serif;
@@ -502,7 +513,6 @@
 .rate-card-price-value {
   display: flex;
   align-items: baseline;
-  color: #EBAF20;
   font-weight: 700;
   font-size: 2.25rem;
   margin-top: 0.25rem;
@@ -510,9 +520,16 @@
   font-family: 'Gilroy', 'Outfit', sans-serif;
 }
 
+.rate-card-price-value span:first-child,
+.rate-card-price-unit {
+  background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .rate-card-price-unit {
   font-size: 1rem;
-  color: #EBAF20;
   font-weight: 500;
   margin-left: 0.15rem;
 }
@@ -791,6 +808,8 @@
   .btn-gold-gradient,
   .btn-white-outline-v2 {
     flex: 1;
+    width: auto;
+    height: auto;
     max-width: 200px;
     padding: 0.85rem 0.5rem;
     font-size: 0.85rem;
@@ -848,9 +867,9 @@
   width: 66px;
   height: 66px;
   padding: 7px;
-  background: linear-gradient(180deg, #111A41 0%, rgba(0, 149, 218, 0.02) 97%);
+  background: linear-gradient(180deg, #111A41 0%, rgba(0, 149, 218, 0.02) 264.75%);
   border-radius: 50%;
-  outline: 1px #E29D24 solid;
+  outline: 1.36px #E29D24 solid;
   outline-offset: -1px;
   display: flex;
   justify-content: center;
