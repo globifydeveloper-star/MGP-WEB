@@ -157,17 +157,11 @@
 }
 
 .gsp-step-desc-wrapper {
-  max-height: 0;
+  height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.3s ease;
   display: grid;
   grid-template-columns: 68px 1fr;
-}
-
-.gsp-step-desc-wrapper.gsp-expanded {
-  max-height: 220px;
-  opacity: 1;
 }
 
 .gsp-step-desc-content {

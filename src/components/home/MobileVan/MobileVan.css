@@ -73,8 +73,8 @@
 
 .van-motion-lines {
   position: absolute;
-  left: -34px;
-  top: 70%;
+  left: -227865%;
+  top: 80%;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -134,14 +134,14 @@
   position: relative;
   width: 100%;
   aspect-ratio: 380 / 180;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .van-photo-img {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 0%;
+  left: -40%;
+  width: 120%;
   height: auto;
   display: block;
   filter: drop-shadow(0 14px 16px rgba(20, 25, 60, 0.25));
@@ -253,6 +253,7 @@
 }
 
 @media (max-width: 640px) {
+
   .mobile-van-title .title-line-light,
   .mobile-van-title .title-line-bold {
     font-size: 2rem;
@@ -267,7 +268,7 @@
   .van-feature-text {
     white-space: normal;
   }
-  
+
   .van-feature-icon {
     width: 45px;
     height: 45px;
@@ -275,13 +276,16 @@
 }
 
 @media (max-width: 480px) {
+
   .mobile-van-title .title-line-light,
   .mobile-van-title .title-line-bold {
     font-size: 1.65rem;
   }
+
   .mobile-van-desc {
     font-size: 0.85rem;
   }
+
   .van-features-row {
     flex-direction: column;
     align-items: center;

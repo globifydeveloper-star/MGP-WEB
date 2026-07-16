@@ -1,11 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { animate, createTimeline, stagger, set } from 'animejs';
 import './hero.css';
 import sparkle2Img from '@/assets/images/sparkle2.png';
 
 export default function HeroGoldRateCard() {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [displayRate, setDisplayRate] = useState(7500);
+
   const handleScrollToForm = () => {
     const element = document.getElementById('gold-value-form');
     if (element) {
@@ -13,14 +18,125 @@ export default function HeroGoldRateCard() {
     }
   };
 
+  useEffect(() => {
+    if (cardRef.current) {
+      const card = cardRef.current;
+      const sparkles = card.querySelectorAll('.hero-sparkle-flare');
+      const header = card.querySelector('.rate-card-header-v2');
+      const divider = card.querySelector('.rate-card-divider');
+      const purity = card.querySelector('.rate-card-purity-v2');
+      const price = card.querySelector('.rate-card-price-value');
+      const button = buttonRef.current;
+
+      if (card && header && divider && purity && price && button) {
+        // 1. Initial hidden state for entrance animation
+        set(card, { opacity: 0, translateY: 60, scale: 0.93 });
+        set([header, divider, purity, price, button], { opacity: 0 });
+
+        // 2. Entrance Timeline
+        const tl = createTimeline({
+          defaults: {
+            ease: 'outExpo',
+          }
+        });
+
+        tl.add(card, {
+          opacity: [0, 1],
+          translateY: [60, 0],
+          scale: [0.93, 1],
+          duration: 1200,
+          ease: 'outElastic(1, 0.75)',
+        })
+        .add([header, divider], {
+          opacity: [0, 1],
+          duration: 600,
+        }, '-=800')
+        .add(purity, {
+          opacity: [0, 1],
+          translateY: [10, 0],
+          duration: 600,
+        }, '-=600')
+        .add(price, {
+          opacity: [0, 1],
+          translateY: [15, 0],
+          duration: 700,
+        }, '-=500')
+        .add(button, {
+          opacity: [0, 1],
+          scale: [0.9, 1],
+          duration: 700,
+          ease: 'outBack',
+        }, '-=600');
+      }
+
+      // 3. Count up animation for gold rate (runs after card is partially visible)
+      const rateObj = { val: 7500 };
+      animate(rateObj, {
+        val: 9185,
+        round: 1,
+        ease: 'outExpo',
+        duration: 2200,
+        delay: 500,
+        update: () => {
+          setDisplayRate(rateObj.val);
+        }
+      });
+
+      // 4. Gentle loop for sparkles
+      animate(Array.from(sparkles), {
+        scale: [1, 1.08, 1],
+        rotate: [-3, 3, -3],
+        opacity: [0.8, 1, 0.8],
+        duration: 4000,
+        ease: 'inOutSine',
+        loop: true,
+        delay: stagger(200),
+      });
+    }
+  }, []);
+
+  // Button Hover Effect
+  const handleMouseEnter = () => {
+    if (buttonRef.current) {
+      animate(buttonRef.current, {
+        scale: 1.04,
+        boxShadow: '0 8px 24px rgba(235, 175, 32, 0.35)',
+        duration: 300,
+        ease: 'outQuad',
+      });
+      const arrow = buttonRef.current.querySelector('.rate-card-cta-arrow');
+      if (arrow) {
+        animate(arrow, {
+          translateX: 4,
+          duration: 250,
+          ease: 'outQuad',
+        });
+      }
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (buttonRef.current) {
+      animate(buttonRef.current, {
+        scale: 1,
+        boxShadow: '0 4px 12px rgba(235, 175, 32, 0)',
+        duration: 300,
+        ease: 'outQuad',
+      });
+      const arrow = buttonRef.current.querySelector('.rate-card-cta-arrow');
+      if (arrow) {
+        animate(arrow, {
+          translateX: 0,
+          duration: 250,
+          ease: 'outQuad',
+        });
+      }
+    }
+  };
+
   return (
-    <div className="hero-gold-rate-card-v2">
-      {/*
-        Sparkle flares positioned relative to the card itself (not the
-        canvas) so they travel with it if the card ever moves, instead of
-        drifting apart like they did when both were pinned to separate
-        absolute canvas coordinates.
-      */}
+    <div ref={cardRef} className="hero-gold-rate-card-v2" style={{ opacity: 0 }}>
+      {/* Decorative Sparkles */}
       <Image
         src={sparkle2Img}
         alt=""
@@ -68,23 +184,31 @@ export default function HeroGoldRateCard() {
         />
       </svg>
 
-      <div className="rate-card-header-v2">
+      <div className="rate-card-header-v2" style={{ opacity: 0 }}>
         <span className="rate-card-title-v2">Today's Gold Rate</span>
         <div className="rate-card-live-indicator">
           <span className="live-dot-v2" />
           <span>Live</span>
         </div>
       </div>
-      <div className="rate-card-divider" />
-      <div className="rate-card-purity-v2">24K (999)</div>
-      <div className="rate-card-price-value">
-        <span>₹9,185</span>
+      <div className="rate-card-divider" style={{ opacity: 0 }} />
+      <div className="rate-card-purity-v2" style={{ opacity: 0 }}>24K (999)</div>
+      <div className="rate-card-price-value" style={{ opacity: 0 }}>
+        <span>₹{displayRate.toLocaleString('en-IN')}</span>
         <span className="rate-card-price-unit">/g</span>
       </div>
-      <button className="btn-rate-card-cta-v2" onClick={handleScrollToForm}>
+      <button 
+        ref={buttonRef}
+        className="btn-rate-card-cta-v2" 
+        style={{ opacity: 0 }}
+        onClick={handleScrollToForm}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <span>Check Full rate</span>
-        <span className="rate-card-cta-arrow">&gt;</span>
+        <span className="rate-card-cta-arrow" style={{ display: 'inline-block' }}>&gt;</span>
       </button>
     </div>
   );
 }
+

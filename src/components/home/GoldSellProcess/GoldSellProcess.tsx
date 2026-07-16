@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { animate, set, stagger } from 'animejs';
 import './GoldSellProcess.css';
 
 const steps = [
@@ -44,6 +45,7 @@ const steps = [
 export default function GoldSellProcess() {
   const [openIndex, setOpenIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const toggleStep = (index: number) => {
     setOpenIndex(openIndex === index ? -1 : index);
@@ -51,6 +53,71 @@ export default function GoldSellProcess() {
   };
 
   const activeStep = steps[activeIndex];
+
+  // 1. Entrance animation on intersection
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const cards = containerRef.current.querySelectorAll('.gsp-step-card');
+    
+    // Set initial card states to avoid layout flash
+    set(cards, { opacity: 0, translateY: 40 });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(Array.from(cards), {
+              opacity: [0, 1],
+              translateY: [40, 0],
+              delay: stagger(120),
+              duration: 800,
+              ease: 'outQuart',
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // 2. Accordion opening and closing animations
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const cards = containerRef.current.querySelectorAll('.gsp-step-card');
+
+    cards.forEach((card, idx) => {
+      const wrapper = card.querySelector('.gsp-step-desc-wrapper') as HTMLDivElement;
+      const content = card.querySelector('.gsp-step-desc-content') as HTMLDivElement;
+      const badgeNum = card.querySelector('.gsp-step-badge-num') as HTMLElement;
+      
+      const isOpen = openIndex === idx;
+
+      if (wrapper && content) {
+        // Smoothly animate height and opacity of the description area
+        const targetHeight = isOpen ? (content.offsetHeight || content.scrollHeight) : 0;
+        
+        animate(wrapper, {
+          height: targetHeight,
+          opacity: isOpen ? [0, 1] : 0,
+          duration: 350,
+          ease: 'outQuad',
+        });
+      }
+
+      if (badgeNum && isOpen) {
+        // Soft bounce scale effect for the step number badge when opened
+        animate(badgeNum, {
+          scale: [1, 1.22, 1],
+          duration: 400,
+          ease: 'outBack',
+        });
+      }
+    });
+  }, [openIndex]);
 
   return (
     <section className="gsp-section" id="gold-sell-process">
@@ -71,7 +138,7 @@ export default function GoldSellProcess() {
           </div>
 
           {/* Right Column: Clickable step accordion */}
-          <div className="gsp-right">
+          <div className="gsp-right" ref={containerRef}>
             <div className="gsp-steps">
               {steps.map((step, idx) => {
                 const isOpen = openIndex === idx;
@@ -104,7 +171,7 @@ export default function GoldSellProcess() {
                       </button>
                     </div>
 
-                    <div className={`gsp-step-desc-wrapper ${isOpen ? 'gsp-expanded' : ''}`}>
+                    <div className="gsp-step-desc-wrapper">
                       <div className="gsp-step-desc-content">
                         <p>{step.desc}</p>
                       </div>
@@ -119,3 +186,4 @@ export default function GoldSellProcess() {
     </section>
   );
 }
+
