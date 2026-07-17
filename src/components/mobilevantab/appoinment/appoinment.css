@@ -113,10 +113,11 @@
 }
 
 .apt-van-img {
-  width: 619px;
+  width: 100%;
   max-width: 619px;
   margin-left: -150px;
-  height: 299px;
+  height: auto;
+  aspect-ratio: 619 / 299;
   display: block;
   filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.4));
 }

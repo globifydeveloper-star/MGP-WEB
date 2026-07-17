@@ -13,7 +13,7 @@ export default function HeroCurve() {
     if (containerRef.current) {
       // 1. Animate SVG Path drawing (using standard pathLength attribute)
       const path = containerRef.current.querySelector('.hero-curve-svg-path');
-      
+
       const timeline = createTimeline({
         defaults: {
           ease: 'outExpo',
@@ -133,12 +133,12 @@ export default function HeroCurve() {
       <div
         ref={orbitRef}
         className="hero-curve-glow-orbit"
-        style={{ 
-          width: 1000, 
-          height: 1000, 
-          left: 549.26, 
+        style={{
+          width: 1000,
+          height: 1000,
+          left: 549.26,
           top: 10.45,
-          transform: 'rotate(-60deg)' 
+          transform: 'rotate(-60deg)'
         }}
       >
         <span className="hero-curve-glow-dot" />
@@ -223,7 +223,7 @@ export default function HeroCurve() {
       {/* Mid curve star */}
       <div
         className="small-star"
-        style={{ position: 'absolute', left: 570, top: 520, width: 69.14, height: 71.4, opacity: 0 }}
+        style={{ position: 'absolute', left: 583.6, top: 534.2, width: 22, height: 43, opacity: 0 }}
       >
         <Image
           src={starImg}

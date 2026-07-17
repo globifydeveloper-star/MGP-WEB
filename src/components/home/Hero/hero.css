@@ -12,12 +12,12 @@
   min-height: 100vh;
   background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
   overflow: hidden;
-  padding-top: 130px;
+  padding-top: 100px;
   /* Spacer below sticky/absolute Navbar */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  --hero-scale: clamp(0.55, calc(100vw / 1480), 1);
+  --hero-scale: clamp(0.45, min(calc(100vw / 1480), calc((100vh - 110px) / 905)), 1);
   /* NEW */
 }
 
@@ -82,8 +82,8 @@
   .hero-right-visuals-wrapper {
     display: block;
     position: absolute;
-    top: -130px;
-    /* Offset the 130px padding-top of .hero-section-root-v2 */
+    top: -100px;
+    /* Offset the 100px padding-top of .hero-section-root-v2 */
     left: -790px;
     width: 1441px;
     height: 905px;
@@ -381,19 +381,20 @@
   position: absolute;
   left: 1200.52px;
   top: 482.02px;
-  width: 330px;
-  height: 270px;
+  width: 256px;
+  height: 256px;
   background: #111A41;
-  border-radius: 19.04px;
-  padding: 1.25rem 1.5rem;
+  border-radius: 16px;
+  padding: 34.54px 14.49px 20px 17.51px;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  outline: 1px solid #EBAF20;
+  outline-offset: -1px;
   pointer-events: auto;
   z-index: 5;
   transition: all 0.3s ease;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   cursor: pointer;
   user-select: text;
   -webkit-user-select: text;
@@ -445,13 +446,13 @@
 
 .rate-card-header-v2 {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  margin-top: 0.25rem;
+  gap: 40px;
 }
 
 .rate-card-title-v2 {
-  font-size: 16.66px;
+  font-size: 14px;
   font-weight: 500;
   color: #FFFFFF;
   font-family: 'Gilroy', 'Outfit', sans-serif;
@@ -460,14 +461,18 @@
 .rate-card-live-indicator {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  background: #244153;
+  justify-content: center;
+  gap: 4px;
+  width: 64px;
+  height: 24px;
+  flex-shrink: 0;
+  background: #334155;
   border: 1px solid #4ADE80;
-  padding: 0.2rem 0.6rem;
   border-radius: 30px;
   color: #4ADE80;
-  font-size: 0.75rem;
+  font-size: 12px;
   font-weight: 500;
+  box-sizing: border-box;
 }
 
 .live-dot-v2 {
@@ -497,26 +502,24 @@
 
 .rate-card-divider {
   width: 100%;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.1);
-  margin: 0.5rem 0;
+  height: 0;
+  background-color: transparent;
+  margin: 16px 0;
 }
 
 .rate-card-purity-v2 {
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 0.15rem;
   font-family: 'Gilroy', 'Outfit', sans-serif;
 }
 
 .rate-card-price-value {
   display: flex;
   align-items: baseline;
-  font-weight: 700;
-  font-size: 2.25rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 36px;
+  margin-top: 4px;
   font-family: 'Gilroy', 'Outfit', sans-serif;
 }
 
@@ -529,7 +532,7 @@
 }
 
 .rate-card-price-unit {
-  font-size: 1rem;
+  font-size: 12px;
   font-weight: 500;
   margin-left: 0.15rem;
 }
@@ -538,18 +541,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   width: 100%;
-  padding: 0.75rem;
+  margin-top: 32px;
+  padding: 14px 12px 14px 14px;
   background: transparent;
   border: 1px solid #EBAF20;
   border-radius: 8px;
   color: #EBAF20;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Gilroy', 'Outfit', sans-serif;
+  box-sizing: border-box;
 }
 
 .btn-rate-card-cta-v2:hover {
@@ -716,7 +721,23 @@
     position: relative;
     width: 100%;
     padding-top: 0.5rem;
-    height: 330px;
+    height: auto;
+  }
+
+  .hero-mobile-rate-card-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .hero-mobile-rate-card-wrap .hero-gold-rate-card-v2 {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 256px;
+    height: 256px;
+    margin: 0 auto;
   }
 
   .hmv-image-wrapper {
@@ -897,6 +918,7 @@
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -908,6 +930,7 @@
     opacity: 0;
     transform: scale(0);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -919,6 +942,7 @@
     opacity: 0;
     transform: translateX(15px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -934,10 +958,21 @@
   animation: hero-fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.hero-trust-badge-v2 { animation-delay: 0.02s; }
-.hero-main-title-v2 { animation-delay: 0.08s; }
-.hero-subcopy-wrapper-v2 { animation-delay: 0.14s; }
-.hero-cta-group-v2 { animation-delay: 0.20s; }
+.hero-trust-badge-v2 {
+  animation-delay: 0.02s;
+}
+
+.hero-main-title-v2 {
+  animation-delay: 0.08s;
+}
+
+.hero-subcopy-wrapper-v2 {
+  animation-delay: 0.14s;
+}
+
+.hero-cta-group-v2 {
+  animation-delay: 0.20s;
+}
 
 /* Right column curve badges, labels and star reveals */
 .curve-icon-position {
@@ -957,14 +992,29 @@
 }
 
 /* Stagger delays synchronized with the gold line sweep */
-.icon-top { animation-delay: 0.15s; }
-.label-top { animation-delay: 0.25s; }
+.icon-top {
+  animation-delay: 0.15s;
+}
 
-.icon-middle { animation-delay: 0.30s; }
-.label-middle { animation-delay: 0.40s; }
+.label-top {
+  animation-delay: 0.25s;
+}
 
-.icon-bottom { animation-delay: 0.45s; }
-.label-bottom { animation-delay: 0.55s; }
+.icon-middle {
+  animation-delay: 0.30s;
+}
+
+.label-middle {
+  animation-delay: 0.40s;
+}
+
+.icon-bottom {
+  animation-delay: 0.45s;
+}
+
+.label-bottom {
+  animation-delay: 0.55s;
+}
 
 @keyframes line-glow-pulse {
 
@@ -1039,12 +1089,12 @@
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 1480px;
+  width: 1450px;
   /* was 1441px */
   height: 905px;
   pointer-events: none;
   z-index: 11;
-  /*
+  /*  
     scale() must come first (applied to the 143px shift, not just the box)
     so this ends up shifted by 143px * hero-scale in final screen pixels -
     matching .hero-curve-wrapper, whose own inline 143px shift is nested

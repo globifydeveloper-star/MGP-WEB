@@ -13,7 +13,6 @@ const NAV_LINKS = [
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
   { label: 'Branches', href: '#' },
-  { label: 'Testimonials', href: '#' },
   { label: 'Gold Rate', href: '#' },
   { label: 'Career', href: '/career' },
 ];
@@ -26,30 +25,31 @@ export default function Navbar() {
   return (
     <header className={`navbar-header-v2 ${menuOpen ? 'header-menu-active' : ''}`}>
       <div className="navbar-container-v2">
-        {/* Left Side: Logo & Navigation Links */}
-        <div className="navbar-left-group">
-          <a href="#" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <Image
-              src={logoImg}
-              alt="GOLDPOINT - We Buy Gold"
-              width={220}
-              height={60}
-              priority
-              style={{ display: 'block' }}
-            />
-          </a>
-          <nav className={`navbar-nav-v2 ${menuOpen ? 'menu-active' : ''}`}>
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className={link.href !== '#' && pathname === link.href ? 'active' : ''}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
+        {/* Logo */}
+        <a href="#" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <Image
+            src={logoImg}
+            alt="GOLDPOINT - We Buy Gold"
+            className="navbar-logo"
+            width={220}
+            height={60}
+            priority
+            style={{ display: 'block' }}
+          />
+        </a>
+
+        {/* Navigation Links */}
+        <nav className={`navbar-nav-v2 ${menuOpen ? 'menu-active' : ''}`}>
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={link.href !== '#' && pathname === link.href ? 'active' : ''}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
         {/* Right Side: Phone Contact & CTA */}
         <div className="navbar-right-group">

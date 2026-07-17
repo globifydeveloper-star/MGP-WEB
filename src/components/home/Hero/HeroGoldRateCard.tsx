@@ -157,7 +157,7 @@ export default function HeroGoldRateCard() {
       />
 
       {/* Animated Glowing border beam (aura/shine effect) */}
-      <svg className="gold-beam-svg" viewBox="0 0 256 258" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg className="gold-beam-svg" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
             <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
@@ -172,12 +172,12 @@ export default function HeroGoldRateCard() {
             <stop offset="100%" stopColor="#EBAF20" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <rect 
-          x="0.5" 
-          y="0.5" 
-          width="255" 
-          height="257" 
-          rx="15.5" 
+        <rect
+          x="0.5"
+          y="0.5"
+          width="255"
+          height="255"
+          rx="15.5"
           fill="none" 
           stroke="url(#shine-gradient)"
           className="gold-beam-rect"

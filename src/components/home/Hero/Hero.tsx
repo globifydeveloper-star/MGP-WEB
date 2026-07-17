@@ -15,7 +15,7 @@ import heroWaveImg from '@/assets/images/hero-wave.png';
 import hm6Img01 from '@/assets/images/hm6-img01.png';
 
 // Star vector at the very start (top) of the curve - exact Figma position
-const CURVE_STAR = { left: 825, top: 125, width: 40.89, height: 42.56 };
+const CURVE_STAR = { left: 800.4, top: 132.3, width: 46, height: 48 };
 
 // Sparkle below the bottom icon (matches the Figma reference's twinkle
 // accent near the end of the arc).
@@ -77,7 +77,7 @@ export default function Hero() {
           </svg>
 
           <div className="hmv-star" style={{ top: '6%', left: '35%' }}>
-            <Image src={starImg} alt="" aria-hidden="true" width={32} height={32} />
+            <Image src={starImg} alt="" aria-hidden="true" width={42} height={32} />
           </div>
 
           <div className="hmv-icon-group" style={{ top: '24%', left: '14%' }}>
@@ -137,6 +137,10 @@ export default function Hero() {
             className="hmv-model-img"
             priority
           />
+        </div>
+
+        <div className="hero-mobile-rate-card-wrap">
+          <HeroGoldRateCard />
         </div>
       </div>
       {/* Main Grid Content Container */}
