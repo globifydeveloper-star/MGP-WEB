@@ -8,7 +8,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 90px;
+  height: 80px;
   display: flex;
   align-items: center;
   z-index: 10;
@@ -125,7 +125,7 @@
 /* V2 Navbar Styles matching Figma design */
 .navbar-header-v2 {
   width: 100%;
-  height: 120px;
+  height: 80px;
   position: absolute;
   top: 0;
   left: 0;
@@ -164,7 +164,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 40px;
+  gap: 16px;
 }
 
 .navbar-nav-v2 a {
@@ -176,16 +176,21 @@
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
   font-weight: 400;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: all 0.2s;
+  padding: 6px 16px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
 }
 
 .navbar-nav-v2 a.active {
   color: #FBBF24;
   font-weight: 600;
+  border-color: #FBBF24;
 }
 
 .navbar-nav-v2 a:hover {
   color: #FBBF24;
+  border-color: rgba(251, 191, 36, 0.4);
 }
 
 .navbar-right-group {
@@ -348,6 +353,23 @@
     align-items: center;
   }
 
+  .navbar-logo-link {
+    justify-self: center;
+  }
+
+  .navbar-right-group {
+    justify-self: end;
+  }
+
+  .navbar-cta-btn-v2 {
+    width: 120px;
+    height: 34px;
+  }
+
+  .navbar-cta-btn-v2 span {
+    font-size: 14px;
+  }
+
   .navbar-mobile-toggle {
     display: flex;
   }
@@ -356,7 +378,7 @@
     display: none;
     flex-direction: column;
     position: fixed;
-    top: 100px;
+    top: 80px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -366,7 +388,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     z-index: 99;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 80px);
     overflow-y: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
@@ -379,6 +401,8 @@
     width: 100%;
     text-align: left;
     padding: 0.75rem 0;
+    border: none;
+    border-radius: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
@@ -386,6 +410,50 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    justify-self: start;
+  }
+}
+
+/* ── Tablet: 768px–1023px ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navbar-container-v2 {
+    padding: 0 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Larger, proper-sized logo for tablet */
+  .navbar-logo {
+    width: 180px !important;
+    height: auto !important;
+  }
+
+  .logo-img {
+    width: 180px !important;
+    height: auto !important;
+  }
+
+  /* Proper CTA button size for tablet */
+  .navbar-cta-btn-v2 {
+    width: 160px;
+    height: 44px;
+  }
+
+  .navbar-cta-btn-v2 span {
+    font-size: 15px;
+  }
+
+  .navbar-header-v2 {
+    height: 80px;
+  }
+
+  .navbar-phone-group {
+    display: none;
+  }
+
+  .navbar-right-group {
+    gap: 16px;
   }
 }
 
@@ -445,20 +513,27 @@
   }
 
   .navbar-header-v2 {
-    height: 90px;
+    height: 80px;
   }
 
   .navbar-phone-group {
     display: none;
   }
 
-  .navbar-cta-btn-v2 {
-    width: 168px;
-    height: 40px;
+  /* Add breathing room between hamburger, logo, and CTA */
+  .navbar-container-v2 {
+    padding: 0 20px;
+    gap: 0;
   }
 
-  .navbar-cta-btn-v2 span {
-    font-size: 14px;
+  .navbar-logo {
+    width: 130px !important;
+    height: auto !important;
+  }
+
+  .logo-img {
+    width: 130px !important;
+    height: auto !important;
   }
 
   .navbar-right-group {
@@ -466,8 +541,8 @@
   }
 
   .navbar-nav-v2 {
-    top: 90px;
-    height: calc(100vh - 90px);
+    top: 80px;
+    height: calc(100vh - 80px);
   }
 }
 
@@ -481,21 +556,22 @@
   }
 
   .navbar-cta-btn-v2 {
-    width: 140px;
-    height: 38px;
+    width: 120px;
+    height: 36px;
   }
 
   .navbar-cta-btn-v2 span {
-    font-size: 13px;
+    font-size: 12px;
   }
 
+  /* Smaller logo on narrow phones */
   .navbar-logo {
-    width: 140px !important;
+    width: 110px !important;
     height: auto !important;
   }
 
   .logo-img {
-    width: 140px !important;
+    width: 110px !important;
     height: auto !important;
   }
 }

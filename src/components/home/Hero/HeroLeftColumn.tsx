@@ -29,23 +29,23 @@ export default function HeroLeftColumn() {
           duration: 900,
           delay: 200,
         })
-        .add(title, {
-          opacity: [0, 1],
-          translateY: [35, 0],
-          duration: 1000,
-        }, '-=700')
-        .add(subcopy, {
-          opacity: [0, 1],
-          translateY: [20, 0],
-          duration: 800,
-        }, '-=800')
-        .add(buttons, {
-          opacity: [0, 1],
-          translateY: [15, 0],
-          scale: [0.95, 1],
-          delay: stagger(150),
-          duration: 800,
-        }, '-=650');
+          .add(title, {
+            opacity: [0, 1],
+            translateY: [35, 0],
+            duration: 1000,
+          }, '-=700')
+          .add(subcopy, {
+            opacity: [0, 1],
+            translateY: [20, 0],
+            duration: 800,
+          }, '-=800')
+          .add(buttons, {
+            opacity: [0, 1],
+            translateY: [15, 0],
+            scale: [0.95, 1],
+            delay: stagger(150),
+            duration: 800,
+          }, '-=650');
       }
     }
   }, []);
@@ -67,16 +67,14 @@ export default function HeroLeftColumn() {
 
       {/* Main Headline */}
       <h1 className="hero-main-title-v2" style={{ opacity: 0 }}>
-        Sell Your Gold.<br />
+        <div className="self-stretch justify-center text-white text-6xl font-normal font-['Gilroy-Bold']">Sell Your Gold. </div>
         <span className="hero-gold-text">Get Cash Today.</span>
       </h1>
 
-      {/* Subcopy Paragraph */}
       <div className="hero-subcopy-wrapper-v2" style={{ opacity: 0 }}>
-        <p className="hero-subcopy-text-v2">
-          Get the True Market Value Old, Unused or pledged gold through a transparent
-          process conducted entirely in front of you
-        </p>
+        <div className="hero-subcopy-text-v2 w-96 justify-center text-white text-xl font-medium font-['Gilroy']">
+          Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you
+        </div>
       </div>
 
       {/* CTA Buttons */}

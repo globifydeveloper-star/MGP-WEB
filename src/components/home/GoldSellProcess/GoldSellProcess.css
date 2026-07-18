@@ -234,3 +234,276 @@
     grid-template-columns: 44px 1fr;
   }
 }
+
+/* ─────────────────────────────────────────
+   CAROUSEL — mobile (0–767px) and tablet (768–1023px)
+───────────────────────────────────────── */
+
+.gsp-carousel-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* Bottom padding so sticky bar doesn't cover last slide controls */
+  padding-bottom: 120px;
+}
+
+/* Header */
+.gsp-carousel-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.gsp-carousel-header .gsp-heading {
+  margin-bottom: 0.75rem;
+}
+
+.gsp-carousel-subtitle {
+  font-size: 1rem;
+  color: #41444f;
+  line-height: 1.65;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Track — single slide fully visible, no overflow spill */
+.gsp-carousel-track {
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  border-radius: 20px;
+}
+
+.gsp-carousel-track:active {
+  cursor: grabbing;
+}
+
+/* Individual slide */
+.gsp-carousel-slide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  animation: gsp-slide-in 0.35s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+@keyframes gsp-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Image block */
+.gsp-carousel-img-wrap {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 14px 30px rgba(20, 22, 46, 0.14);
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.gsp-carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* Step content block */
+.gsp-carousel-content {
+  padding: 1.5rem 0 0;
+}
+
+.gsp-carousel-step-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.gsp-carousel-step-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #CB9224;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.gsp-carousel-step-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #14162E;
+  line-height: 1;
+}
+
+.gsp-carousel-step-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #14162E;
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+
+.gsp-carousel-step-desc {
+  font-size: 0.98rem;
+  color: #41444f;
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+/* Controls row */
+.gsp-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Prev / Next buttons */
+.gsp-carousel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #0F1A4D;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.gsp-carousel-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.gsp-carousel-btn:hover:not(:disabled) {
+  background: #CB9224;
+  transform: scale(1.08);
+}
+
+.gsp-carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Pagination dots */
+.gsp-carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.gsp-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d0d3de;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.gsp-carousel-dot-active {
+  background: #CB9224;
+  transform: scale(1.35);
+}
+
+/* ── Tablet overrides (768px–1023px) ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .gsp-carousel-section {
+    padding-bottom: 130px;
+  }
+
+  .gsp-carousel-header .gsp-heading {
+    font-size: 2.5rem;
+  }
+
+  .gsp-carousel-subtitle {
+    font-size: 1.1rem;
+    max-width: 600px;
+  }
+
+  .gsp-carousel-img-wrap {
+    border-radius: 24px;
+  }
+
+  .gsp-carousel-step-title {
+    font-size: 1.65rem;
+  }
+
+  .gsp-carousel-step-desc {
+    font-size: 1.1rem;
+    max-width: 640px;
+  }
+
+  .gsp-carousel-step-num {
+    font-size: 2.75rem;
+  }
+
+  .gsp-carousel-btn {
+    width: 52px;
+    height: 52px;
+  }
+
+  .gsp-carousel-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .gsp-carousel-dot {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* ── Mobile-specific overrides (0–767px) ── */
+@media (max-width: 767px) {
+  .gsp-carousel-section {
+    padding-bottom: 110px;
+  }
+
+  .gsp-carousel-header .gsp-heading {
+    font-size: 1.85rem;
+  }
+
+  .gsp-carousel-subtitle {
+    font-size: 0.95rem;
+    padding: 0 0.5rem;
+  }
+
+  .gsp-carousel-step-title {
+    font-size: 1.1rem;
+  }
+
+  .gsp-carousel-step-num {
+    font-size: 1.75rem;
+  }
+
+  .gsp-carousel-step-desc {
+    font-size: 0.93rem;
+  }
+
+  .gsp-carousel-controls {
+    gap: 1rem;
+  }
+
+  .gsp-carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+

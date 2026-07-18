@@ -151,13 +151,13 @@ export default function HeroGoldRateCard() {
         alt=""
         aria-hidden="true"
         className="hero-sparkle-flare"
-        style={{ left: 132.86, top: 242.78 }}
+        style={{ right: -21.86, bottom: -20.78 }}
         width={145}
         height={34}
       />
 
       {/* Animated Glowing border beam (aura/shine effect) */}
-      <svg className="gold-beam-svg" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg className="gold-beam-svg" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
         <defs>
           <linearGradient id="shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
             <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
@@ -173,14 +173,15 @@ export default function HeroGoldRateCard() {
           </linearGradient>
         </defs>
         <rect
-          x="0.5"
-          y="0.5"
-          width="255"
-          height="255"
-          rx="15.5"
+          x="1"
+          y="1"
+          width="100%"
+          height="100%"
+          rx="16"
           fill="none" 
           stroke="url(#shine-gradient)"
           className="gold-beam-rect"
+          style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
         />
       </svg>
 

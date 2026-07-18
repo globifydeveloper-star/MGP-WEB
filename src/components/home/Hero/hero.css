@@ -12,13 +12,52 @@
   min-height: 100vh;
   background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
   overflow: hidden;
-  padding-top: 100px;
+  padding-top: 80px;
   /* Spacer below sticky/absolute Navbar */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  --hero-scale: clamp(0.45, min(calc(100vw / 1480), calc((100vh - 110px) / 905)), 1);
-  /* NEW */
+  /* Width-driven so model photo + rate card shrink as the viewport narrows.
+     (A height term in min() froze scale on short screens, e.g. 1285×673.) */
+  --hero-scale: clamp(0.45, calc((100vw - 5rem) / 1580px), 1);
+}
+
+/*
+  Host wrapper reserves the *scaled* layout box so transform: scale() on the
+  inner canvas actually shrinks what the section clips/positions, instead of
+  leaving a full 1580x905 footprint that overflow:hidden cuts off.
+*/
+.hero-scaled-host {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(1580px * var(--hero-scale, 1));
+  height: calc(905px * var(--hero-scale, 1));
+  pointer-events: none;
+  /* Clip the inner 1580px layout box; transform:scale() alone keeps full width */
+  overflow: hidden;
+}
+
+.hero-wave-host {
+  z-index: 1;
+}
+
+.hero-figma-canvas-host {
+  z-index: 2;
+}
+
+.hero-curve-star-host {
+  z-index: 11;
+}
+
+.hero-wave-inner,
+.hero-curve-star-inner {
+  position: relative;
+  width: 1580px;
+  height: 905px;
+  transform: scale(var(--hero-scale, 1));
+  transform-origin: top left;
 }
 
 /* Floating Gold Coin decoration */
@@ -91,7 +130,7 @@
     z-index: 2;
     transform-origin: 790px top;
     /* Scales based on viewport width vw and viewport height vh for robust cross-browser support */
-    transform: scale(min(1, calc(100vw / 1441), calc((100vh - 210px) / 905)));
+    transform: scale(min(1, calc(100vw / 1441px), calc((100vh - 210px) / 905px)));
   }
 }
 
@@ -145,8 +184,8 @@
 
 .trust-badge-text-v2 {
   font-family: 'Montserrat', var(--font-montserrat), sans-serif;
-  font-size: 23.32px;
-  font-weight: 500;
+  font-size: 20.32px;
+  font-weight: 200;
   letter-spacing: 0.05em;
   color: #FFFFFF;
 }
@@ -159,8 +198,8 @@
 /* Headlines */
 .hero-main-title-v2 {
   font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: 75px;
-  font-weight: 400;
+  font-size: 65px;
+  font-weight: 300;
   line-height: 1.1;
   color: #FFFFFF;
   margin-bottom: 1.5rem;
@@ -261,29 +300,28 @@
   edge on wide screens.
 */
 .hero-figma-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 1480px;
-  /* was 1441px */
+  position: relative;
+  width: 1680px;
   height: 905px;
   pointer-events: none;
-  z-index: 2;
   transform: scale(var(--hero-scale, 1));
-  transform-origin: top center;
+  transform-origin: top left;
 }
 
-.hero-mobile-visuals {
+.hero-mobile-visuals,
+.hero-mobile-rate-card-wrap,
+.hero-mobile-right-side-content,
+.hero-mobile-bg-model-shade,
+.hero-mobile-rate-card-container,
+.hero-mobile-top-model-wrapper {
   display: none;
 }
 
 /* Model Photo Wrapper */
 .hero-model-photo-wrapper {
   position: absolute;
-  left: 830px;
-  top: 49px;
+  left: 930px;
+  top: 90px;
   width: 521.11px;
   height: 847px;
   overflow: hidden;
@@ -291,12 +329,9 @@
 }
 
 .hero-model-img {
-  width: 100%;
-  height: 100%;
-  top: 130px;
   object-fit: cover;
-  position: relative;
-  z-index: 2;
+  /* ~130px downward crop in the 847px Figma frame */
+  object-position: center 15%;
 }
 
 /* Warm glow behind the model, matching the Figma blurred-circle spec */
@@ -348,10 +383,10 @@
   inset: 0;
   pointer-events: none;
   z-index: 3;
-  /* Curve/icons measured 143px too far left vs. the navbar (was landing
+  /* Curve/icons measured 320px too far left vs. the navbar (was landing
      under "Testimonials" instead of "Gold Rate") - shift the whole group
      right as one rigid unit so icon/label/circle spacing stays untouched. */
-  transform: translateX(143px);
+  transform: translateX(320px);
 }
 
 .curve-text-label {
@@ -379,8 +414,8 @@
 /* Today's Gold Rate Card overlay */
 .hero-gold-rate-card-v2 {
   position: absolute;
-  left: 1200.52px;
-  top: 482.02px;
+  left: 1300.52px;
+  top: 410.02px;
   width: 256px;
   height: 256px;
   background: #111A41;
@@ -543,7 +578,7 @@
   align-items: center;
   gap: 8px;
   width: 100%;
-  margin-top: 32px;
+  margin-top: auto;
   padding: 14px 12px 14px 14px;
   background: transparent;
   border: 1px solid #EBAF20;
@@ -658,57 +693,177 @@
     left: -40px;
   }
 }
-
-@media (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .hero-section-root-v2 {
-    padding-top: 90px;
-    min-height: 100vh;
+    padding-top: 80px;
+    min-height: auto;
     height: auto;
     overflow: visible;
+    /* Add bottom clearance so sticky bar doesn't obscure CTA buttons */
+    padding-bottom: 100px;
   }
 
+  /* Large, prominent model visual at the top */
+  .hero-mobile-top-model-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: min(65vw, 580px);
+    position: relative;
+    overflow: hidden;
+    background-color: #06132E;
+    z-index: 1;
+  }
+
+  .hero-mobile-top-visual-container {
+    position: relative;
+    width: 100%;
+    max-width: 820px;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  /* Gold arc image scaled for tablet - takes full width so icons are readable */
+  .hmv-curve-img {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    z-index: 1 !important;
+  }
+
+  /* Model photo centered and large — primary visual focus */
+  .hero-mobile-top-visual-container .hero-model-photo-wrapper {
+    display: block !important;
+    position: absolute !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    bottom: 0 !important;
+    top: auto !important;
+    width: min(55vw, 500px) !important;
+    height: 95% !important;
+    z-index: 2;
+  }
+
+  .hero-mobile-top-visual-container .hero-model-img {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    mask-image: linear-gradient(to bottom, black 88%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, black 88%, transparent 100%) !important;
+  }
+
+  /* Content column stacked and centered */
   .hero-container-v2 {
-    grid-template-columns: 1fr;
-    gap: 4rem;
-    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 48px 3rem 48px;
+    width: 100%;
+    background-color: #06132E;
+    box-sizing: border-box;
   }
 
   .hero-left-column-v2 {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    max-width: 100%;
+    width: 100%;
+    max-width: 720px;
   }
 
+  /* Properly-sized trust badge, not tiny mobile version */
   .hero-trust-badge-v2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(30, 27, 75, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 28px;
+    border-radius: 50px;
+    margin: -28px auto 2.5rem auto;
+    position: relative;
+    z-index: 10;
+    width: fit-content;
     justify-content: center;
   }
 
-  .hero-subcopy-text-v2 {
-    max-width: 100%;
+  .trust-badge-text-v2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: center;
   }
 
-  .hero-cta-group-v2 {
+  /* Large, prominent headings for tablet */
+  .hero-main-title-v2 {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    text-align: center;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  .hero-subcopy-wrapper-v2 {
+    display: flex;
     justify-content: center;
     width: 100%;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Readable description text at tablet sizes */
+  .hero-subcopy-text-v2 {
+    font-size: 1.25rem;
+    line-height: 1.65;
+    text-align: center;
+    max-width: 640px;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .hero-subcopy-text-v2.w-96 {
+    width: 100% !important;
+    max-width: 640px !important;
+  }
+
+  /* Large CTA buttons, side by side, fully visible */
+  .hero-cta-group-v2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 4rem;
+    flex-wrap: nowrap;
+  }
+
+  .hero-cta-group-v2 button {
+    flex: 0 1 260px;
+    padding: 1.1rem 2rem;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    height: auto;
   }
 
   .hero-circle-outline-deco {
     display: none;
-    /* Hide outline circle on tablets for layout cleanups */
   }
 
   .hero-right-column-v2 {
-    display: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
   }
 
-  /*
-    The figma-canvas is pixel-pinned to the 1441px desktop frame (model
-    photo, rate card, curve/icons all live here now) - it doesn't reflow,
-    so it's hidden below the tablet breakpoint rather than rendering
-    broken/overlapping content. Mobile needs its own layout for this
-    content, tracked separately.
-  */
-  .hero-figma-canvas {
+  .hero-scaled-host {
     display: none;
   }
 
@@ -716,131 +871,261 @@
     display: none;
   }
 
-  .hero-mobile-visuals {
-    display: block;
-    position: relative;
-    width: 100%;
-    padding-top: 0.5rem;
-    height: auto;
-  }
-
-  .hero-mobile-rate-card-wrap {
+  .hero-mobile-rate-card-container {
     display: flex;
     justify-content: center;
-    width: 100%;
-    margin-top: 2rem;
-  }
-
-  .hero-mobile-rate-card-wrap .hero-gold-rate-card-v2 {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 256px;
-    height: 256px;
-    margin: 0 auto;
-  }
-
-  .hmv-image-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 320px;
-    height: 320px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .hmv-model-img {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
-    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-  }
-
-  .hmv-curve-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-    max-width: 320px;
-    margin: 0 auto;
-    right: 0;
-    transform: translateX(-15px);
-  }
-
-  .hmv-curve-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-
-  .hmv-star {
-    position: absolute;
-    top: 2%;
-    left: 30%;
-  }
-
-  .hmv-icon-group {
-    position: absolute;
-    display: flex;
     align-items: center;
-    gap: 0.5rem;
-    pointer-events: auto;
+    width: 100%;
+    margin-bottom: 2rem;
   }
 
-  .hmv-badge {
-    width: 42px;
-    height: 42px;
-    padding: 6px;
-    background: #06132E;
-  }
-
-  .hmv-label {
+  /* Rate card sized for tablet */
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 {
+    position: relative;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    width: 300px;
+    height: 300px;
+    padding: 34px 18px 20px 18px;
     display: flex;
     flex-direction: column;
+    z-index: 5;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-stats-container-v2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .hero-stat-item-v2 {
+    flex: 1 1 auto;
+    gap: 0.75rem;
     align-items: flex-start;
   }
 
-  .hmv-text {
-    font-size: 0.75rem;
-    line-height: 1.2;
+  .hero-stat-circle-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero-stat-item-icon-svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hero-stat-metric-value {
+    font-size: 1.5rem;
+  }
+
+  .hero-stat-metric-label {
+    font-size: 0.8rem;
+    line-height: 1.3;
   }
 }
 
-@media (max-width: 640px) {
-  .hero-main-title-v2 {
-    font-size: 2.75rem;
+@media (max-width: 767px) {
+  .hero-section-root-v2 {
+    padding-top: 80px;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
   }
 
-  .hero-cta-group-v2 {
-    flex-direction: row;
+  /* Display the top model photo prominently */
+  .hero-mobile-top-model-wrapper {
+    display: flex;
     justify-content: center;
-    gap: 0.75rem;
+    align-items: flex-end;
+    width: 100%;
+    height: clamp(340px, 45vw, 550px);
+    position: relative;
+    overflow: hidden;
+    background-color: #06132E;
+    z-index: 1;
+  }
+
+  .hero-mobile-top-visual-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .hmv-curve-img {
+    position: absolute;
+    left: -25%;
+    top: -10%;
+    width: 200%;
+    height: 120%;
+    object-fit: contain;
+    z-index: 1;
+  }
+
+  .hero-mobile-top-visual-container .hero-model-photo-wrapper {
+    display: block !important;
+    position: absolute !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 55% !important;
+    height: 95% !important;
+    left: auto !important;
+    top: auto !important;
+    z-index: 2;
+  }
+
+  .hero-mobile-top-visual-container .hero-model-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  }
+
+  .hero-container-v2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px 3rem 24px;
+    width: 100%;
+    background-color: #06132E;
+  }
+
+  .hero-left-column-v2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  /* The trust badge overlaps the lower part of the model image */
+  .hero-trust-badge-v2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(30, 27, 75, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin: -40px auto 2rem auto;
+    position: relative;
+    z-index: 10;
+    width: fit-content;
+    justify-content: center;
+  }
+
+  .trust-badge-text-v2 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .hero-main-title-v2 {
+    font-size: clamp(1.65rem, 5vw, 2.25rem);
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 1rem;
     width: 100%;
   }
 
-  .btn-gold-gradient,
-  .btn-white-outline-v2 {
+  .hero-subcopy-wrapper-v2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 2.25rem;
+  }
+
+  .hero-subcopy-text-v2 {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    text-align: center;
+    max-width: 480px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Override rigid desktop width of 24rem for w-96 class inside subcopy wrapper */
+  .hero-subcopy-text-v2.w-96 {
+    width: 100% !important;
+    max-width: 480px !important;
+  }
+
+  /* Side-by-side CTA buttons by default on tablets, stacking on narrow screens */
+  .hero-cta-group-v2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta-group-v2 button {
     flex: 1;
-    width: auto;
-    height: auto;
-    max-width: 200px;
-    padding: 0.85rem 0.5rem;
-    font-size: 0.85rem;
+    max-width: 220px;
+    padding: 0.9rem 1.25rem;
+    font-size: 0.95rem;
     white-space: nowrap;
+  }
+
+  .hero-circle-outline-deco {
+    display: none;
+  }
+
+  .hero-right-column-v2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-scaled-host {
+    display: none;
+  }
+
+  .hero-floating-badges-container {
+    display: none;
+  }
+
+  /* Gold Rate Card Container sits logically below CTA buttons */
+  .hero-mobile-rate-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 {
+    position: relative;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    width: 270px;
+    height: 270px;
+    padding: 34.54px 14.49px 20px 17.51px;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .hero-stats-container-v2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem 1rem;
+    width: 100%;
   }
 
   .hero-stat-item-v2 {
@@ -869,13 +1154,62 @@
   }
 }
 
+/* Mobile-specific adjustments for width <= 480px */
 @media (max-width: 480px) {
-  .hero-main-title-v2 {
-    font-size: 2.25rem;
+  .hero-mobile-top-model-wrapper {
+    height: clamp(320px, 95vw, 420px);
   }
 
-  .hero-stat-metric-value {
-    font-size: 1.5rem;
+  .hero-mobile-top-visual-container {
+    max-width: 450px;
+  }
+
+  .hero-cta-group-v2 {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-cta-group-v2 button {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 {
+    width: 240px;
+    height: 240px;
+    padding: 20px 12px 14px 12px;
+  }
+
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 .hero-sparkle-flare {
+    display: none !important;
+  }
+
+  .hero-mobile-rate-card-container .btn-rate-card-cta-v2 {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-price-value {
+    font-size: 26px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-header-v2 {
+    gap: 12px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-title-v2 {
+    font-size: 12px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-live-indicator {
+    width: 54px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-divider {
+    margin: 10px 0;
   }
 }
 
@@ -1084,22 +1418,49 @@
   z-index high enough to actually sit above the navbar.
 */
 .hero-curve-star-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 1450px;
-  /* was 1441px */
+  position: relative;
+  width: 1580px;
   height: 905px;
   pointer-events: none;
-  z-index: 11;
-  /*  
-    scale() must come first (applied to the 143px shift, not just the box)
-    so this ends up shifted by 143px * hero-scale in final screen pixels -
-    matching .hero-curve-wrapper, whose own inline 143px shift is nested
-    inside .hero-figma-canvas and gets scaled by that ancestor as a whole.
-  */
-  transform: scale(var(--hero-scale, 1)) translateX(143px);
-  transform-origin: top center;
+  /* Shift is in design pixels; .hero-curve-star-inner scale() shrinks it too */
+  transform: translateX(320px);
+}
+
+.self-stretch {
+  align-self: stretch;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-6xl {
+  font-size: 3.75rem;
+  /* 60px */
+  line-height: 1;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.font-\[\'Gilroy-Bold\'\] {
+  font-family: 'Gilroy-Bold', 'Gilroy', var(--font-outfit), sans-serif;
+  font-weight: 700;
+}
+
+.w-96 {
+  width: 24rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-\[\'Gilroy\'\] {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
 }

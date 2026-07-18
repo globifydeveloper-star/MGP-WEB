@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { animate, set, stagger } from 'animejs';
 import './GoldSellProcess.css';
 
@@ -9,40 +9,41 @@ const steps = [
     num: '1',
     title: 'Visit Your Nearest White Gold Branch',
     desc: 'Customers give their Gold to Muthoot Gold Point for valuation, Gold to Muthoot Gold Point for valuation.',
-    leftDesc: 'Dummy content: Walk into any of our branches with your gold jewellery. Our team will greet you and guide you through the entire selling process step by step.',
+    leftDesc: 'Walk into any of our branches with your gold jewellery. Our team will greet you and guide you through the entire selling process step by step.',
     image: '/g_selling.png'
   },
   {
     num: '2',
     title: 'Submit ID & Address Proof',
     desc: 'Share a valid photo ID (Aadhaar, PAN, Passport or Voter ID) along with address proof for quick, hassle-free verification.',
-    leftDesc: 'Dummy content: Keep your Aadhaar, PAN, Passport or Voter ID handy along with address proof so our team can verify your identity quickly.',
+    leftDesc: 'Keep your Aadhaar, PAN, Passport or Voter ID handy along with address proof so our team can verify your identity quickly.',
     image: '/gcard1.png'
   },
   {
     num: '3',
     title: 'Professional Gold Purity Assessment',
     desc: 'Our experts assess the purity of your gold using advanced XRF technology, right in front of you, for complete transparency.',
-    leftDesc: 'Dummy content: Our experts use advanced XRF technology to test the purity of your gold right in front of you, ensuring complete transparency.',
+    leftDesc: 'Our experts use advanced XRF technology to test the purity of your gold right in front of you, ensuring complete transparency.',
     image: '/gcard2.png'
   },
   {
     num: '4',
     title: 'Get the Latest Live Gold Rate',
     desc: 'Your gold is valued against the current live market rate, ensuring you always get the fairest, most accurate price.',
-    leftDesc: 'Dummy content: We value your gold against today\'s live market rate, so you always get the fairest and most accurate price.',
+    leftDesc: "We value your gold against today's live market rate, so you always get the fairest and most accurate price.",
     image: '/gcard3.png'
   },
   {
     num: '5',
     title: 'Instant Payment',
     desc: 'Receive your payment instantly via bank transfer or cash, immediately after the valuation is complete.',
-    leftDesc: 'Dummy content: Once the valuation is complete, receive your payment instantly via bank transfer or cash — no waiting around.',
+    leftDesc: 'Once the valuation is complete, receive your payment instantly via bank transfer or cash — no waiting around.',
     image: '/rp_card1.png'
   }
 ];
 
-export default function GoldSellProcess() {
+/* ── Desktop accordion (unchanged from original) ── */
+function GoldSellProcessDesktop() {
   const [openIndex, setOpenIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,12 +55,9 @@ export default function GoldSellProcess() {
 
   const activeStep = steps[activeIndex];
 
-  // 1. Entrance animation on intersection
   useEffect(() => {
     if (!containerRef.current) return;
     const cards = containerRef.current.querySelectorAll('.gsp-step-card');
-    
-    // Set initial card states to avoid layout flash
     set(cards, { opacity: 0, translateY: 40 });
 
     const observer = new IntersectionObserver(
@@ -84,7 +82,6 @@ export default function GoldSellProcess() {
     return () => observer.disconnect();
   }, []);
 
-  // 2. Accordion opening and closing animations
   useEffect(() => {
     if (!containerRef.current) return;
     const cards = containerRef.current.querySelectorAll('.gsp-step-card');
@@ -93,13 +90,11 @@ export default function GoldSellProcess() {
       const wrapper = card.querySelector('.gsp-step-desc-wrapper') as HTMLDivElement;
       const content = card.querySelector('.gsp-step-desc-content') as HTMLDivElement;
       const badgeNum = card.querySelector('.gsp-step-badge-num') as HTMLElement;
-      
+
       const isOpen = openIndex === idx;
 
       if (wrapper && content) {
-        // Smoothly animate height and opacity of the description area
         const targetHeight = isOpen ? (content.offsetHeight || content.scrollHeight) : 0;
-        
         animate(wrapper, {
           height: targetHeight,
           opacity: isOpen ? [0, 1] : 0,
@@ -109,7 +104,6 @@ export default function GoldSellProcess() {
       }
 
       if (badgeNum && isOpen) {
-        // Soft bounce scale effect for the step number badge when opened
         animate(badgeNum, {
           scale: [1, 1.22, 1],
           duration: 400,
@@ -120,70 +114,245 @@ export default function GoldSellProcess() {
   }, [openIndex]);
 
   return (
-    <section className="gsp-section" id="gold-sell-process">
-      <div className="container">
-        <div className="gsp-grid">
-          {/* Left Column: Heading, description & image */}
-          <div className="gsp-left">
-            <h2 className="gsp-heading">
-              Gold Selling <span className="gsp-heading-highlight">Process</span>
-            </h2>
-            <p className="gsp-desc">
-              {activeStep.leftDesc}
-            </p>
-            <div className="gsp-image-wrap">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={activeStep.image} alt={activeStep.title} className="gsp-image" />
-            </div>
+    <div className="gsp-grid">
+      {/* Left Column: Heading, description & image */}
+      <div className="gsp-left">
+        <h2 className="gsp-heading">
+          Gold Selling <span className="gsp-heading-highlight">Process</span>
+        </h2>
+        <p className="gsp-desc">{activeStep.leftDesc}</p>
+        <div className="gsp-image-wrap">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={activeStep.image} alt={activeStep.title} className="gsp-image" />
+        </div>
+      </div>
+
+      {/* Right Column: Clickable step accordion */}
+      <div className="gsp-right" ref={containerRef}>
+        <div className="gsp-steps">
+          {steps.map((step, idx) => {
+            const isOpen = openIndex === idx;
+            return (
+              <div key={step.num} className={`gsp-step-card ${isOpen ? 'gsp-step-open' : ''}`}>
+                <div className="gsp-step-body">
+                  <div className="gsp-step-num-wrap">
+                    <span className="gsp-step-badge-label">Step</span>
+                    <span className="gsp-step-badge-num">{step.num}</span>
+                  </div>
+                  <button
+                    className="gsp-step-bar"
+                    onClick={() => toggleStep(idx)}
+                    aria-expanded={isOpen}
+                  >
+                    <span className="gsp-step-title">{step.title}</span>
+                    <span className="gsp-step-icon">
+                      <svg
+                        className={`gsp-step-icon-svg ${isOpen ? 'gsp-rotate' : ''}`}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#0F1A4D"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="9 6 15 12 9 18" />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+                <div className="gsp-step-desc-wrapper">
+                  <div className="gsp-step-desc-content">
+                    <p>{step.desc}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Mobile / Tablet carousel ── */
+function GoldSellProcessCarousel() {
+  const [current, setCurrent] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const isDragging = useRef(false);
+  const dragStartX = useRef<number | null>(null);
+
+  const goTo = useCallback((idx: number) => {
+    setCurrent(Math.max(0, Math.min(steps.length - 1, idx)));
+  }, []);
+
+  // Keyboard nav
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') goTo(current - 1);
+      if (e.key === 'ArrowRight') goTo(current + 1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [current, goTo]);
+
+  // Touch handlers
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    // Only swipe if horizontal movement is dominant
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) goTo(current + 1);
+      else goTo(current - 1);
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  // Mouse drag handlers
+  const onMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true;
+    dragStartX.current = e.clientX;
+  };
+
+  const onMouseUp = (e: React.MouseEvent) => {
+    if (!isDragging.current || dragStartX.current === null) return;
+    const dx = e.clientX - dragStartX.current;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) goTo(current + 1);
+      else goTo(current - 1);
+    }
+    isDragging.current = false;
+    dragStartX.current = null;
+  };
+
+  const onMouseLeave = () => {
+    isDragging.current = false;
+    dragStartX.current = null;
+  };
+
+  const step = steps[current];
+
+  return (
+    <div className="gsp-carousel-section">
+      {/* Section header */}
+      <div className="gsp-carousel-header">
+        <h2 className="gsp-heading">
+          Gold Selling <span className="gsp-heading-highlight">Process</span>
+        </h2>
+        <p className="gsp-carousel-subtitle">
+          Follow our simple 5-step process to sell your gold quickly, safely, and at the best price.
+        </p>
+      </div>
+
+      {/* Slide track */}
+      <div
+        className="gsp-carousel-track"
+        ref={trackRef}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+        role="region"
+        aria-label="Gold selling process steps"
+        aria-roledescription="carousel"
+      >
+        {/* Slide */}
+        <div
+          className="gsp-carousel-slide"
+          aria-label={`Slide ${current + 1} of ${steps.length}: ${step.title}`}
+          aria-roledescription="slide"
+        >
+          {/* Step image */}
+          <div className="gsp-carousel-img-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={step.image}
+              alt={step.title}
+              className="gsp-carousel-img"
+              draggable={false}
+            />
           </div>
 
-          {/* Right Column: Clickable step accordion */}
-          <div className="gsp-right" ref={containerRef}>
-            <div className="gsp-steps">
-              {steps.map((step, idx) => {
-                const isOpen = openIndex === idx;
-                return (
-                  <div key={step.num} className={`gsp-step-card ${isOpen ? 'gsp-step-open' : ''}`}>
-                    <div className="gsp-step-body">
-                      <div className="gsp-step-num-wrap">
-                        <span className="gsp-step-badge-label">Step</span>
-                        <span className="gsp-step-badge-num">{step.num}</span>
-                      </div>
-                      <button
-                        className="gsp-step-bar"
-                        onClick={() => toggleStep(idx)}
-                        aria-expanded={isOpen}
-                      >
-                        <span className="gsp-step-title">{step.title}</span>
-                        <span className="gsp-step-icon">
-                          <svg
-                            className={`gsp-step-icon-svg ${isOpen ? 'gsp-rotate' : ''}`}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#0F1A4D"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="9 6 15 12 9 18" />
-                          </svg>
-                        </span>
-                      </button>
-                    </div>
-
-                    <div className="gsp-step-desc-wrapper">
-                      <div className="gsp-step-desc-content">
-                        <p>{step.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+          {/* Step content */}
+          <div className="gsp-carousel-content">
+            <div className="gsp-carousel-step-badge">
+              <span className="gsp-carousel-step-label">Step</span>
+              <span className="gsp-carousel-step-num">{step.num}</span>
             </div>
+            <h3 className="gsp-carousel-step-title">{step.title}</h3>
+            <p className="gsp-carousel-step-desc">{step.desc}</p>
           </div>
         </div>
+      </div>
+
+      {/* Navigation controls */}
+      <div className="gsp-carousel-controls">
+        <button
+          className="gsp-carousel-btn gsp-carousel-btn-prev"
+          onClick={() => goTo(current - 1)}
+          disabled={current === 0}
+          aria-label="Previous step"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        {/* Pagination dots */}
+        <div className="gsp-carousel-dots" role="tablist" aria-label="Slide navigation">
+          {steps.map((_, i) => (
+            <button
+              key={i}
+              className={`gsp-carousel-dot ${i === current ? 'gsp-carousel-dot-active' : ''}`}
+              onClick={() => goTo(i)}
+              role="tab"
+              aria-selected={i === current}
+              aria-label={`Go to step ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button
+          className="gsp-carousel-btn gsp-carousel-btn-next"
+          onClick={() => goTo(current + 1)}
+          disabled={current === steps.length - 1}
+          aria-label="Next step"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 6 15 12 9 18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ── Root component: renders carousel on mobile/tablet, accordion on desktop ── */
+export default function GoldSellProcess() {
+  const [isMobileTablet, setIsMobileTablet] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)');
+    const update = () => setIsMobileTablet(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  return (
+    <section className="gsp-section" id="gold-sell-process">
+      <div className="container">
+        {isMobileTablet ? <GoldSellProcessCarousel /> : <GoldSellProcessDesktop />}
       </div>
     </section>
   );
 }
-

@@ -335,3 +335,66 @@
     padding-left: 0.5rem;
   }
 }
+
+/* ── Tablet: 768px–1023px sticky bar ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .branch-selector-bar {
+    /* Full viewport width, horizontal single-row layout */
+    flex-direction: row;
+    padding: 0.85rem 2rem;
+    gap: 1.25rem;
+    border-radius: 0;
+    border-top: 1px solid var(--border-gold);
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .selector-header-row {
+    display: contents;
+  }
+
+  .selector-rate-badge {
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    padding-left: 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+
+  .rate-label {
+    font-size: 0.68rem;
+  }
+
+  .rate-price {
+    font-size: 1.1rem;
+  }
+
+  .selector-dropdowns {
+    flex-direction: row;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .direction-btn {
+    white-space: nowrap;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .branch-selector-minimized-tab {
+    padding: 0.75rem 2rem;
+    gap: 1.25rem;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .minimized-rate-badge {
+    font-size: 0.85rem;
+  }
+
+  .minimized-tab-label {
+    font-size: 0.9rem;
+  }
+}

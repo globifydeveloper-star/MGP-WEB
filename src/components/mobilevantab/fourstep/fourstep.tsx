@@ -4,8 +4,8 @@ import './fourstep.css';
 const STEPS = [
   {
     num: '01',
-    title: 'Doorstep Service',
-    desc: "India's first and only mobile gold buying van arrives at your chosen location for ultimate convenience.",
+    title: 'Book a Visit',
+    desc: 'Schedule your doorstep appointment online or call us directly. We will confirm a time slot that suits your schedule.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 17h1v-6l2-5h9v11h1" />
@@ -19,8 +19,8 @@ const STEPS = [
   },
   {
     num: '02',
-    title: 'Doorstep Service',
-    desc: "India's first and only mobile gold buying van arrives at your chosen location for ultimate convenience.",
+    title: 'Secure Arrival',
+    desc: 'Our state-of-the-art mobile gold buying van arrives at your home or office, fully equipped with high-tech security.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="11" height="5" rx="1.5" />
@@ -31,8 +31,8 @@ const STEPS = [
   },
   {
     num: '03',
-    title: 'Doorstep Service',
-    desc: "India's first and only mobile gold buying van arrives at your chosen location for ultimate convenience.",
+    title: 'Purity Check',
+    desc: 'Witness the live, scientific XRF non-destructive purity testing and precision weighing inside our secure van.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 18h8" />
@@ -46,8 +46,8 @@ const STEPS = [
   },
   {
     num: '04',
-    title: 'Doorstep Service',
-    desc: "India's first and only mobile gold buying van arrives at your chosen location for ultimate convenience.",
+    title: 'Instant Cash',
+    desc: 'Receive instant bank transfer to your account directly on the spot, backed by a digital receipt and invoice.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="7" width="18" height="12" rx="2" />

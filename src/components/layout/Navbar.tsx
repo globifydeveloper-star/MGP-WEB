@@ -12,10 +12,11 @@ const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
-  { label: 'Branches', href: '#' },
-  { label: 'Gold Rate', href: '#' },
-  { label: 'Career', href: '/career' },
+  { label: 'Branches', href: '#branches' },
+  { label: 'Gold Rate', href: '#gold-rate' },
+  { label: 'Careers', href: '/career' },
 ];
+
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,8 +26,21 @@ export default function Navbar() {
   return (
     <header className={`navbar-header-v2 ${menuOpen ? 'header-menu-active' : ''}`}>
       <div className="navbar-container-v2">
+        {/* Hamburger Menu Toggle (Mobile) */}
+        <button
+          className="mobile-menu-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle Menu"
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
         {/* Logo */}
-        <a href="#" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <a href="#" className="navbar-logo-link" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <Image
             src={logoImg}
             alt="GOLDPOINT - We Buy Gold"
@@ -67,19 +81,6 @@ export default function Navbar() {
           </a>
           <button className="navbar-cta-btn-v2" onClick={() => setIsSellGoldOpen(true)}>
             <span>Sell Your Gold</span>
-          </button>
-
-          {/* Hamburger Menu Toggle (Mobile) */}
-          <button
-            className="mobile-menu-toggle"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle Menu"
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
           </button>
         </div>
       </div>

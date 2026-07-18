@@ -126,7 +126,7 @@ export default function Feedback() {
   };
 
   return (
-    <section className="feedback-section">
+    <section id="testimonials" className="feedback-section">
       <div className="container">
         <div className="feedback-header">
           <h2 className="feedback-title-sub">What&apos;s our satisfied customers</h2>
