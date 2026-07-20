@@ -10,7 +10,10 @@
 
 .vs-grid {
   display: grid;
-  grid-template-columns: 772.5px 548px;
+  grid-template-columns: minmax(0, 1.41fr) minmax(0, 1fr);
+  max-width: 1348.5px;
+  width: 100%;
+  margin: 0 auto;
   gap: 1.75rem;
   align-items: stretch;
   justify-content: center;
@@ -19,8 +22,10 @@
 /* Left: video card */
 .vs-video-card {
   position: relative;
-  width: 772.5px;
-  height: 526.21px;
+  width: 100%;
+  max-width: 772.5px;
+  height: auto;
+  aspect-ratio: 772.5 / 526.21;
   border-radius: 16px;
   overflow: hidden;
   background: #0a1440;
@@ -198,8 +203,10 @@
 /* Right: brand card */
 .vs-brand-card {
   position: relative;
-  width: 548px;
-  height: 526.21px;
+  width: 100%;
+  max-width: 548px;
+  height: auto;
+  aspect-ratio: 548 / 526.21;
   border-radius: 16px;
   overflow: hidden;
   background: linear-gradient(150deg, #0a1440 0%, #0c1a4a 55%, #14265c 100%);
@@ -208,12 +215,15 @@
   align-items: center;
   justify-content: center;
   padding: 2.5rem 2rem;
+  box-sizing: border-box;
 }
 
 .vs-brand-logo {
   width: 100%;
   max-width: 458px;
+  max-height: 100%;
   height: auto;
+  object-fit: contain;
   display: block;
   margin: 0 auto;
 }
