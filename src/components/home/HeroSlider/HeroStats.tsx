@@ -1,3 +1,5 @@
+import './heroStats.css';
+
 export default function HeroStats() {
   return (
     <div className="hero-stats-ribbon-v2">

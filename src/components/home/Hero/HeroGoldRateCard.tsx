@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { animate, createTimeline, stagger, set } from 'animejs';
-import './hero.css';
+import './heroGoldRateCard.css';
 import sparkle2Img from '@/assets/images/sparkle2.png';
 
 export default function HeroGoldRateCard() {

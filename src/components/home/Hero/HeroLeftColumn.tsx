@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { animate, createTimeline, stagger, set } from 'animejs';
+import { createTimeline, stagger, set } from 'animejs';
 import Image from 'next/image';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
+import './heroLeftColumn.css';
 
 export default function HeroLeftColumn() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -56,7 +57,7 @@ export default function HeroLeftColumn() {
   return (
     <div ref={containerRef} className="hero-left-column-v2">
       {/* Trust Badge */}
-      <div className="hero-trust-badge-v2" style={{ opacity: 0 }}>
+      <div className="hero-trust-badge-v2">
         <div className="trust-badge-header-v2">
           <Image
             src={trustIcon}
@@ -81,12 +82,12 @@ export default function HeroLeftColumn() {
       </div>
 
       {/* Main Headline */}
-      <h1 className="hero-main-title-v2" style={{ opacity: 0 }}>
+      <h1 className="hero-main-title-v2">
         <span className="hero-title-white-text">Sell Your Gold. </span>
         <span className="hero-gold-text">Get Cash Today.</span>
       </h1>
 
-      <div className="hero-subcopy-wrapper-v2" style={{ opacity: 0 }}>
+      <div className="hero-subcopy-wrapper-v2">
         <div className="hero-subcopy-text-v2 w-96 justify-center text-white text-xl font-medium font-['Gilroy']">
           Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you
         </div>
@@ -96,7 +97,6 @@ export default function HeroLeftColumn() {
       <div className="hero-cta-group-v2">
         <button
           className="btn-gold-gradient"
-          style={{ opacity: 0 }}
           onClick={() => {
             const element = document.getElementById('branches');
             if (element) element.scrollIntoView({ behavior: 'smooth' });
@@ -106,7 +106,6 @@ export default function HeroLeftColumn() {
         </button>
         <button
           className="btn-white-outline-v2"
-          style={{ opacity: 0 }}
           onClick={() => {
             const element = document.getElementById('gold-sell-process');
             if (element) element.scrollIntoView({ behavior: 'smooth' });

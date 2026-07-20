@@ -1,28 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import './hero.css';
 import HeroLeftColumn from './HeroLeftColumn';
-import HeroRightColumn from './HeroRightColumn';
 import HeroModelPhoto from './HeroModelPhoto';
 import HeroGoldRateCard from './HeroGoldRateCard';
 import HeroCurve from './HeroCurve';
 import Image from 'next/image';
 import coinImg from '@/assets/images/COIN.png';
-import sparkleImg from '@/assets/images/sparkle.png';
 import starImg from '@/assets/images/Star.png';
 import heroWaveImg from '@/assets/images/hero-wave.png';
-import hm6Img01 from '@/assets/images/hm6-img01.png';
 import groupHeroImg from '@/assets/images/GroupHero.png';
 
 // Star vector at the very start (top) of the curve - exact Figma position
 const CURVE_STAR = { left: 670.4, top: 132.3, width: 46, height: 48 };
-
-// Sparkle below the bottom icon (matches the Figma reference's twinkle
-// accent near the end of the arc).
-const CURVE_SPARKLES = [
-  { left: 787, top: 745, width: 16, height: 37.3 },
-];
 
 // Figma "Position X/Y" for each tiled background square behind the model
 const PATTERN_TILES = [
@@ -33,12 +23,6 @@ const PATTERN_TILES = [
   { left: 1274.95, top: 337.28, rotate: 0 },
   { left: 965.56, top: 337.28, rotate: 0 },
 ];
-
-// Figma "Homepage V2" frame width plus margin that the model photo, gold rate card,
-// and curve/icons are pixel-pinned to. Using 1580 ensures the gold rate card
-// does not get clipped on the right.
-const HERO_CANVAS_DESIGN_WIDTH = 1580;
-const HERO_CANVAS_DESIGN_HEIGHT = 905;
 
 export default function Hero() {
   // Below the design width/height, uniformly scale the pixel-pinned canvas down so

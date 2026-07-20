@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { animate, createTimeline, stagger, set } from 'animejs';
 import starImg from '@/assets/images/Star.png';
+import './heroCurve.css';
 
 export default function HeroCurve() {
   const containerRef = useRef<HTMLDivElement>(null);
