@@ -74,8 +74,9 @@
 
 .blue-checklist li {
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.75rem;
   font-size: 0.9rem;
   font-weight: 500;
   color: #0c1835;
@@ -90,6 +91,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .blue-cta-btn {
@@ -106,7 +108,6 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: var(--transition-smooth);
-
 }
 
 .blue-cta-btn:hover {
@@ -141,6 +142,8 @@
   height: auto;
   max-width: 380px;
   object-fit: contain;
+  mask-image: linear-gradient(to bottom, black 65%, rgba(0, 0, 0, 0.3) 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 65%, rgba(0, 0, 0, 0.3) 88%, transparent 100%);
 }
 
 /* Right: Group Highlights */
@@ -216,24 +219,52 @@
 /* Responsive adjustments */
 @media (max-width: 1100px) {
   .muthoot-blue-section {
-    padding: 4rem 0;
+    padding: 3rem 0;
   }
 
   .blue-grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 0.75rem;
   }
 
-  .blue-text-side,
+  .blue-text-side {
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0.5rem;
+  }
+
   .blue-compare-side {
     text-align: center;
     max-width: 560px;
     margin: 0 auto;
+    margin-top: -45px;
+    padding-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
   }
 
-  .blue-eyebrow,
-  .blue-checklist li {
+  .blue-eyebrow {
     justify-content: center;
+  }
+
+  .blue-checklist {
+    align-items: flex-start;
+    text-align: left;
+    max-width: 480px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .blue-checklist li {
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
   }
 
   .blue-cta-btn {
@@ -246,20 +277,25 @@
 
   .blue-media-side {
     align-self: auto;
+    margin-bottom: -0.5rem;
   }
 
   .blue-portrait-img {
-    max-width: 320px;
+    max-width: 230px;
   }
 }
 
 @media (max-width: 576px) {
   .muthoot-blue-section {
-    padding: 3rem 0;
+    padding: 2.5rem 0;
   }
 
   .blue-title {
     font-size: 1.6rem;
+  }
+
+  .blue-portrait-img {
+    max-width: 190px;
   }
 
   .blue-compare-row {

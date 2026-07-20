@@ -232,7 +232,7 @@
   color: var(--gold-primary);
 }
 
-/* Responsiveness media queries for new sections */
+/* Responsiveness media queries for mobile & tablet */
 @media (max-width: 1024px) {
   .footer-container {
     grid-template-columns: 1.5fr 1fr;
@@ -241,9 +241,14 @@
 }
 
 @media (max-width: 768px) {
+  .footer-root {
+    padding-top: 2rem;
+  }
+
   .footer-container {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
     text-align: center;
   }
 
@@ -253,32 +258,102 @@
   }
 
   .logo-img {
+    width: 160px;
     margin: 0 auto;
+  }
+
+  .footer-desc {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .footer-socials {
     justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .social-icon-link {
+    width: 30px;
+    height: 30px;
+  }
+
+  .social-icon {
+    width: 13px;
+    height: 13px;
   }
 
   .footer-col-title {
-    margin-bottom: 1rem;
+    font-size: 0.88rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .footer-links-list {
+    gap: 0.45rem;
+  }
+
+  .footer-link {
+    font-size: 0.82rem;
   }
 
   .office-item {
     justify-content: center;
+    font-size: 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .office-divider {
+    margin: 0.75rem 0;
   }
 
   .phone-row {
     justify-content: center;
+    margin-bottom: 0.85rem;
+    gap: 0.5rem;
+  }
+
+  .phone-number {
+    font-size: 1.15rem;
+  }
+
+  .phone-label {
+    font-size: 0.78rem;
   }
 
   .cert-box {
-    margin: 1.5rem auto 0;
+    margin: 1rem auto 0;
+    padding: 10px 14px;
+    max-width: 290px;
+    border-radius: 10px;
+  }
+
+  .cert-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cert-text {
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .footer-bottom {
+    padding: 1rem 0;
   }
 
   .footer-bottom-container {
     flex-direction: column;
     text-align: center;
+    gap: 0.6rem;
+  }
+
+  .copyright-text,
+  .footer-bottom-link {
+    font-size: 0.78rem;
   }
 
   .footer-bottom-links {
@@ -289,12 +364,23 @@
 }
 
 @media (max-width: 480px) {
+  .footer-root {
+    padding-top: 1.75rem;
+  }
+
+  .footer-container {
+    gap: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
   .cert-box {
     width: 100%;
+    max-width: 270px;
     box-sizing: border-box;
-    padding: 14px 16px;
+    padding: 10px 12px;
   }
+
   .logo-img {
-    width: 180px;
+    width: 140px;
   }
 }
