@@ -13,7 +13,6 @@ const NAV_LINKS = [
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
   { label: 'Branches', href: '#branches' },
-  { label: 'Testimonials', href: '#testimonials' },
   { label: 'Gold Rate', href: '#gold-rate' },
   { label: 'Career', href: '/career' },
 ];

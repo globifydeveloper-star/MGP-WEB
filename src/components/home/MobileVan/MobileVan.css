@@ -250,6 +250,11 @@
     margin-right: auto;
     transform: none;
   }
+
+  .van-photo-img {
+    left: 0% !important;
+    width: 100% !important;
+  }
 }
 
 @media (max-width: 640px) {

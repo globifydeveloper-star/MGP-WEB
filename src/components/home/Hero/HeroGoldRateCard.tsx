@@ -42,31 +42,26 @@ export default function HeroGoldRateCard() {
 
         tl.add(card, {
           opacity: [0, 1],
-          translateY: [60, 0],
-          scale: [0.93, 1],
-          duration: 1200,
-          ease: 'outElastic(1, 0.75)',
+          translateY: [40, 0],
+          scale: [0.95, 1],
+          duration: 1000,
+          ease: 'outElastic(1, 0.8)',
         })
         .add([header, divider], {
           opacity: [0, 1],
-          duration: 600,
-        }, '-=800')
-        .add(purity, {
-          opacity: [0, 1],
-          translateY: [10, 0],
+          translateY: [15, 0],
           duration: 600,
         }, '-=600')
-        .add(price, {
+        .add([purity, price], {
           opacity: [0, 1],
           translateY: [15, 0],
-          duration: 700,
-        }, '-=500')
+          duration: 600,
+        }, '-=400')
         .add(button, {
           opacity: [0, 1],
-          scale: [0.9, 1],
-          duration: 700,
-          ease: 'outBack',
-        }, '-=600');
+          translateY: [15, 0],
+          duration: 600,
+        }, '-=400');
       }
 
       // 3. Count up animation for gold rate (runs after card is partially visible)
@@ -99,8 +94,7 @@ export default function HeroGoldRateCard() {
   const handleMouseEnter = () => {
     if (buttonRef.current) {
       animate(buttonRef.current, {
-        scale: 1.04,
-        boxShadow: '0 8px 24px rgba(235, 175, 32, 0.35)',
+        scale: 1.03,
         duration: 300,
         ease: 'outQuad',
       });
@@ -119,7 +113,6 @@ export default function HeroGoldRateCard() {
     if (buttonRef.current) {
       animate(buttonRef.current, {
         scale: 1,
-        boxShadow: '0 4px 12px rgba(235, 175, 32, 0)',
         duration: 300,
         ease: 'outQuad',
       });
@@ -135,7 +128,7 @@ export default function HeroGoldRateCard() {
   };
 
   return (
-    <div ref={cardRef} className="hero-gold-rate-card-v2" style={{ opacity: 0 }}>
+    <div ref={cardRef} className="hero-gold-rate-card-v2">
       {/* Decorative Sparkles */}
       <Image
         src={sparkle2Img}
@@ -185,23 +178,22 @@ export default function HeroGoldRateCard() {
         />
       </svg>
 
-      <div className="rate-card-header-v2" style={{ opacity: 0 }}>
+      <div className="rate-card-header-v2">
         <span className="rate-card-title-v2">Today's Gold Rate</span>
         <div className="rate-card-live-indicator">
           <span className="live-dot-v2" />
           <span>Live</span>
         </div>
       </div>
-      <div className="rate-card-divider" style={{ opacity: 0 }} />
-      <div className="rate-card-purity-v2" style={{ opacity: 0 }}>24K (999)</div>
-      <div className="rate-card-price-value" style={{ opacity: 0 }}>
+      <div className="rate-card-divider" />
+      <div className="rate-card-purity-v2">24K (999)</div>
+      <div className="rate-card-price-value">
         <span>₹{displayRate.toLocaleString('en-IN')}</span>
         <span className="rate-card-price-unit">/g</span>
       </div>
       <button 
         ref={buttonRef}
         className="btn-rate-card-cta-v2" 
-        style={{ opacity: 0 }}
         onClick={handleScrollToForm}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -212,4 +204,3 @@ export default function HeroGoldRateCard() {
     </div>
   );
 }
-
