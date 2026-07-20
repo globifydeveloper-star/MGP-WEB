@@ -1,0 +1,285 @@
+/* Hero Gold Rate Card Stylesheet - GOLDPOINT */
+
+/* Today's Gold Rate Card overlay */
+.hero-gold-rate-card-v2 {
+  position: absolute;
+  left: 1300.52px;
+  top: 410.02px;
+  width: 256px;
+  height: 256px;
+  background: #111A41;
+  border-radius: 16px;
+  padding: 34.54px 14.49px 20px 17.51px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  outline: 1px solid #EBAF20;
+  outline-offset: -1px;
+  pointer-events: auto;
+  z-index: 5;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.hero-gold-rate-card-v2:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(235, 175, 32, 0.25), 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+.hero-gold-rate-card-v2:hover .gold-beam-rect {
+  filter: drop-shadow(0 0 12px rgba(235, 175, 32, 0.95)) drop-shadow(0 0 28px rgba(235, 175, 32, 0.6)) !important;
+  stroke-width: 2.5px;
+  opacity: 1;
+}
+
+/* Animated Golden Beam overlay traversing the border */
+.gold-beam-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+.gold-beam-rect {
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 3px rgba(235, 175, 32, 0.4)) drop-shadow(0 0 6px rgba(235, 175, 32, 0.2));
+  opacity: 0.9;
+  animation: gold-card-glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes gold-card-glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px rgba(235, 175, 32, 0.35)) drop-shadow(0 0 8px rgba(235, 175, 32, 0.15));
+    opacity: 0.75;
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px rgba(235, 175, 32, 0.75)) drop-shadow(0 0 22px rgba(235, 175, 32, 0.4));
+    opacity: 1;
+  }
+}
+
+.rate-card-header-v2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+}
+
+.rate-card-title-v2 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+.rate-card-live-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 64px;
+  height: 24px;
+  flex-shrink: 0;
+  background: #334155;
+  border: 1px solid #4ADE80;
+  border-radius: 30px;
+  color: #4ADE80;
+  font-size: 12px;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+.live-dot-v2 {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #4ADE80;
+  animation: pulse-live 1.6s infinite;
+}
+
+@keyframes pulse-live {
+  0% {
+    transform: scale(0.85);
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(74, 222, 128, 0);
+  }
+
+  100% {
+    transform: scale(0.85);
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
+}
+
+.rate-card-divider {
+  width: 100%;
+  height: 0;
+  background-color: transparent;
+  margin: 16px 0;
+}
+
+.rate-card-purity-v2 {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+.rate-card-price-value {
+  display: flex;
+  align-items: baseline;
+  font-weight: 500;
+  font-size: 36px;
+  margin-top: 4px;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+}
+
+.rate-card-price-value span:first-child,
+.rate-card-price-unit {
+  background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rate-card-price-unit {
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 0.15rem;
+}
+
+.btn-rate-card-cta-v2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: auto;
+  padding: 14px 12px 14px 14px;
+  background: transparent;
+  border: 1px solid #EBAF20;
+  border-radius: 8px;
+  color: #EBAF20;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  box-sizing: border-box;
+}
+
+.btn-rate-card-cta-v2:hover {
+  background: rgba(235, 175, 32, 0.08);
+  box-shadow: 0 0 12px rgba(235, 175, 32, 0.2);
+}
+
+.rate-card-cta-arrow {
+  font-size: 1rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.btn-rate-card-cta-v2:hover .rate-card-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* Tablet & Mobile Overrides for Gold Rate Card */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-mobile-rate-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 {
+    position: relative;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    width: 300px;
+    height: 300px;
+    padding: 34px 18px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-mobile-rate-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 {
+    position: relative;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    width: 270px;
+    height: 270px;
+    padding: 34.54px 14.49px 20px 17.51px;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 {
+    width: 240px;
+    height: 240px;
+    padding: 20px 12px 14px 12px;
+  }
+
+  .hero-mobile-rate-card-container .hero-gold-rate-card-v2 .hero-sparkle-flare {
+    display: none !important;
+  }
+
+  .hero-mobile-rate-card-container .btn-rate-card-cta-v2 {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-price-value {
+    font-size: 26px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-header-v2 {
+    gap: 12px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-title-v2 {
+    font-size: 12px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-live-indicator {
+    width: 54px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .hero-mobile-rate-card-container .rate-card-divider {
+    margin: 10px 0;
+  }
+}
