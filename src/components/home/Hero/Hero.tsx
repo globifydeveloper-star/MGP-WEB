@@ -123,18 +123,6 @@ export default function Hero() {
           <HeroGoldRateCard />
           <HeroCurve />
 
-          {CURVE_SPARKLES.map((pos, i) => (
-            <Image
-              key={i}
-              src={sparkleImg}
-              alt=""
-              aria-hidden="true"
-              className="hero-sparkle-flare"
-              style={{ left: pos.left, top: pos.top, width: pos.width, height: pos.height }}
-              width={42}
-              height={98}
-            />
-          ))}
         </div>
       </div>
 

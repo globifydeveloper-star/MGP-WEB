@@ -9,7 +9,8 @@
 .hero-section-root-v2 {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: calc(880px * var(--hero-scale, 1));
+  min-height: 680px;
   background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
   overflow: hidden;
   padding-top: 80px;
@@ -17,9 +18,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* Width-driven so model photo + rate card shrink as the viewport narrows.
-     (A height term in min() froze scale on short screens, e.g. 1285×673.) */
-  --hero-scale: clamp(0.45, calc((100vw - 5rem) / 1580px), 1);
+  /* Width-driven so model photo + rate card shrink as the viewport narrows. */
+  --hero-scale: clamp(0.45, calc(100vw / 1580px), 1);
 }
 
 /*
@@ -63,7 +63,7 @@
 /* Floating Gold Coin decoration */
 .hero-floating-coin-left {
   position: absolute;
-  left: -60px;
+  left: -40px;
   top: 180.16px;
   width: 80.04px;
   height: 84.26px;
@@ -101,11 +101,11 @@
 /* Rotated gold wave flourish behind the model */
 .hero-scene-wave {
   position: absolute;
-  left: -77.11px;
+  left: 0px;
   top: 600.53px;
-  width: 800.88px;
-  height: 292.49px;
-  transform: rotate(0.70deg);
+  width: 1100.88px;
+  height: 450.49px;
+  transform: rotate(1.9deg);
   transform-origin: center center;
   pointer-events: none;
   z-index: 1;
@@ -137,9 +137,9 @@
 /* Grid Container */
 .hero-container-v2 {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1580px;
   margin: 0 auto;
-  padding: 2rem 2.5rem 3rem 2.5rem;
+  padding: 2rem 2rem 3rem 2rem;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 4rem;
@@ -160,26 +160,23 @@
 /* Trust Badge Row */
 .hero-trust-badge-v2 {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 2.25rem;
   width: fit-content;
 }
 
-.trust-badge-circle-icon {
-  width: 22px;
-  height: 22px;
-  color: #EBAF20;
+.trust-badge-header-v2 {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.75rem;
 }
 
-.trust-badge-circle-icon svg {
-  width: 100%;
-  height: 100%;
+.trust-badge-icon-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .trust-badge-text-v2 {
@@ -195,6 +192,21 @@
   font-weight: 700;
 }
 
+.trust-badge-line-wrapper {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.trust-badge-underline-img {
+  width: 100%;
+  height: auto;
+  max-height: 4px;
+  object-fit: fill;
+  display: block;
+}
+
 /* Headlines */
 .hero-main-title-v2 {
   font-family: 'Gilroy', 'Outfit', sans-serif;
@@ -204,6 +216,12 @@
   color: #FFFFFF;
   margin-bottom: 1.5rem;
   letter-spacing: -0.01em;
+}
+
+.hero-title-white-text {
+  color: #FFFFFF;
+  font-weight: 700;
+  display: block;
 }
 
 .hero-gold-text {
@@ -383,9 +401,6 @@
   inset: 0;
   pointer-events: none;
   z-index: 3;
-  /* Curve/icons measured 320px too far left vs. the navbar (was landing
-     under "Testimonials" instead of "Gold Rate") - shift the whole group
-     right as one rigid unit so icon/label/circle spacing stays untouched. */
   transform: translateX(320px);
 }
 
@@ -617,7 +632,7 @@
 }
 
 .hero-stats-container-v2 {
-  max-width: 1400px;
+  max-width: 1580px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -693,6 +708,7 @@
     left: -40px;
   }
 }
+
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-section-root-v2 {
     padding-top: 80px;
@@ -709,7 +725,7 @@
     justify-content: center;
     align-items: flex-end;
     width: 100%;
-    height: min(65vw, 580px);
+    height: min(70vw, 620px);
     position: relative;
     overflow: hidden;
     background-color: #06132E;
@@ -724,29 +740,29 @@
     margin: 0 auto;
   }
 
-  /* Gold arc image scaled for tablet - takes full width so icons are readable */
+  /* Gold arc image scaled for tablet */
   .hmv-curve-img {
     position: absolute !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
-    top: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+    transform: translateX(-55%) scale(1.05) !important;
+    top: -2% !important;
+    width: 105% !important;
+    height: 105% !important;
     object-fit: contain !important;
     z-index: 1 !important;
   }
 
-  /* Model photo centered and large — primary visual focus */
+  /* Model photo shifted a bit to the right for tablets (iPad Mini, Air, Surface Pro 7, Zenbook Fold) */
   .hero-mobile-top-visual-container .hero-model-photo-wrapper {
     display: block !important;
     position: absolute !important;
-    left: 50% !important;
+    left: 55% !important;
     right: auto !important;
-    transform: translateX(-50%) !important;
+    transform: translateX(-40%) !important;
     bottom: 0 !important;
-    top: auto !important;
-    width: min(55vw, 500px) !important;
-    height: 95% !important;
+    top: 0 !important;
+    width: min(65vw, 520px) !important;
+    height: 100% !important;
     z-index: 2;
   }
 
@@ -755,6 +771,8 @@
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
+    object-position: bottom center !important;
+    transform: none !important;
     mask-image: linear-gradient(to bottom, black 88%, transparent 100%) !important;
     -webkit-mask-image: linear-gradient(to bottom, black 88%, transparent 100%) !important;
   }
@@ -938,17 +956,29 @@
     overflow: visible;
   }
 
-  /* Display the top model photo prominently */
+  /* Display the top model photo prominently (zoomed focus) */
   .hero-mobile-top-model-wrapper {
     display: flex;
     justify-content: center;
     align-items: flex-end;
     width: 100%;
-    height: clamp(340px, 45vw, 550px);
+    height: clamp(380px, 58vw, 600px);
     position: relative;
     overflow: hidden;
     background-color: #06132E;
     z-index: 1;
+  }
+
+  .hero-mobile-top-model-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, rgba(6, 19, 46, 0) 0%, rgba(6, 19, 46, 0.6) 60%, #06132E 100%);
+    pointer-events: none;
+    z-index: 5;
   }
 
   .hero-mobile-top-visual-container {
@@ -961,33 +991,37 @@
 
   .hmv-curve-img {
     position: absolute;
-    left: -25%;
-    top: -10%;
-    width: 200%;
-    height: 120%;
+    left: -55%;
+    top: -9%;
+    width: 220%;
+    height: 130%;
     object-fit: contain;
+    transform: scale(1.22);
+    transform-origin: center center;
     z-index: 1;
   }
 
   .hero-mobile-top-visual-container .hero-model-photo-wrapper {
     display: block !important;
     position: absolute !important;
-    right: 0 !important;
+    right: -15px !important;
     bottom: 0 !important;
-    width: 55% !important;
-    height: 95% !important;
+    top: 0 !important;
+    width: 65% !important;
+    height: 100% !important;
     left: auto !important;
-    top: auto !important;
     z-index: 2;
   }
 
   .hero-mobile-top-visual-container .hero-model-img {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: bottom right !important;
+    transform: none !important;
+    mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.4) 75%, transparent 98%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, rgba(0, 0, 0, 0.4) 75%, transparent 98%) !important;
   }
 
   .hero-container-v2 {
@@ -1011,30 +1045,56 @@
   /* The trust badge overlaps the lower part of the model image */
   .hero-trust-badge-v2 {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    background: rgba(30, 27, 75, 0.85);
-    border: 1.5px solid rgba(255, 255, 255, 0.08);
-    padding: 10px 20px;
-    border-radius: 50px;
-    margin: -40px auto 2rem auto;
+    background: transparent;
+    border: none;
+    padding: 0;
+    border-radius: 0;
+    margin: 0.5rem auto 1.25rem auto;
     position: relative;
     z-index: 10;
     width: fit-content;
     justify-content: center;
   }
 
+  .trust-badge-header-v2 {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    justify-content: center;
+  }
+
+  .trust-badge-icon-img {
+    width: 20px;
+    height: 20px;
+  }
+
   .trust-badge-text-v2 {
-    font-size: 0.85rem;
-    font-weight: 600;
-    white-space: normal;
+    font-size: 0.72rem;
+    font-weight: 500;
+    white-space: nowrap;
     text-align: center;
   }
 
+  .trust-badge-line-wrapper {
+    width: 100%;
+    margin-top: 4px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .trust-badge-underline-img {
+    width: 100%;
+    height: auto;
+    max-height: 2.5px;
+    object-fit: fill;
+  }
+
   .hero-main-title-v2 {
-    font-size: clamp(1.65rem, 5vw, 2.25rem);
+    font-size: clamp(1.85rem, 4.5vw, 1.75rem) !important;
     text-align: center;
-    line-height: 1.15;
+    line-height: 1.2;
     margin-bottom: 1rem;
     width: 100%;
   }
@@ -1405,6 +1465,7 @@
   position: absolute;
   pointer-events: none;
   z-index: 6;
+  mix-blend-mode: screen;
   filter: drop-shadow(0 0 6px rgba(235, 175, 32, 0.7));
 }
 

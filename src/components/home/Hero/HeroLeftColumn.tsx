@@ -2,6 +2,9 @@
 
 import React, { useEffect, useRef } from 'react';
 import { animate, createTimeline, stagger, set } from 'animejs';
+import Image from 'next/image';
+import trustIcon from '@/assets/images/trusticon.png';
+import lineImg from '@/assets/images/Line.png';
 
 export default function HeroLeftColumn() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,20 +57,32 @@ export default function HeroLeftColumn() {
     <div ref={containerRef} className="hero-left-column-v2">
       {/* Trust Badge */}
       <div className="hero-trust-badge-v2" style={{ opacity: 0 }}>
-        <span className="trust-badge-circle-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 8v4l3 3" />
-          </svg>
-        </span>
-        <span className="trust-badge-text-v2">
-          Trusted by <span className="gold-highlight">5 Lakh+ Customers</span> Across India
-        </span>
+        <div className="trust-badge-header-v2">
+          <Image
+            src={trustIcon}
+            alt="Trust Icon"
+            width={34}
+            height={34}
+            className="trust-badge-icon-img"
+            priority
+          />
+          <span className="trust-badge-text-v2">
+            Trusted by <span className="gold-highlight">5 Lakh+ Customers</span> Across India
+          </span>
+        </div>
+        <div className="trust-badge-line-wrapper">
+          <Image
+            src={lineImg}
+            alt=""
+            className="trust-badge-underline-img"
+            priority
+          />
+        </div>
       </div>
 
       {/* Main Headline */}
       <h1 className="hero-main-title-v2" style={{ opacity: 0 }}>
-        <div className="self-stretch justify-center text-white text-6xl font-normal font-['Gilroy-Bold']">Sell Your Gold. </div>
+        <span className="hero-title-white-text">Sell Your Gold. </span>
         <span className="hero-gold-text">Get Cash Today.</span>
       </h1>
 
