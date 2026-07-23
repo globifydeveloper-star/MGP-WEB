@@ -1,0 +1,211 @@
+/* How We Value Your Gold — GOLDPOINT */
+
+.vp-section {
+  position: relative;
+  background: var(--bg-primary);
+  padding: 4.5rem 0;
+  overflow: hidden;
+}
+
+.vp-layout {
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+}
+
+.vp-left {
+  min-width: 0;
+  width: 100%;
+  padding-left: max(2rem, calc((100vw - 1280px) / 2 + 2rem));
+  padding-right: 2.5rem;
+}
+
+.vp-left-inner {
+  width: 100%;
+  max-width: 900px;
+}
+
+.vp-image-wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 14%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14%);
+}
+
+.vp-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--text-white);
+  margin: 0 0 3rem;
+}
+
+.vp-title-gold {
+  color: var(--gold-primary);
+}
+
+.vp-steps {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.vp-steps::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  right: 32px;
+  height: 1px;
+  background: repeating-linear-gradient(to right,
+      var(--border-gold-glow) 0,
+      var(--border-gold-glow) 6px,
+      transparent 6px,
+      transparent 12px);
+  z-index: 0;
+}
+
+.vp-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.vp-step-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #111A41;
+  border: 1.5px solid var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+  box-shadow: 0 0 0 6px rgba(12, 31, 108, 1), 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.vp-step-circle svg {
+  width: 26px;
+  height: 26px;
+}
+
+.vp-rupee-icon {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.vp-step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.vp-step-num {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+  letter-spacing: 0.05em;
+}
+
+.vp-step-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.vp-step-desc {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.vp-image {
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (min-width: 1024px) {
+  .vp-left {
+    padding-right: 460px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .vp-left {
+    padding-left: 2rem;
+  }
+
+  .vp-image-wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .vp-section {
+    padding: 3rem 0;
+  }
+
+  .vp-left {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .vp-title {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .vp-steps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+
+  .vp-steps::before {
+    top: 0;
+    bottom: 0;
+    left: 32px;
+    right: auto;
+    width: 1px;
+    height: auto;
+    background: repeating-linear-gradient(to bottom,
+        var(--border-gold-glow) 0,
+        var(--border-gold-glow) 6px,
+        transparent 6px,
+        transparent 12px);
+  }
+
+  .vp-step {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .vp-step-circle {
+    flex-shrink: 0;
+    box-shadow: 0 0 0 6px var(--bg-primary), 0 8px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .vp-step-title {
+    font-size: 0.95rem;
+  }
+}

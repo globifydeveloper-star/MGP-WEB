@@ -1,0 +1,215 @@
+/* Gold Value Calculator Panel — GOLDPOINT */
+
+.gc-panel {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(15, 26, 77, 0.08);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 2rem;
+  scroll-margin-top: 100px;
+}
+
+.gc-col {
+  min-width: 0;
+}
+
+.gc-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0F1A4D;
+  margin: 0 0 1.4rem;
+}
+
+.gc-field {
+  margin-bottom: 1.1rem;
+}
+
+.gc-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0F1A4D;
+  margin-bottom: 0.5rem;
+}
+
+.gc-purity-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.gc-purity-btn {
+  flex: 1 1 auto;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: 1.5px solid #E1E4EE;
+  background: #F8F9FC;
+  color: #0F1A4D;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.gc-purity-btn:hover {
+  border-color: var(--gold-primary);
+}
+
+.gc-purity-btn-active {
+  background: var(--gold-gradient);
+  border-color: transparent;
+  color: #0c1835;
+  box-shadow: 0 4px 14px rgba(218, 161, 46, 0.25);
+}
+
+.gc-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.gc-input {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  border: 1.5px solid #E1E4EE;
+  background: #F8F9FC;
+  color: #0F1A4D;
+  font-size: 0.9rem;
+  outline: none;
+  transition: var(--transition-smooth);
+  -moz-appearance: textfield;
+}
+
+.gc-input::-webkit-outer-spin-button,
+.gc-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.gc-input:focus {
+  border-color: var(--gold-primary);
+  background: #FFFFFF;
+}
+
+.gc-input-prefix {
+  position: absolute;
+  left: 0.9rem;
+  font-size: 0.8rem;
+  color: #8891A8;
+  pointer-events: none;
+}
+
+.gc-input-wrap:has(.gc-input-prefix) .gc-input {
+  padding-left: 4.6rem;
+}
+
+.gc-input-suffix {
+  position: absolute;
+  right: 0.9rem;
+  font-size: 0.8rem;
+  color: #8891A8;
+  pointer-events: none;
+}
+
+.gc-calculate-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.9rem;
+  font-size: 1rem;
+}
+
+/* Result column */
+.gc-col-result {
+  background: #F8F9FC;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  scroll-margin-top: 100px;
+}
+
+.gc-result-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F1A4D;
+  margin: 0 0 1.1rem;
+}
+
+.gc-result-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.gc-result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: #4B5470;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px dashed #DDE1EC;
+}
+
+.gc-result-row span:last-child {
+  font-weight: 600;
+  color: #0F1A4D;
+  text-align: right;
+}
+
+.gc-result-total {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 2px solid #0F1A4D;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.gc-result-total span:first-child {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0F1A4D;
+}
+
+.gc-result-total-value {
+  font-size: 1.9rem;
+  font-weight: 800;
+  background: linear-gradient(180deg, #9A6410 0%, #C98A18 25%, #F0C24E 65%, #DAA12E 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gc-disclaimer {
+  margin: 1.25rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: #8891A8;
+}
+
+@media (max-width: 1023px) {
+  .gc-panel {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gc-panel {
+    padding: 1.25rem;
+  }
+
+  .gc-purity-buttons {
+    flex-direction: column;
+  }
+
+  .gc-result-total-value {
+    font-size: 1.6rem;
+  }
+}

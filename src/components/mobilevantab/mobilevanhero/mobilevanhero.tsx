@@ -10,6 +10,7 @@ import frame3 from '@/assets/images/frames/Van-Frames-Animated/frame 3.png';
 import frame4 from '@/assets/images/frames/Van-Frames-Animated/frame 4.png';
 import frame5 from '@/assets/images/frames/Van-Frames-Animated/frame 5.png';
 import frame6 from '@/assets/images/frames/Van-Frames-Animated/frame 6.png';
+import van from '@/assets/images/van.png';
 
 const frames = [frame1, frame2, frame3, frame4, frame5, frame6];
 
@@ -71,7 +72,7 @@ export default function MobileVanHero() {
           <div className="mvh-van-container">
             {/* 1. Base image (always rendered to establish layout size, invisible when animating) */}
             <img
-              src="/vannew.png"
+              src={van.src}
               alt="Muthoot Gold Point mobile van"
               className="mvh-van-img"
               style={{ opacity: (isMounted && isAnimationStarted) ? 0 : 1 }}

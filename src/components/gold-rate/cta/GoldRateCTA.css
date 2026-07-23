@@ -1,0 +1,116 @@
+/* Gold Rate CTA — GOLDPOINT */
+
+.grc-section {
+  background: var(--gold-gradient);
+  padding: 3.5rem 0;
+}
+
+.grc-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.grc-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #14192E;
+  margin: 0 0 0.6rem;
+  line-height: 1.2;
+}
+
+.grc-subtext {
+  font-size: 1rem;
+  color: rgba(20, 25, 46, 0.75);
+  margin: 0 0 1.5rem;
+  max-width: 48ch;
+}
+
+.grc-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.grc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+  border: 1.5px solid transparent;
+}
+
+.grc-btn-dark {
+  background: #14192E;
+  color: #FFFFFF;
+}
+
+.grc-btn-dark:hover {
+  background: #0c0f1e;
+  transform: translateY(-2px);
+}
+
+.grc-btn-outline {
+  background: transparent;
+  border-color: #14192E;
+  color: #14192E;
+}
+
+.grc-btn-outline:hover {
+  background: rgba(20, 25, 46, 0.08);
+  transform: translateY(-2px);
+}
+
+.grc-image-wrap {
+  position: relative;
+  width: 300px;
+  aspect-ratio: 496 / 456;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(20, 25, 46, 0.3);
+  flex-shrink: 0;
+}
+
+.grc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1023px) {
+  .grc-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .grc-cta-row {
+    justify-content: center;
+  }
+
+  .grc-image-wrap {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .grc-title {
+    font-size: 1.6rem;
+  }
+
+  .grc-btn {
+    width: 100%;
+  }
+
+  .grc-cta-row {
+    flex-direction: column;
+  }
+}

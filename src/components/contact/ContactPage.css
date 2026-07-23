@@ -1,0 +1,342 @@
+/* Contact Us Page Styles */
+
+/* 1. Page Header */
+.contact-header-section {
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(226, 157, 36, 0.15) 0%, transparent 50%),
+    linear-gradient(to bottom, #0c183b 0%, #10182B 100%);
+  padding: 12rem 0 3rem 0;
+}
+
+.contact-header-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-align: center;
+  margin: 0;
+}
+
+/* 2. Registered Office + Contact Form */
+.contact-info-section {
+  background: #F7F8FB;
+  padding: 5rem 0;
+}
+
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.contact-office-card,
+.contact-form-card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 2.25rem;
+  box-shadow: 0 8px 30px rgba(16, 24, 43, 0.08);
+  height: 100%;
+}
+
+.contact-office-heading,
+.contact-form-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #10182B;
+  margin-bottom: 1.25rem;
+}
+
+.contact-office-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #E29D24;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+
+.contact-office-address {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #4A5268;
+  margin-bottom: 1rem;
+}
+
+.contact-office-pending {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #9AA3B8;
+  margin-bottom: 1rem;
+}
+
+.contact-office-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  color: #4A5268;
+  margin-bottom: 0.6rem;
+}
+
+/* Form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contact-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-form-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #10182B;
+}
+
+.contact-form-input,
+.contact-form-textarea {
+  width: 100%;
+  border: 1px solid #E3E7EF;
+  background: #F7F8FB;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  color: #10182B;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.contact-form-input::placeholder,
+.contact-form-textarea::placeholder {
+  color: #9AA3B8;
+}
+
+.contact-form-input:focus,
+.contact-form-textarea:focus {
+  border-color: #E29D24;
+}
+
+.contact-form-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.contact-form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.contact-form-consent-checkbox {
+  margin-top: 0.2rem;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: #E29D24;
+  cursor: pointer;
+}
+
+.contact-form-consent-text {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #6B7280;
+}
+
+.contact-form-submit {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #F5C05A 0%, #E29D24 100%);
+  color: #10182B;
+  border: none;
+  padding: 0.9rem 2.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 8px 20px rgba(226, 157, 36, 0.3);
+}
+
+.contact-form-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.contact-form-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* 3. Branch Directory */
+.contact-branches-section {
+  background: #FFFFFF;
+  padding: 5.5rem 0 6rem 0;
+}
+
+.contact-branches-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.contact-branches-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #10182B;
+  line-height: 1.3;
+}
+
+.contact-chip-row {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 0.75rem;
+  padding: 0.25rem 0.25rem 1.25rem 0.25rem;
+  margin-bottom: 1.5rem;
+  scrollbar-width: thin;
+}
+
+.contact-chip-row::-webkit-scrollbar {
+  height: 6px;
+}
+
+.contact-chip-row::-webkit-scrollbar-thumb {
+  background: #E3E7EF;
+  border-radius: 999px;
+}
+
+.contact-chip {
+  flex-shrink: 0;
+  background: #F7F8FB;
+  border: 1.5px solid transparent;
+  color: #10182B;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.35rem;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.contact-chip:hover {
+  background: #F3E9D3;
+}
+
+.contact-chip-active {
+  border-color: #E29D24;
+  background: #FDFAF3;
+  color: #10182B;
+}
+
+.contact-branch-card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 2.25rem;
+  box-shadow: 0 10px 34px rgba(16, 24, 43, 0.1);
+  max-width: 720px;
+}
+
+.contact-branch-city {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #10182B;
+  margin-bottom: 1.5rem;
+}
+
+.contact-branch-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid #EFF1F6;
+}
+
+.contact-branch-detail-row:first-of-type {
+  border-top: none;
+}
+
+.contact-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: #E29D24;
+  margin-top: 0.15rem;
+}
+
+.contact-branch-detail-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.contact-branch-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9AA3B8;
+}
+
+.contact-branch-value {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #10182B;
+}
+
+.contact-branch-value a {
+  color: #10182B;
+  text-decoration: none;
+}
+
+.contact-branch-value a:hover {
+  color: #E29D24;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .contact-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-header-section {
+    padding: 7rem 0 2.5rem 0;
+  }
+
+  .contact-header-title {
+    font-size: 1.85rem;
+  }
+
+  .contact-info-section {
+    padding: 3rem 0;
+  }
+
+  .contact-office-card,
+  .contact-form-card {
+    padding: 1.5rem;
+  }
+
+  .contact-branches-section {
+    padding: 3.5rem 0 4rem 0;
+  }
+
+  .contact-branches-title {
+    font-size: 1.5rem;
+  }
+
+  .contact-branch-card {
+    padding: 1.5rem;
+  }
+
+  .contact-form-submit {
+    width: 100%;
+  }
+}

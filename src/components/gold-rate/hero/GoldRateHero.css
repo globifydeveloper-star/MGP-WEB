@@ -1,0 +1,330 @@
+/* Gold Rate Hero — GOLDPOINT */
+
+.grh-section {
+  position: relative;
+  width: 100%;
+  padding: 0 0 3rem;
+  background: var(--bg-radial);
+  overflow: hidden;
+}
+
+.grh-hero-top {
+  position: relative;
+  padding: 5rem 0 3.5rem;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.grh-bg {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.grh-bg-image {
+  object-fit: cover;
+  object-position: center right;
+}
+
+.grh-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(6, 15, 46, 0.96) 0%,
+    rgba(6, 15, 46, 0.9) 32%,
+    rgba(6, 15, 46, 0.6) 55%,
+    rgba(6, 15, 46, 0.22) 78%,
+    rgba(6, 15, 46, 0.05) 100%
+  );
+}
+
+.grh-top-grid {
+  position: relative;
+  z-index: 2;
+}
+
+.grh-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 640px;
+}
+
+.grh-heading {
+  font-size: 3rem;
+  line-height: 1.08;
+  font-weight: 800;
+  color: var(--text-white);
+  margin: 0;
+}
+
+.grh-subtext {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 46ch;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.grh-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.grh-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-height: 1.2em;
+}
+
+.grh-meta-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.grh-rate-card {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 0.75rem;
+  padding: 1.1rem 1.4rem;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  box-shadow: var(--shadow-gold);
+}
+
+.grh-rate-card-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+}
+
+.grh-rate-card-label span {
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.grh-rate-card-value-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.35rem;
+}
+
+.grh-rate-card-value {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--text-white);
+  line-height: 1;
+}
+
+.grh-rate-card-change,
+.grh-purity-change {
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.grh-trend-up {
+  color: #4ADE80;
+}
+
+.grh-trend-down {
+  color: #F87171;
+}
+
+.grh-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Purity rate cards row */
+.grh-purity-scroller {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.grh-purity-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.grh-purity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.grh-purity-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
+}
+
+.grh-purity-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.grh-purity-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--gold-primary);
+  flex-shrink: 0;
+}
+
+.grh-purity-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.grh-purity-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+}
+
+.grh-purity-title span {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.grh-purity-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.grh-purity-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.grh-purity-row-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.grh-purity-row-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.grh-purity-change {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.grh-disclaimer {
+  margin: 1.25rem 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .grh-left {
+    max-width: 100%;
+  }
+
+  .grh-bg-overlay {
+    background: linear-gradient(
+      100deg,
+      rgba(6, 15, 46, 0.97) 0%,
+      rgba(6, 15, 46, 0.92) 45%,
+      rgba(6, 15, 46, 0.65) 75%,
+      rgba(6, 15, 46, 0.35) 100%
+    );
+  }
+
+  .grh-subtext {
+    max-width: 60ch;
+  }
+
+  .grh-rate-card {
+    max-width: 100%;
+  }
+
+  .grh-purity-grid {
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+  }
+
+  .grh-purity-scroller {
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem 2px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .grh-hero-top {
+    padding: 6rem 0 2.5rem;
+  }
+
+  .grh-heading {
+    font-size: 2.1rem;
+  }
+
+  .grh-subtext {
+    font-size: 0.95rem;
+  }
+
+  .grh-bg-overlay {
+    background: rgba(6, 15, 46, 0.93);
+  }
+
+  .grh-rate-card-value {
+    font-size: 1.75rem;
+  }
+
+  .grh-purity-grid {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(230px, 82vw);
+    grid-template-columns: none;
+  }
+
+  .grh-purity-scroller {
+    margin: 0 -1rem;
+    padding: 0 1rem 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grh-purity-scroller {
+    margin: 0 -0.75rem;
+    padding: 0 0.75rem 2px;
+  }
+}

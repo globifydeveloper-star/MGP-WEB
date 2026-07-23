@@ -1,0 +1,82 @@
+/* Testimonials CTA — GOLDPOINT */
+
+.tcta-section {
+  background: var(--gold-gradient);
+  padding: 3.5rem 0;
+}
+
+.tcta-inner {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.tcta-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #14192E;
+  margin: 0 0 0.6rem;
+  line-height: 1.2;
+}
+
+.tcta-subtext {
+  font-size: 1rem;
+  color: rgba(20, 25, 46, 0.75);
+  margin: 0 0 1.5rem;
+}
+
+.tcta-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.tcta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+  border: 1.5px solid transparent;
+}
+
+.tcta-btn-dark {
+  background: #14192E;
+  color: #FFFFFF;
+}
+
+.tcta-btn-dark:hover {
+  background: #0c0f1e;
+  transform: translateY(-2px);
+}
+
+.tcta-btn-outline {
+  background: transparent;
+  border-color: #14192E;
+  color: #14192E;
+}
+
+.tcta-btn-outline:hover {
+  background: rgba(20, 25, 46, 0.08);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .tcta-title {
+    font-size: 1.6rem;
+  }
+
+  .tcta-btn {
+    width: 100%;
+  }
+
+  .tcta-cta-row {
+    flex-direction: column;
+  }
+}

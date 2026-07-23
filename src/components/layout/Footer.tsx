@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import './Footer.css';
 
 export default function Footer() {
@@ -41,9 +42,11 @@ export default function Footer() {
           <h4 className="footer-col-title">Quick Links</h4>
           <ul className="footer-links-list">
             <li><a href="/about-us" className="footer-link">About Us</a></li>
-            <li><a href="#" className="footer-link">Gold Rate</a></li>
-            <li><a href="#" className="footer-link">Branch Locator</a></li>
+            <li><a href="/gold-rate" className="footer-link">Gold Rate</a></li>
+            <li><Link href="/#branches" className="footer-link">Branch Locator</Link></li>
             <li><a href="#" className="footer-link">Privacy Policy</a></li>
+            <li><a href="/testimonials" className="footer-link">Testimonials</a></li>
+            <li><a href="/contact-us" className="footer-link">Contact Us</a></li>
             <li><a href="#" className="footer-link">FAQs</a></li>
           </ul>
         </div>

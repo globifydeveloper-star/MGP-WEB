@@ -1,0 +1,33 @@
+/* Calculator + Rates wrapper section — GOLDPOINT */
+
+.crs-section {
+  background: #F5F6FB;
+  padding: 3.5rem 0;
+}
+
+.crs-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.crs-calculator-col,
+.crs-rates-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+@media (max-width: 1023px) {
+  .crs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .crs-section {
+    padding: 2.5rem 0;
+  }
+}

@@ -33,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} suppressHydrationWarning>
       <body>
+
         {children}
         <BranchSelector />
       </body>

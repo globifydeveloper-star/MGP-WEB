@@ -12,9 +12,10 @@ const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
-  { label: 'Branches', href: '#branches' },
-  { label: 'Gold Rate', href: '#gold-rate' },
+  { label: 'Branches', href: '/#branches' },
+  { label: 'Gold Rate', href: '/gold-rate' },
   { label: 'Career', href: '/career' },
+  { label: 'Contact Us', href: '/contact-us' },
 ];
 
 

@@ -82,7 +82,7 @@ export default function Appoinment() {
 
             <div className="apt-van-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/vannew.png" alt="Muthoot Gold Point mobile van" className="apt-van-img" />
+              <img src="/van.png" alt="Muthoot Gold Point mobile van" className="apt-van-img" />
             </div>
           </div>
 

@@ -1,0 +1,133 @@
+/* Gold Rate Trends chart — GOLDPOINT */
+
+.grt-panel {
+  background: #111A41;
+  border-radius: 16px;
+  border: 1px solid var(--border-gold);
+  padding: 1.75rem;
+}
+
+.grt-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.grt-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-white);
+  margin: 0;
+}
+
+.grt-tabs {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.grt-tab {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.grt-tab:hover {
+  border-color: var(--border-gold-glow);
+  color: var(--text-white);
+}
+
+.grt-tab-active {
+  background: var(--gold-gradient);
+  border-color: transparent;
+  color: #0c1835;
+}
+
+.grt-chart-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.grt-svg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 600 / 220;
+  display: block;
+  overflow: visible;
+}
+
+.grt-axis-label {
+  font-size: 9px;
+  fill: var(--text-muted);
+  font-family: var(--font-outfit), Arial, sans-serif;
+}
+
+.grt-line-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: grt-draw-line 1.1s ease-out forwards;
+}
+
+@keyframes grt-draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.grt-tooltip {
+  position: absolute;
+  transform: translate(-50%, -130%);
+  background: #0c1f6c;
+  border: 1px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 0.4rem 0.65rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  z-index: 3;
+}
+
+.grt-tooltip-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.grt-tooltip-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold-secondary);
+}
+
+.grt-note {
+  margin: 1rem 0 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 480px) {
+  .grt-panel {
+    padding: 1.25rem;
+  }
+
+  .grt-title {
+    font-size: 1rem;
+  }
+
+  .grt-tab {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.72rem;
+  }
+}

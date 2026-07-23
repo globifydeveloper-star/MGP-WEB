@@ -1,0 +1,267 @@
+/* Branch Locator Section Styles */
+.branch-locator-section {
+  background: #ffffff;
+  padding: 5.5rem 0 6rem 0;
+}
+
+.branch-locator-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 3rem auto;
+}
+
+.branch-locator-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #10182B;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.branch-locator-title-highlight {
+  color: #2196F3;
+}
+
+.branch-locator-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #5B6478;
+}
+
+/* Grid */
+.branch-locator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Map column */
+.branch-locator-map-col {
+  position: relative;
+  isolation: isolate;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 560px;
+}
+
+.branch-map-container {
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  border-radius: 12px;
+  background: #10182B;
+}
+
+.branch-locator-map-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 560px;
+  border-radius: 12px;
+  background: #10182B;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+/* Leaflet overrides */
+.branch-map-container .leaflet-tooltip {
+  background: #10182B;
+  color: #FFFFFF;
+  border: 1px solid #F5B301;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.branch-map-container .leaflet-tooltip-top:before {
+  border-top-color: #10182B;
+}
+
+.branch-map-container .leaflet-control-attribution {
+  background: rgba(16, 24, 43, 0.7);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.65rem;
+}
+
+.branch-map-container .leaflet-control-attribution a {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.branch-map-pin {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+  transition: transform 0.2s ease;
+}
+
+.branch-map-pin:hover {
+  transform: scale(1.08);
+}
+
+/* List column */
+.branch-locator-list-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.branch-locator-search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #F3F5F9;
+  border-radius: 999px;
+  padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+}
+
+.branch-locator-search-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: #8891A6;
+}
+
+.branch-locator-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+  color: #10182B;
+  font-family: inherit;
+}
+
+.branch-locator-search-input::placeholder {
+  color: #9AA3B8;
+}
+
+.branch-locator-search-btn {
+  flex-shrink: 0;
+  background: #10182B;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.branch-locator-search-btn:hover {
+  background: #1B2540;
+  transform: translateY(-1px);
+}
+
+.branch-locator-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.branch-locator-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #FDFAF3;
+  border: 1px solid #F0C94B;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+}
+
+.branch-locator-card-city {
+  font-size: 22px;
+  font-weight: 700;
+  color: #10182B;
+  margin-bottom: 0.3rem;
+}
+
+.branch-locator-card-meta {
+  font-size: 0.9rem;
+  color: #7C8298;
+}
+
+.branch-locator-card-link {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #E29D24;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.branch-locator-card-link:hover {
+  color: #C9861B;
+}
+
+.branch-locator-empty {
+  background: #F3F5F9;
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: #5B6478;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .branch-locator-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .branch-locator-map-col,
+  .branch-map-container,
+  .branch-locator-map-loading {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 640px) {
+  .branch-locator-section {
+    padding: 3.5rem 0 4rem 0;
+  }
+
+  .branch-locator-title {
+    font-size: 1.75rem;
+  }
+
+  .branch-locator-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .branch-locator-search {
+    flex-wrap: wrap;
+    border-radius: 20px;
+    padding: 0.85rem 1rem;
+  }
+
+  .branch-locator-search-icon {
+    order: 1;
+  }
+
+  .branch-locator-search-input {
+    order: 2;
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .branch-locator-search-btn {
+    order: 3;
+    width: 100%;
+  }
+
+  .branch-locator-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,129 @@
+/* Gold Rate FAQ — GOLDPOINT */
+
+.grf-section {
+  background: #F5F6FB;
+  padding: 4rem 0;
+}
+
+.grf-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.grf-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0F1A4D;
+  margin: 0 0 1.75rem;
+}
+
+.grf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.grf-item {
+  background: #FFFFFF;
+  border-radius: 10px;
+  border: 1px solid #E9EBF3;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.grf-item-open {
+  border-color: var(--border-gold);
+}
+
+.grf-question-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.grf-question-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0F1A4D;
+}
+
+.grf-toggle-icon {
+  flex-shrink: 0;
+  color: var(--gold-dark);
+}
+
+.grf-arrow-svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.grf-rotate {
+  transform: rotate(180deg);
+}
+
+.grf-answer-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.grf-expanded {
+  max-height: 240px;
+}
+
+.grf-answer-content {
+  padding: 0 1.25rem 1.1rem;
+}
+
+.grf-answer-content p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #5A6180;
+  margin: 0;
+}
+
+.grf-image-wrap {
+  position: relative;
+  width: 260px;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(15, 26, 77, 0.15);
+  align-self: center;
+}
+
+.grf-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1023px) {
+  .grf-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .grf-image-wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .grf-title {
+    font-size: 1.5rem;
+  }
+
+  .grf-question-text {
+    font-size: 0.88rem;
+  }
+}
