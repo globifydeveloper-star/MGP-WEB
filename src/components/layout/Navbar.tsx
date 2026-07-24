@@ -12,8 +12,8 @@ const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
-  { label: 'Branches', href: '/#branches' },
-  { label: 'Gold Rate', href: '/gold-rate' },
+  { label: 'Branches', href: 'https://branches.muthootgoldpoint.com/', isExternal: true },
+  { label: 'Gold Rate', href: '#gold-rate' },
   { label: 'Career', href: '/career' },
   { label: 'Contact Us', href: '/contact-us' },
 ];
@@ -41,7 +41,7 @@ export default function Navbar() {
         </button>
 
         {/* Logo */}
-        <a href="#" className="navbar-logo-link" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <a href="/" className="navbar-logo-link" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <Image
             src={logoImg}
             alt="GOLDPOINT - We Buy Gold"
@@ -56,13 +56,24 @@ export default function Navbar() {
         {/* Navigation Links */}
         <nav className={`navbar-nav-v2 ${menuOpen ? 'menu-active' : ''}`}>
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={link.href !== '#' && pathname === link.href ? 'active' : ''}
-            >
-              {link.label}
-            </Link>
+            link.isExternal ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={link.href !== '#' && pathname === link.href ? 'active' : ''}
+              >
+                {link.label}
+              </Link>
+            )
           ))}
         </nav>
 
@@ -90,14 +101,26 @@ export default function Navbar() {
       <div className={`mobile-menu-dropdown ${menuOpen ? 'open' : ''}`}>
         <nav className="mobile-nav-links">
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={link.href !== '#' && pathname === link.href ? 'active' : ''}
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
+            link.isExternal ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={link.href !== '#' && pathname === link.href ? 'active' : ''}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            )
           ))}
         </nav>
       </div>
