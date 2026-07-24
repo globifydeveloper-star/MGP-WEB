@@ -13,9 +13,8 @@ const NAV_LINKS = [
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
   { label: 'Branches', href: 'https://branches.muthootgoldpoint.com/', isExternal: true },
-  { label: 'Gold Rate', href: '#gold-rate' },
+  { label: 'Gold Rate', href: 'gold-rate' },
   { label: 'Career', href: '/career' },
-  { label: 'Contact Us', href: '/contact-us' },
 ];
 
 

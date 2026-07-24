@@ -3,21 +3,21 @@
 .grh-section {
   position: relative;
   width: 100%;
-  padding: 0 0 3rem;
+  padding: 0;
   background: var(--bg-radial);
   overflow: hidden;
 }
 
 .grh-hero-top {
   position: relative;
-  padding: 5rem 0 3.5rem;
-  margin-bottom: 3rem;
+  padding: 8.5rem 0 4rem;
+  margin-bottom: 0;
   overflow: hidden;
 }
 
 .grh-bg {
   position: absolute;
-  top: 80px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -32,27 +32,49 @@
 .grh-bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(6, 15, 46, 0.96) 0%,
-    rgba(6, 15, 46, 0.9) 32%,
-    rgba(6, 15, 46, 0.6) 55%,
-    rgba(6, 15, 46, 0.22) 78%,
-    rgba(6, 15, 46, 0.05) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(6, 15, 46, 0.96) 0%,
+      rgba(6, 15, 46, 0.9) 32%,
+      rgba(6, 15, 46, 0.6) 55%,
+      rgba(6, 15, 46, 0.22) 78%,
+      rgba(6, 15, 46, 0.05) 100%);
 }
 
 .grh-top-grid {
   position: relative;
   z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2.5rem;
 }
 
 .grh-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.25rem;
   max-width: 640px;
+}
+
+.grh-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 1rem;
+}
+
+.grh-right .hero-gold-rate-card-v2 {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 275px;
+  height: 275px;
+  padding: 28px 20px 20px 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(235, 175, 32, 0.15);
 }
 
 .grh-heading {
@@ -256,18 +278,27 @@
 
 /* Tablet */
 @media (max-width: 1023px) {
+  .grh-top-grid {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+
+  .grh-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .grh-left {
     max-width: 100%;
   }
 
   .grh-bg-overlay {
-    background: linear-gradient(
-      100deg,
-      rgba(6, 15, 46, 0.97) 0%,
-      rgba(6, 15, 46, 0.92) 45%,
-      rgba(6, 15, 46, 0.65) 75%,
-      rgba(6, 15, 46, 0.35) 100%
-    );
+    background: linear-gradient(100deg,
+        rgba(6, 15, 46, 0.97) 0%,
+        rgba(6, 15, 46, 0.92) 45%,
+        rgba(6, 15, 46, 0.65) 75%,
+        rgba(6, 15, 46, 0.35) 100%);
   }
 
   .grh-subtext {
@@ -291,7 +322,7 @@
 /* Mobile */
 @media (max-width: 767px) {
   .grh-hero-top {
-    padding: 6rem 0 2.5rem;
+    padding: 7.5rem 0 2.5rem;
   }
 
   .grh-heading {

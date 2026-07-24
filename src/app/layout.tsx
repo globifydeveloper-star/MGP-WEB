@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Montserrat } from "next/font/google";
 import BranchSelector from "@/components/home/BranchSelector/BranchSelector";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -33,9 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} suppressHydrationWarning>
       <body>
-
         {children}
         <BranchSelector />
+        <ScrollToTop />
       </body>
     </html>
   );

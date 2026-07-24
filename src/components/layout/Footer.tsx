@@ -48,12 +48,13 @@ export default function Footer() {
             <li><Link href="/career" className="footer-link">Careers</Link></li>
             <li><a href="https://branches.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="footer-link">Branch Locator</a></li>
             <li><Link href="/privacy-policy" className="footer-link">Privacy Policy</Link></li>
-            <li><Link href="/#gold-rate" className="footer-link">Gold Rate</Link></li>
+            <li><Link href="/gold-rate" className="footer-link">Gold Rate</Link></li>
             <li><Link href="/#faq" className="footer-link">FAQs</Link></li>
+            <li><Link href="/contact-us" className="footer-link">Contact Us</Link></li>
           </ul>
         </div>
 
-        {/* Column 3: Registered Office */}
+        {/* Column 3: Registered Office * /}
         <div className="footer-col office-col">
           <h4 className="footer-col-title">Registered Office</h4>
           <div className="office-item">

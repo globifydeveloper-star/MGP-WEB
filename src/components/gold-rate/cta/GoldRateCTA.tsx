@@ -28,15 +28,6 @@ export default function GoldRateCTA({ onSellGoldClick }: GoldRateCTAProps) {
             </Link>
           </div>
         </div>
-
-        <div className="grc-image-wrap">
-          <Image
-            src={handHoldingGoldImg}
-            alt="Elegant hand holding gold jewellery in warm golden lighting"
-            className="grc-image"
-            sizes="(max-width: 767px) 90vw, 420px"
-          />
-        </div>
       </div>
     </section>
   );

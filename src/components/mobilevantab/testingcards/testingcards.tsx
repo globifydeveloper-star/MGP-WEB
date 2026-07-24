@@ -1,5 +1,7 @@
 import React from 'react';
+import Image from 'next/image';
 import './testingcards.css';
+import purityImg from '@/assets/images/purity.png';
 
 const CARDS = [
   {
@@ -58,8 +60,12 @@ export default function TestingCards() {
           <div className="tc-image-col">
             <div className="tc-image-glow" aria-hidden="true" />
             <div className="tc-image-box">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/test.png" alt="Lab technician performing XRF gold purity testing" className="tc-image" />
+              <Image
+                src={purityImg}
+                alt="Lab technician performing XRF gold purity testing"
+                className="tc-image"
+                priority
+              />
             </div>
           </div>
         </div>

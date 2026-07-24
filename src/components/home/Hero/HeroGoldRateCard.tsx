@@ -47,21 +47,21 @@ export default function HeroGoldRateCard() {
           duration: 1000,
           ease: 'outElastic(1, 0.8)',
         })
-        .add([header, divider], {
-          opacity: [0, 1],
-          translateY: [15, 0],
-          duration: 600,
-        }, '-=600')
-        .add([purity, price], {
-          opacity: [0, 1],
-          translateY: [15, 0],
-          duration: 600,
-        }, '-=400')
-        .add(button, {
-          opacity: [0, 1],
-          translateY: [15, 0],
-          duration: 600,
-        }, '-=400');
+          .add([header, divider], {
+            opacity: [0, 1],
+            translateY: [15, 0],
+            duration: 600,
+          }, '-=600')
+          .add([purity, price], {
+            opacity: [0, 1],
+            translateY: [15, 0],
+            duration: 600,
+          }, '-=400')
+          .add(button, {
+            opacity: [0, 1],
+            translateY: [15, 0],
+            duration: 600,
+          }, '-=400');
       }
 
       // 3. Count up animation for gold rate (runs after card is partially visible)
@@ -135,7 +135,7 @@ export default function HeroGoldRateCard() {
         alt=""
         aria-hidden="true"
         className="hero-sparkle-flare"
-        style={{ left: -37.77, top: -15.79 }}
+        style={{ position: 'absolute', left: -37.77, top: -15.79 }}
         width={145}
         height={34}
       />
@@ -144,7 +144,7 @@ export default function HeroGoldRateCard() {
         alt=""
         aria-hidden="true"
         className="hero-sparkle-flare"
-        style={{ right: -21.86, bottom: -20.78 }}
+        style={{ position: 'absolute', right: -21.86, bottom: -20.78 }}
         width={145}
         height={34}
       />
@@ -157,7 +157,7 @@ export default function HeroGoldRateCard() {
             <animate attributeName="y1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
             <animate attributeName="x2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
             <animate attributeName="y2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
-            
+
             <stop offset="0%" stopColor="#EBAF20" stopOpacity="0" />
             <stop offset="40%" stopColor="#EBAF20" stopOpacity="0" />
             <stop offset="50%" stopColor="#FFFFFF" stopOpacity="1" />
@@ -171,7 +171,7 @@ export default function HeroGoldRateCard() {
           width="100%"
           height="100%"
           rx="16"
-          fill="none" 
+          fill="none"
           stroke="url(#shine-gradient)"
           className="gold-beam-rect"
           style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
@@ -191,9 +191,9 @@ export default function HeroGoldRateCard() {
         <span>₹{displayRate.toLocaleString('en-IN')}</span>
         <span className="rate-card-price-unit">/g</span>
       </div>
-      <button 
+      <button
         ref={buttonRef}
-        className="btn-rate-card-cta-v2" 
+        className="btn-rate-card-cta-v2"
         onClick={handleScrollToForm}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { animate, createTimeline, stagger, set } from 'animejs';
 import './WhyRatesChange.css';
 import treasureChestImg from '@/assets/images/gold_rate_component_photos/07-why-rates-treasure-chest.png';
 
@@ -63,8 +64,74 @@ const REASONS = [
 ];
 
 export default function WhyRatesChange() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const animatedRef = useRef(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const title = section.querySelector('.wrc-title');
+    const cards = section.querySelectorAll('.wrc-card');
+    const imageWrap = section.querySelector('.wrc-image-wrap');
+
+    if (title && cards.length) {
+      set(title, { opacity: 0, translateY: -35, translateX: -20 });
+      set(Array.from(cards), { opacity: 0, translateY: 50, translateX: -30 });
+      if (imageWrap) {
+        set(imageWrap, { opacity: 0, translateX: 80 });
+      }
+
+      const triggerAnimation = () => {
+        if (animatedRef.current) return;
+        animatedRef.current = true;
+
+        const tl = createTimeline({
+          defaults: { ease: 'outExpo' },
+        });
+
+        tl.add(title, {
+          opacity: [0, 1],
+          translateY: [-35, 0],
+          translateX: [-20, 0],
+          duration: 900,
+        })
+        .add(Array.from(cards), {
+          opacity: [0, 1],
+          translateY: [50, 0],
+          translateX: [-30, 0],
+          duration: 1000,
+          delay: stagger(150),
+        }, '-=500');
+
+        if (imageWrap) {
+          tl.add(imageWrap, {
+            opacity: [0, 1],
+            translateX: [80, 0],
+            duration: 1100,
+          }, '-=1000');
+        }
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              triggerAnimation();
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      observer.observe(section);
+
+      return () => observer.disconnect();
+    }
+  }, []);
+
   return (
-    <section className="wrc-section" id="why-rates-change">
+    <section className="wrc-section" id="why-rates-change" ref={sectionRef}>
       <div className="wrc-layout">
         <div className="wrc-content-col">
           <div className="wrc-content-inner">

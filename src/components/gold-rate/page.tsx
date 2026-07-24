@@ -5,7 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import SellGoldModal from '@/components/layout/SellGoldModal';
 import GoldRateHero from './hero/GoldRateHero';
-import CalculatorRatesSection from './calculator-rates/CalculatorRatesSection';
+import GoldValueForm from '@/components/home/GoldValueForm/GoldValueForm';
 import WhyRatesChange from './why-rates-change/WhyRatesChange';
 import ValuationProcess from './valuation-process/ValuationProcess';
 import GoldRateCTA from './cta/GoldRateCTA';
@@ -22,7 +22,7 @@ export default function GoldRatePage() {
       <main>
         <GoldRateHero onSellGoldClick={() => setIsSellGoldOpen(true)} />
 
-        <CalculatorRatesSection />
+        <GoldValueForm />
 
         <WhyRatesChange />
 
