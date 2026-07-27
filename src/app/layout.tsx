@@ -23,7 +23,10 @@ export const metadata: Metadata = {
     title: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
     description: "Get the true market value for your gold through a transparent process.",
     type: "website",
-  }
+  },
+  other: {
+    'color-scheme': 'light',
+  },
 };
 
 export default function RootLayout({
@@ -32,8 +35,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} suppressHydrationWarning>
-      <body>
+    <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} style={{ colorScheme: 'light' }} suppressHydrationWarning>
+      <head>
+        <meta name="color-scheme" content="light" />
+      </head>
+      <body style={{ colorScheme: 'light' }}>
         {children}
         <BranchSelector />
         <ScrollToTop />
