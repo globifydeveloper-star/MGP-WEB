@@ -48,8 +48,6 @@ export default function Footer() {
             <li><Link href="/sell-gold-for-cash" className="footer-link">Sell Gold</Link></li>
             <li><Link href="/career" className="footer-link">Careers</Link></li>
             <li><a href="https://branches.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="footer-link">Branch Locator</a></li>
-            <li><Link href="/privacy-policy" className="footer-link">Privacy Policy</Link></li>
-            <li><Link href="/gold-rate" className="footer-link">Gold Rate</Link></li>
             <li><Link href="/#faq" className="footer-link">FAQs</Link></li>
             <li><Link href="/contact-us" className="footer-link">Contact Us</Link></li>
           </ul>
