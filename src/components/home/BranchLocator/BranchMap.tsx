@@ -4,7 +4,6 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import type { BranchCity } from './BranchLocator';
 import './BranchLocator.css';
 
 const branchPinIcon = L.divIcon({
@@ -20,15 +19,29 @@ const branchPinIcon = L.divIcon({
   tooltipAnchor: [0, -32],
 });
 
-interface BranchMapProps {
-  cities: BranchCity[];
+export interface MapMarkerItem {
+  id: string;
+  label: string;
+  sublabel?: string;
+  lat: number;
+  lng: number;
 }
 
-export default function BranchMap({ cities }: BranchMapProps) {
+interface BranchMapProps {
+  markers: MapMarkerItem[];
+  center?: [number, number];
+  zoom?: number;
+}
+
+export default function BranchMap({
+  markers,
+  center = [18.5, 78.5],
+  zoom = 5,
+}: BranchMapProps) {
   return (
     <MapContainer
-      center={[16.5, 77.5]}
-      zoom={5}
+      center={center}
+      zoom={zoom}
       scrollWheelZoom={false}
       className="branch-map-container"
     >
@@ -36,10 +49,10 @@ export default function BranchMap({ cities }: BranchMapProps) {
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
-      {cities.map((branch) => (
-        <Marker key={branch.city} position={[branch.lat, branch.lng]} icon={branchPinIcon}>
+      {markers.map((item) => (
+        <Marker key={item.id} position={[item.lat, item.lng]} icon={branchPinIcon}>
           <Tooltip direction="top" offset={[0, -6]}>
-            {branch.city} · {branch.locations} location{branch.locations !== 1 ? 's' : ''}
+            {item.label} {item.sublabel ? `· ${item.sublabel}` : ''}
           </Tooltip>
         </Marker>
       ))}

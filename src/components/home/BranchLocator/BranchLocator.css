@@ -28,7 +28,7 @@
   color: #5B6478;
 }
 
-/* Grid */
+/* Grid Layout */
 .branch-locator-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -36,20 +36,21 @@
   align-items: start;
 }
 
-/* Map column */
+/* Map Column */
 .branch-locator-map-col {
   position: relative;
   isolation: isolate;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  min-height: 560px;
+  min-height: 600px;
+  box-shadow: 0 10px 30px rgba(16, 24, 43, 0.08);
 }
 
 .branch-map-container {
   width: 100%;
   height: 100%;
-  min-height: 560px;
-  border-radius: 12px;
+  min-height: 600px;
+  border-radius: 16px;
   background: #10182B;
 }
 
@@ -58,37 +59,27 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 560px;
-  border-radius: 12px;
+  min-height: 600px;
+  border-radius: 16px;
   background: #10182B;
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.95rem;
 }
 
-/* Leaflet overrides */
+/* Leaflet map overrides */
 .branch-map-container .leaflet-tooltip {
   background: #10182B;
   color: #FFFFFF;
   border: 1px solid #F5B301;
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 0.825rem;
   font-weight: 600;
-  padding: 0.35rem 0.65rem;
+  padding: 0.4rem 0.75rem;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 .branch-map-container .leaflet-tooltip-top:before {
   border-top-color: #10182B;
-}
-
-.branch-map-container .leaflet-control-attribution {
-  background: rgba(16, 24, 43, 0.7);
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.65rem;
-}
-
-.branch-map-container .leaflet-control-attribution a {
-  color: rgba(255, 255, 255, 0.75);
 }
 
 .branch-map-pin {
@@ -100,23 +91,31 @@
 }
 
 .branch-map-pin:hover {
-  transform: scale(1.08);
+  transform: scale(1.15);
 }
 
-/* List column */
+/* Right List Column */
 .branch-locator-list-col {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
+/* Search Bar */
 .branch-locator-search {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   background: #F3F5F9;
+  border: 1px solid #E2E8F0;
   border-radius: 999px;
   padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.branch-locator-search:focus-within {
+  border-color: #2196F3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
 }
 
 .branch-locator-search-icon {
@@ -160,12 +159,102 @@
   transform: translateY(-1px);
 }
 
-.branch-locator-cards {
+.branch-locator-clear-btn {
+  background: transparent;
+  border: none;
+  color: #7C8298;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.branch-locator-clear-btn:hover {
+  color: #10182B;
+  background: #E2E8F0;
+}
+
+/* Results & State Headers */
+.branch-locator-content {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
+.branch-locator-results-bar,
+.branch-locator-state-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.branch-locator-results-count {
+  font-size: 0.95rem;
+  color: #5B6478;
+}
+
+.branch-locator-reset-link,
+.branch-locator-back-btn {
+  background: transparent;
+  border: none;
+  color: #2196F3;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.branch-locator-reset-link:hover,
+.branch-locator-back-btn:hover {
+  color: #1565C0;
+  text-decoration: underline;
+}
+
+.branch-locator-state-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #10182B;
+}
+
+.branch-locator-states-subtitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #7C8298;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Cards Wrapper */
+.branch-locator-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.branch-locator-cards::-webkit-scrollbar {
+  width: 6px;
+}
+
+.branch-locator-cards::-webkit-scrollbar-track {
+  background: #F3F5F9;
+  border-radius: 8px;
+}
+
+.branch-locator-cards::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 8px;
+}
+
+/* State Summary Card (Default View) */
 .branch-locator-card {
   display: flex;
   align-items: center;
@@ -174,29 +263,136 @@
   background: #FDFAF3;
   border: 1px solid #F0C94B;
   border-radius: 14px;
-  padding: 1.25rem 1.5rem;
+  padding: 1.15rem 1.35rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.branch-locator-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(240, 201, 75, 0.25);
+  border-color: #E29D24;
 }
 
 .branch-locator-card-city {
-  font-size: 22px;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #10182B;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
 
 .branch-locator-card-meta {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #7C8298;
 }
 
-.branch-locator-card-link {
+.branch-locator-card-link-btn {
   flex-shrink: 0;
+  background: transparent;
+  border: none;
   font-size: 0.9rem;
+  font-weight: 700;
+  color: #E29D24;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.branch-locator-card:hover .branch-locator-card-link-btn {
+  color: #C9861B;
+}
+
+/* Detailed Branch Card (State View or Search View) */
+.branch-locator-branch-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 1.15rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.branch-locator-branch-card:hover {
+  border-color: #F0C94B;
+  box-shadow: 0 4px 12px rgba(16, 24, 43, 0.06);
+}
+
+.branch-locator-branch-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.branch-locator-branch-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #10182B;
+  margin-bottom: 0.2rem;
+}
+
+.branch-locator-state-tag {
+  display: inline-block;
+  background: #EFF6FF;
+  color: #2196F3;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.branch-locator-branch-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #5B6478;
+  line-height: 1.5;
+}
+
+.branch-locator-pin-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  color: #E29D24;
+}
+
+.branch-locator-branch-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px dashed #F1F5F9;
+  margin-top: 0.25rem;
+}
+
+.branch-locator-branch-timing {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #7C8298;
+}
+
+.branch-locator-clock-icon {
+  width: 14px;
+  height: 14px;
+  color: #8891A6;
+}
+
+.branch-locator-card-link {
+  font-size: 0.85rem;
   font-weight: 700;
   color: #E29D24;
   text-decoration: underline;
   text-underline-offset: 3px;
   white-space: nowrap;
+  transition: color 0.2s ease;
 }
 
 .branch-locator-card-link:hover {
@@ -204,15 +400,39 @@
 }
 
 .branch-locator-empty {
-  background: #F3F5F9;
+  background: #F8FAFC;
   border-radius: 14px;
-  padding: 2rem 1.5rem;
+  padding: 2.5rem 1.5rem;
   text-align: center;
   color: #5B6478;
   font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-/* Responsive */
+/* View All States Toggle Button */
+.branch-locator-toggle-wrap {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+.branch-locator-toggle-btn {
+  background: #F1F5F9;
+  color: #10182B;
+  border: 1px solid #E2E8F0;
+  border-radius: 999px;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.branch-locator-toggle-btn:hover {
+  background: #E2E8F0;
+  border-color: #CBD5E1;
+}
+
+/* Responsive Breakpoints */
 @media (max-width: 1024px) {
   .branch-locator-grid {
     grid-template-columns: 1fr;
@@ -260,6 +480,12 @@
   }
 
   .branch-locator-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .branch-locator-branch-footer {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
