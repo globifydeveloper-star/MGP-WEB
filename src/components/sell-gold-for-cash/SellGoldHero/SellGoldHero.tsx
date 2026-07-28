@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import './SellGoldHero.css';
-import coupleImg from '@/assets/images/s-hero.png';
+import coupleImg from '@/assets/images/gs-heroo.png';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import coinImg from '@/assets/images/COIN.png';
