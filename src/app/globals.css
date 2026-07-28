@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --bg-primary: #0c1f6c;
   --bg-radial: radial-gradient(circle at 72% 32%, #1c2648 0%, #141c44 35%, #111a41 70%);
   --bg-card: rgba(10, 19, 44, 0.85);
@@ -16,6 +17,10 @@
   --shadow-card-glow: 0 0 25px rgba(241, 185, 51, 0.15);
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --font-outfit: '__Outfit_49e88c', '__Outfit_Fallback_49e88c', sans-serif;
+}
+
+html {
+  color-scheme: light;
 }
 
 * {
@@ -36,6 +41,14 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-white);
   font-family: 'Gilroy', var(--font-outfit), Arial, sans-serif;
+  color-scheme: light;
+}
+
+input,
+textarea,
+select,
+button {
+  color-scheme: light;
 }
 
 body {
