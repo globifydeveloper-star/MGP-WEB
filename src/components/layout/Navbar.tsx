@@ -10,10 +10,11 @@ import SellGoldModal from './SellGoldModal';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
+  { label: 'Sell Gold', href: '/sell-gold-for-cash' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Mobile Van', href: '/mobilevantab' },
   { label: 'Branches', href: 'https://branches.muthootgoldpoint.com/', isExternal: true },
-  { label: 'Gold Rate', href: 'gold-rate' },
+  { label: 'Gold Rate', href: '/gold-rate' },
   { label: 'Career', href: '/career' },
 ];
 
