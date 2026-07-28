@@ -1,7 +1,10 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import './GoldSellComparison.css';
+import scaleImg from '@/assets/images/gold_rate_component_photos/08-valuation-process-scale.png';
+import assessmentImg from '@/assets/images/gold_rate_component_photos/02-gold-valuation-assessment.png';
 
 const ROWS = [
   {
@@ -73,77 +76,129 @@ const ROWS = [
   },
 ];
 
+const CheckIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
+const CrossIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
+const StoreIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 9l1.5-5h15L21 9" />
+    <path d="M3 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0" />
+    <path d="M4 9v10h16V9" />
+    <path d="M9 21v-6h6v6" />
+  </svg>
+);
+
 export default function GoldSellComparison() {
   return (
     <section className="gsc-section">
+      <div className="gsc-bg-pattern" aria-hidden="true" />
       <div className="gsc-glow-1" aria-hidden="true" />
       <div className="gsc-glow-2" aria-hidden="true" />
 
       <div className="container gsc-container">
-        <div className="gsc-header">
-          <p className="gsc-eyebrow">THE DIFFERENCE</p>
-          <h2 className="gsc-title">
-            How Muthoot Gold Point is different from <span className="gold-text">traditional jewellers</span>
-          </h2>
-        </div>
-
-        {/* Column headers */}
-        <div className="gsc-columns-header">
-          <div className="gsc-col-header gsc-col-header--us">
-            <span className="gsc-col-badge gsc-col-badge--us">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </span>
-            <span>
-              <span className="gsc-col-name">Muthoot Gold Point</span>
-              <span className="gsc-col-tag">Entire process happens in front of you</span>
-            </span>
+        {/* Header */}
+        <div className="gsc-header-row">
+          <div className="gsc-header-text">
+            <p className="gsc-eyebrow">THE DIFFERENCE</p>
+            <h2 className="gsc-title">
+              How Muthoot Gold Point is different from <span className="gold-text">traditional jewellers</span>
+            </h2>
+            <p className="gsc-subtitle">
+              Every step of our process happens right in front of you &mdash; scientific, transparent and fair. See how that stacks up against the old way of selling gold.
+            </p>
           </div>
 
-          <div className="gsc-col-header gsc-col-header--them">
-            <span className="gsc-col-badge gsc-col-badge--them">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </span>
-            <span>
-              <span className="gsc-col-name">Traditional Jewellers</span>
-              <span className="gsc-col-tag">How unorganized players work</span>
-            </span>
+          <div className="gsc-header-image">
+            <Image
+              src={scaleImg}
+              alt="Golden balance scale weighing jewellery against gold nuggets"
+              className="gsc-header-img"
+              fill
+              sizes="(max-width: 1100px) 100vw, 340px"
+              priority={false}
+            />
           </div>
         </div>
 
-        {/* Comparison rows */}
-        <div className="gsc-rows">
-          {ROWS.map((row) => (
-            <div className="gsc-row" key={row.label}>
-              <div className="gsc-row-label">
-                <span className="gsc-row-icon">{row.icon}</span>
-                <span>{row.label}</span>
-              </div>
+        {/* Two comparison panels */}
+        <div className="gsc-panels">
+          <div className="gsc-panel gsc-panel--us">
+            <div className="gsc-panel-banner">
+              <Image
+                src={assessmentImg}
+                alt="Muthoot Gold Point expert assessing gold jewellery with a jeweller's loupe"
+                className="gsc-panel-banner-img"
+                fill
+                sizes="(max-width: 900px) 100vw, 460px"
+              />
+              <div className="gsc-panel-banner-overlay" />
+              <span className="gsc-panel-ribbon">Recommended</span>
+            </div>
 
-              <div className="gsc-cell gsc-cell--us">
-                <span className="gsc-cell-mark gsc-cell-mark--us">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </span>
-                <p>{row.us}</p>
-              </div>
-
-              <div className="gsc-cell gsc-cell--them">
-                <span className="gsc-cell-mark gsc-cell-mark--them">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </span>
-                <p>{row.them}</p>
+            <div className="gsc-panel-head">
+              <span className="gsc-panel-badge gsc-panel-badge--us">
+                <CheckIcon />
+              </span>
+              <div>
+                <h3 className="gsc-panel-name">Muthoot Gold Point</h3>
+                <p className="gsc-panel-tag">Entire process happens in front of you</p>
               </div>
             </div>
-          ))}
+
+            <ul className="gsc-panel-list">
+              {ROWS.map((row) => (
+                <li key={row.label}>
+                  <span className="gsc-item-icon gsc-item-icon--us">
+                    {row.icon}
+                    <span className="gsc-item-mark gsc-item-mark--us"><CheckIcon /></span>
+                  </span>
+                  <div>
+                    <strong>{row.label}</strong>
+                    <p>{row.us}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="gsc-vs-badge" aria-hidden="true">VS</div>
+
+          <div className="gsc-panel gsc-panel--them">
+            <div className="gsc-panel-head">
+              <span className="gsc-panel-badge gsc-panel-badge--them">
+                <StoreIcon />
+              </span>
+              <div>
+                <h3 className="gsc-panel-name">Traditional Jewellers</h3>
+                <p className="gsc-panel-tag">How unorganized players work</p>
+              </div>
+            </div>
+
+            <ul className="gsc-panel-list">
+              {ROWS.map((row) => (
+                <li key={row.label}>
+                  <span className="gsc-item-icon gsc-item-icon--them">
+                    {row.icon}
+                    <span className="gsc-item-mark gsc-item-mark--them"><CrossIcon /></span>
+                  </span>
+                  <div>
+                    <strong>{row.label}</strong>
+                    <p>{row.them}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

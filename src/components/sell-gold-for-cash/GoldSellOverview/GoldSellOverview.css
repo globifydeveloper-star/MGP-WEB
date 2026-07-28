@@ -1,0 +1,225 @@
+/* GoldSellOverview.css */
+
+.gso-section {
+  position: relative;
+  background: #ffffff;
+  padding: 5.5rem 0;
+  overflow: hidden;
+}
+
+.gso-container {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+/* Content column */
+.gso-eyebrow {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--gold-dark);
+  margin-bottom: 0.75rem;
+}
+
+.gso-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--bg-primary);
+  margin-bottom: 1.1rem;
+}
+
+.gso-title-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--gold-dark);
+  flex-shrink: 0;
+}
+
+.gso-subtitle {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--bg-primary);
+  margin-bottom: 1.25rem;
+}
+
+.gso-desc {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #4a5170;
+  margin-bottom: 2rem;
+  max-width: 560px;
+}
+
+.gso-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.gso-cta svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Visual column: circular quadrant graphic */
+.gso-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gso-circle-ring {
+  position: absolute;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  border: 1.5px dashed var(--border-gold);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.gso-circle {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  box-shadow: 0 25px 60px rgba(12, 31, 108, 0.25);
+}
+
+.gso-quad {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.1rem 1.6rem;
+}
+
+.gso-quad p {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.gso-quad--icon {
+  background: linear-gradient(145deg, #16225C 0%, #0c1f6c 100%);
+  color: var(--text-white);
+  gap: 0.75rem;
+}
+
+.gso-quad-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(241, 185, 51, 0.15);
+  border: 1.5px solid var(--border-gold-glow);
+  color: var(--gold-primary);
+}
+
+.gso-quad-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.gso-quad--icon p {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.gso-quad--photo p {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-white);
+}
+
+.gso-quad-img {
+  object-fit: cover;
+}
+
+.gso-quad-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 31, 108, 0.15) 0%, rgba(8, 14, 40, 0.85) 100%);
+  z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gso-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .gso-visual {
+    order: -1;
+  }
+
+  .gso-circle {
+    max-width: 340px;
+  }
+
+  .gso-desc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .gso-section {
+    padding: 3.5rem 0;
+  }
+
+  .gso-title {
+    font-size: 1.9rem;
+  }
+
+  .gso-circle {
+    max-width: 280px;
+  }
+
+  .gso-quad-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .gso-quad-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .gso-quad--icon p,
+  .gso-quad--photo p {
+    font-size: 0.58rem;
+    line-height: 1.3;
+  }
+
+  .gso-quad {
+    padding: 0.9rem 1.3rem;
+  }
+}

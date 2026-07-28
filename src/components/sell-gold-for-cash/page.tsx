@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import SellGoldHero from './SellGoldHero/SellGoldHero';
 import GoldSellProcess from '@/components/home/GoldSellProcess/GoldSellProcess';
 import GoldSellComparison from './GoldSellComparison/GoldSellComparison';
+import GoldSellOverview from './GoldSellOverview/GoldSellOverview';
 
 export default function SellGoldForCashPage() {
   return (
@@ -19,6 +20,9 @@ export default function SellGoldForCashPage() {
 
         {/* How We're Different From Traditional Jewellers */}
         <GoldSellComparison />
+
+        {/* Sell Your Gold, Get Cash Instantly Overview */}
+        <GoldSellOverview />
 
       </main>
 
