@@ -1,0 +1,28 @@
+'use client';
+
+import React from 'react';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import SellGoldHero from './SellGoldHero/SellGoldHero';
+import GoldSellProcess from '@/components/home/GoldSellProcess/GoldSellProcess';
+import GoldSellComparison from './GoldSellComparison/GoldSellComparison';
+
+export default function SellGoldForCashPage() {
+  return (
+    <>
+      <Navbar />
+      <main style={{ paddingTop: '80px', minHeight: 'calc(100vh - 80px)' }}>
+        <SellGoldHero />
+
+        {/* Gold Selling Process Section */}
+        <GoldSellProcess />
+
+        {/* How We're Different From Traditional Jewellers */}
+        <GoldSellComparison />
+
+      </main>
+
+      <Footer />
+    </>
+  );
+}

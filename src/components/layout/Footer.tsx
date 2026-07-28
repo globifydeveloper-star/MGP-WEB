@@ -31,10 +31,10 @@ export default function Footer() {
             <a href="https://www.youtube.com/watch?v=qntmLoXsN_c" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="YouTube">
               <svg className="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.81 3.02 3.02 0 002.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.81zM9.6 15.6V8.4l6.24 3.6-6.24 3.6z" /></svg>
             </a>
-            <a href="#" className="social-icon-link" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/company/muthoot-exim-private-limited/" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="LinkedIn">
               <svg className="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 110-4.13 2.07 2.07 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45z" /></svg>
             </a>
-            <a href="#" className="social-icon-link" aria-label="X">
+            <a href="https://x.com/muthootindia?lang=en" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="X">
               <svg className="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M18.24 2.5h3.3l-7.2 8.23 8.47 11.27h-6.63l-5.19-6.79-5.94 6.79H1.55l7.7-8.8L1.14 2.5h6.8l4.69 6.2 5.61-6.2zm-1.16 17.52h1.83L7.02 4.38H5.06l12.02 15.64z" /></svg>
             </a>
           </div>
@@ -45,6 +45,7 @@ export default function Footer() {
           <h4 className="footer-col-title">Quick Links</h4>
           <ul className="footer-links-list">
             <li><Link href="/about-us" className="footer-link">About Us</Link></li>
+            <li><Link href="/sell-gold-for-cash" className="footer-link">Sell Gold</Link></li>
             <li><Link href="/career" className="footer-link">Careers</Link></li>
             <li><a href="https://branches.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="footer-link">Branch Locator</a></li>
             <li><Link href="/privacy-policy" className="footer-link">Privacy Policy</Link></li>
@@ -54,7 +55,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Column 3: Registered Office * /}
+        {/* Column 3: Registered Office */}
         <div className="footer-col office-col">
           <h4 className="footer-col-title">Registered Office</h4>
           <div className="office-item">
