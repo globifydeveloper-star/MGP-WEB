@@ -211,7 +211,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: rotateSeal 20s linear infinite;
   background: rgba(241, 185, 51, 0.05);
   box-shadow: 0 0 15px rgba(241, 185, 51, 0.1);
   transition: border-color 0.3s;
@@ -670,16 +669,6 @@
   to {
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-@keyframes rotateSeal {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
   }
 }
 
