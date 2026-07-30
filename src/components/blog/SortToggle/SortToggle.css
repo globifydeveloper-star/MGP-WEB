@@ -1,0 +1,31 @@
+.sort-toggle {
+  display: inline-flex;
+  background: #eef0f6;
+  border-radius: 9999px;
+  padding: 0.25rem;
+  flex-shrink: 0;
+}
+
+.sort-toggle-option {
+  background: transparent;
+  border: none;
+  color: #41444f;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sort-toggle-option-active {
+  background: var(--gold-primary, #F1B933);
+  color: #10182B;
+}
+
+@media (max-width: 480px) {
+  .sort-toggle-option {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.8rem;
+  }
+}

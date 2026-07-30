@@ -1,0 +1,44 @@
+.category-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+
+.category-filter::-webkit-scrollbar {
+  display: none;
+}
+
+.category-filter-pill {
+  flex-shrink: 0;
+  background: #eef0f6;
+  color: #41444f;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.category-filter-pill:hover {
+  background: #e2e5f0;
+}
+
+.category-filter-pill-active,
+.category-filter-pill-active:hover {
+  background: var(--gold-primary, #F1B933);
+  color: #10182B;
+  transform: scale(1.03);
+}
+
+@media (max-width: 480px) {
+  .category-filter-pill {
+    padding: 0.5rem 1rem;
+    font-size: 0.82rem;
+  }
+}
