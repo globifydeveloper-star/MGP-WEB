@@ -7,6 +7,7 @@ import SellGoldHero from './SellGoldHero/SellGoldHero';
 import GoldSellProcess from '@/components/home/GoldSellProcess/GoldSellProcess';
 import GoldSellComparison from './GoldSellComparison/GoldSellComparison';
 import GoldSellOverview from './GoldSellOverview/GoldSellOverview';
+import GoldSellLegacy from './GoldSellLegacy/GoldSellLegacy';
 
 export default function SellGoldForCashPage() {
   return (
@@ -23,6 +24,9 @@ export default function SellGoldForCashPage() {
 
         {/* Sell Your Gold, Get Cash Instantly Overview */}
         <GoldSellOverview />
+
+        {/* Muthoot Pappachan Group Legacy & Stats */}
+        <GoldSellLegacy />
 
       </main>
 

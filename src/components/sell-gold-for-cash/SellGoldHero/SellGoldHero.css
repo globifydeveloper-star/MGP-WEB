@@ -52,7 +52,7 @@
 
 .sg-hero-container {
   display: grid;
-  grid-template-columns: 320px 1.1fr 0.9fr;
+  grid-template-columns: 280px 1.1fr 0.9fr;
   gap: 1.25rem;
   align-items: stretch;
   position: relative;
@@ -98,7 +98,7 @@
 /* Section 1: Photo */
 .sg-hero-visual {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: flex-start;
   height: 100%;
   min-height: 0;
@@ -108,9 +108,9 @@
   width: auto;
   max-width: 100%;
   height: auto;
-  max-height: 470px;
+  max-height: 430px;
   object-fit: contain;
-  object-position: top left;
+  object-position: bottom left;
 }
 
 /* Section 2: Content Column */
@@ -165,12 +165,10 @@
   display: block;
 }
 
-/* Title row with Seal */
+/* Title row */
 .sg-title-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
   animation: fadeInUp 0.9s ease-out;
 }
 
@@ -192,63 +190,6 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--gold-secondary);
-}
-
-/* Seal / Stamp Styling */
-.sg-seal-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.sg-circular-seal {
-  width: 88px;
-  height: 88px;
-  border: 2px dashed rgba(241, 185, 51, 0.7);
-  border-radius: 50%;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(241, 185, 51, 0.05);
-  box-shadow: 0 0 15px rgba(241, 185, 51, 0.1);
-  transition: border-color 0.3s;
-}
-
-.sg-circular-seal:hover {
-  border-color: var(--gold-primary);
-  box-shadow: 0 0 25px rgba(241, 185, 51, 0.25);
-}
-
-.sg-seal-inner {
-  border: 1px solid rgba(241, 185, 51, 0.3);
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-}
-
-.sg-seal-star {
-  color: var(--gold-primary);
-  font-size: 0.65rem;
-  margin: 1px 0;
-}
-
-.sg-seal-text {
-  font-family: var(--font-outfit), sans-serif;
-  font-size: 0.5rem;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1.25;
-  color: var(--text-white);
-  letter-spacing: 0.06em;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Bullet Points */
@@ -705,15 +646,6 @@
   .sg-couple-photo {
     max-height: 380px;
   }
-
-  .sg-circular-seal {
-    width: 76px;
-    height: 76px;
-  }
-
-  .sg-seal-text {
-    font-size: 0.48rem;
-  }
 }
 
 @media (max-width: 1024px) {
@@ -741,17 +673,6 @@
 }
 
 @media (max-width: 768px) {
-  .sg-title-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .sg-seal-container {
-    align-self: flex-end;
-    margin-top: -1rem;
-  }
-
   .sg-hero-title {
     font-size: 1.9rem;
   }

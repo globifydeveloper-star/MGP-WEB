@@ -150,7 +150,7 @@ export default function SellGoldHero() {
             </div>
           </div>
 
-          {/* Heading with 100% Process Stamp next to it */}
+          {/* Heading */}
           <div className="sg-title-row">
             <div className="sg-title-text-wrap">
               <h1 className="sg-hero-title">
@@ -158,21 +158,6 @@ export default function SellGoldHero() {
                 <span className="gold-text">GET CASH INSTANTLY</span>
               </h1>
               <p className="sg-hero-subtitle">100% Fair & Precise Gold Buying</p>
-            </div>
-
-            {/* Circular Stamp / Seal */}
-            <div className="sg-seal-container">
-              <div className="sg-circular-seal">
-                <div className="sg-seal-inner">
-                  <div className="sg-seal-star">★</div>
-                  <div className="sg-seal-text">
-                    <span>100%</span>
-                    <span>TRANSPARENT</span>
-                    <span>PROCESS</span>
-                  </div>
-                  <div className="sg-seal-star">★</div>
-                </div>
-              </div>
             </div>
           </div>
 
