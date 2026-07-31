@@ -1,13 +1,20 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import { getUniqueStates, getBranchesByState, Branch } from '@/data/branchesData';
 import './BranchSelector.css';
 
 export default function BranchSelector() {
+  const pathname = usePathname();
   const [selectedState, setSelectedState] = useState('');
   const [selectedBranchId, setSelectedBranchId] = useState('');
-  const [isHovered, setIsHovered] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+
+  // Reset selector bar to OPEN state on route change
+  useEffect(() => {
+    setIsOpen(true);
+  }, [pathname]);
 
   const states = useMemo(() => getUniqueStates(), []);
   const availableBranches = useMemo(() => {
@@ -35,21 +42,17 @@ export default function BranchSelector() {
   };
 
   return (
-    <div
-      className="branch-selector-wrapper"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Minimized Trigger Tab (visible by default, opens on hover) */}
+    <div className="branch-selector-wrapper">
+      {/* Minimized Trigger Tab (visible when minimized) */}
       <div
-        className={`branch-selector-minimized-tab ${!isHovered ? 'is-visible' : ''}`}
-        onClick={() => setIsHovered(true)}
+        className={`branch-selector-minimized-tab ${!isOpen ? 'is-visible' : 'is-hidden'}`}
+        onClick={() => setIsOpen(true)}
         role="button"
         tabIndex={0}
         aria-label="Open branch selector"
       >
         <span className="minimized-rate-badge">22K/G: ₹8,629</span>
-        <span className="minimized-tab-label">Find Branch & Directions</span>
+        <span className="minimized-tab-label">Find Branch &amp; Directions</span>
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -64,8 +67,8 @@ export default function BranchSelector() {
         </svg>
       </div>
 
-      {/* Main Branch Selector Bar (slides up on hover) */}
-      <div className={`branch-selector-bar glass-panel ${isHovered ? 'is-popped-up' : 'is-popped-down'}`}>
+      {/* Main Branch Selector Bar (Open by default, minimizes on downward arrow click) */}
+      <div className={`branch-selector-bar glass-panel ${isOpen ? 'is-popped-up' : 'is-popped-down'}`}>
         {/* Header Row: Info & Rate */}
         <div className="selector-header-row">
           <div className="selector-section-info">
@@ -124,14 +127,14 @@ export default function BranchSelector() {
           Get Direction
         </button>
 
-        {/* Action button (Pop Down / Close) */}
+        {/* Action button (Downward Arrow to Minimize) */}
         <div className="selector-actions">
           <button
             type="button"
             className="minimize-selector-btn"
-            onClick={() => setIsHovered(false)}
-            aria-label="Pop down branch selector"
-            title="Pop down"
+            onClick={() => setIsOpen(false)}
+            aria-label="Minimize branch selector"
+            title="Minimize"
           >
             <svg
               viewBox="0 0 24 24"

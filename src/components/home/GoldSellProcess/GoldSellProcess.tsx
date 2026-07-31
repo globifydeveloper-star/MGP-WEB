@@ -338,20 +338,15 @@ function GoldSellProcessCarousel() {
 
 /* ── Root component: renders carousel on mobile/tablet, accordion on desktop ── */
 export default function GoldSellProcess() {
-  const [isMobileTablet, setIsMobileTablet] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 1023px)');
-    const update = () => setIsMobileTablet(mq.matches);
-    update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
-  }, []);
-
   return (
     <section className="gsp-section" id="gold-sell-process">
       <div className="container">
-        {isMobileTablet ? <GoldSellProcessCarousel /> : <GoldSellProcessDesktop />}
+        <div className="gsp-desktop-view">
+          <GoldSellProcessDesktop />
+        </div>
+        <div className="gsp-mobile-view">
+          <GoldSellProcessCarousel />
+        </div>
       </div>
     </section>
   );

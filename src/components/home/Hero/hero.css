@@ -155,7 +155,82 @@
   object-position: center 15%;
 }
 
-/* Warm glow behind the model */
+/* Background Pattern Image restricted ONLY behind her left shoulder / golden shade portion */
+.hero-model-bg-pattern {
+  position: absolute;
+  left: 1040px;
+  top: 180px;
+  width: 580px;
+  height: 580px;
+  background-image: url('/gcard_bg_pattern.png');
+  background-repeat: repeat;
+  background-size: 540px auto;
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 1;
+  mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 65%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 65%);
+}
+
+/* Mobile Golden Background Pattern */
+.hero-mobile-bg-pattern {
+  position: absolute;
+  left: 60%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  background-image: url('/gcard_bg_pattern.png');
+  background-repeat: repeat;
+  background-size: 380px auto;
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 1;
+  mask-image: radial-gradient(circle at center, #000 18%, transparent 60%);
+  -webkit-mask-image: radial-gradient(circle at center, #000 18%, transparent 60%);
+}
+
+/* Warm golden aura glow directly behind her left shoulder */
+.hero-model-golden-aura {
+  position: absolute;
+  left: 1040px;
+  top: 180px;
+  width: 580px;
+  height: 580px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(252, 212, 106, 0.45) 0%,
+    rgba(241, 185, 51, 0.28) 25%,
+    rgba(218, 161, 46, 0.10) 48%,
+    rgba(6, 19, 46, 0) 68%
+  );
+  filter: blur(30px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Mobile Golden Aura Glow */
+.hero-mobile-golden-aura {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(252, 212, 106, 0.5) 0%,
+    rgba(241, 185, 51, 0.3) 35%,
+    rgba(218, 161, 46, 0.12) 55%,
+    transparent 75%
+  );
+  filter: blur(25px);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .hero-model-bg-glow {
   position: absolute;
   left: 1047px;
@@ -164,9 +239,10 @@
   height: 247.84px;
   background: #EBAF20;
   border-radius: 9999px;
-  filter: blur(126.74px);
+  filter: blur(100px);
   z-index: 1;
   pointer-events: none;
+  opacity: 0.8;
 }
 
 /* Responsive Overrides */

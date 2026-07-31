@@ -235,6 +235,24 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .gsp-desktop-view {
+    display: block;
+  }
+  .gsp-mobile-view {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .gsp-desktop-view {
+    display: none;
+  }
+  .gsp-mobile-view {
+    display: block;
+  }
+}
+
 /* ─────────────────────────────────────────
    CAROUSEL — mobile (0–767px) and tablet (768–1023px)
 ───────────────────────────────────────── */
