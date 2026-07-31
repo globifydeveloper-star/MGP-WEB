@@ -1,0 +1,268 @@
+/* OTPEnquiryForm.css */
+
+.otp-enquiry-card {
+  width: 100%;
+  max-width: 340px;
+  padding: 1.75rem 1.5rem;
+  background: #E5E7EB; /* Light gray background matching screenshot */
+  border: 1px solid #D1D5DB;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.otp-enquiry-card:hover {
+  border-color: #9CA3AF;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+.otp-enquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.otp-enquiry-title {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0c1f6c; /* Brand dark blue */
+  text-align: center;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+.otp-enquiry-subtitle {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #4B5563; /* Gray text */
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.otp-form-group {
+  position: relative;
+  width: 100%;
+}
+
+.otp-form-input,
+.otp-form-select,
+.otp-form-textarea {
+  width: 100%;
+  padding: 0 0.85rem;
+  background: #FFFFFF; /* White background matching screenshot */
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  color: #1F2937; /* Dark text */
+  font-size: 0.85rem;
+  font-family: var(--font-outfit), sans-serif;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.otp-form-input {
+  height: 38px;
+}
+
+.otp-form-select {
+  height: 38px;
+  appearance: none;
+  cursor: pointer;
+  padding-right: 1.75rem;
+}
+
+.otp-form-textarea {
+  padding: 0.6rem 0.85rem;
+  resize: none;
+  min-height: 90px;
+}
+
+.otp-form-input::placeholder,
+.otp-form-textarea::placeholder {
+  color: #9CA3AF;
+}
+
+.otp-form-input:focus,
+.otp-form-select:focus,
+.otp-form-textarea:focus {
+  border-color: #0c1f6c;
+  box-shadow: 0 0 0 2px rgba(12, 31, 108, 0.1);
+}
+
+/* Phone input layout with button inside */
+.otp-phone-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.otp-phone-input {
+  padding-right: 4.8rem;
+}
+
+.otp-get-btn {
+  position: absolute;
+  right: 4px;
+  height: 30px;
+  padding: 0 0.65rem;
+  background: #0c1f6c; /* Dark navy */
+  border: none;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-size: 0.65rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.otp-get-btn:hover:not(:disabled) {
+  background: #1d3557;
+  transform: scale(1.02);
+}
+
+.otp-get-btn:disabled {
+  background: #E5E7EB;
+  color: #9CA3AF;
+  border: 1px solid #D1D5DB;
+  cursor: not-allowed;
+}
+
+/* Custom select arrow styling */
+.otp-select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  border-top: 4.5px solid #4B5563;
+  pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+.otp-form-select:focus ~ .otp-select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+  border-top-color: #0c1f6c;
+}
+
+/* Consent check box styling matching screenshot */
+.otp-consent-wrapper {
+  margin: 0.25rem 0;
+}
+
+.otp-consent-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  cursor: pointer;
+}
+
+.otp-consent-checkbox {
+  margin-top: 0.15rem;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  accent-color: #0c1f6c;
+  cursor: pointer;
+}
+
+.otp-consent-text {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: #374151; /* Dark gray for layout legibility */
+}
+
+/* Submit Button capsule styling */
+.otp-submit-btn {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 9999px; /* Capsule shape matching screenshot */
+  background: #0a122c; /* Dark navy background */
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.otp-submit-btn:hover:not(:disabled) {
+  background: #111a41;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(10, 18, 44, 0.25);
+}
+
+.otp-submit-btn:disabled {
+  background: #9CA3AF;
+  color: #E5E7EB;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Success View styling */
+.otp-enquiry-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  animation: otpScaleUp 0.4s ease-out;
+}
+
+.otp-success-title {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0c1f6c;
+  margin-bottom: 0.5rem;
+}
+
+.otp-success-desc {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #4B5563;
+  margin-bottom: 1.5rem;
+}
+
+.otp-reset-btn {
+  width: 100%;
+  height: 38px;
+}
+
+.otp-error-msg {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.72rem;
+  color: #DC2626;
+  text-align: left;
+  margin-top: -0.25rem;
+  padding: 0 0.25rem;
+}
+
+/* Shake Animation */
+.shake-animation {
+  animation: otpShake 0.5s ease-in-out;
+}
+
+@keyframes otpShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes otpScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

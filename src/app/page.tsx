@@ -11,9 +11,12 @@ import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
 import Footer from '@/components/layout/Footer';
 import FAQ from '@/components/home/FAQ/FAQ';
+import { getBlogPosts } from '@/lib/strapi';
 
+export default async function Home() {
+  const posts = await getBlogPosts();
+  const recentPosts = posts.slice(0, 3);
 
-export default function Home() {
   return (
     <main>
       {/* 1. Navbar Navigation */}
@@ -40,8 +43,6 @@ export default function Home() {
       {/* New Section */}
       <NewSection />
 
-
-
       {/* 7. Feedback Testimonial Slider */}
       <Feedback />
 
@@ -49,7 +50,7 @@ export default function Home() {
       <FAQ />
 
       {/* 9. Recent Posts Section */}
-      <RecentPost />
+      <RecentPost posts={recentPosts} />
 
       {/* Branch Locator Section */}
       <BranchLocator />
@@ -57,5 +58,6 @@ export default function Home() {
       {/* 10. Footer Section */}
       <Footer />
     </main>
-  )
+  );
 }
+
