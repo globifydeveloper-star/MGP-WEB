@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { BRANCHES_DATA } from '@/data/branchesData';
 import './BranchLocator.css';
 
 const BranchMap = dynamic(() => import('./BranchMap'), {
