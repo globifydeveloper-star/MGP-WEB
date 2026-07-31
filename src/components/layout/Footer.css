@@ -258,7 +258,8 @@
   }
 
   .logo-img {
-    width: 160px;
+    width: 220px;
+    max-width: 80vw;
     margin: 0 auto;
   }
 
@@ -381,6 +382,7 @@
   }
 
   .logo-img {
-    width: 140px;
+    width: 195px;
+    max-width: 75vw;
   }
 }

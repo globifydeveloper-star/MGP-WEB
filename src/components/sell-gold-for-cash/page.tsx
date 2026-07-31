@@ -7,13 +7,21 @@ import SellGoldHero from './SellGoldHero/SellGoldHero';
 import GoldSellProcess from '@/components/home/GoldSellProcess/GoldSellProcess';
 import GoldSellComparison from './GoldSellComparison/GoldSellComparison';
 import GoldSellOverview from './GoldSellOverview/GoldSellOverview';
-import GoldSellLegacy from './GoldSellLegacy/GoldSellLegacy';
+import AboutHero from '@/components/about-us/abouthero/abouthero';
+import GoldSellContact from './GoldSellContact/GoldSellContact';
 
 export default function SellGoldForCashPage() {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <>
       <Navbar />
-      <main style={{ paddingTop: '80px', minHeight: 'calc(100vh - 80px)' }}>
+      <main style={{ paddingTop: '80px', minHeight: 'calc(100vh - 80px)', backgroundColor: '#0c1835' }}>
         <SellGoldHero />
 
         {/* Gold Selling Process Section */}
@@ -25,8 +33,11 @@ export default function SellGoldForCashPage() {
         {/* Sell Your Gold, Get Cash Instantly Overview */}
         <GoldSellOverview />
 
-        {/* Muthoot Pappachan Group Legacy & Stats */}
-        <GoldSellLegacy />
+        {/* About Muthoot Gold Point */}
+        <AboutHero onExploreClick={() => scrollToSection('sell-gold-form')} />
+
+        {/* Get in Touch */}
+        <GoldSellContact />
 
       </main>
 

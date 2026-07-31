@@ -53,6 +53,8 @@ export default function Hero() {
       {/* Mobile-only Model Photo (rendered on top on mobile/tablet) */}
       <div className="hero-mobile-top-model-wrapper">
         <div className="hero-mobile-top-visual-container">
+          <div className="hero-mobile-bg-pattern" aria-hidden="true" />
+          <div className="hero-mobile-golden-aura" aria-hidden="true" />
           <Image
             src={groupHeroImg}
             alt="Muthoot Goldpoint Arc Features"
@@ -101,6 +103,8 @@ export default function Hero() {
             />
           ))}
 
+          <div className="hero-model-bg-pattern" aria-hidden="true" />
+          <div className="hero-model-golden-aura" aria-hidden="true" />
           <div className="hero-model-bg-glow" aria-hidden="true" />
 
           <HeroModelPhoto />

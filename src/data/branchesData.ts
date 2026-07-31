@@ -1448,7 +1448,7 @@ export async function getAllBranches(): Promise<Branch[]> {
 
 export function getStateSummaries(): StateSummary[] {
   const map = new Map<string, Branch[]>();
-  
+
   BRANCHES_DATA.forEach((branch) => {
     const list = map.get(branch.state) || [];
     list.push(branch);
@@ -1472,3 +1472,48 @@ export function getStateSummaries(): StateSummary[] {
   // Sort by count descending so highest branch states appear first
   return summaries.sort((a, b) => b.count - a.count);
 }
+
+/**
+ * Helper: Get sorted list of unique states in BRANCHES_DATA
+ */
+export function getUniqueStates(): string[] {
+  const statesSet = new Set(BRANCHES_DATA.map((b) => b.state));
+  return Array.from(statesSet).sort();
+}
+
+/**
+ * Helper: Get sorted list of unique cities for a given state in BRANCHES_DATA
+ */
+export function getCitiesByState(state: string): string[] {
+  if (!state) return [];
+  const citiesSet = new Set(
+    BRANCHES_DATA.filter((b) => b.state.toLowerCase() === state.toLowerCase()).map((b) => b.city)
+  );
+  return Array.from(citiesSet).sort();
+}
+
+/**
+ * Helper: Get map of state -> sorted list of unique cities
+ */
+export function getStateCitiesMap(): Record<string, string[]> {
+  const map: Record<string, Set<string>> = {};
+  BRANCHES_DATA.forEach((b) => {
+    if (!map[b.state]) map[b.state] = new Set();
+    map[b.state].add(b.city);
+  });
+
+  const result: Record<string, string[]> = {};
+  Object.keys(map).sort().forEach((state) => {
+    result[state] = Array.from(map[state]).sort();
+  });
+  return result;
+}
+
+/**
+ * Helper: Get branches by state
+ */
+export function getBranchesByState(state: string): Branch[] {
+  if (!state) return [];
+  return BRANCHES_DATA.filter((b) => b.state.toLowerCase() === state.toLowerCase());
+}
+

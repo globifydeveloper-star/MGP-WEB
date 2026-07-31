@@ -146,7 +146,7 @@ export default function BranchLocator() {
       <div className="container">
         <div className="branch-locator-header">
           <h2 className="branch-locator-title">
-            11 branches. <span className="branch-locator-title-highlight">One standard.</span>
+            {BRANCHES_DATA.length}+ branches. <span className="branch-locator-title-highlight">One standard.</span>
           </h2>
           <p className="branch-locator-subtitle">
             Every GoldPoint branch runs the same process, uses the same equipment, and upholds the same promise. Choose the nearest — the experience is always identical.

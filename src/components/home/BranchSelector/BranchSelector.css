@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
   pointer-events: none;
 }
 
@@ -26,7 +26,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
   box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
   background-image: url('../../../assets/images/NAVBAR BG.png');
   background-repeat: repeat;
@@ -216,7 +216,7 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
+  z-index: 10000;
   display: flex;
   align-items: center;
   gap: 1.25rem;
@@ -228,7 +228,24 @@
   background-repeat: repeat;
   box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  transition: var(--transition-smooth);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.branch-selector-minimized-tab.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.branch-selector-minimized-tab.is-hidden {
+  transform: translateX(-50%) translateY(120%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .branch-selector-minimized-tab:hover {

@@ -1,42 +1,58 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
+import { getUniqueStates, getBranchesByState, Branch } from '@/data/branchesData';
 import './BranchSelector.css';
 
-const branchData: Record<string, string[]> = {
-  'Karnataka': ['Bengaluru - Jayanagar', 'Bengaluru - Indiranagar', 'Bengaluru - Koramangala'],
-  'Tamil Nadu': ['Chennai - T. Nagar', 'Chennai - Adyar', 'Coimbatore'],
-  'Kerala': ['Kochi - MG Road', 'Trivandrum - East Fort', 'Calicut'],
-  'Maharashtra': ['Mumbai - Andheri', 'Pune - Deccan Gymkhana', 'Nagpur'],
-  'Delhi': ['Connaught Place', 'Karol Bagh', 'Nehru Place']
-};
-
 export default function BranchSelector() {
+  const pathname = usePathname();
   const [selectedState, setSelectedState] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
-  const [isHovered, setIsHovered] = useState(false);
+  const [selectedBranchId, setSelectedBranchId] = useState('');
+  const [isOpen, setIsOpen] = useState(true);
+
+  // Reset selector bar to OPEN state on route change
+  useEffect(() => {
+    setIsOpen(true);
+  }, [pathname]);
+
+  const states = useMemo(() => getUniqueStates(), []);
+  const availableBranches = useMemo(() => {
+    return selectedState ? getBranchesByState(selectedState) : [];
+  }, [selectedState]);
+
+  const selectedBranchObj = useMemo(() => {
+    return availableBranches.find((b) => b.id === selectedBranchId) || null;
+  }, [availableBranches, selectedBranchId]);
 
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedState(e.target.value);
-    setSelectedBranch(''); // reset branch on state change
+    setSelectedBranchId(''); // reset branch on state change
+  };
+
+  const handleGetDirections = () => {
+    if (selectedBranchObj) {
+      if (selectedBranchObj.url) {
+        window.open(selectedBranchObj.url, '_blank');
+      } else {
+        const query = encodeURIComponent(`${selectedBranchObj.name}, ${selectedBranchObj.address}`);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+      }
+    }
   };
 
   return (
-    <div
-      className="branch-selector-wrapper"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Minimized Trigger Tab (visible by default, opens on hover) */}
+    <div className="branch-selector-wrapper">
+      {/* Minimized Trigger Tab (visible when minimized) */}
       <div
-        className={`branch-selector-minimized-tab ${!isHovered ? 'is-visible' : ''}`}
-        onClick={() => setIsHovered(true)}
+        className={`branch-selector-minimized-tab ${!isOpen ? 'is-visible' : 'is-hidden'}`}
+        onClick={() => setIsOpen(true)}
         role="button"
         tabIndex={0}
         aria-label="Open branch selector"
       >
         <span className="minimized-rate-badge">22K/G: ₹8,629</span>
-        <span className="minimized-tab-label">Find Branch & Directions</span>
+        <span className="minimized-tab-label">Find Branch &amp; Directions</span>
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -51,8 +67,8 @@ export default function BranchSelector() {
         </svg>
       </div>
 
-      {/* Main Branch Selector Bar (slides up on hover) */}
-      <div className={`branch-selector-bar glass-panel ${isHovered ? 'is-popped-up' : 'is-popped-down'}`}>
+      {/* Main Branch Selector Bar (Open by default, minimizes on downward arrow click) */}
+      <div className={`branch-selector-bar glass-panel ${isOpen ? 'is-popped-up' : 'is-popped-down'}`}>
         {/* Header Row: Info & Rate */}
         <div className="selector-header-row">
           <div className="selector-section-info">
@@ -76,7 +92,7 @@ export default function BranchSelector() {
               className="custom-select"
             >
               <option value="" disabled>Select State</option>
-              {Object.keys(branchData).map((state) => (
+              {states.map((state) => (
                 <option key={state} value={state}>{state}</option>
               ))}
             </select>
@@ -86,14 +102,16 @@ export default function BranchSelector() {
           {/* Branch Dropdown */}
           <div className="select-wrapper">
             <select
-              value={selectedBranch}
-              onChange={(e) => setSelectedBranch(e.target.value)}
+              value={selectedBranchId}
+              onChange={(e) => setSelectedBranchId(e.target.value)}
               disabled={!selectedState}
               className="custom-select"
             >
               <option value="" disabled>Select Branch</option>
-              {selectedState && branchData[selectedState].map((branch) => (
-                <option key={branch} value={branch}>{branch}</option>
+              {availableBranches.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.name.replace('Muthoot Gold Point - ', '')} ({branch.city})
+                </option>
               ))}
             </select>
             <span className="select-chevron"></span>
@@ -103,24 +121,20 @@ export default function BranchSelector() {
         {/* CTA Direction button */}
         <button
           className="btn btn-primary direction-btn"
-          disabled={!selectedBranch}
-          onClick={() => {
-            if (selectedBranch) {
-              alert(`Opening directions for Muthoot Goldpoint, ${selectedBranch}, ${selectedState}`);
-            }
-          }}
+          disabled={!selectedBranchId}
+          onClick={handleGetDirections}
         >
           Get Direction
         </button>
 
-        {/* Action button (Pop Down / Close) */}
+        {/* Action button (Downward Arrow to Minimize) */}
         <div className="selector-actions">
           <button
             type="button"
             className="minimize-selector-btn"
-            onClick={() => setIsHovered(false)}
-            aria-label="Pop down branch selector"
-            title="Pop down"
+            onClick={() => setIsOpen(false)}
+            aria-label="Minimize branch selector"
+            title="Minimize"
           >
             <svg
               viewBox="0 0 24 24"

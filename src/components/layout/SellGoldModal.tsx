@@ -8,13 +8,9 @@ interface SellGoldModalProps {
   onClose: () => void;
 }
 
-const STATE_CITIES: Record<string, string[]> = {
-  'Karnataka': ['Bengaluru', 'Mysore', 'Mangalore', 'Hubli'],
-  'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Trichy'],
-  'Kerala': ['Kochi', 'Trivandrum', 'Calicut', 'Thrissur'],
-  'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Kalyan'],
-  'Delhi': ['Delhi', 'New Delhi']
-};
+import { getStateCitiesMap } from '@/data/branchesData';
+
+const STATE_CITIES = getStateCitiesMap();
 
 const PURITIES = [
   '24K (99.9%)',
@@ -237,7 +233,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   onChange={handleChange}
                 >
                   <option value="" disabled>Select City</option>
-                  {formData.state && STATE_CITIES[formData.state].map(city => (
+                  {formData.state && STATE_CITIES[formData.state]?.map(city => (
                     <option key={city} value={city}>{city}</option>
                   ))}
                 </select>

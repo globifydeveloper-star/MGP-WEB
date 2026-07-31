@@ -52,7 +52,7 @@
 
 .sg-hero-container {
   display: grid;
-  grid-template-columns: 280px 1.1fr 0.9fr;
+  grid-template-columns: 285px 1fr 0.9fr;
   gap: 1.25rem;
   align-items: stretch;
   position: relative;
@@ -98,19 +98,17 @@
 /* Section 1: Photo */
 .sg-hero-visual {
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: flex-start;
-  height: 100%;
+  height: calc(100% + 1.75rem);
   min-height: 0;
 }
 
 .sg-couple-photo {
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: 430px;
-  object-fit: contain;
-  object-position: bottom left;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 
 /* Section 2: Content Column */
@@ -438,6 +436,27 @@
   transition: var(--transition-smooth);
 }
 
+.sg-form-select.sg-placeholder-selected {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sg-form-select option {
+  background-color: #0c1835;
+  color: #ffffff;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+}
+
+.sg-form-select option:disabled {
+  color: rgba(255, 255, 255, 0.45);
+  background-color: #070e22;
+}
+
+.sg-form-select option:checked {
+  background-color: #DAA12E;
+  color: #0c1835;
+}
+
 .sg-form-select:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -641,10 +660,6 @@
 @media (max-width: 1200px) {
   .sg-hero-title {
     font-size: 2rem;
-  }
-
-  .sg-couple-photo {
-    max-height: 380px;
   }
 }
 

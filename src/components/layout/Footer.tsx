@@ -50,6 +50,7 @@ export default function Footer() {
             <li><a href="https://branches.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="footer-link">Branch Locator</a></li>
             <li><Link href="/#faq" className="footer-link">FAQs</Link></li>
             <li><Link href="/contact-us" className="footer-link">Contact Us</Link></li>
+            <li><Link href="/blogs" className="footer-link">Blog</Link></li>
           </ul>
         </div>
 
