@@ -37,6 +37,12 @@
   margin-bottom: 1.1rem;
 }
 
+.gso-title .gold-text {
+  background: linear-gradient(180deg, #9A6410 0%, #C98A18 25%, #DAA12E 65%, #F1B933 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .gso-title-icon {
   width: 26px;
   height: 26px;

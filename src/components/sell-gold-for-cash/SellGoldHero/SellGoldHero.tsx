@@ -1,20 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
+import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './SellGoldHero.css';
 import coupleImg from '@/assets/images/gs-heroo.png';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import coinImg from '@/assets/images/COIN.png';
-
-const STATE_CITIES: Record<string, string[]> = {
-  'Karnataka': ['Bengaluru', 'Mysore', 'Mangalore', 'Hubli'],
-  'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Trichy'],
-  'Kerala': ['Kochi', 'Trivandrum', 'Calicut', 'Thrissur'],
-  'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Kalyan'],
-  'Delhi': ['Delhi', 'New Delhi']
-};
 
 export default function SellGoldHero() {
   const [formData, setFormData] = useState({
@@ -26,6 +19,11 @@ export default function SellGoldHero() {
     city: '',
     consent: true
   });
+
+  const statesList = useMemo(() => getUniqueStates(), []);
+  const availableCities = useMemo(() => {
+    return formData.state ? getCitiesByState(formData.state) : [];
+  }, [formData.state]);
 
   const [otpSent, setOtpSent] = useState(false);
   const [otpCountdown, setOtpCountdown] = useState(0);
@@ -195,7 +193,7 @@ export default function SellGoldHero() {
         </div>
 
         {/* Section 3: Get In Touch Form */}
-        <div className="sg-hero-right">
+        <div className="sg-hero-right" id="sell-gold-form">
           <div className="sg-form-card glass-panel">
             {isSubmitted ? (
               <div className="sg-form-success">
@@ -301,10 +299,10 @@ export default function SellGoldHero() {
                       required
                       value={formData.state}
                       onChange={handleInputChange}
-                      className="sg-form-select"
+                      className={`sg-form-select ${!formData.state ? 'sg-placeholder-selected' : ''}`}
                     >
                       <option value="" disabled>Select State*</option>
-                      {Object.keys(STATE_CITIES).map(state => (
+                      {statesList.map(state => (
                         <option key={state} value={state}>{state}</option>
                       ))}
                     </select>
@@ -319,10 +317,12 @@ export default function SellGoldHero() {
                       disabled={!formData.state}
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="sg-form-select"
+                      className={`sg-form-select ${!formData.city ? 'sg-placeholder-selected' : ''}`}
                     >
-                      <option value="" disabled>Select City*</option>
-                      {formData.state && STATE_CITIES[formData.state].map(city => (
+                      <option value="" disabled>
+                        {formData.state ? 'Select City / Branch*' : 'Select City*'}
+                      </option>
+                      {availableCities.map(city => (
                         <option key={city} value={city}>{city}</option>
                       ))}
                     </select>
@@ -353,7 +353,7 @@ export default function SellGoldHero() {
                   disabled={isSubmitting}
                   className="sg-submit-btn btn-primary"
                 >
-                  {isSubmitting ? 'SUBMITTING...' : 'SUBMIT'}
+                  {isSubmitting ? 'SUBMITTING...' : 'SUBMIT ENQUIRY'}
                 </button>
               </form>
             )}

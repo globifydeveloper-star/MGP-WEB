@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './appoinment.css';
-
-const STATES = ['Maharashtra', 'Karnataka', 'Kerala', 'Tamil Nadu', 'Delhi'];
-const CITIES = ['Mumbai', 'Kalyan', 'Bengaluru'];
 
 const GaugeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -31,6 +29,11 @@ export default function Appoinment() {
     consent: false,
   });
 
+  const statesList = useMemo(() => getUniqueStates(), []);
+  const availableCities = useMemo(() => {
+    return formData.state ? getCitiesByState(formData.state) : [];
+  }, [formData.state]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -39,6 +42,7 @@ export default function Appoinment() {
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
+      ...(name === 'state' ? { city: '' } : {}),
     }));
   };
 
@@ -133,7 +137,7 @@ export default function Appoinment() {
                     onChange={handleChange}
                   >
                     <option value="" disabled>Select State</option>
-                    {STATES.map((state) => (
+                    {statesList.map((state) => (
                       <option key={state} value={state}>{state}</option>
                     ))}
                   </select>
@@ -145,11 +149,12 @@ export default function Appoinment() {
                     id="apt-city"
                     name="city"
                     className="apt-select"
+                    disabled={!formData.state}
                     value={formData.city}
                     onChange={handleChange}
                   >
                     <option value="" disabled>Select City</option>
-                    {CITIES.map((city) => (
+                    {availableCities.map((city) => (
                       <option key={city} value={city}>{city}</option>
                     ))}
                   </select>

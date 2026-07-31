@@ -15,49 +15,10 @@ interface LocationPopupProps {
   onSuccess?: () => void;
 }
 
-const STATE_CITIES: Record<string, string[]> = {
-  'Andhra Pradesh': ['Visakhapatnam', 'Vijayawada', 'Guntur', 'Nellore'],
-  'Bihar': ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur'],
-  'Chhattisgarh': ['Raipur', 'Bhilai', 'Bilaspur', 'Korba'],
-  'Delhi': ['New Delhi', 'Delhi'],
-  'Delhi NCR': ['Noida', 'Gurugram', 'Ghaziabad', 'Faridabad'],
-  'Gujarat': ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot'],
-  'Haryana': ['Gurugram', 'Faridabad', 'Panipat', 'Ambala'],
-  'Karnataka': ['Bengaluru', 'Mysore', 'Mangalore', 'Hubli'],
-  'Kerala': ['Kochi', 'Trivandrum', 'Calicut', 'Thrissur'],
-  'Madhya Pradesh': ['Indore', 'Bhopal', 'Jabalpur', 'Gwalior'],
-  'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Thane'],
-  'Odisha': ['Bhubaneswar', 'Cuttack', 'Rourkela', 'Sambalpur'],
-  'Punjab': ['Ludhiana', 'Amritsar', 'Jalandhar', 'Patiala'],
-  'Rajasthan': ['Jaipur', 'Jodhpur', 'Udaipur', 'Kota'],
-  'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem'],
-  'Telangana': ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar'],
-  'Uttar Pradesh': ['Lucknow', 'Kanpur', 'Ghaziabad', 'Agra'],
-  'Uttarakhand': ['Dehradun', 'Haridwar', 'Haldwani', 'Roorkee'],
-  'West Bengal': ['Kolkata', 'Howrah', 'Durgapur', 'Siliguri']
-};
+import { getStateCitiesMap, getUniqueStates } from '@/data/branchesData';
 
-const STATES_LIST = [
-  'Andhra Pradesh',
-  'Bihar',
-  'Chhattisgarh',
-  'Delhi',
-  'Delhi NCR',
-  'Gujarat',
-  'Haryana',
-  'Karnataka',
-  'Kerala',
-  'Madhya Pradesh',
-  'Maharashtra',
-  'Odisha',
-  'Punjab',
-  'Rajasthan',
-  'Tamil Nadu',
-  'Telangana',
-  'Uttar Pradesh',
-  'Uttarakhand',
-  'West Bengal' // West Bengal is at the bottom
-];
+const STATE_CITIES = getStateCitiesMap();
+const STATES_LIST = getUniqueStates();
 
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
@@ -170,7 +131,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
                   className="lp-select"
                 >
                   <option value="" disabled>Select City</option>
-                  {selectedState && STATE_CITIES[selectedState].map(city => (
+                  {selectedState && STATE_CITIES[selectedState]?.map(city => (
                     <option key={city} value={city}>{city}</option>
                   ))}
                 </select>

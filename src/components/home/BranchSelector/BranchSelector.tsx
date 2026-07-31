@@ -1,24 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { getUniqueStates, getBranchesByState, Branch } from '@/data/branchesData';
 import './BranchSelector.css';
-
-const branchData: Record<string, string[]> = {
-  'Karnataka': ['Bengaluru - Jayanagar', 'Bengaluru - Indiranagar', 'Bengaluru - Koramangala'],
-  'Tamil Nadu': ['Chennai - T. Nagar', 'Chennai - Adyar', 'Coimbatore'],
-  'Kerala': ['Kochi - MG Road', 'Trivandrum - East Fort', 'Calicut'],
-  'Maharashtra': ['Mumbai - Andheri', 'Pune - Deccan Gymkhana', 'Nagpur'],
-  'Delhi': ['Connaught Place', 'Karol Bagh', 'Nehru Place']
-};
 
 export default function BranchSelector() {
   const [selectedState, setSelectedState] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedBranchId, setSelectedBranchId] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+
+  const states = useMemo(() => getUniqueStates(), []);
+  const availableBranches = useMemo(() => {
+    return selectedState ? getBranchesByState(selectedState) : [];
+  }, [selectedState]);
+
+  const selectedBranchObj = useMemo(() => {
+    return availableBranches.find((b) => b.id === selectedBranchId) || null;
+  }, [availableBranches, selectedBranchId]);
 
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedState(e.target.value);
-    setSelectedBranch(''); // reset branch on state change
+    setSelectedBranchId(''); // reset branch on state change
+  };
+
+  const handleGetDirections = () => {
+    if (selectedBranchObj) {
+      if (selectedBranchObj.url) {
+        window.open(selectedBranchObj.url, '_blank');
+      } else {
+        const query = encodeURIComponent(`${selectedBranchObj.name}, ${selectedBranchObj.address}`);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+      }
+    }
   };
 
   return (
@@ -76,7 +89,7 @@ export default function BranchSelector() {
               className="custom-select"
             >
               <option value="" disabled>Select State</option>
-              {Object.keys(branchData).map((state) => (
+              {states.map((state) => (
                 <option key={state} value={state}>{state}</option>
               ))}
             </select>
@@ -86,14 +99,16 @@ export default function BranchSelector() {
           {/* Branch Dropdown */}
           <div className="select-wrapper">
             <select
-              value={selectedBranch}
-              onChange={(e) => setSelectedBranch(e.target.value)}
+              value={selectedBranchId}
+              onChange={(e) => setSelectedBranchId(e.target.value)}
               disabled={!selectedState}
               className="custom-select"
             >
               <option value="" disabled>Select Branch</option>
-              {selectedState && branchData[selectedState].map((branch) => (
-                <option key={branch} value={branch}>{branch}</option>
+              {availableBranches.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.name.replace('Muthoot Gold Point - ', '')} ({branch.city})
+                </option>
               ))}
             </select>
             <span className="select-chevron"></span>
@@ -103,12 +118,8 @@ export default function BranchSelector() {
         {/* CTA Direction button */}
         <button
           className="btn btn-primary direction-btn"
-          disabled={!selectedBranch}
-          onClick={() => {
-            if (selectedBranch) {
-              alert(`Opening directions for Muthoot Goldpoint, ${selectedBranch}, ${selectedState}`);
-            }
-          }}
+          disabled={!selectedBranchId}
+          onClick={handleGetDirections}
         >
           Get Direction
         </button>

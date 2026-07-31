@@ -1,274 +1,534 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import Image from 'next/image';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { BRANCH_CONTACTS } from '@/lib/branchContactsData';
+import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
+import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
 
-interface RegisteredOfficeDetails {
-  companyName: string;
-  address?: string;
-  phones?: string[];
-  email?: string;
-}
+const SERVICES = [
+  'Sell Gold for Cash',
+  'Gold Loan Service',
+  'Mobile Van Appointment',
+  'Branch Enquiry',
+  'Gold Valuation & Purity Check',
+  'Other Assistance',
+];
 
-// Address/phone intentionally left blank — not published on the live site at
-// time of writing. Confirm exact wording with the client before hardcoding.
-const REGISTERED_OFFICE: RegisteredOfficeDetails = {
-  companyName: 'MUTHOOT GOLD POINT',
+const REGISTERED_OFFICE = {
+  name: 'MUTHOOT GOLD POINT',
+  address: 'Muthoot Exim Private Limited, 40/7384 Muthoot Towers, M.G. Road, Ernakulam, Kerala - 682035',
+  phone1: '0484 2351481',
+  phone2: '0484 2351494',
+  email: 'info@muthootexim.com',
+  mapEmbedUrl: 'https://maps.google.com/maps?q=Muthoot%20Towers,%20MG%20Road,%20Ernakulam,%20Kerala%20682035&t=&z=15&ie=UTF8&iwloc=&output=embed',
 };
 
-const CONSENT_TEXT =
-  'I authorize Muthoot Exim Pvt. Ltd. & other Muthoot Pappachan Group companies (including its Agents/representatives) to call/communicate with me on their product offerings/promotions through Telephone/Mobile/SMS/email ID.';
+const STATS = [
+  {
+    value: '4,200+',
+    label: 'Happy Customers',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    ),
+  },
+  {
+    value: '133+',
+    label: 'Branches PAN India',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
+  },
+  {
+    value: '24,000+',
+    label: '5 Star Customer Experiences',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="none" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
+  },
+  {
+    value: '100,000+',
+    label: 'Gold Loans Given',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <polyline points="9 12 11 14 15 10" />
+      </svg>
+    ),
+  },
+];
 
-const PinIcon = () => (
-  <svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
-    <circle cx="12" cy="10" r="2.5" />
-  </svg>
-);
-
-const PhoneIcon = () => (
-  <svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+/* Input Icons */
+const UserIcon = () => (
+  <svg className="cp-input-icon" viewBox="0 0 24 24" fill="none" stroke="#7A899E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
   </svg>
 );
 
 const MailIcon = () => (
-  <svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="cp-input-icon" viewBox="0 0 24 24" fill="none" stroke="#7A899E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="m22 6-10 7L2 6" />
   </svg>
 );
 
-/** Indian numbering plan: STD-code landlines are dialled with a leading 0, mobiles never are. */
-function isLandline(phone: string): boolean {
-  return phone.replace(/\D/g, '').startsWith('0');
-}
+const PhoneIcon = () => (
+  <svg className="cp-input-icon" viewBox="0 0 24 24" fill="none" stroke="#7A899E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+);
+
+const ChevronDownIcon = () => (
+  <svg className="cp-select-chevron" viewBox="0 0 24 24" fill="none" stroke="#7A899E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+/* Card Badges Gold Icons */
+const PinIconGold = () => (
+  <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+    <circle cx="12" cy="10" r="3" fill="#F1B933" />
+  </svg>
+);
+
+const PhoneIconGold = () => (
+  <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+);
+
+const BriefcaseIconGold = () => (
+  <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="7" width="20" height="14" rx="2" />
+    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+  </svg>
+);
+
+const MailIconGold = () => (
+  <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="m22 6-10 7L2 6" />
+  </svg>
+);
 
 export default function ContactPage() {
-  const [consentChecked, setConsentChecked] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(BRANCH_CONTACTS[0].city);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    otp: '',
+    service: '',
+    state: '',
+    city: '',
+    message: '',
+  });
 
-  const selectedBranch = useMemo(
-    () => BRANCH_CONTACTS.find((branch) => branch.city === selectedCity) ?? BRANCH_CONTACTS[0],
-    [selectedCity]
-  );
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCountdown, setOtpCountdown] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const mobiles = selectedBranch.phones.filter((phone) => !isLandline(phone));
-  const landlines = selectedBranch.phones.filter((phone) => isLandline(phone));
+  const statesList = useMemo(() => getUniqueStates(), []);
+  const availableCities = useMemo(() => {
+    return formData.state ? getCitiesByState(formData.state) : [];
+  }, [formData.state]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'state' ? { city: '' } : {}),
+    }));
+  };
+
+  const handleGetOtp = () => {
+    if (!formData.phone || formData.phone.length < 10) {
+      alert('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    setOtpSent(true);
+    setOtpCountdown(30);
+    const timer = setInterval(() => {
+      setOtpCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    alert(`OTP sent successfully to +91 ${formData.phone} (Simulated)`);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.phone || !formData.service || !formData.state || !formData.city || !formData.message) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        otp: '',
+        service: '',
+        state: '',
+        city: '',
+        message: '',
+      });
+      setOtpSent(false);
+      setOtpCountdown(0);
+    }, 1200);
+  };
 
   return (
     <>
       <Navbar />
 
-      <main>
-        {/* 1. Page Header */}
-        <section className="contact-header-section">
-          <div className="container">
-            <h1 className="contact-header-title">Contact Us</h1>
+      <main className="cp-page">
+        {/* TOP HERO BANNER */}
+        <section className="cp-hero-banner">
+          <div className="cp-hero-bg-wrapper">
+            <Image
+              src={contactHeroBg}
+              alt="Muthoot Gold Point Contact Us"
+              fill
+              priority
+              className="cp-hero-img"
+            />
+            <div className="cp-hero-overlay" />
+          </div>
+
+          <div className="container cp-hero-text-container">
+            <h1 className="cp-hero-heading">
+              We’re Just A Message <br />
+              <span className="cp-gold-text">Away.</span>
+            </h1>
+            <p className="cp-hero-lead">
+              Have questions or need assistance? <br />
+              We’re here to help you with all your gold loan &amp; <br />
+              selling needs.
+            </p>
           </div>
         </section>
 
-        {/* 2. Registered Office + Contact Form */}
-        <section className="contact-info-section">
-          <div className="container">
-            <div className="contact-info-grid">
-              <div className="contact-office-col">
-                <div className="contact-office-card">
-                  <h2 className="contact-office-heading">Registered Office</h2>
-                  <p className="contact-office-name">{REGISTERED_OFFICE.companyName}</p>
+        {/* OVERLAPPING MAIN CONTENT AREA */}
+        <section className="cp-content-section">
+          <div className="container cp-content-grid">
 
-                  {REGISTERED_OFFICE.address ? (
-                    <p className="contact-office-address">{REGISTERED_OFFICE.address}</p>
-                  ) : (
-                    <p className="contact-office-pending">Address to be confirmed.</p>
-                  )}
+            {/* LEFT / MIDDLE COLUMN: Registered Office & Map */}
+            <div className="cp-left-col">
+              <h2 className="cp-office-title">
+                Registered <span className="cp-gold-text-dark">Office</span>
+              </h2>
+              <div className="cp-office-title-line" />
 
-                  {REGISTERED_OFFICE.phones && REGISTERED_OFFICE.phones.length > 0 ? (
-                    <div className="contact-office-row">
-                      <PhoneIcon />
-                      <span>{REGISTERED_OFFICE.phones.join(' | ')}</span>
+              <div className="cp-office-row-flex">
+                {/* Registered Office White Card */}
+                <div className="cp-office-card">
+                  {/* Address */}
+                  <div className="cp-card-item cp-card-item-address">
+                    <div className="cp-badge-circle">
+                      <PinIconGold />
                     </div>
-                  ) : (
-                    <p className="contact-office-pending">Phone number to be confirmed.</p>
-                  )}
-
-                  {REGISTERED_OFFICE.email && (
-                    <div className="contact-office-row">
-                      <MailIcon />
-                      <span>{REGISTERED_OFFICE.email}</span>
+                    <div className="cp-card-item-body">
+                      <h3 className="cp-company-title">{REGISTERED_OFFICE.name}</h3>
+                      <p className="cp-company-addr">{REGISTERED_OFFICE.address}</p>
                     </div>
-                  )}
+                  </div>
+
+                  <div className="cp-dotted-line" />
+
+                  {/* Phone 1 */}
+                  <div className="cp-card-item">
+                    <div className="cp-badge-circle">
+                      <PhoneIconGold />
+                    </div>
+                    <div className="cp-card-item-body">
+                      <a href={`tel:${REGISTERED_OFFICE.phone1.replace(/\s+/g, '')}`} className="cp-contact-link">
+                        {REGISTERED_OFFICE.phone1}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="cp-dotted-line" />
+
+                  {/* Phone 2 */}
+                  <div className="cp-card-item">
+                    <div className="cp-badge-circle">
+                      <BriefcaseIconGold />
+                    </div>
+                    <div className="cp-card-item-body">
+                      <a href={`tel:${REGISTERED_OFFICE.phone2.replace(/\s+/g, '')}`} className="cp-contact-link">
+                        {REGISTERED_OFFICE.phone2}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="cp-dotted-line" />
+
+                  {/* Email */}
+                  <div className="cp-card-item">
+                    <div className="cp-badge-circle">
+                      <MailIconGold />
+                    </div>
+                    <div className="cp-card-item-body">
+                      <a href={`mailto:${REGISTERED_OFFICE.email}`} className="cp-contact-link">
+                        {REGISTERED_OFFICE.email}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Map Box */}
+                <div className="cp-map-box">
+                  <iframe
+                    title="Muthoot Gold Point Registered Office Location"
+                    className="cp-map-iframe"
+                    src={REGISTERED_OFFICE.mapEmbedUrl}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                  {/* Floating Marker Card on Map */}
+                  <div className="cp-map-popup">
+                    <div className="cp-map-popup-body">
+                      <h4 className="cp-map-popup-title">Muthoot Towers</h4>
+                      <p className="cp-map-popup-text">M.G. Road, Ernakulam, Kerala - 682035</p>
+                    </div>
+                    <div className="cp-map-popup-pin">
+                      <svg viewBox="0 0 24 24" width="28" height="28" fill="#0B1536">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div className="contact-form-col">
-                <div className="contact-form-card">
-                  <h2 className="contact-form-title">Write to us</h2>
-
-                  <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
-                    <div className="contact-form-group">
-                      <label htmlFor="contact-name" className="contact-form-label">Name</label>
-                      <input
-                        type="text"
-                        id="contact-name"
-                        name="name"
-                        required
-                        placeholder="Your full name"
-                        className="contact-form-input"
-                      />
+            {/* RIGHT COLUMN: Floating Overlapping Form Card */}
+            <div className="cp-right-col">
+              <div className="cp-form-card">
+                {isSubmitted ? (
+                  <div className="cp-success-box">
+                    <div className="cp-success-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                    </div>
+                    <h3 className="cp-success-head">Thank You!</h3>
+                    <p className="cp-success-text">
+                      Your message has been received. Our team will get back to you shortly.
+                    </p>
+                    <button
+                      type="button"
+                      className="cp-submit-btn"
+                      onClick={() => setIsSubmitted(false)}
+                    >
+                      Send Another Message
+                    </button>
+                  </div>
+                ) : (
+                  <form className="cp-form" onSubmit={handleSubmit}>
+                    <div className="cp-form-head">
+                      <h2 className="cp-form-title">
+                        Write <span className="cp-gold-text">to us</span>
+                      </h2>
+                      <div className="cp-form-title-line" />
                     </div>
 
-                    <div className="contact-form-group">
-                      <label htmlFor="contact-email" className="contact-form-label">Email</label>
-                      <input
-                        type="email"
-                        id="contact-email"
-                        name="email"
-                        required
-                        placeholder="you@example.com"
-                        className="contact-form-input"
-                      />
+                    {/* Row 1: Full Name & Email */}
+                    <div className="cp-form-row-2">
+                      <div className="cp-field-wrap">
+                        <UserIcon />
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="Full Name*"
+                          required
+                          className="cp-input-field"
+                        />
+                      </div>
+                      <div className="cp-field-wrap">
+                        <MailIcon />
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="Email*"
+                          required
+                          className="cp-input-field"
+                        />
+                      </div>
                     </div>
 
-                    <div className="contact-form-group">
-                      <label htmlFor="contact-phone" className="contact-form-label">Phone</label>
-                      <input
-                        type="tel"
-                        id="contact-phone"
-                        name="phone"
-                        required
-                        placeholder="+91 98765 43210"
-                        className="contact-form-input"
-                      />
+                    {/* Row 2: Mobile Number & OTP */}
+                    <div className="cp-form-row-otp">
+                      <div className="cp-field-wrap cp-phone-field">
+                        <PhoneIcon />
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="Mobile Number*"
+                          pattern="[0-9]{10}"
+                          maxLength={10}
+                          required
+                          className="cp-input-field"
+                        />
+                        <button
+                          type="button"
+                          className="cp-otp-btn"
+                          onClick={handleGetOtp}
+                          disabled={otpCountdown > 0}
+                        >
+                          {otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
+                        </button>
+                      </div>
+                      <div className="cp-field-wrap">
+                        <input
+                          type="text"
+                          name="otp"
+                          value={formData.otp}
+                          onChange={handleChange}
+                          placeholder="OTP*"
+                          disabled={!otpSent}
+                          required
+                          className="cp-input-field"
+                        />
+                      </div>
                     </div>
 
-                    <div className="contact-form-group">
-                      <label htmlFor="contact-message" className="contact-form-label">Message</label>
+                    {/* Row 3: Select Service */}
+                    <div className="cp-field-wrap cp-select-wrap">
+                      <select
+                        name="service"
+                        value={formData.service}
+                        onChange={handleChange}
+                        required
+                        className={`cp-select-field ${!formData.service ? 'cp-placeholder-selected' : ''}`}
+                      >
+                        <option value="" disabled>Select Service*</option>
+                        {SERVICES.map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                      <ChevronDownIcon />
+                    </div>
+
+                    {/* Row 4: Select State */}
+                    <div className="cp-field-wrap cp-select-wrap">
+                      <select
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        required
+                        className={`cp-select-field ${!formData.state ? 'cp-placeholder-selected' : ''}`}
+                      >
+                        <option value="" disabled>Select State*</option>
+                        {statesList.map((st) => (
+                          <option key={st} value={st}>{st}</option>
+                        ))}
+                      </select>
+                      <ChevronDownIcon />
+                    </div>
+
+                    {/* Row 5: Select City */}
+                    <div className="cp-field-wrap cp-select-wrap">
+                      <select
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        disabled={!formData.state}
+                        required
+                        className={`cp-select-field ${!formData.city ? 'cp-placeholder-selected' : ''}`}
+                      >
+                        <option value="" disabled>
+                          {formData.state ? 'Select City / Branch*' : 'Select City (Select State First)*'}
+                        </option>
+                        {availableCities.map((ct) => (
+                          <option key={ct} value={ct}>{ct}</option>
+                        ))}
+                      </select>
+                      <ChevronDownIcon />
+                    </div>
+
+                    {/* Row 6: Message */}
+                    <div className="cp-field-wrap cp-textarea-wrap">
                       <textarea
-                        id="contact-message"
                         name="message"
-                        rows={4}
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Message*"
+                        maxLength={500}
+                        rows={3}
                         required
-                        placeholder="How can we help you?"
-                        className="contact-form-textarea"
+                        className="cp-textarea-field"
                       />
+                      <span className="cp-char-counter">{formData.message.length}/500</span>
                     </div>
 
-                    <label className="contact-form-consent">
-                      <input
-                        type="checkbox"
-                        checked={consentChecked}
-                        onChange={(e) => setConsentChecked(e.target.checked)}
-                        className="contact-form-consent-checkbox"
-                      />
-                      <span className="contact-form-consent-text">{CONSENT_TEXT}</span>
-                    </label>
-
+                    {/* Row 7: Submit CTA Button */}
                     <button
                       type="submit"
-                      className="contact-form-submit"
-                      disabled={!consentChecked}
+                      disabled={isSubmitting}
+                      className="cp-submit-btn"
                     >
-                      Submit
+                      <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                      <span className="cp-btn-arrow-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                      </span>
                     </button>
                   </form>
-                </div>
+                )}
               </div>
             </div>
+
           </div>
         </section>
 
-        {/* 3. Branch Directory */}
-        <section className="contact-branches-section">
-          <div className="container">
-            <div className="contact-branches-header">
-              <h2 className="contact-branches-title">
-                Visit Any of Our Branches to Sell Your Gold for Instant Cash
-              </h2>
-            </div>
-
-            <div className="contact-chip-row" role="tablist" aria-label="Select a branch city">
-              {BRANCH_CONTACTS.map((branch) => (
-                <button
-                  key={branch.city}
-                  type="button"
-                  role="tab"
-                  aria-selected={selectedCity === branch.city}
-                  className={`contact-chip ${selectedCity === branch.city ? 'contact-chip-active' : ''}`}
-                  onClick={() => setSelectedCity(branch.city)}
-                >
-                  {branch.city}
-                </button>
-              ))}
-            </div>
-
-            <div className="contact-branch-card">
-              <h3 className="contact-branch-city">{selectedBranch.city}</h3>
-
-              {selectedBranch.address && (
-                <div className="contact-branch-detail-row">
-                  <PinIcon />
-                  <div className="contact-branch-detail-text">
-                    <span className="contact-branch-label">Address</span>
-                    <span className="contact-branch-value">{selectedBranch.address}</span>
-                  </div>
+        {/* GOLDEN STATS RIBBON BANNER */}
+        <section className="cp-stats-banner">
+          <div className="container cp-stats-row">
+            {STATS.map((stat, idx) => (
+              <div key={stat.label} className={`cp-stat-box ${idx < STATS.length - 1 ? 'cp-stat-border' : ''}`}>
+                <div className="cp-stat-badge">
+                  {stat.icon}
                 </div>
-              )}
-
-              {mobiles.length > 0 && (
-                <div className="contact-branch-detail-row">
-                  <PhoneIcon />
-                  <div className="contact-branch-detail-text">
-                    <span className="contact-branch-label">Mobile</span>
-                    <span className="contact-branch-value">
-                      {mobiles.map((phone, i) => (
-                        <React.Fragment key={phone}>
-                          {i > 0 && ' | '}
-                          <a href={`tel:${phone.replace(/\D/g, '')}`}>{phone}</a>
-                        </React.Fragment>
-                      ))}
-                    </span>
-                  </div>
+                <div className="cp-stat-content">
+                  <h3 className="cp-stat-number">{stat.value}</h3>
+                  <p className="cp-stat-name">{stat.label}</p>
                 </div>
-              )}
-
-              {landlines.length > 0 && (
-                <div className="contact-branch-detail-row">
-                  <PhoneIcon />
-                  <div className="contact-branch-detail-text">
-                    <span className="contact-branch-label">Landline</span>
-                    <span className="contact-branch-value">
-                      {landlines.map((phone, i) => (
-                        <React.Fragment key={phone}>
-                          {i > 0 && ' | '}
-                          <a href={`tel:${phone.replace(/\D/g, '')}`}>{phone}</a>
-                        </React.Fragment>
-                      ))}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {selectedBranch.emails.length > 0 && (
-                <div className="contact-branch-detail-row">
-                  <MailIcon />
-                  <div className="contact-branch-detail-text">
-                    <span className="contact-branch-label">Email</span>
-                    <span className="contact-branch-value">
-                      {selectedBranch.emails.map((email, i) => (
-                        <React.Fragment key={email}>
-                          {i > 0 && ' | '}
-                          <a href={`mailto:${email}`}>{email}</a>
-                        </React.Fragment>
-                      ))}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
+              </div>
+            ))}
           </div>
         </section>
       </main>
