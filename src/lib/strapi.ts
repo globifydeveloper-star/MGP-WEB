@@ -66,6 +66,14 @@ function normalizeBlogPost(raw: unknown): BlogPost {
   };
 }
 
+function isDynamicServerError(err: any): boolean {
+  return (
+    err &&
+    typeof err === 'object' &&
+    (err.digest === 'DYNAMIC_SERVER_USAGE' || err.message?.includes('Dynamic server usage'))
+  );
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/blog-posts?populate=*&sort=publishedAt:desc`, {
@@ -79,6 +87,9 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     const data = Array.isArray(json?.data) ? json.data : [];
     return data.map(normalizeBlogPost);
   } catch (err) {
+    if (isDynamicServerError(err)) {
+      throw err;
+    }
     console.error('getBlogPosts: failed to fetch blog posts', err);
     return [];
   }
@@ -95,6 +106,9 @@ export async function getCategories(): Promise<Category[]> {
     const data = Array.isArray(json?.data) ? json.data : [];
     return data.map((entry: unknown) => unwrap<Category>(entry));
   } catch (err) {
+    if (isDynamicServerError(err)) {
+      throw err;
+    }
     console.error('getCategories: failed to fetch categories', err);
     return [];
   }
@@ -115,7 +129,11 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     if (data.length === 0) return null;
     return normalizeBlogPost(data[0]);
   } catch (err) {
+    if (isDynamicServerError(err)) {
+      throw err;
+    }
     console.error('getBlogPostBySlug: failed to fetch blog post', err);
     return null;
   }
 }
+

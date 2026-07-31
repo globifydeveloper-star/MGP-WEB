@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import OTPEnquiryForm from '@/components/common/OTPEnquiryForm/OTPEnquiryForm';
 import { getBlogPostBySlug } from '@/lib/strapi';
 import '../blog-page.css';
 import './blog-post-page.css';
@@ -51,32 +52,41 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
     <>
       <Navbar />
       <main className="blog-page">
-        <article className="container blog-post-container">
-          {post.category && <span className="blog-post-tag">{post.category.name}</span>}
-          <h1 className="blog-post-title">{post.title}</h1>
-          <p className="blog-post-date">{formatDate(post.publishedAt)}</p>
+        <div className="container blog-layout-wrapper">
+          <article className="blog-post-content">
+            {post.category && <span className="blog-post-tag">{post.category.name}</span>}
+            <h1 className="blog-post-title">{post.title}</h1>
+            <p className="blog-post-date">{formatDate(post.publishedAt)}</p>
 
-          {post.coverMedia && (
-            <div className="blog-post-media">
-              {isVideo ? (
-                <video src={post.coverMedia.url} controls className="blog-post-media-el" />
-              ) : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={post.coverMedia.url} alt={post.title} className="blog-post-media-el" />
-              )}
+            {post.coverMedia && (
+              <div className="blog-post-media">
+                {isVideo ? (
+                  <video src={post.coverMedia.url} controls className="blog-post-media-el" />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={post.coverMedia.url} alt={post.title} className="blog-post-media-el" />
+                )}
+              </div>
+            )}
+
+            <div className="blog-post-body">{post.body}</div>
+
+            {post.cta?.enabled && post.cta.link && (
+              <a href={post.cta.link} className="btn btn-primary blog-post-cta">
+                {post.cta.label ?? 'Learn More'}
+              </a>
+            )}
+          </article>
+
+          <aside className="blog-post-sidebar">
+            <div className="blog-sidebar-sticky">
+              <OTPEnquiryForm />
             </div>
-          )}
-
-          <div className="blog-post-body">{post.body}</div>
-
-          {post.cta?.enabled && post.cta.link && (
-            <a href={post.cta.link} className="btn btn-primary blog-post-cta">
-              {post.cta.label ?? 'Learn More'}
-            </a>
-          )}
-        </article>
+          </aside>
+        </div>
       </main>
       <Footer />
     </>
   );
 }
+
