@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './GoldSellContact.css';
@@ -9,13 +9,16 @@ import handHoldingGoldImg from '@/assets/images/gold_rate_component_photos/05-ct
 export default function GoldSellContact() {
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
     email: '',
+    phone: '',
+    otp: '',
     state: '',
     city: '',
-    message: '',
-    consent: false,
+    consent: true,
   });
+
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCountdown, setOtpCountdown] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -24,8 +27,17 @@ export default function GoldSellContact() {
     return formData.state ? getCitiesByState(formData.state) : [];
   }, [formData.state]);
 
+  // OTP Countdown timer
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (otpCountdown > 0) {
+      timer = setTimeout(() => setOtpCountdown((prev) => prev - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [otpCountdown]);
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
     const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
@@ -36,20 +48,41 @@ export default function GoldSellContact() {
     }));
   };
 
+  const handleGetOtp = () => {
+    if (!formData.phone || formData.phone.length < 10) {
+      alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+    setOtpSent(true);
+    setOtpCountdown(30);
+    alert(`OTP sent successfully to +91 ${formData.phone} (Simulated)`);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.email || !formData.state || !formData.city) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city) {
       alert('Please fill in all required fields.');
       return;
     }
     if (!formData.consent) {
-      alert('Please authorize us to contact you to submit.');
+      alert('You must authorize communication to submit.');
       return;
     }
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        otp: '',
+        state: '',
+        city: '',
+        consent: true,
+      });
+      setOtpSent(false);
+      setOtpCountdown(0);
     }, 1200);
   };
 
@@ -64,7 +97,6 @@ export default function GoldSellContact() {
           sizes="100vw"
         />
         <div className="grct-bg-overlay" aria-hidden="true" />
-        <div className="grct-watermark" aria-hidden="true">MUTHOOT</div>
       </div>
 
       <div className="grct-inner">
@@ -107,48 +139,71 @@ export default function GoldSellContact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <div className="grct-form-row">
-                <div className="grct-form-group">
-                  <label htmlFor="grct-name">Name*</label>
-                  <input
-                    type="text"
-                    id="grct-name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Your Name"
-                    required
-                  />
-                </div>
-                <div className="grct-form-group">
-                  <label htmlFor="grct-phone">Phone*</label>
-                  <input
-                    type="tel"
-                    id="grct-phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="Mobile Number"
-                    pattern="[0-9]{10}"
-                    maxLength={10}
-                    required
-                  />
-                </div>
+              {/* Name */}
+              <div className="grct-form-group">
+                <input
+                  type="text"
+                  id="grct-name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Name*"
+                  required
+                />
               </div>
 
+              {/* Email */}
               <div className="grct-form-group">
-                <label htmlFor="grct-email">Email</label>
                 <input
                   type="email"
                   id="grct-email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="email@address.com"
+                  placeholder="Email*"
                   required
                 />
               </div>
 
+              {/* Mobile Number & OTP */}
+              <div className="grct-form-row grct-phone-otp-row">
+                <div className="grct-form-group grct-phone-wrapper">
+                  <input
+                    type="tel"
+                    id="grct-phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Mobile Number*"
+                    pattern="[0-9]{10}"
+                    maxLength={10}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="grct-get-otp-btn"
+                    onClick={handleGetOtp}
+                    disabled={otpCountdown > 0}
+                  >
+                    {otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
+                  </button>
+                </div>
+
+                <div className="grct-form-group">
+                  <input
+                    type="text"
+                    id="grct-otp"
+                    name="otp"
+                    value={formData.otp}
+                    onChange={handleChange}
+                    placeholder="OTP*"
+                    disabled={!otpSent}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* State & City Selects */}
               <div className="grct-form-row">
                 <div className="grct-form-group grct-select-wrap">
                   <select
@@ -165,6 +220,7 @@ export default function GoldSellContact() {
                     ))}
                   </select>
                 </div>
+
                 <div className="grct-form-group grct-select-wrap">
                   <select
                     id="grct-city"
@@ -185,16 +241,7 @@ export default function GoldSellContact() {
                 </div>
               </div>
 
-              <div className="grct-form-group">
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="How can we help you?"
-                  rows={3}
-                />
-              </div>
-
+              {/* Authorization Consent */}
               <label className="grct-consent">
                 <input
                   type="checkbox"
@@ -202,9 +249,12 @@ export default function GoldSellContact() {
                   checked={formData.consent}
                   onChange={handleChange}
                 />
-                <span>I authorize Muthoot Exim Pvt. Ltd. to contact me regarding product offerings and promotions.</span>
+                <span>
+                  Authorize Muthoot Exim Pvt Ltd. & other Muthoot Pappachan Group companies (including its Agents/representatives) to call/communicate with me on their product offerings/ promotions through Telephone/Mobile/SMS/email ID.
+                </span>
               </label>
 
+              {/* Submit Button */}
               <button type="submit" className="grct-submit-btn" disabled={isSubmitting}>
                 {isSubmitting ? 'SUBMITTING...' : 'SUBMIT ENQUIRY'}
               </button>

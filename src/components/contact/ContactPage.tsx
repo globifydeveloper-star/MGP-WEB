@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
@@ -531,6 +532,9 @@ export default function ContactPage() {
             ))}
           </div>
         </section>
+
+        {/* BRANCH LOCATOR SECTION */}
+        <BranchLocator />
       </main>
 
       <Footer />

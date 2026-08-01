@@ -9,6 +9,7 @@ import GoldSellComparison from './GoldSellComparison/GoldSellComparison';
 import GoldSellOverview from './GoldSellOverview/GoldSellOverview';
 import AboutHero from '@/components/about-us/abouthero/abouthero';
 import GoldSellContact from './GoldSellContact/GoldSellContact';
+import StickyWatchNow from './StickyWatchNow/StickyWatchNow';
 
 export default function SellGoldForCashPage() {
   const scrollToSection = (id: string) => {
@@ -21,6 +22,9 @@ export default function SellGoldForCashPage() {
   return (
     <>
       <Navbar />
+      {/* Sticky 3D Flipping Watch Now Button & Multilingual Video Modal */}
+      <StickyWatchNow />
+
       <main style={{ paddingTop: '80px', minHeight: 'calc(100vh - 80px)', backgroundColor: '#0c1835' }}>
         <SellGoldHero />
 

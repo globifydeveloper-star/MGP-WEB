@@ -1,0 +1,101 @@
+/* Sticky Vertical Watch Now Tab Styles (Static - No Animations or Transitions) */
+
+.sg-sticky-watch-btn {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.sg-sticky-watch-inner {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 0.45rem 0.55rem 0.45rem;
+  background: linear-gradient(135deg, #09132c 0%, #14213d 100%);
+  border: 1.5px solid #f1b933;
+  border-left: none;
+  border-radius: 14px 0 0 14px;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(241, 185, 51, 0.35);
+}
+
+.sg-sticky-watch-btn:hover .sg-sticky-watch-inner {
+  background: linear-gradient(135deg, #f1b933 0%, #daa12e 100%);
+  border-color: #ffffff;
+  color: #0c1835;
+  box-shadow: 0 8px 28px rgba(241, 185, 51, 0.7);
+}
+
+.sg-sticky-watch-btn:hover .sg-sticky-watch-content {
+  color: #0c1835;
+}
+
+.sg-sticky-watch-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.sg-sticky-watch-text {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.sg-sticky-play-icon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(241, 185, 51, 0.2);
+  border: 1px solid #f1b933;
+  border-radius: 50%;
+  color: #f1b933;
+  flex-shrink: 0;
+}
+
+.sg-sticky-watch-btn:hover .sg-sticky-play-icon {
+  background: #0c1835;
+  border-color: #0c1835;
+  color: #f1b933;
+}
+
+.sg-play-svg {
+  width: 10px;
+  height: 10px;
+  margin-left: 2px;
+}
+
+@media (max-width: 640px) {
+  .sg-sticky-watch-inner {
+    padding: 0.5rem 0.35rem 0.45rem 0.35rem;
+  }
+
+  .sg-sticky-watch-text {
+    font-size: 0.8rem;
+  }
+
+  .sg-sticky-play-icon {
+    width: 10px;
+    height: 10px;
+  }
+
+  .sg-play-svg {
+    width: 10px;
+    height: 10px;
+  }
+}
