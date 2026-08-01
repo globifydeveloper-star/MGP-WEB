@@ -98,18 +98,6 @@ export default function SellGoldHero() {
       <div className="sg-hero-glow-1" aria-hidden="true" />
       <div className="sg-hero-glow-2" aria-hidden="true" />
 
-      {/* Watch Now tab, pinned to the left edge of the section */}
-      <button
-        type="button"
-        className="sg-watch-now-tab"
-        onClick={() => alert('Video coming soon')}
-      >
-        <span>Watch Now</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button>
-
       <div className="container sg-hero-container">
         {/* Section 1: Photo */}
         <div className="sg-hero-visual">

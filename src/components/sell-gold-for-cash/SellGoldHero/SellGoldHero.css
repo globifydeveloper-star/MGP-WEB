@@ -59,40 +59,78 @@
   z-index: 2;
 }
 
-/* Watch Now tab, pinned to the section's left edge */
+/* Sticky Watch Now Button (Static - No animations or transitions) */
 .sg-watch-now-tab {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 0;
-  transform: translateY(-50%) rotate(180deg);
-  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.sg-watch-now-inner {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.9rem 0.55rem;
-  background: #14213D;
-  border: none;
-  border-radius: 0 8px 8px 0;
-  color: var(--text-white);
-  font-family: var(--font-outfit), sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-  z-index: 3;
-  transition: var(--transition-smooth);
+  gap: 0.55rem;
+  padding: 0.85rem 1rem 0.85rem 0.75rem;
+  background: linear-gradient(135deg, #0c1835 0%, #14213D 100%);
+  border: 1.5px solid #f1b933;
+  border-left: none;
+  border-radius: 0 30px 30px 0;
+  color: var(--text-white, #ffffff);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(241, 185, 51, 0.4);
 }
 
-.sg-watch-now-tab:hover {
-  background: var(--gold-primary);
+.sg-watch-now-tab:hover .sg-watch-now-inner {
+  background: linear-gradient(135deg, #f1b933 0%, #daa12e 100%);
+  border-color: #ffffff;
   color: #0c1835;
+  box-shadow: 0 12px 32px rgba(241, 185, 51, 0.7);
 }
 
-.sg-watch-now-tab svg {
-  width: 16px;
-  height: 16px;
-  transform: rotate(90deg);
+.sg-play-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(241, 185, 51, 0.2);
+  border: 1px solid #f1b933;
+  border-radius: 50%;
+  color: #f1b933;
   flex-shrink: 0;
+}
+
+.sg-watch-now-tab:hover .sg-play-icon-wrap {
+  background: #0c1835;
+  border-color: #0c1835;
+  color: #f1b933;
+}
+
+.sg-play-icon-wrap svg {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+}
+
+.sg-watch-text {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.sg-watch-now-content {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
 }
 
 /* Section 1: Photo */
@@ -673,9 +711,16 @@
     gap: 2rem;
   }
 
-  .sg-hero-visual,
-  .sg-watch-now-tab {
+  .sg-hero-visual {
     display: none;
+  }
+
+  .sg-watch-now-inner {
+    padding: 0.65rem 0.8rem 0.65rem 0.6rem;
+  }
+
+  .sg-watch-text {
+    font-size: 0.75rem;
   }
 
   .sg-hero-right {
