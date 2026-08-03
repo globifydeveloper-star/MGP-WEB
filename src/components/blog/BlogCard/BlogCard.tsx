@@ -7,6 +7,7 @@ import './BlogCard.css';
 
 interface BlogCardProps {
   post: BlogPost;
+  readMoreLabel?: string;
 }
 
 function formatDate(dateStr: string): string {
@@ -17,7 +18,7 @@ function formatDate(dateStr: string): string {
   }).format(new Date(dateStr));
 }
 
-export default function BlogCard({ post }: BlogCardProps) {
+export default function BlogCard({ post, readMoreLabel }: BlogCardProps) {
   const isVideo = post.coverMedia?.mime?.startsWith('video/');
 
   return (
@@ -69,7 +70,7 @@ export default function BlogCard({ post }: BlogCardProps) {
         <div className="blog-card-footer">
           <span className="blog-card-date">{formatDate(post.publishedAt)}</span>
           <Link href={`/blog/${post.slug}`} className="blog-card-readmore">
-            Read More
+            {readMoreLabel || 'Read More'}
           </Link>
         </div>
       </div>

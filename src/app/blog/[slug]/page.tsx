@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import OTPEnquiryForm from '@/components/common/OTPEnquiryForm/OTPEnquiryForm';
-import { getBlogPostBySlug } from '@/lib/strapi';
+import BlogCard from '@/components/blog/BlogCard/BlogCard';
+import { getBlogPostBySlug, getBlogPosts, getBlogPageSettings } from '@/lib/strapi';
 import '../blog-page.css';
 import './blog-post-page.css';
 
@@ -46,12 +48,38 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
     notFound();
   }
 
+  const [allPosts, settings] = await Promise.all([
+    getBlogPosts(),
+    getBlogPageSettings(),
+  ]);
+  
+  // Compute related articles: same category first (date desc), backfill from others up to 3 total
+  const otherPosts = allPosts.filter(p => p.id !== post.id);
+  const sameCategory = otherPosts.filter(
+    p => p.category && post.category && p.category.id === post.category.id
+  );
+  const differentCategory = otherPosts.filter(
+    p => !p.category || !post.category || p.category.id !== post.category.id
+  );
+
+  const related = [...sameCategory];
+  if (related.length < 3) {
+    related.push(...differentCategory.slice(0, 3 - related.length));
+  }
+  const displayRelated = related.slice(0, 3);
+
   const isVideo = post.coverMedia?.mime?.startsWith('video/');
 
   return (
     <>
       <Navbar />
       <main className="blog-page">
+        <div className="container back-to-blog-wrapper">
+          <Link href="/blog" className="back-to-blog-link">
+            {settings?.backToBlogLabel || '← Back to Blog'}
+          </Link>
+        </div>
+
         <div className="container blog-layout-wrapper">
           <article className="blog-post-content">
             {post.category && <span className="blog-post-tag">{post.category.name}</span>}
@@ -84,6 +112,25 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
             </div>
           </aside>
         </div>
+
+        {displayRelated.length > 0 && (
+          <section className="related-articles-section">
+            <div className="container">
+              <h2 className="related-articles-title">
+                {settings?.relatedArticlesHeading || 'Related Articles'}
+              </h2>
+              <div className="related-articles-grid">
+                {displayRelated.map(relatedPost => (
+                  <BlogCard 
+                    key={relatedPost.id} 
+                    post={relatedPost} 
+                    readMoreLabel={settings?.readMoreLabel} 
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </>

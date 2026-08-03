@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { animate, set, stagger } from 'animejs';
 import './GoldSellProcess.css';
 
-const steps = [
+const DEFAULT_STEPS = [
   {
     num: '1',
     title: 'Visit Your Nearest White Gold Branch',
@@ -42,8 +42,13 @@ const steps = [
   }
 ];
 
-/* ── Desktop accordion (unchanged from original) ── */
-function GoldSellProcessDesktop() {
+interface GoldSellProcessProps {
+  steps?: any[];
+  sectionImage?: string;
+}
+
+/* ── Desktop accordion ── */
+function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; sectionImage?: string }) {
   const [openIndex, setOpenIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +58,7 @@ function GoldSellProcessDesktop() {
     setActiveIndex(index);
   };
 
-  const activeStep = steps[activeIndex];
+  const activeStep = steps[activeIndex] || steps[0];
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -80,7 +85,7 @@ function GoldSellProcessDesktop() {
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [steps]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -111,7 +116,7 @@ function GoldSellProcessDesktop() {
         });
       }
     });
-  }, [openIndex]);
+  }, [openIndex, steps]);
 
   return (
     <div className="gsp-grid">
@@ -120,10 +125,10 @@ function GoldSellProcessDesktop() {
         <h2 className="gsp-heading">
           Gold Selling <span className="gsp-heading-highlight">Process</span>
         </h2>
-        <p className="gsp-desc">{activeStep.leftDesc}</p>
+        <p className="gsp-desc">{activeStep?.leftDesc}</p>
         <div className="gsp-image-wrap">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={activeStep.image} alt={activeStep.title} className="gsp-image" />
+          <img src={sectionImage || activeStep?.image} alt={activeStep?.title} className="gsp-image" />
         </div>
       </div>
 
@@ -175,7 +180,7 @@ function GoldSellProcessDesktop() {
 }
 
 /* ── Mobile / Tablet carousel ── */
-function GoldSellProcessCarousel() {
+function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectionImage?: string }) {
   const [current, setCurrent] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -185,7 +190,7 @@ function GoldSellProcessCarousel() {
 
   const goTo = useCallback((idx: number) => {
     setCurrent(Math.max(0, Math.min(steps.length - 1, idx)));
-  }, []);
+  }, [steps]);
 
   // Keyboard nav
   useEffect(() => {
@@ -238,7 +243,7 @@ function GoldSellProcessCarousel() {
     dragStartX.current = null;
   };
 
-  const step = steps[current];
+  const step = steps[current] || steps[0];
 
   return (
     <div className="gsp-carousel-section">
@@ -268,15 +273,15 @@ function GoldSellProcessCarousel() {
         {/* Slide */}
         <div
           className="gsp-carousel-slide"
-          aria-label={`Slide ${current + 1} of ${steps.length}: ${step.title}`}
+          aria-label={`Slide ${current + 1} of ${steps.length}: ${step?.title}`}
           aria-roledescription="slide"
         >
           {/* Step image */}
           <div className="gsp-carousel-img-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={step.image}
-              alt={step.title}
+              src={sectionImage || step?.image}
+              alt={step?.title}
               className="gsp-carousel-img"
               draggable={false}
             />
@@ -286,10 +291,10 @@ function GoldSellProcessCarousel() {
           <div className="gsp-carousel-content">
             <div className="gsp-carousel-step-badge">
               <span className="gsp-carousel-step-label">Step</span>
-              <span className="gsp-carousel-step-num">{step.num}</span>
+              <span className="gsp-carousel-step-num">{step?.num}</span>
             </div>
-            <h3 className="gsp-carousel-step-title">{step.title}</h3>
-            <p className="gsp-carousel-step-desc">{step.desc}</p>
+            <h3 className="gsp-carousel-step-title">{step?.title}</h3>
+            <p className="gsp-carousel-step-desc">{step?.desc}</p>
           </div>
         </div>
       </div>
@@ -337,15 +342,25 @@ function GoldSellProcessCarousel() {
 }
 
 /* ── Root component: renders carousel on mobile/tablet, accordion on desktop ── */
-export default function GoldSellProcess() {
+export default function GoldSellProcess({ steps, sectionImage }: GoldSellProcessProps) {
+  const activeSteps = steps && steps.length > 0
+    ? steps.map((s, idx) => ({
+        num: (idx + 1).toString(),
+        title: s.stepTitle,
+        desc: s.stepDescription,
+        leftDesc: s.leftDescription,
+        image: s.stepImage || '/g_selling.png'
+      }))
+    : DEFAULT_STEPS;
+
   return (
     <section className="gsp-section" id="gold-sell-process">
       <div className="container">
         <div className="gsp-desktop-view">
-          <GoldSellProcessDesktop />
+          <GoldSellProcessDesktop steps={activeSteps} sectionImage={sectionImage} />
         </div>
         <div className="gsp-mobile-view">
-          <GoldSellProcessCarousel />
+          <GoldSellProcessCarousel steps={activeSteps} sectionImage={sectionImage} />
         </div>
       </div>
     </section>

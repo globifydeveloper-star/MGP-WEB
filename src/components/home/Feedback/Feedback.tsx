@@ -19,35 +19,86 @@ const StarIcon = () => (
   </svg>
 );
 
-const LOOPED_REVIEWS = [...REVIEWS, ...REVIEWS];
+interface FeedbackProps {
+  reviews?: any[];
+}
 
-export default function Feedback() {
+const DEFAULT_REVIEWS = [
+  {
+    name: 'SACHIN JONEJA',
+    location: 'Mumbai',
+    rating: 5,
+    photo: '/sachin-joneja.png',
+    text: 'My mother and I have sold some very old gold over the past few months to three different organizations. One was a branch of an old established famous Jeweller in Mumbai while two were only buyers of gold. Of these, our experience with Muthoot Gold Point has been by far the best. We were impressed with both the completely transparent and speedy procedure as well as the courteous and knowledgeable staff.',
+  },
+  {
+    name: 'Basvaraju',
+    location: 'Bengaluru, Karnataka',
+    rating: 5,
+    photo: '/Basvaraju.png',
+    text: 'I wanted to sell some gold jewellery to pay for the construction of my house – my contractor had cheated us. I saw the MGP advertisement on a government bus and decided to meet them as I was in great need. My earlier experience of selling the gold had not been good. But, the salesperson at MGP sat and explained each process of how they value the gold. I was totally impressed by their transparency and detailing.',
+  },
+  {
+    name: 'Srinarayan',
+    location: 'Chennai, Tamil Nadu',
+    rating: 5,
+    photo: '/Srinarayan.png',
+    text: 'I can never forget Muthoot Gold Point. If I had not come to know about MGP at the right time, I could have lost everything. In family and business, money is tight, when you need it the most. At these times, if there is a provision to sell your gold, plot of land, house and silver, then you can meet your difficulties easily. In my experience, MGP is the best solution for all those people looking to sell their gold and silver.',
+  },
+  {
+    name: 'Vijay Sharma',
+    location: 'Mumbai',
+    rating: 5,
+    text: 'I was looking to pay the last year’s fee for my eldest son’s engineering college, I did not have enough money. My wife asked me to sell all our gold jewellery and coins we had collected over the years. I went to some local jewellers and was shocked – they offered less than half of the value of the gold. My wife’s kitty friend suggested Muthoot Gold Point. Since I had already been to more than 15 or more jewellers and buyers, I decided to try them also. I was very surprised to know about how they value.',
+  },
+  {
+    name: 'AMAR SINGH',
+    location: 'Delhi',
+    rating: 5,
+    photo: '/AMAR SINGH.png',
+    text: "When my father needed an emergency by-pass, I took all the jewellery and sold gold for cash, I had to MGP, straight away. I had dealt with them earlier also. The first time I took a loan was from them to set up my parlor four years ago. Luckily, i was able to repay the money and get my gold back. I went to them as soon as the doctor told me and within minutes, they had assessed the true value of the gold. They gave me a receipt and transferred the money to my account. Thanks to their operation!",
+  },
+];
+
+export default function Feedback({ reviews }: FeedbackProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [offset, setOffset] = useState(0);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [jumpingBack, setJumpingBack] = useState(false);
 
-  const maxIndex = REVIEWS.length - 1;
+  const activeReviews = reviews && reviews.length > 0
+    ? reviews.map((r) => ({
+        name: r.customerName,
+        location: r.location || '',
+        rating: r.rating ?? 5,
+        photo: r.profilePicture,
+        text: r.testimonialText
+      }))
+    : DEFAULT_REVIEWS;
+
+  const maxIndex = activeReviews.length - 1;
+  const loopedReviews = [...activeReviews, ...activeReviews];
 
   // Auto-advance left, one card at a time, looping endlessly.
   useEffect(() => {
+    if (activeReviews.length <= 1) return;
     const timer = setInterval(() => {
       setIndex((prev) => prev + 1);
     }, 4500);
     return () => clearInterval(timer);
-  }, []);
+  }, [activeReviews.length]);
 
   // Once we've slid onto the duplicated first card, snap back to the
   // real first card with no transition so the loop looks seamless.
   useEffect(() => {
-    if (index !== REVIEWS.length) return;
+    if (index !== activeReviews.length) return;
     const resetTimer = setTimeout(() => {
       setJumpingBack(true);
       setIndex(0);
     }, 1150);
     return () => clearTimeout(resetTimer);
-  }, [index]);
+  }, [index, activeReviews.length]);
 
   useEffect(() => {
     if (!jumpingBack) return;
@@ -111,7 +162,7 @@ export default function Feedback() {
                 transition: jumpingBack ? 'none' : undefined,
               }}
             >
-              {LOOPED_REVIEWS.map((review, idx) => {
+              {loopedReviews.map((review, idx) => {
                 const isLong = review.text.length > TEXT_LIMIT;
                 const isExpanded = expanded.has(review.name);
                 const displayText = isLong && !isExpanded

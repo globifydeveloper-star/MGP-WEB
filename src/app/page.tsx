@@ -11,10 +11,51 @@ import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
 import Footer from '@/components/layout/Footer';
 import FAQ from '@/components/home/FAQ/FAQ';
-import { getBlogPosts } from '@/lib/strapi';
+import {
+  getBlogPosts,
+  getHomepageData,
+  getHeroSlides,
+  getProcessSteps,
+  getDifferenceBoxes,
+  getPromoSlides,
+  getTestimonials,
+  getFaqs,
+  getStatesAndBranches,
+} from '@/lib/strapi';
+
+export async function generateMetadata() {
+  const homepageData = await getHomepageData();
+  return {
+    title: homepageData?.seoTitle ?? 'Sell Gold For Cash | Online Gold Valuation | Gold Point',
+    description:
+      homepageData?.seoDescription ??
+      'Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you',
+  };
+}
 
 export default async function Home() {
-  const posts = await getBlogPosts();
+  const [
+    posts,
+    homepageData,
+    heroSlides,
+    processSteps,
+    differenceBoxes,
+    promoSlides,
+    testimonials,
+    faqs,
+    states,
+  ] = await Promise.all([
+    getBlogPosts(),
+    getHomepageData(),
+    getHeroSlides(),
+    getProcessSteps(),
+    getDifferenceBoxes(),
+    getPromoSlides(),
+    getTestimonials(),
+    getFaqs('home'),
+    getStatesAndBranches(),
+  ]);
+
   const recentPosts = posts.slice(0, 3);
 
   return (
@@ -23,41 +64,53 @@ export default async function Home() {
       <Navbar />
 
       {/* Hero Section - crossfades between the Hero and a second promo slide */}
-      <HeroSlider />
+      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} />
 
       {/* Gold Selling Process Section */}
-      <GoldSellProcess />
+      <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
 
       {/* Estimate The Value Of Your Gold Section */}
-      <GoldValueForm />
+      <GoldValueForm
+        sectionImage={homepageData?.estimateGoldImage}
+        heading={homepageData?.estimateGoldHeading}
+        headingHighlight={homepageData?.estimateGoldHeadingHighlight}
+        note={homepageData?.estimateGoldNote}
+      />
 
       {/* Video Section */}
       <VideoSection />
 
       {/* 3. The Gold Point Difference */}
-      <TheGpDiff />
+      <TheGpDiff cards={differenceBoxes} />
 
       {/* 2. Mobile Van Banner */}
-      <MobileVan />
+      <MobileVan
+        headingLight={homepageData?.vanHeadingLight}
+        headingBold={homepageData?.vanHeadingBold}
+        description={homepageData?.vanDescription}
+        buttonLabel={homepageData?.vanButtonLabel}
+        vanImage={homepageData?.vanImage}
+      />
 
       {/* New Section */}
-      <NewSection />
+      <NewSection slides={promoSlides} />
 
       {/* 7. Feedback Testimonial Slider */}
-      <Feedback />
+      <Feedback reviews={testimonials} />
 
       {/* 8. FAQs Accordion Section */}
-      <FAQ />
+      <FAQ faqs={faqs} />
 
       {/* 9. Recent Posts Section */}
       <RecentPost posts={recentPosts} />
 
       {/* Branch Locator Section */}
-      <BranchLocator />
+      <BranchLocator states={states} />
 
       {/* 10. Footer Section */}
       <Footer />
     </main>
   );
 }
+
 

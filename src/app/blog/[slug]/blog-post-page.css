@@ -90,3 +90,55 @@
   }
 }
 
+/* Back to Blog styling */
+.back-to-blog-wrapper {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.back-to-blog-link {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #8b90a3;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.back-to-blog-link:hover {
+  color: var(--gold-dark, #DAA12E);
+}
+
+/* Related Articles Section styling */
+.related-articles-section {
+  padding: 5rem 0;
+  background: #f9fafb;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 5rem;
+}
+
+.related-articles-title {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #10182B;
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.related-articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .related-articles-section {
+    margin-top: 3.5rem;
+    padding: 3rem 0;
+  }
+}
+

@@ -1,15 +1,16 @@
 'use client';
 
-import type { Category } from '@/lib/strapi';
+import type { Category, BlogPageSettings } from '@/lib/strapi';
 import './CategoryFilter.css';
 
 interface CategoryFilterProps {
   categories: Category[];
   selected: string | null;
   onChange: (categorySlug: string | null) => void;
+  settings?: BlogPageSettings;
 }
 
-export default function CategoryFilter({ categories, selected, onChange }: CategoryFilterProps) {
+export default function CategoryFilter({ categories, selected, onChange, settings }: CategoryFilterProps) {
   return (
     <div className="category-filter" role="tablist" aria-label="Filter posts by category">
       <button
@@ -19,7 +20,7 @@ export default function CategoryFilter({ categories, selected, onChange }: Categ
         className={`category-filter-pill ${selected === null ? 'category-filter-pill-active' : ''}`}
         onClick={() => onChange(null)}
       >
-        All
+        {settings?.allCategoryLabel || 'All'}
       </button>
       {categories.map((category) => (
         <button

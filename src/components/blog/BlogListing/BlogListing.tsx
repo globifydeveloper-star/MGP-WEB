@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { BlogPost, Category } from '@/lib/strapi';
+import type { BlogPost, Category, BlogPageSettings } from '@/lib/strapi';
 import BlogCard from '../BlogCard/BlogCard';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
 import SortToggle from '../SortToggle/SortToggle';
@@ -12,16 +12,17 @@ type SortOrder = 'newest' | 'oldest';
 interface BlogListingProps {
   initialPosts: BlogPost[];
   categories: Category[];
+  settings?: BlogPageSettings;
 }
 
-export default function BlogListing({ initialPosts, categories }: BlogListingProps) {
+export default function BlogListing({ initialPosts, categories, settings }: BlogListingProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
 
   const visiblePosts = useMemo(() => {
     const filtered = selectedCategory
-      ? initialPosts.filter((post) => post.category?.slug === selectedCategory)
-      : initialPosts;
+        ? initialPosts.filter((post) => post.category?.slug === selectedCategory)
+        : initialPosts;
 
     return [...filtered].sort((a, b) => {
       const diff = new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime();
@@ -33,7 +34,7 @@ export default function BlogListing({ initialPosts, categories }: BlogListingPro
     return (
       <div className="blog-listing">
         <div className="blog-listing-empty">
-          <p>No blog posts yet</p>
+          <p>{settings?.noPostsMessage || 'No blog posts yet'}</p>
         </div>
       </div>
     );
@@ -46,18 +47,23 @@ export default function BlogListing({ initialPosts, categories }: BlogListingPro
           categories={categories}
           selected={selectedCategory}
           onChange={setSelectedCategory}
+          settings={settings}
         />
-        <SortToggle sortOrder={sortOrder} onChange={setSortOrder} />
+        <SortToggle 
+          sortOrder={sortOrder} 
+          onChange={setSortOrder} 
+          settings={settings}
+        />
       </div>
 
       {visiblePosts.length === 0 ? (
         <div className="blog-listing-empty">
-          <p>No posts found in this category</p>
+          <p>{settings?.noPostsInCategoryMessage || 'No posts found in this category'}</p>
         </div>
       ) : (
         <div className="blog-listing-grid">
           {visiblePosts.map((post) => (
-            <BlogCard key={post.id} post={post} />
+            <BlogCard key={post.id} post={post} readMoreLabel={settings?.readMoreLabel} />
           ))}
         </div>
       )}

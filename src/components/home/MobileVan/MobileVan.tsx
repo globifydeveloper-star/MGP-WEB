@@ -1,22 +1,28 @@
-'use client';
-
 import React from 'react';
 import './MobileVan.css';
 
-export default function MobileVan() {
+interface MobileVanProps {
+  headingLight?: string;
+  headingBold?: string;
+  description?: string;
+  buttonLabel?: string;
+  vanImage?: string;
+}
+
+export default function MobileVan({ headingLight, headingBold, description, buttonLabel, vanImage }: MobileVanProps) {
   return (
     <section className="mobile-van-section">
       <div className="mobile-van-container">
 
         <div className="mobile-van-left">
           <h2 className="mobile-van-title">
-            <span className="title-line-light">We Bring the</span>
-            <span className="title-line-bold">Branch to You</span>
+            <span className="title-line-light">{headingLight || "We Bring the"}</span>
+            <span className="title-line-bold">{headingBold || "Branch to You"}</span>
           </h2>
           <p className="mobile-van-desc">
-            Can&apos;t visit us? Our Mobile Van carries the full GoldPoint setup — XRF machines, precision balances, real-time rates — directly to your home or office.
+            {description || "Can't visit us? Our Mobile Van carries the full GoldPoint setup — XRF machines, precision balances, real-time rates — directly to your home or office."}
           </p>
-          <button className="btn mobile-van-btn">Book a Van Visit</button>
+          <button className="btn mobile-van-btn">{buttonLabel || "Book a Van Visit"}</button>
         </div>
 
         <div className="mobile-van-right">
@@ -29,7 +35,7 @@ export default function MobileVan() {
 
             <div className="van-photo-crop">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/van.png" alt="Muthoot Gold Point mobile van" className="van-photo-img" />
+              <img src={vanImage || "/van.png"} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
             </div>
           </div>
 

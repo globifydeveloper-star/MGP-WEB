@@ -1,5 +1,6 @@
 'use client';
 
+import type { BlogPageSettings } from '@/lib/strapi';
 import './SortToggle.css';
 
 type SortOrder = 'newest' | 'oldest';
@@ -7,9 +8,10 @@ type SortOrder = 'newest' | 'oldest';
 interface SortToggleProps {
   sortOrder: SortOrder;
   onChange: (order: SortOrder) => void;
+  settings?: BlogPageSettings;
 }
 
-export default function SortToggle({ sortOrder, onChange }: SortToggleProps) {
+export default function SortToggle({ sortOrder, onChange, settings }: SortToggleProps) {
   return (
     <div className="sort-toggle" role="group" aria-label="Sort posts">
       <button
@@ -18,7 +20,7 @@ export default function SortToggle({ sortOrder, onChange }: SortToggleProps) {
         className={`sort-toggle-option ${sortOrder === 'newest' ? 'sort-toggle-option-active' : ''}`}
         onClick={() => onChange('newest')}
       >
-        Newest
+        {settings?.sortNewestLabel || 'Newest'}
       </button>
       <button
         type="button"
@@ -26,7 +28,7 @@ export default function SortToggle({ sortOrder, onChange }: SortToggleProps) {
         className={`sort-toggle-option ${sortOrder === 'oldest' ? 'sort-toggle-option-active' : ''}`}
         onClick={() => onChange('oldest')}
       >
-        Oldest
+        {settings?.sortOldestLabel || 'Oldest'}
       </button>
     </div>
   );

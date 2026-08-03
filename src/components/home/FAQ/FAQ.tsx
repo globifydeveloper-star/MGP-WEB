@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import './FAQ.css';
 
-const faqs = [
+interface FAQProps {
+  faqs?: any[];
+}
+
+const DEFAULT_FAQS = [
   {
     question: 'Why Should I Choose Muthoot Gold Point to Sell my Gold?',
     answer: 'Citizenship by Investment (CBI) is a process where individuals can gain citizenship by  investing in a country. The process involves applying to a government-approved program, undergoing a background check, and, if approved, making an economic contribution and Citizenship by Investment (CBI) is a process where in'
@@ -26,8 +30,10 @@ const faqs = [
   }
 ];
 
-export default function FAQ() {
+export default function FAQ({ faqs }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const activeFaqs = faqs && faqs.length > 0 ? faqs : DEFAULT_FAQS;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -47,7 +53,7 @@ export default function FAQ() {
         </div>
 
         <div className="faq2-list">
-          {faqs.map((faq, idx) => {
+          {activeFaqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div key={idx} className={`faq2-item ${isOpen ? 'faq2-item-open' : ''}`}>

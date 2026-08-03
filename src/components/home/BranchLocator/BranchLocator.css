@@ -51,7 +51,7 @@
   height: 100%;
   min-height: 600px;
   border-radius: 16px;
-  background: #10182B;
+  background: #E8E8E8;
 }
 
 .branch-locator-map-loading {
@@ -61,8 +61,8 @@
   width: 100%;
   min-height: 600px;
   border-radius: 16px;
-  background: #10182B;
-  color: rgba(255, 255, 255, 0.6);
+  background: #E8E8E8;
+  color: rgba(16, 24, 43, 0.6);
   font-size: 0.95rem;
 }
 
@@ -92,6 +92,18 @@
 
 .branch-map-pin:hover {
   transform: scale(1.15);
+}
+
+.branch-map-container .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.65);
+  font-size: 0.65rem;
+  line-height: 1.2;
+  padding: 1px 5px;
+  border-radius: 4px 0 0 0;
+}
+
+.branch-map-container .leaflet-control-attribution a {
+  color: #5B6478;
 }
 
 /* Right List Column */
@@ -311,12 +323,18 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  cursor: pointer;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .branch-locator-branch-card:hover {
   border-color: #F0C94B;
   box-shadow: 0 4px 12px rgba(16, 24, 43, 0.06);
+}
+
+.branch-locator-branch-card-active {
+  border-color: #F5B301;
+  box-shadow: 0 4px 14px rgba(245, 179, 1, 0.18);
 }
 
 .branch-locator-branch-header {

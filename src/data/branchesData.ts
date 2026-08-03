@@ -1417,7 +1417,7 @@ export const BRANCHES_DATA: Branch[] = [
 ];
 
 // Coordinates for state capital centers on map
-const STATE_COORDINATES: Record<string, { lat: number; lng: number; capital: string }> = {
+export const STATE_COORDINATES: Record<string, { lat: number; lng: number; capital: string }> = {
   'Tamil Nadu': { lat: 13.0827, lng: 80.2707, capital: 'Chennai' },
   'Karnataka': { lat: 12.9716, lng: 77.5946, capital: 'Bengaluru' },
   'Telangana': { lat: 17.3850, lng: 78.4867, capital: 'Hyderabad' },
