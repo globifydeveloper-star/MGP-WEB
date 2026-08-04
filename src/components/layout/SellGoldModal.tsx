@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useOtpVerification } from '@/hooks/useOtpVerification';
 import './SellGoldModal.css';
 
 interface SellGoldModalProps {
@@ -32,9 +33,16 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     weight: ''
   });
 
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpCountdown, setOtpCountdown] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const {
+    state: otpState,
+    countdown: otpCountdown,
+    errorMessage: otpErrorMessage,
+    sendOtp,
+    verifyOtp,
+    resetOtpState
+  } = useOtpVerification({ cooldownSeconds: 60 });
 
   // Close on ESC key press
   useEffect(() => {
@@ -66,11 +74,10 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
         purity: '',
         weight: ''
       });
-      setOtpSent(false);
-      setOtpCountdown(0);
       setIsSubmitted(false);
+      resetOtpState();
     }
-  }, [isOpen]);
+  }, [isOpen, resetOtpState]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -82,34 +89,30 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     }));
   };
 
-  const handleGetOtp = () => {
+  const handleGetOtp = async () => {
     if (!formData.phone || formData.phone.length < 10) {
       alert('Please enter a valid phone number');
       return;
     }
-    setOtpSent(true);
-    setOtpCountdown(30);
-    // Simulating sending OTP
-    alert(`OTP sent to +91 ${formData.phone}`);
+    await sendOtp(formData.phone);
   };
 
-  // Countdown timer for OTP
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (otpCountdown > 0) {
-      timer = setTimeout(() => setOtpCountdown(prev => prev - 1), 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [otpCountdown]);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Validate inputs
     if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.purity || !formData.weight) {
       alert('Please fill in all required fields.');
       return;
     }
-    setIsSubmitted(true);
+    const success = await verifyOtp(formData.phone, formData.otp, {
+      name: formData.name,
+      state: formData.state,
+      city: formData.city,
+      consent: true
+    });
+    if (success) {
+      setIsSubmitted(true);
+    }
   };
 
   if (!isOpen) return null;
@@ -186,9 +189,9 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 type="button"
                 className="sg-otp-btn"
                 onClick={handleGetOtp}
-                disabled={otpCountdown > 0}
+                disabled={otpState === 'sending' || otpState === 'verifying' || otpCountdown > 0 || !/^\d{10}$/.test(formData.phone)}
               >
-                {otpCountdown > 0 ? `Resend (${otpCountdown}s)` : 'GET OTP'}
+                {otpState === 'sending' ? '...' : otpCountdown > 0 ? `Resend (${otpCountdown}s)` : 'GET OTP'}
               </button>
             </div>
 
@@ -200,6 +203,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 placeholder="OTP*"
                 required
                 className="sg-input"
+                disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                 value={formData.otp}
                 onChange={handleChange}
               />
@@ -275,9 +279,31 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
               <span className="sg-input-helper">Enter total weight in grams (e.g., 15.5g)</span>
             </div>
 
+            {otpErrorMessage && (
+              <div className="otp-error-msg" role="alert" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '-0.5rem', marginBottom: '0.5rem', padding: '0 0.25rem' }}>
+                {otpErrorMessage}
+              </div>
+            )}
+
             {/* Submit Button */}
-            <button type="submit" className="sg-submit-btn">
-              GET MY OFFER
+            <button
+              type="submit"
+              className="sg-submit-btn"
+              disabled={
+                otpState === 'idle' ||
+                otpState === 'sending' ||
+                otpState === 'verifying' ||
+                !formData.name ||
+                !formData.email ||
+                !formData.phone ||
+                !formData.otp ||
+                !formData.state ||
+                !formData.city ||
+                !formData.purity ||
+                !formData.weight
+              }
+            >
+              {otpState === 'verifying' ? 'VERIFYING...' : 'GET MY OFFER'}
             </button>
           </form>
         )}

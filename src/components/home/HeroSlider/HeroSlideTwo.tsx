@@ -1,21 +1,44 @@
-'use client';
-
 import Image from 'next/image';
 import goldsImg from '@/assets/images/golds.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import './heroSlider.css';
 
-export default function HeroSlideTwo() {
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
+interface HeroSlideTwoProps {
+  slide?: any;
+  imageSrc?: string;
+}
+
+export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
+  const text = slide?.heroText || "Get 100% Value for Your Gold. Safe, Transparent & Scientific.";
+  const parts = text.split('. ');
+  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '. ' : '') : '';
+  const goldText = parts[1] ? parts[1] : '';
+
+  const subcopy = slide?.heroSubtext || "Sell your gold with complete peace of mind. We use advanced XRF machines for purity testing right in front of you, ensuring you get the exact market rate.";
+
+  const btn1Enabled = slide?.button1 ? slide.button1.enabled : true;
+  const btn1Label = slide?.button1?.label || "Locate Nearest Branch";
+  const btn1Link = slide?.button1?.link || "#branches";
+
+  const btn2Enabled = slide?.button2 ? slide.button2.enabled : true;
+  const btn2Label = slide?.button2?.label || "Check Gold Purity";
+  const btn2Link = slide?.button2?.link || "#gold-value-form";
+
+  const handleCta = (link: string) => {
+    if (!link) return;
+    if (link.startsWith('#')) {
+      const element = document.getElementById(link.substring(1));
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.open(link, '_blank');
+    }
   };
 
   return (
     <section className="hero-slide-two-section">
       <div className="hero-slide-two-bg" aria-hidden="true">
         <Image
-          src={goldsImg}
+          src={imageSrc || goldsImg}
           alt=""
           fill
           priority
@@ -41,23 +64,25 @@ export default function HeroSlideTwo() {
           </div>
 
           <h2 className="hero-slide-two-title">
-            Get 100% Value for Your Gold.<br />
-            <span className="hero-slide-two-title-gold">Safe, Transparent &amp; Scientific.</span>
+            {whiteText}
+            {goldText && <span className="hero-slide-two-title-gold"><br />{goldText}</span>}
           </h2>
 
           <p className="hero-slide-two-subcopy">
-            Sell your gold with complete peace of mind. We use advanced XRF machines
-            for purity testing right in front of you, ensuring you get the exact
-            market rate.
+            {subcopy}
           </p>
 
           <div className="hero-slide-two-cta-group">
-            <button className="hero-slide-two-btn-gold" onClick={() => scrollTo('branches')}>
-              Locate Nearest Branch
-            </button>
-            <button className="hero-slide-two-btn-outline" onClick={() => scrollTo('gold-value-form')}>
-              Check Gold Purity
-            </button>
+            {btn1Enabled && (
+              <button className="hero-slide-two-btn-gold" onClick={() => handleCta(btn1Link)}>
+                {btn1Label}
+              </button>
+            )}
+            {btn2Enabled && (
+              <button className="hero-slide-two-btn-outline" onClick={() => handleCta(btn2Link)}>
+                {btn2Label}
+              </button>
+            )}
           </div>
         </div>
 

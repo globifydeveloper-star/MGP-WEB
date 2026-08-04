@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useRef } from 'react';
 import { createTimeline, stagger, set } from 'animejs';
@@ -7,7 +7,21 @@ import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import './heroLeftColumn.css';
 
-export default function HeroLeftColumn() {
+interface HeroLeftColumnProps {
+  heroText?: string;
+  button1?: {
+    enabled: boolean;
+    label?: string;
+    link?: string;
+  };
+  button2?: {
+    enabled: boolean;
+    label?: string;
+    link?: string;
+  };
+}
+
+export default function HeroLeftColumn({ heroText, button1, button2 }: HeroLeftColumnProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,6 +68,29 @@ export default function HeroLeftColumn() {
     }
   }, []);
 
+  const text = heroText || "Sell Your Gold. Get Cash Today.";
+  const parts = text.split('. ');
+  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '. ' : '') : '';
+  const goldText = parts[1] ? parts[1] : '';
+
+  const btn1Enabled = button1 ? button1.enabled : true;
+  const btn1Label = button1?.label || "Find Nearest Branch";
+  const btn1Link = button1?.link || "#branches";
+
+  const btn2Enabled = button2 ? button2.enabled : true;
+  const btn2Label = button2?.label || "See how it works";
+  const btn2Link = button2?.link || "#gold-sell-process";
+
+  const handleCta = (link: string | undefined) => {
+    if (!link) return;
+    if (link.startsWith('#')) {
+      const element = document.getElementById(link.substring(1));
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.open(link, '_blank');
+    }
+  };
+
   return (
     <div ref={containerRef} className="hero-left-column-v2">
       {/* Trust Badge */}
@@ -83,8 +120,8 @@ export default function HeroLeftColumn() {
 
       {/* Main Headline */}
       <h1 className="hero-main-title-v2">
-        <span className="hero-title-white-text">Sell Your Gold. </span>
-        <span className="hero-gold-text">Get Cash Today.</span>
+        <span className="hero-title-white-text">{whiteText}</span>
+        <span className="hero-gold-text">{goldText}</span>
       </h1>
 
       <div className="hero-subcopy-wrapper-v2">
@@ -95,24 +132,22 @@ export default function HeroLeftColumn() {
 
       {/* CTA Buttons */}
       <div className="hero-cta-group-v2">
-        <button
-          className="btn-gold-gradient"
-          onClick={() => {
-            const element = document.getElementById('branches');
-            if (element) element.scrollIntoView({ behavior: 'smooth' });
-          }}
-        >
-          Find Nearest Branch
-        </button>
-        <button
-          className="btn-white-outline-v2"
-          onClick={() => {
-            const element = document.getElementById('gold-sell-process');
-            if (element) element.scrollIntoView({ behavior: 'smooth' });
-          }}
-        >
-          See how it works
-        </button>
+        {btn1Enabled && (
+          <button
+            className="btn-gold-gradient"
+            onClick={() => handleCta(btn1Link)}
+          >
+            {btn1Label}
+          </button>
+        )}
+        {btn2Enabled && (
+          <button
+            className="btn-white-outline-v2"
+            onClick={() => handleCta(btn2Link)}
+          >
+            {btn2Label}
+          </button>
+        )}
       </div>
     </div>
   );

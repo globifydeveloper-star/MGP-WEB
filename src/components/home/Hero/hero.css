@@ -151,8 +151,8 @@
 }
 
 .hero-model-img {
-  object-fit: cover;
-  object-position: center 15%;
+  object-fit: contain;
+  object-position: center bottom;
 }
 
 /* Background Pattern Image restricted ONLY behind her left shoulder / golden shade portion */

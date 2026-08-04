@@ -1,10 +1,17 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import './GoldValueForm.css';
 import LocationPopup from './LocationPopup';
 
-export default function GoldValueForm() {
+interface GoldValueFormProps {
+  sectionImage?: string;
+  heading?: string;
+  headingHighlight?: string;
+  note?: string;
+}
+
+export default function GoldValueForm({ sectionImage, heading, headingHighlight, note }: GoldValueFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -33,7 +40,8 @@ export default function GoldValueForm() {
       <div className="gvf-pattern-band gvf-pattern-bottom" aria-hidden="true" />
       <div className="container">
         <h2 className="gvf-heading">
-          Estimate The Value Of <span className="gvf-heading-highlight">Your Gold</span>
+          {heading || "Estimate The Value Of"}{' '}
+          <span className="gvf-heading-highlight">{headingHighlight || "Your Gold"}</span>
         </h2>
 
         <div className="gvf-grid">
@@ -41,7 +49,7 @@ export default function GoldValueForm() {
           <div className="gvf-image-col">
             <div className="gvf-image-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/bangle.png" alt="Gold bangles" className="gvf-image" />
+              <img src={sectionImage || "/bangle.png"} alt="Gold bangles" className="gvf-image" />
             </div>
 
             <div className="gvf-rate-badge">
@@ -151,7 +159,7 @@ export default function GoldValueForm() {
 
               <button type="submit" className="gvf-submit-btn">Check Rate</button>
 
-              <p className="gvf-form-note">Final Value may vary based on physical verification</p>
+              <p className="gvf-form-note">{note || "Final Value may vary based on physical verification"}</p>
             </form>
           </div>
         </div>

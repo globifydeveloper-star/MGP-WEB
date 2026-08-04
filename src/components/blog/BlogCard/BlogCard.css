@@ -1,0 +1,114 @@
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(12, 31, 108, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(12, 31, 108, 0.14);
+}
+
+.blog-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.blog-card-media-el {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-card-media-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9bfd1;
+  background: #eef0f6;
+}
+
+.blog-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem 1.35rem 1.5rem;
+}
+
+.blog-card-tag {
+  align-self: flex-start;
+  background: rgba(241, 185, 51, 0.12);
+  color: var(--gold-dark, #DAA12E);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  margin-bottom: 0.75rem;
+}
+
+.blog-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #10182B;
+  line-height: 1.35;
+  margin-bottom: 0.6rem;
+}
+
+.blog-card-excerpt {
+  font-size: 0.92rem;
+  color: #565b6d;
+  line-height: 1.6;
+  margin-bottom: 1.1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.blog-card-date {
+  font-size: 0.8rem;
+  color: #8b90a3;
+}
+
+.blog-card-readmore {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--gold-dark, #DAA12E);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.blog-card-readmore:hover {
+  color: var(--gold-primary, #F1B933);
+}
+
+@media (max-width: 480px) {
+  .blog-card-body {
+    padding: 1.1rem 1.1rem 1.25rem;
+  }
+
+  .blog-card-title {
+    font-size: 1.05rem;
+  }
+}

@@ -24,7 +24,12 @@ const PATTERN_TILES = [
   { left: 965.56, top: 337.28, rotate: 0 },
 ];
 
-export default function Hero() {
+interface HeroProps {
+  slide?: any;
+  imageSrc?: string;
+}
+
+export default function Hero({ slide, imageSrc }: HeroProps) {
   // Below the design width/height, uniformly scale the pixel-pinned canvas down so
   // it still fits the viewport instead of overflowing/clipping (e.g. the
   // gold rate card running off-screen or vertically below the page).
@@ -61,14 +66,18 @@ export default function Hero() {
             className="hmv-curve-img"
             priority
           />
-          <HeroModelPhoto />
+          <HeroModelPhoto imageSrc={imageSrc} />
         </div>
       </div>
 
       {/* Main Grid Content Container */}
       <div className="hero-container-v2">
         {/* Left Column (Branding & Copy) */}
-        <HeroLeftColumn />
+        <HeroLeftColumn
+          heroText={slide?.heroText}
+          button1={slide?.button1}
+          button2={slide?.button2}
+        />
 
         {/* Right Column - holds mobile visual content under 1024px */}
         <div className="hero-right-column-v2">
@@ -107,7 +116,7 @@ export default function Hero() {
           <div className="hero-model-golden-aura" aria-hidden="true" />
           <div className="hero-model-bg-glow" aria-hidden="true" />
 
-          <HeroModelPhoto />
+          <HeroModelPhoto imageSrc={imageSrc} />
           <HeroGoldRateCard />
           <HeroCurve />
 

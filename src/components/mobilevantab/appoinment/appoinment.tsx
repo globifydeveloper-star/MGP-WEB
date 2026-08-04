@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './appoinment.css';
 
@@ -29,10 +30,22 @@ export default function Appoinment() {
     consent: false,
   });
 
+  const [otp, setOtp] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const statesList = useMemo(() => getUniqueStates(), []);
   const availableCities = useMemo(() => {
     return formData.state ? getCitiesByState(formData.state) : [];
   }, [formData.state]);
+
+  const {
+    state: otpState,
+    countdown: otpCountdown,
+    errorMessage: otpErrorMessage,
+    sendOtp,
+    verifyOtp,
+    resetOtpState
+  } = useOtpVerification({ cooldownSeconds: 60 });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -46,13 +59,50 @@ export default function Appoinment() {
     }));
   };
 
-  const handleGetOtp = () => {
-    // TODO: wire up OTP API
+  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+    setOtp(val);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleGetOtp = async () => {
+    if (!formData.mobile || formData.mobile.length < 10) {
+      alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+    await sendOtp(formData.mobile);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire up appointment booking API
+    if (!formData.fullName || !formData.mobile || !otp || !formData.state || !formData.city || !formData.purity) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    if (!formData.consent) {
+      alert('You must authorize communication to submit.');
+      return;
+    }
+
+    const success = await verifyOtp(formData.mobile, otp, {
+      name: formData.fullName,
+      state: formData.state,
+      city: formData.city,
+      consent: formData.consent
+    });
+
+    if (success) {
+      setIsSubmitted(true);
+      setFormData({
+        fullName: '',
+        mobile: '',
+        state: '',
+        city: '',
+        purity: '',
+        consent: false,
+      });
+      setOtp('');
+      resetOtpState();
+    }
   };
 
   return (
@@ -92,102 +142,176 @@ export default function Appoinment() {
 
           {/* Right: Form panel */}
           <div className="apt-right">
-            <form className="apt-form" onSubmit={handleSubmit}>
-              <div className="apt-form-row">
-                <div className="apt-field">
-                  <label htmlFor="apt-fullname" className="apt-label">Full Name<span className="apt-required">*</span></label>
+            {isSubmitted ? (
+              <div className="apt-success-view" style={{ width: '100%', textAlign: 'center', padding: '2rem 1.5rem' }}>
+                <div className="sg-success-checkmark-circle" style={{ margin: '0 auto 1.5rem' }}>
+                  <svg className="sg-success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle className="sg-success-checkmark-bg" cx="26" cy="26" r="25" fill="none" />
+                    <path className="sg-success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                  </svg>
+                </div>
+                <h3 className="sg-success-title" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0c1f6c', marginBottom: '0.5rem' }}>Appointment Booked!</h3>
+                <p className="sg-success-desc" style={{ color: '#4B5563', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+                  We will contact you shortly to confirm your booking.
+                </p>
+                <button
+                  type="button"
+                  className="apt-submit-btn"
+                  onClick={() => setIsSubmitted(false)}
+                >
+                  Book Another Appointment
+                </button>
+              </div>
+            ) : (
+              <form className="apt-form" onSubmit={handleSubmit}>
+                <div className="apt-form-row">
+                  <div className="apt-field">
+                    <label htmlFor="apt-fullname" className="apt-label">Full Name<span className="apt-required">*</span></label>
+                    <input
+                      id="apt-fullname"
+                      name="fullName"
+                      type="text"
+                      className="apt-input"
+                      placeholder="Enter your name"
+                      disabled={otpState === 'sending' || otpState === 'verifying'}
+                      value={formData.fullName}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="apt-field">
+                    <label htmlFor="apt-mobile" className="apt-label">Mobile Number<span className="apt-required">*</span></label>
+                    <div className="apt-otp-wrap">
+                      <input
+                        id="apt-mobile"
+                        name="mobile"
+                        type="tel"
+                        className="apt-input apt-input-otp"
+                        placeholder="Phone number"
+                        disabled={otpState === 'sending' || otpState === 'verifying'}
+                        value={formData.mobile}
+                        onChange={handleChange}
+                      />
+                      <button
+                        type="button"
+                        className="apt-otp-btn"
+                        onClick={handleGetOtp}
+                        disabled={otpState === 'sending' || otpState === 'verifying' || otpCountdown > 0 || !/^\d{10}$/.test(formData.mobile)}
+                      >
+                        {otpState === 'sending' ? '...' : otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="apt-form-row">
+                  <div className="apt-field">
+                    <label htmlFor="apt-otp" className="apt-label">OTP<span className="apt-required">*</span></label>
+                    <input
+                      id="apt-otp"
+                      name="otp"
+                      type="text"
+                      required
+                      pattern="[0-9]{6}"
+                      maxLength={6}
+                      disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
+                      className="apt-input"
+                      placeholder="Enter 6-digit OTP"
+                      value={otp}
+                      onChange={handleOtpChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="apt-form-row">
+                  <div className="apt-field">
+                    <label htmlFor="apt-state" className="apt-label">State<span className="apt-required">*</span></label>
+                    <select
+                      id="apt-state"
+                      name="state"
+                      className="apt-select"
+                      disabled={otpState === 'sending' || otpState === 'verifying'}
+                      value={formData.state}
+                      onChange={handleChange}
+                    >
+                      <option value="" disabled>Select State</option>
+                      {statesList.map((state) => (
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="apt-field">
+                    <label htmlFor="apt-city" className="apt-label">City<span className="apt-required">*</span></label>
+                    <select
+                      id="apt-city"
+                      name="city"
+                      className="apt-select"
+                      disabled={!formData.state || otpState === 'sending' || otpState === 'verifying'}
+                      value={formData.city}
+                      onChange={handleChange}
+                    >
+                      <option value="" disabled>Select City</option>
+                      {availableCities.map((city) => (
+                        <option key={city} value={city}>{city}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="apt-field apt-field-full">
+                  <label htmlFor="apt-purity" className="apt-label">Purity<span className="apt-required">*</span></label>
                   <input
-                    id="apt-fullname"
-                    name="fullName"
+                    id="apt-purity"
+                    name="purity"
                     type="text"
                     className="apt-input"
-                    placeholder="Enter your name"
-                    value={formData.fullName}
+                    placeholder="Enter Purity"
+                    disabled={otpState === 'sending' || otpState === 'verifying'}
+                    value={formData.purity}
                     onChange={handleChange}
                   />
                 </div>
 
-                <div className="apt-field">
-                  <label htmlFor="apt-mobile" className="apt-label">Mobile Number<span className="apt-required">*</span></label>
-                  <div className="apt-otp-wrap">
-                    <input
-                      id="apt-mobile"
-                      name="mobile"
-                      type="tel"
-                      className="apt-input apt-input-otp"
-                      placeholder="Phone number"
-                      value={formData.mobile}
-                      onChange={handleChange}
-                    />
-                    <button type="button" className="apt-otp-btn" onClick={handleGetOtp}>
-                      GET OTP
-                    </button>
+                <label className="apt-consent">
+                  <input
+                    type="checkbox"
+                    name="consent"
+                    disabled={otpState === 'sending' || otpState === 'verifying'}
+                    checked={formData.consent}
+                    onChange={handleChange}
+                  />
+                  <span>
+                    I authorize Muthoot Exim Pvt. Ltd. &amp; other Muthoot Pappachan Group companies to communicate with me on their product offerings/promotions through Telephone/Mobile/SMS/Email.
+                  </span>
+                </label>
+
+                {otpErrorMessage && (
+                  <div className="otp-error-msg" role="alert" style={{ color: '#DC2626', fontSize: '0.8rem', marginTop: '-0.5rem', marginBottom: '1.25rem' }}>
+                    {otpErrorMessage}
                   </div>
-                </div>
-              </div>
+                )}
 
-              <div className="apt-form-row">
-                <div className="apt-field">
-                  <label htmlFor="apt-state" className="apt-label">State<span className="apt-required">*</span></label>
-                  <select
-                    id="apt-state"
-                    name="state"
-                    className="apt-select"
-                    value={formData.state}
-                    onChange={handleChange}
-                  >
-                    <option value="" disabled>Select State</option>
-                    {statesList.map((state) => (
-                      <option key={state} value={state}>{state}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="apt-field">
-                  <label htmlFor="apt-city" className="apt-label">City<span className="apt-required">*</span></label>
-                  <select
-                    id="apt-city"
-                    name="city"
-                    className="apt-select"
-                    disabled={!formData.state}
-                    value={formData.city}
-                    onChange={handleChange}
-                  >
-                    <option value="" disabled>Select City</option>
-                    {availableCities.map((city) => (
-                      <option key={city} value={city}>{city}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="apt-field apt-field-full">
-                <label htmlFor="apt-purity" className="apt-label">Purity<span className="apt-required">*</span></label>
-                <input
-                  id="apt-purity"
-                  name="purity"
-                  type="text"
-                  className="apt-input"
-                  placeholder="Enter Purity"
-                  value={formData.purity}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <label className="apt-consent">
-                <input
-                  type="checkbox"
-                  name="consent"
-                  checked={formData.consent}
-                  onChange={handleChange}
-                />
-                <span>
-                  I authorize Muthoot Exim Pvt. Ltd. &amp; other Muthoot Pappachan Group companies to communicate with me on their product offerings/promotions through Telephone/Mobile/SMS/Email.
-                </span>
-              </label>
-
-              <button type="submit" className="apt-submit-btn">Confirm Appointment</button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={
+                    otpState === 'idle' ||
+                    otpState === 'sending' ||
+                    otpState === 'verifying' ||
+                    !formData.fullName ||
+                    !formData.mobile ||
+                    !otp ||
+                    !formData.state ||
+                    !formData.city ||
+                    !formData.purity ||
+                    !formData.consent
+                  }
+                  className="apt-submit-btn"
+                >
+                  {otpState === 'verifying' ? 'Confirming...' : 'Confirm Appointment'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
