@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import './GoldSellComparison.css';
-import assessmentImg from '@/assets/images/gold_rate_component_photos/02-gold-valuation-assessment.png';
+import assessmentImg from '@/assets/images/gs-com.png';
 
 const COMPARISON_ROWS = [
   {
