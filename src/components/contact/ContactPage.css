@@ -294,6 +294,7 @@
 }
 
 .cp-form-card {
+  position: relative;
   width: 100%;
   background: linear-gradient(135deg, #06132E 0%, #0F224C 50%, #163376 100%);
   border: 1px solid rgba(241, 185, 51, 0.35);
@@ -302,6 +303,25 @@
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 30px rgba(15, 34, 76, 0.3);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+  overflow: hidden;
+}
+
+/* Animated Golden Beam overlay traversing the border */
+.cp-gold-beam-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+.cp-gold-beam-rect {
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 3px rgba(235, 175, 32, 0.4)) drop-shadow(0 0 6px rgba(235, 175, 32, 0.2));
+  opacity: 0.9;
 }
 
 .cp-form-head {
@@ -437,7 +457,7 @@
   -webkit-appearance: none;
   padding-right: 2.2rem;
   cursor: pointer;
-  background-color: #0d1a40;
+  background-color: rgba(15, 28, 65, 0.4);
 }
 
 .cp-select-field.cp-placeholder-selected {
@@ -500,10 +520,10 @@
 .cp-submit-btn {
   width: 100%;
   height: 48px;
-  background: var(--cp-gold-gradient);
+  background: var(--gold-gradient);
   border: none;
   border-radius: 10px;
-  color: var(--cp-navy);
+  color: #0c1835;
   font-family: var(--font-outfit), sans-serif;
   font-size: 1rem;
   font-weight: 700;
@@ -513,13 +533,14 @@
   justify-content: center;
   gap: 0.65rem;
   margin-top: 0.35rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 20px rgba(241, 185, 51, 0.3);
+  transition: var(--transition-smooth), transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 20px rgba(218, 161, 46, 0.3);
 }
 
 .cp-submit-btn:hover {
+  background: var(--gold-gradient-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(241, 185, 51, 0.4);
+  box-shadow: 0 10px 24px rgba(218, 161, 46, 0.4);
 }
 
 .cp-btn-arrow-circle {
@@ -529,8 +550,8 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 1.5px solid var(--cp-navy);
-  color: var(--cp-navy);
+  border: 1.5px solid #0c1835;
+  color: #0c1835;
 }
 
 .cp-btn-arrow-circle svg {
@@ -574,71 +595,8 @@
 }
 
 /* ==========================================================================
-   3. GOLDEN STATS RIBBON BANNER
+   3. GOLDEN STATS RIBBON BANNER (Uses HeroStats from Home page)
    ========================================================================== */
-.cp-stats-banner {
-  width: 100%;
-  background: linear-gradient(90deg, #F3C44A 0%, #DFA82D 50%, #F0B832 100%);
-  padding: 1.75rem 0;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
-}
-
-.cp-stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: center;
-}
-
-.cp-stat-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 0 1.25rem;
-}
-
-.cp-stat-border {
-  border-right: 1px solid rgba(11, 21, 54, 0.18);
-}
-
-.cp-stat-badge {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background-color: var(--cp-navy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 6px 16px rgba(11, 21, 54, 0.25);
-}
-
-.cp-stat-badge svg {
-  width: 24px;
-  height: 24px;
-}
-
-.cp-stat-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.cp-stat-number {
-  font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--cp-navy);
-  line-height: 1.1;
-}
-
-.cp-stat-name {
-  font-family: var(--font-outfit), sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--cp-navy);
-  opacity: 0.9;
-  line-height: 1.2;
-}
 
 /* ==========================================================================
    4. RESPONSIVE BREAKPOINTS
@@ -665,19 +623,6 @@
   .cp-hero-heading {
     font-size: 2.6rem;
   }
-
-  .cp-stats-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem 0;
-  }
-
-  .cp-stat-border {
-    border-right: none;
-  }
-
-  .cp-stat-box:nth-child(1) {
-    border-right: 1px solid rgba(11, 21, 54, 0.18);
-  }
 }
 
 @media (max-width: 640px) {
@@ -696,16 +641,5 @@
   .cp-form-row-2,
   .cp-form-row-otp {
     grid-template-columns: 1fr;
-  }
-
-  .cp-stats-row {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .cp-stat-box {
-    border-right: none !important;
-    justify-content: flex-start;
-    padding-left: 2rem;
   }
 }

@@ -410,6 +410,7 @@
     height: calc(100vh - 80px);
     overflow-y: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    transform: none;
   }
 
   .navbar-nav-v2.menu-active {

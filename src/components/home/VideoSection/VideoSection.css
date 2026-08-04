@@ -238,6 +238,7 @@
   .vs-video-card,
   .vs-brand-card {
     width: 100%;
+    max-width: none;
     height: auto;
     aspect-ratio: 772.5 / 526.21;
   }

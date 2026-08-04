@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './SellGoldHero.css';
-import coupleImg from '@/assets/images/gs-heroo.png';
+import coupleImg from '@/assets/images/gs-hro.png';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import coinImg from '@/assets/images/COIN.png';
@@ -183,6 +183,40 @@ export default function SellGoldHero() {
         {/* Section 3: Get In Touch Form */}
         <div className="sg-hero-right" id="sell-gold-form">
           <div className="sg-form-card glass-panel">
+            {/* Animated Glowing border beam (aura/shine effect) */}
+            <svg
+              className="sg-gold-beam-svg"
+              viewBox="0 0 380 560"
+              preserveAspectRatio="none"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="sg-shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
+                  <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
+                  <animate attributeName="y1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
+                  <animate attributeName="x2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
+                  <animate attributeName="y2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
+
+                  <stop offset="0%" stopColor="#EBAF20" stopOpacity="0" />
+                  <stop offset="40%" stopColor="#EBAF20" stopOpacity="0" />
+                  <stop offset="50%" stopColor="#FFD778" stopOpacity="1" />
+                  <stop offset="60%" stopColor="#EBAF20" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#EBAF20" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <rect
+                x="1"
+                y="1"
+                width="378"
+                height="558"
+                rx="14"
+                fill="none"
+                stroke="url(#sg-shine-gradient)"
+                className="sg-gold-beam-rect"
+              />
+            </svg>
+
             {isSubmitted ? (
               <div className="sg-form-success">
                 <div className="sg-success-checkmark-circle">

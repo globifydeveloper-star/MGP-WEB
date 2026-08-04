@@ -48,7 +48,7 @@ export default function Footer() {
             <li><Link href="/sell-gold-for-cash" className="footer-link">Sell Gold</Link></li>
             <li><Link href="/career" className="footer-link">Careers</Link></li>
             <li><a href="https://branches.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="footer-link">Branch Locator</a></li>
-            <li><Link href="/#faq" className="footer-link">FAQs</Link></li>
+            <li><Link href="/faq" className="footer-link">FAQs</Link></li>
             <li><Link href="/contact-us" className="footer-link">Contact Us</Link></li>
             <li><Link href="/blogs" className="footer-link">Blog</Link></li>
           </ul>
@@ -111,8 +111,8 @@ export default function Footer() {
           </p>
           <div className="footer-bottom-links">
             <Link href="/privacy-policy" className="footer-bottom-link">Privacy Policy</Link>
-            <Link href="/privacy-policy" className="footer-bottom-link">Cookie Policy</Link>
-            <a href="#" className="footer-bottom-link">Terms of Service</a>
+            <Link href="/cookie-policy" className="footer-bottom-link">Cookie Policy</Link>
+            <Link href="/terms-of-service" className="footer-bottom-link">Terms of Service</Link>
           </div>
         </div>
       </div>
