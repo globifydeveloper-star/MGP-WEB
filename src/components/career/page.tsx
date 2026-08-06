@@ -7,6 +7,7 @@ import CareerHero from './careerhero/careerhero';
 import CareerBenefits from './careerbenefits/careerbenefits';
 import OpenPositions from './openpositions/openpositions';
 import ApplyForm from './applyform/applyform';
+import { submitJobApplication } from '@/lib/strapi';
 
 export default function CareerPage() {
   // Form State
@@ -20,6 +21,7 @@ export default function CareerPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   
   const formRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -44,7 +46,7 @@ export default function CareerPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.phone || !formData.position) {
       alert('Please fill in all required fields.');
@@ -52,26 +54,44 @@ export default function CareerPage() {
     }
     
     setIsSubmitting(true);
+    setSubmitError('');
     
-    // Simulate API request
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        position: '',
-        message: '',
-        resumeName: ''
+    try {
+      const result = await submitJobApplication({
+        fullName: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        coverNote: formData.message,
+        experienceYears: '',
+        currentCity: ''
       });
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+
+      if (result.success) {
+        setSubmitSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          position: '',
+          message: '',
+          resumeName: ''
+        });
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        
+        // Auto dismiss success message after 5s
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } else {
+        setSubmitError(result.error ?? 'Failed to submit application.');
+        alert(result.error ?? 'Failed to submit application. Please try again.');
       }
-      
-      // Auto dismiss success message after 5s
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1500);
+    } catch (err) {
+      console.error('Submission error:', err);
+      alert('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const scrollToOpenPositions = () => {

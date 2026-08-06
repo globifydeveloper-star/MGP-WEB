@@ -1,5 +1,7 @@
-import React from 'react';
-import { JOBS_DATA } from '../openpositions/openpositions';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { getJobPositions, JobPosition } from '@/lib/strapi';
 import './applyform.css';
 
 interface ApplyFormProps {
@@ -28,6 +30,20 @@ export default function ApplyForm({
   submitSuccess,
   fileInputRef
 }: ApplyFormProps) {
+  const [jobPositions, setJobPositions] = useState<JobPosition[]>([]);
+
+  useEffect(() => {
+    async function loadPositions() {
+      try {
+        const positions = await getJobPositions();
+        setJobPositions(positions);
+      } catch (err) {
+        console.error('Failed to load job positions for apply form:', err);
+      }
+    }
+    loadPositions();
+  }, []);
+
   return (
     <section className="career-form-section">
       <div className="container">
@@ -105,8 +121,8 @@ export default function ApplyForm({
                 >
                   <option value="" disabled>Select a position</option>
                   <option value="General Application / Resume Submission">General Application / Other</option>
-                  {JOBS_DATA.map(job => (
-                    <option key={job.id} value={job.title}>{job.title}</option>
+                  {jobPositions.map(job => (
+                    <option key={job.documentId ?? job.id} value={job.title}>{job.title}</option>
                   ))}
                 </select>
               </div>

@@ -193,6 +193,142 @@ export async function getBlogPageSettings(): Promise<BlogPageSettings | null> {
   }
 }
 
+// --- CAREER MODULE ACCESSORS ---
+
+export interface JobDepartment {
+  id: number;
+  documentId?: string;
+  name: string;
+  slug: string;
+}
+
+export interface JobPosition {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  department?: JobDepartment;
+  location?: string;
+  employmentType?: 'Full-time' | 'Part-time' | 'Contract' | 'Internship';
+  experienceLevel?: string;
+  summary?: string;
+  description?: string;
+  responsibilities?: string;
+  requirements?: string;
+  isOpen?: boolean;
+  deadline?: string;
+  postedDate?: string;
+}
+
+export interface CareerPageSettingsData {
+  heroHeading?: string;
+  heroSubheading?: string;
+  heroImage?: string;
+  cultureHeading?: string;
+  cultureDescription?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
+export async function getCareerPageSettings(): Promise<CareerPageSettingsData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/career-page-setting?populate=*`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      heroHeading: flat.heroHeading,
+      heroSubheading: flat.heroSubheading,
+      heroImage: getMediaUrl(flat.heroImage),
+      cultureHeading: flat.cultureHeading,
+      cultureDescription: flat.cultureDescription,
+      seoTitle: flat.seoTitle,
+      seoDescription: flat.seoDescription,
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getCareerPageSettings error:', err);
+    return null;
+  }
+}
+
+export async function getJobDepartments(): Promise<JobDepartment[]> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/job-departments`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    const data = Array.isArray(json?.data) ? json.data : [];
+    return data.map((entry: any) => unwrap<JobDepartment>(entry));
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getJobDepartments error:', err);
+    return [];
+  }
+}
+
+export async function getJobPositions(): Promise<JobPosition[]> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/job-positions?populate=*&filters[isOpen][$eq]=true`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    const data = Array.isArray(json?.data) ? json.data : [];
+    return data.map((entry: any) => {
+      const flat = unwrap<any>(entry);
+      const department = flat.department ? unwrap<JobDepartment>(flat.department) : undefined;
+      return {
+        id: flat.id,
+        documentId: flat.documentId ?? String(flat.id),
+        title: flat.title,
+        slug: flat.slug,
+        department,
+        location: flat.location,
+        employmentType: flat.employmentType,
+        experienceLevel: flat.experienceLevel,
+        summary: flat.summary,
+        description: flat.description,
+        responsibilities: flat.responsibilities,
+        requirements: flat.requirements,
+        isOpen: flat.isOpen ?? true,
+        deadline: flat.deadline,
+        postedDate: flat.postedDate,
+      };
+    });
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getJobPositions error:', err);
+    return [];
+  }
+}
+
+export async function submitJobApplication(payload: {
+  fullName: string;
+  email: string;
+  phone: string;
+  experienceYears?: string;
+  currentCity?: string;
+  coverNote?: string;
+  jobPosition?: string;
+}): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/job-applications`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const errJson = await res.json().catch(() => ({}));
+      return { success: false, error: errJson?.error?.message ?? `Server responded with ${res.status}` };
+    }
+    return { success: true };
+  } catch (err) {
+    console.error('submitJobApplication error:', err);
+    return { success: false, error: 'Network error submitting application.' };
+  }
+}
+
 // --- HOMEPAGE CONTENT CONTROL TYPES & ACCESSORS ---
 
 export interface HomepageData {
@@ -527,5 +663,3 @@ export async function getStatesAndBranches(): Promise<State[]> {
     return [];
   }
 }
-
-
