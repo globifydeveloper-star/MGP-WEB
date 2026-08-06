@@ -11,7 +11,7 @@ interface HeroSlideTwoProps {
 export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
   const text = slide?.heroText || "Get 100% Value for Your Gold. Safe, Transparent & Scientific.";
   const parts = text.split('. ');
-  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '. ' : '') : '';
+  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '.' : '') : '';
   const goldText = parts[1] ? parts[1] : '';
 
   const subcopy = slide?.heroSubtext || "Sell your gold with complete peace of mind. We use advanced XRF machines for purity testing right in front of you, ensuring you get the exact market rate.";
@@ -64,8 +64,8 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
           </div>
 
           <h2 className="hero-slide-two-title">
-            {whiteText}
-            {goldText && <span className="hero-slide-two-title-gold"><br />{goldText}</span>}
+            <span className="hero-slide-two-title-white">{whiteText}</span>
+            {goldText && <span className="hero-slide-two-title-gold">{goldText}</span>}
           </h2>
 
           <p className="hero-slide-two-subcopy">

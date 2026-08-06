@@ -207,7 +207,7 @@
 }
 
 /* Tablet & Mobile Overrides for Gold Rate Card */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .hero-mobile-rate-card-container {
     display: flex;
     justify-content: center;

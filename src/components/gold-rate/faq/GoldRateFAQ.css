@@ -108,7 +108,7 @@
   object-fit: cover;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .grf-inner {
     grid-template-columns: 1fr;
   }

@@ -63,28 +63,39 @@
 }
 
 /* Responsiveness / Media Queries */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .stats-container {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 720px;
+    margin: 0 auto;
   }
 
   .stat-item {
-    flex: 1 1 100%;
-    justify-content: center;
+    flex: 1 1 auto;
+    justify-content: flex-start;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 540px) {
   .stats-bar-ribbon {
     padding: 1rem 0;
   }
+
+  .stats-container {
+    gap: 1.25rem 0.75rem;
+  }
+
   .stat-value {
     font-size: 1.35rem;
   }
+
   .stat-icon-circle {
     width: 40px;
     height: 40px;
   }
+
   .stat-icon {
     width: 18px;
     height: 18px;

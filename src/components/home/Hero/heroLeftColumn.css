@@ -60,9 +60,9 @@
 /* Headlines */
 .hero-main-title-v2 {
   font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: 65px;
+  font-size: 50px;
   font-weight: 300;
-  line-height: 1.1;
+  line-height: 1.05;
   color: #FFFFFF;
   margin-bottom: 1.5rem;
   letter-spacing: -0.01em;
@@ -72,6 +72,7 @@
   color: #FFFFFF;
   font-weight: 700;
   display: block;
+  margin-bottom: 0.1rem;
 }
 
 .hero-gold-text {
@@ -79,7 +80,7 @@
   background: linear-gradient(169.26deg, #E39E23 5.27%, #EEB648 40.63%, #FFE4A6 75.98%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block;
+  display: block;
 }
 
 /* Subcopy */
@@ -153,7 +154,7 @@
 }
 
 /* Tablet & Mobile responsive overrides for Left Column */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .hero-left-column-v2 {
     display: flex;
     flex-direction: column;
