@@ -350,6 +350,36 @@ export async function submitJobApplication(payload: {
   }
 }
 
+export async function submitFormSubmission(payload: {
+  name: string;
+  phone: string;
+  email?: string;
+  branch?: string;
+  enquiryType?: string;
+  sourceForm?: string;
+  purity?: string;
+  weight?: string;
+  details?: Record<string, any>;
+}): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/form-submissions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const errJson = await res.json().catch(() => ({}));
+      return { success: false, error: errJson?.error?.message ?? `Server responded with ${res.status}` };
+    }
+    return { success: true };
+  } catch (err) {
+    console.error('submitFormSubmission error:', err);
+    return { success: false, error: 'Network error submitting form.' };
+  }
+}
+
 // --- HOMEPAGE CONTENT CONTROL TYPES & ACCESSORS ---
 
 export interface HomepageData {

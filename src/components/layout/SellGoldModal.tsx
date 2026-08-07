@@ -108,6 +108,8 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       name: formData.name,
       state: formData.state,
       city: formData.city,
+      purity: formData.purity,
+      weight: formData.weight,
       consent: true
     });
     if (success) {
