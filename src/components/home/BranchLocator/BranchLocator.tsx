@@ -8,10 +8,8 @@ import {
 } from '@/data/branchesData';
 import './BranchLocator.css';
 
-const BranchMap = dynamic(() => import('./BranchMap'), {
-  ssr: false,
-  loading: () => <div className="branch-locator-map-loading">Loading map…</div>,
-});
+import BranchMap from './BranchMap';
+
 
 const SearchIcon = () => (
   <svg
@@ -200,7 +198,15 @@ export default function BranchLocator({ states }: { states?: any[] }) {
         <div className="branch-locator-grid">
           {/* Map Column */}
           <div className="branch-locator-map-col">
-            <BranchMap markers={mapMarkers} center={mapCenter} zoom={mapZoom} selectedId={selectedBranchId} />
+            <BranchMap
+              markers={mapMarkers}
+              center={mapCenter}
+              zoom={mapZoom}
+              selectedId={selectedBranchId}
+              selectedBranchAddress={selectedBranch ? `Muthoot Gold Point, ${selectedBranch.address}, ${selectedBranch.city}` : undefined}
+              searchQuery={query}
+              activeStateName={activeStateSummary?.state}
+            />
           </div>
 
           {/* Controls & Cards Column */}
