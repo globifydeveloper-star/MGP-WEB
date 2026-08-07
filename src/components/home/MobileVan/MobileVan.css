@@ -183,7 +183,7 @@
   }
 
   to {
-    background-position-x: 50px;
+    background-position-x: -50px;
   }
 }
 
@@ -266,9 +266,9 @@
   }
 
   .van-features-row {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 1rem;
   }
 
   .van-feature-text {
@@ -293,7 +293,15 @@
   }
 
   .van-features-row {
-    flex-direction: column;
-    align-items: center;
+    gap: 1rem 0.75rem;
+  }
+
+  .van-feature-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .van-feature-text {
+    font-size: 0.75rem;
   }
 }

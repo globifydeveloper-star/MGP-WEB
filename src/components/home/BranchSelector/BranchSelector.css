@@ -393,8 +393,8 @@
   }
 }
 
-/* ── Tablet: 768px–1023px sticky bar ── */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* ── Tablet: 768px–1024px sticky bar ── */
+@media (min-width: 768px) and (max-width: 1024px) {
   .branch-selector-bar {
     /* Full viewport width, horizontal single-row layout */
     flex-direction: row;

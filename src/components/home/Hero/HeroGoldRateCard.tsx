@@ -72,7 +72,7 @@ export default function HeroGoldRateCard() {
         ease: 'outExpo',
         duration: 2200,
         delay: 500,
-        update: () => {
+        onUpdate: () => {
           setDisplayRate(rateObj.val);
         }
       });

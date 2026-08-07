@@ -1,0 +1,274 @@
+/* Terms of Service CSS — Distinct 2-Column Legal Document Layout */
+
+.terms-page-root {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #F8FAFC;
+  color: #0B1536;
+  padding-top: 95px; /* Accounts for absolute 80px Navbar height */
+  padding-bottom: 4.5rem;
+}
+
+.terms-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* Header */
+.terms-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.terms-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 50px;
+  background: rgba(11, 21, 54, 0.06);
+  border: 1px solid rgba(11, 21, 54, 0.12);
+  color: #0B1536;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.terms-main-title {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0B1536;
+  margin-bottom: 0.35rem;
+}
+
+.terms-gold-text {
+  color: #CB9224;
+}
+
+.terms-sub-title {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1rem;
+  color: #41444F;
+  margin-bottom: 0.65rem;
+}
+
+.terms-meta-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.terms-meta-bar .dot {
+  color: #CB9224;
+}
+
+/* Distinct 2-Column Grid Layout */
+.terms-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Left Sidebar Sticky Index */
+.terms-sidebar {
+  position: sticky;
+  top: 105px;
+}
+
+.terms-index-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(11, 21, 54, 0.03);
+}
+
+.terms-index-heading {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0B1536;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.terms-index-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.terms-index-link {
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #41444F;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.terms-index-link:hover {
+  background-color: #F8FAFC;
+  color: #0B1536;
+}
+
+/* Right Column Terms Document Card */
+.terms-doc-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 4px 20px rgba(11, 21, 54, 0.04);
+}
+
+.terms-section {
+  scroll-margin-top: 110px;
+}
+
+.terms-section-title {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0B1536;
+  margin-bottom: 0.85rem;
+}
+
+.terms-text {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #41444F;
+  margin: 0 0 0.75rem 0;
+}
+
+.terms-bullet-list {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.terms-bullet-list li {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.96rem;
+  color: #41444F;
+  line-height: 1.65;
+}
+
+.terms-bullet-list strong {
+  color: #0B1536;
+}
+
+.terms-highlight-box {
+  background: #FFFBEB;
+  border-left: 4px solid #F1B933;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.terms-highlight-box p {
+  font-size: 0.92rem;
+  color: #92400E;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.terms-divider {
+  border: none;
+  height: 1px;
+  background-color: #F1F5F9;
+  margin: 1.75rem 0;
+}
+
+/* Contact Section inside terms */
+.terms-contact-section {
+  padding-bottom: 0;
+}
+
+.terms-contact-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.terms-contact-card p {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.95rem;
+  color: #41444F;
+  margin: 0 0 0.5rem 0;
+
+  line-height: 1.5;
+}
+
+.terms-contact-card a {
+  color: #0B1536;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.terms-cta-wrap {
+  margin-top: 1rem;
+}
+
+.terms-cta-btn {
+  display: inline-block;
+  padding: 0.65rem 1.4rem;
+  background-color: #0B1536;
+  color: #F1B933;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.terms-cta-btn:hover {
+  opacity: 0.9;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .terms-grid {
+    grid-template-columns: 1fr;
+  }
+  .terms-sidebar {
+    position: static;
+  }
+  .terms-index-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .terms-doc-card {
+    padding: 1.75rem 1.5rem;
+  }
+  .terms-main-title {
+    font-size: 2rem;
+  }
+}

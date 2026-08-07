@@ -36,10 +36,11 @@
   min-height: 680px;
   background: linear-gradient(135deg, #06132E 0%, #0F224C 55%, #163376 100%);
   overflow: hidden;
-  padding-top: 170px;
+  padding-top: 80px;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
   --hero-scale: clamp(0.45, calc(100vw / 1580px), 1);
 }
 
@@ -77,6 +78,7 @@
   gap: 4rem;
   align-items: center;
   box-sizing: border-box;
+  flex-grow: 1;
 }
 
 .hero-slide-two-mobile-rate-card {
@@ -134,20 +136,26 @@
 
 .hero-slide-two-title {
   font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: 4.25rem;
+  font-size: 3.1rem;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.05;
   color: #FFFFFF;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1.25rem 0;
   letter-spacing: -0.01em;
   max-width: 720px;
+}
+
+.hero-slide-two-title-white {
+  display: block;
+  color: #FFFFFF;
+  margin-bottom: 0.1rem;
 }
 
 .hero-slide-two-title-gold {
   background: linear-gradient(180deg, #9A6410 0%, #C98A18 25%, #F0C24E 65%, #FFE8A3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block;
+  display: block;
 }
 
 .hero-slide-two-subcopy {
@@ -204,9 +212,9 @@
 
 @media (max-width: 1024px) {
   .hero-slide-two-section {
-    padding-top: 175px;
+    padding-top: 80px;
     min-height: auto;
-    height: auto;
+    height: 100%;
   }
 
   .hero-slide-two-overlay {

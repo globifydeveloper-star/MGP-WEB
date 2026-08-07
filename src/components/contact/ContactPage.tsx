@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
+import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
@@ -26,51 +27,6 @@ const REGISTERED_OFFICE = {
   email: 'info@muthootexim.com',
   mapEmbedUrl: 'https://maps.google.com/maps?q=Muthoot%20Towers,%20MG%20Road,%20Ernakulam,%20Kerala%20682035&t=&z=15&ie=UTF8&iwloc=&output=embed',
 };
-
-const STATS = [
-  {
-    value: '4,200+',
-    label: 'Happy Customers',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
-  },
-  {
-    value: '133+',
-    label: 'Branches PAN India',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-        <polyline points="9 22 9 12 15 12 15 22" />
-      </svg>
-    ),
-  },
-  {
-    value: '24,000+',
-    label: '5 Star Customer Experiences',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="none" />
-        <circle cx="12" cy="12" r="3" />
-      </svg>
-    ),
-  },
-  {
-    value: '100,000+',
-    label: 'Gold Loans Given',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <polyline points="9 12 11 14 15 10" />
-      </svg>
-    ),
-  },
-];
 
 /* Input Icons */
 const UserIcon = () => (
@@ -331,6 +287,40 @@ export default function ContactPage() {
             {/* RIGHT COLUMN: Floating Overlapping Form Card */}
             <div className="cp-right-col">
               <div className="cp-form-card">
+                {/* Animated Glowing border beam (aura/shine effect) */}
+                <svg
+                  className="cp-gold-beam-svg"
+                  viewBox="0 0 460 700"
+                  preserveAspectRatio="none"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="cp-shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
+                      <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="y1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="x2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="y2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
+
+                      <stop offset="0%" stopColor="#EBAF20" stopOpacity="0" />
+                      <stop offset="40%" stopColor="#EBAF20" stopOpacity="0" />
+                      <stop offset="50%" stopColor="#FFD778" stopOpacity="1" />
+                      <stop offset="60%" stopColor="#EBAF20" stopOpacity="0" />
+                      <stop offset="100%" stopColor="#EBAF20" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <rect
+                    x="1"
+                    y="1"
+                    width="458"
+                    height="698"
+                    rx="18"
+                    fill="none"
+                    stroke="url(#cp-shine-gradient)"
+                    className="cp-gold-beam-rect"
+                  />
+                </svg>
+
                 {isSubmitted ? (
                   <div className="cp-success-box">
                     <div className="cp-success-icon">
@@ -517,21 +507,7 @@ export default function ContactPage() {
         </section>
 
         {/* GOLDEN STATS RIBBON BANNER */}
-        <section className="cp-stats-banner">
-          <div className="container cp-stats-row">
-            {STATS.map((stat, idx) => (
-              <div key={stat.label} className={`cp-stat-box ${idx < STATS.length - 1 ? 'cp-stat-border' : ''}`}>
-                <div className="cp-stat-badge">
-                  {stat.icon}
-                </div>
-                <div className="cp-stat-content">
-                  <h3 className="cp-stat-number">{stat.value}</h3>
-                  <p className="cp-stat-name">{stat.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <HeroStats />
 
         {/* BRANCH LOCATOR SECTION */}
         <BranchLocator />

@@ -70,7 +70,7 @@ export default function HeroLeftColumn({ heroText, button1, button2 }: HeroLeftC
 
   const text = heroText || "Sell Your Gold. Get Cash Today.";
   const parts = text.split('. ');
-  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '. ' : '') : '';
+  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '.' : '') : '';
   const goldText = parts[1] ? parts[1] : '';
 
   const btn1Enabled = button1 ? button1.enabled : true;

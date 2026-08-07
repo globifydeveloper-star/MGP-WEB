@@ -295,8 +295,6 @@
   .gvf-grid {
     grid-template-columns: 1fr;
     gap: 4rem;
-    max-width: 520px;
-    margin: 0 auto;
   }
 
   .gvf-image-col {

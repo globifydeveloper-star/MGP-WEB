@@ -410,6 +410,7 @@
     height: calc(100vh - 80px);
     overflow-y: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    transform: none;
   }
 
   .navbar-nav-v2.menu-active {
@@ -433,8 +434,8 @@
   }
 }
 
-/* ── Tablet: 768px–1023px ── */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* ── Tablet: 768px–1024px ── */
+@media (min-width: 768px) and (max-width: 1024px) {
   .navbar-container-v2 {
     padding: 0 48px;
     display: flex;

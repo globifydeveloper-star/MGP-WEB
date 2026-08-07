@@ -244,7 +244,7 @@
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .gsp-desktop-view {
     display: none;
   }
@@ -261,8 +261,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* Bottom padding so sticky bar doesn't cover last slide controls */
-  padding-bottom: 120px;
 }
 
 /* Header */
@@ -440,12 +438,8 @@
   transform: scale(1.35);
 }
 
-/* ── Tablet overrides (768px–1023px) ── */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .gsp-carousel-section {
-    padding-bottom: 130px;
-  }
-
+/* ── Tablet overrides (768px–1024px) ── */
+@media (min-width: 768px) and (max-width: 1024px) {
   .gsp-carousel-header .gsp-heading {
     font-size: 2.5rem;
   }
@@ -490,10 +484,6 @@
 
 /* ── Mobile-specific overrides (0–767px) ── */
 @media (max-width: 767px) {
-  .gsp-carousel-section {
-    padding-bottom: 110px;
-  }
-
   .gsp-carousel-header .gsp-heading {
     font-size: 1.85rem;
   }

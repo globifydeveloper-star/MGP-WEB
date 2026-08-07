@@ -1,0 +1,201 @@
+/* Cookie Policy CSS — Simple & Distinct Document Layout */
+
+.cookie-page-root {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #F8FAFC;
+  color: #0B1536;
+  padding-top: 95px; /* Accounts for absolute 80px Navbar height */
+  padding-bottom: 4.5rem;
+}
+
+.cookie-doc-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header */
+.cookie-header {
+  text-align: center;
+  margin-bottom: 2.25rem;
+}
+
+.cookie-main-title {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #0B1536;
+  margin-bottom: 0.35rem;
+}
+
+.gold-accent {
+  color: #CB9224;
+}
+
+.cookie-sub-title {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1rem;
+  color: #41444F;
+  margin-bottom: 0.65rem;
+}
+
+.cookie-meta-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.cookie-meta-bar .dot {
+  color: #CB9224;
+}
+
+/* Single Clean Document Card */
+.cookie-doc-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 4px 20px rgba(11, 21, 54, 0.04);
+}
+
+.cookie-section {
+  padding: 0.5rem 0;
+}
+
+.cookie-section-title {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0B1536;
+  margin-bottom: 0.75rem;
+}
+
+.cookie-text {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #41444F;
+  margin: 0 0 0.5rem 0;
+}
+
+.cookie-divider {
+  border: none;
+  height: 1px;
+  background-color: #F1F5F9;
+  margin: 1.5rem 0;
+}
+
+/* 3-Column Type Summary Grid */
+.cookie-types-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.cookie-type-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 1.15rem;
+}
+
+.cookie-type-name {
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0B1536;
+  margin-bottom: 0.4rem;
+}
+
+.cookie-type-desc {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Simple List */
+.cookie-simple-list {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cookie-simple-list li {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.96rem;
+  color: #41444F;
+  line-height: 1.6;
+}
+
+.cookie-simple-list strong {
+  color: #0B1536;
+}
+
+.cookie-note {
+  font-size: 0.9rem;
+  color: #64748B;
+  background: #F1F5F9;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 0.75rem;
+}
+
+/* Contact Footer Section inside Document */
+.cookie-contact-section {
+  padding-bottom: 0;
+}
+
+.cookie-link {
+  color: #0B1536;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.cookie-link:hover {
+  color: #CB9224;
+}
+
+.cookie-contact-footer {
+  margin-top: 1.25rem;
+}
+
+.cookie-cta-simple {
+  display: inline-block;
+  padding: 0.65rem 1.4rem;
+  background-color: #0B1536;
+  color: #F1B933;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.cookie-cta-simple:hover {
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cookie-doc-card {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .cookie-main-title {
+    font-size: 2rem;
+  }
+
+  .cookie-types-grid {
+    grid-template-columns: 1fr;
+  }
+}

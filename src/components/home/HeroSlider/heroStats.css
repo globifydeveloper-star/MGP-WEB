@@ -65,7 +65,7 @@
 }
 
 /* Responsive Overrides for Stats Bar */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .hero-stats-container-v2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
