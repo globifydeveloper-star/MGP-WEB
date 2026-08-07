@@ -309,15 +309,36 @@ export async function submitJobApplication(payload: {
   currentCity?: string;
   coverNote?: string;
   jobPosition?: string;
+  resumeFile?: File | null;
 }): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/job-applications`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+    let res: Response;
+
+    if (payload.resumeFile) {
+      const formData = new FormData();
+      formData.append('fullName', payload.fullName);
+      formData.append('email', payload.email);
+      formData.append('phone', payload.phone);
+      if (payload.experienceYears) formData.append('experienceYears', payload.experienceYears);
+      if (payload.currentCity) formData.append('currentCity', payload.currentCity);
+      if (payload.coverNote) formData.append('coverNote', payload.coverNote);
+      if (payload.jobPosition) formData.append('jobPosition', payload.jobPosition);
+      formData.append('resume', payload.resumeFile);
+
+      res = await fetch(`${STRAPI_URL}/api/job-applications`, {
+        method: 'POST',
+        body: formData,
+      });
+    } else {
+      res = await fetch(`${STRAPI_URL}/api/job-applications`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    }
+
     if (!res.ok) {
       const errJson = await res.json().catch(() => ({}));
       return { success: false, error: errJson?.error?.message ?? `Server responded with ${res.status}` };

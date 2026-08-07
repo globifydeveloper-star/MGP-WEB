@@ -11,13 +11,22 @@ import { submitJobApplication } from '@/lib/strapi';
 
 export default function CareerPage() {
   // Form State
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+    position: string;
+    message: string;
+    resumeName: string;
+    resumeFile: File | null;
+  }>({
     name: '',
     email: '',
     phone: '',
     position: '',
     message: '',
-    resumeName: ''
+    resumeName: '',
+    resumeFile: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -42,7 +51,8 @@ export default function CareerPage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFormData(prev => ({ ...prev, resumeName: e.target.files![0].name }));
+      const file = e.target.files[0];
+      setFormData(prev => ({ ...prev, resumeName: file.name, resumeFile: file }));
     }
   };
 
@@ -62,8 +72,10 @@ export default function CareerPage() {
         email: formData.email,
         phone: formData.phone,
         coverNote: formData.message,
+        jobPosition: formData.position,
         experienceYears: '',
-        currentCity: ''
+        currentCity: '',
+        resumeFile: formData.resumeFile,
       });
 
       if (result.success) {
@@ -74,7 +86,8 @@ export default function CareerPage() {
           phone: '',
           position: '',
           message: '',
-          resumeName: ''
+          resumeName: '',
+          resumeFile: null,
         });
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
