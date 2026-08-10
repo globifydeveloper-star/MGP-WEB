@@ -9,9 +9,10 @@ interface SellGoldModalProps {
   onClose: () => void;
 }
 
+import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getStateCitiesMap } from '@/data/branchesData';
 
-const STATE_CITIES = getStateCitiesMap();
+const STATIC_STATE_CITIES = getStateCitiesMap();
 
 const PURITIES = [
   '24K (99.9%)',
@@ -32,6 +33,16 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     purity: '',
     weight: ''
   });
+
+  const { states: bmStates, locationsByState } = useBranchMaster();
+
+  const availableStates = bmStates && bmStates.length > 0 ? bmStates : Object.keys(STATIC_STATE_CITIES);
+
+  const availableCities = formData.state
+    ? (locationsByState[formData.state] && locationsByState[formData.state].length > 0
+        ? locationsByState[formData.state]
+        : STATIC_STATE_CITIES[formData.state] || [])
+    : [];
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -222,7 +233,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   onChange={handleChange}
                 >
                   <option value="" disabled>Select State</option>
-                  {Object.keys(STATE_CITIES).map(state => (
+                  {availableStates.map(state => (
                     <option key={state} value={state}>{state}</option>
                   ))}
                 </select>
@@ -239,7 +250,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   onChange={handleChange}
                 >
                   <option value="" disabled>Select City</option>
-                  {formData.state && STATE_CITIES[formData.state]?.map(city => (
+                  {availableCities.map(city => (
                     <option key={city} value={city}>{city}</option>
                   ))}
                 </select>

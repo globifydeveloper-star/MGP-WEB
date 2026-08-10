@@ -15,16 +15,26 @@ interface LocationPopupProps {
   onSuccess?: () => void;
 }
 
+import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getStateCitiesMap, getUniqueStates } from '@/data/branchesData';
 import { submitFormSubmission } from '@/lib/strapi';
 
-const STATE_CITIES = getStateCitiesMap();
-const STATES_LIST = getUniqueStates();
+const STATIC_STATE_CITIES = getStateCitiesMap();
+const STATIC_STATES_LIST = getUniqueStates();
 
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { states: bmStates, locationsByState } = useBranchMaster();
+
+  const STATES_LIST = bmStates && bmStates.length > 0 ? bmStates : STATIC_STATES_LIST;
+  const availableCities = selectedState
+    ? (locationsByState[selectedState] && locationsByState[selectedState].length > 0
+        ? locationsByState[selectedState]
+        : STATIC_STATE_CITIES[selectedState] || [])
+    : [];
 
   // Close on ESC key press
   useEffect(() => {
@@ -153,7 +163,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
                   className="lp-select"
                 >
                   <option value="" disabled>Select City</option>
-                  {selectedState && STATE_CITIES[selectedState]?.map(city => (
+                  {availableCities.map(city => (
                     <option key={city} value={city}>{city}</option>
                   ))}
                 </select>

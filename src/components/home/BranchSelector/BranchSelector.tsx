@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { getUniqueStates, getBranchesByState } from '@/data/branchesData';
+import { useBranchMaster } from '@/hooks/useBranchMaster';
+import { getUniqueStates, getBranchesByState, Branch } from '@/data/branchesData';
 import './BranchSelector.css';
 
 export default function BranchSelector() {
@@ -54,10 +55,31 @@ export default function BranchSelector() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const states = useMemo(() => getUniqueStates(), []);
+  const { states: bmStates, branchesByState } = useBranchMaster();
+
+  const states = useMemo(() => {
+    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+  }, [bmStates]);
   const availableBranches = useMemo(() => {
-    return selectedState ? getBranchesByState(selectedState) : [];
-  }, [selectedState]);
+    if (!selectedState) return [];
+    if (branchesByState[selectedState] && branchesByState[selectedState].length > 0) {
+      return branchesByState[selectedState].map((b) => ({
+        id: b.branchCode,
+        name: b.branchName,
+        url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          `Muthoot Gold Point, ${b.addressLine1 || ''}, ${b.location}, ${b.state}`
+        )}`,
+        address: b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location,
+        city: b.location,
+        pincode: b.pin,
+        state: b.state,
+        timing: '10:00 AM - 6:30 PM',
+        lat: 0,
+        lng: 0,
+      }));
+    }
+    return getBranchesByState(selectedState);
+  }, [selectedState, branchesByState]);
 
   const selectedBranchObj = useMemo(() => {
     return availableBranches.find((b) => b.id === selectedBranchId) || null;

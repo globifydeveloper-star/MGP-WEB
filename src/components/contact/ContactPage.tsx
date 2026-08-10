@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
+import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
@@ -100,10 +101,19 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const statesList = useMemo(() => getUniqueStates(), []);
+  const { states: bmStates, locationsByState } = useBranchMaster();
+
+  const statesList = useMemo(() => {
+    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+  }, [bmStates]);
+
   const availableCities = useMemo(() => {
-    return formData.state ? getCitiesByState(formData.state) : [];
-  }, [formData.state]);
+    if (!formData.state) return [];
+    if (locationsByState[formData.state] && locationsByState[formData.state].length > 0) {
+      return locationsByState[formData.state];
+    }
+    return getCitiesByState(formData.state);
+  }, [formData.state, locationsByState]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
