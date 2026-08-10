@@ -72,7 +72,9 @@ export default function SellGoldHero() {
       name: formData.name,
       state: formData.state,
       city: formData.city,
-      consent: formData.consent
+      consent: formData.consent,
+      sourceForm: 'Sell Gold Hero Form',
+      enquiryType: 'Enquire Now',
     });
 
     if (success) {

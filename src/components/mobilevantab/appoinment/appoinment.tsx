@@ -87,7 +87,10 @@ export default function Appoinment() {
       name: formData.fullName,
       state: formData.state,
       city: formData.city,
-      consent: formData.consent
+      purity: formData.purity,
+      consent: formData.consent,
+      sourceForm: 'Mobile Van Appointment',
+      enquiryType: 'Mobile Van',
     });
 
     if (success) {

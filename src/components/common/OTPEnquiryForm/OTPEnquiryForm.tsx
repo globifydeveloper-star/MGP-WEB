@@ -12,7 +12,13 @@ const STATE_CITIES: Record<string, string[]> = {
   'Delhi': ['Delhi', 'New Delhi']
 };
 
-export default function OTPEnquiryForm() {
+export default function OTPEnquiryForm({
+  sourceForm = 'OTP Enquiry Form',
+  enquiryType = 'Enquire Now',
+}: {
+  sourceForm?: string;
+  enquiryType?: string;
+} = {}) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
@@ -47,6 +53,7 @@ export default function OTPEnquiryForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent) {
+      triggerShake();
       return;
     }
     if (state === 'otpSent' || state === 'error' || state === 'expired') {
@@ -55,7 +62,9 @@ export default function OTPEnquiryForm() {
         state: selectedState,
         city: selectedCity,
         message,
-        consent
+        consent,
+        sourceForm,
+        enquiryType,
       };
       const verified = await verifyOtp(phone, otp, details);
       if (verified) {

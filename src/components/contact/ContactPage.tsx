@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useOtpVerification } from '@/hooks/useOtpVerification';
 import Image from 'next/image';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -95,10 +96,17 @@ export default function ContactPage() {
     message: '',
   });
 
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpCountdown, setOtpCountdown] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const {
+    state: otpState,
+    countdown: otpCountdown,
+    errorMessage: otpErrorMessage,
+    sendOtp,
+    verifyOtp,
+    resetOtpState
+  } = useOtpVerification({ cooldownSeconds: 60 });
 
   const statesList = useMemo(() => getUniqueStates(), []);
   const availableCities = useMemo(() => {
@@ -116,34 +124,32 @@ export default function ContactPage() {
     }));
   };
 
-  const handleGetOtp = () => {
+  const handleGetOtp = async () => {
     if (!formData.phone || formData.phone.length < 10) {
       alert('Please enter a valid 10-digit mobile number');
       return;
     }
-    setOtpSent(true);
-    setOtpCountdown(30);
-    const timer = setInterval(() => {
-      setOtpCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    alert(`OTP sent successfully to +91 ${formData.phone} (Simulated)`);
+    await sendOtp(formData.phone);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.service || !formData.state || !formData.city || !formData.message) {
+    if (!formData.name || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.message) {
       alert('Please fill in all required fields.');
       return;
     }
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const success = await verifyOtp(formData.phone, formData.otp, {
+      name: formData.name,
+      state: formData.state,
+      city: formData.city,
+      message: `[Service: ${formData.service || 'N/A'}] ${formData.message}`,
+      consent: true,
+      sourceForm: 'Contact Us Page',
+      enquiryType: 'Contact Us',
+    });
+    setIsSubmitting(false);
+    if (success) {
       setIsSubmitted(true);
       setFormData({
         name: '',
@@ -155,9 +161,8 @@ export default function ContactPage() {
         city: '',
         message: '',
       });
-      setOtpSent(false);
-      setOtpCountdown(0);
-    }, 1200);
+      resetOtpState();
+    }
   };
 
   return (
@@ -397,9 +402,9 @@ export default function ContactPage() {
                           type="button"
                           className="cp-otp-btn"
                           onClick={handleGetOtp}
-                          disabled={otpCountdown > 0}
+                          disabled={otpState === 'sending' || otpState === 'verifying' || otpCountdown > 0 || !/^\d{10}$/.test(formData.phone)}
                         >
-                          {otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
+                          {otpState === 'sending' ? '...' : otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
                         </button>
                       </div>
                       <div className="cp-field-wrap">
@@ -409,7 +414,7 @@ export default function ContactPage() {
                           value={formData.otp}
                           onChange={handleChange}
                           placeholder="OTP*"
-                          disabled={!otpSent}
+                          disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                           required
                           className="cp-input-field"
                         />
