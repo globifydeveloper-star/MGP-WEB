@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
         port: strapiUrl.port,
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.r2.dev",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
     // Strapi runs on localhost in dev; Next 16 blocks image URLs that resolve
     // to a private/loopback IP unless explicitly opted in.
