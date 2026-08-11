@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
+import { sendOtp, verifyOtp } from '@/lib/otp';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
@@ -123,48 +124,74 @@ export default function ContactPage() {
     }));
   };
 
-  const handleGetOtp = () => {
+
+
+  const handleGetOtp = async () => {
     if (!formData.phone || formData.phone.length < 10) {
       alert('Please enter a valid 10-digit mobile number');
       return;
     }
-    setOtpSent(true);
-    setOtpCountdown(30);
-    const timer = setInterval(() => {
-      setOtpCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    alert(`OTP sent successfully to +91 ${formData.phone} (Simulated)`);
+    const res = await sendOtp(formData.phone);
+    if (res.success) {
+      setOtpSent(true);
+      setOtpCountdown(30);
+      const timer = setInterval(() => {
+        setOtpCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } else {
+      alert(res.message || 'Failed to send OTP.');
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.service || !formData.state || !formData.city || !formData.message) {
+    if (!formData.name || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.message) {
       alert('Please fill in all required fields.');
       return;
     }
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      const res = await verifyOtp(formData.phone, formData.otp, {
+        name: formData.name,
+        email: formData.email,
+        state: formData.state,
+        city: formData.city,
+        message: formData.message,
+        consent: true,
+        sourceForm: 'Contact Us Form',
+        enquiryType: formData.service || 'Contact Enquiry',
+      } as any);
+
+      if (res.success && res.verified) {
+        setIsSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          otp: '',
+          service: '',
+          state: '',
+          city: '',
+          message: '',
+        });
+        setOtpSent(false);
+        setOtpCountdown(0);
+      } else {
+        alert(res.message || 'Incorrect or expired OTP.');
+      }
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      alert('Network error submitting contact form.');
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        otp: '',
-        service: '',
-        state: '',
-        city: '',
-        message: '',
-      });
-      setOtpSent(false);
-      setOtpCountdown(0);
-    }, 1200);
+    }
   };
 
   return (
