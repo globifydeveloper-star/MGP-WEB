@@ -125,16 +125,15 @@ export function useBranchMaster(options: UseBranchMasterOptions = {}) {
           localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cachePayload));
         }
       } else {
-        // Graceful fallback to static dataset
-        applyFallbackData();
+        setError(json?.message || 'Failed to fetch Branch Master data. Ensure NEXT_PUBLIC_BRANCH_MASTER_BASE_URL is configured.');
       }
     } catch (err) {
-      console.warn('API /api/branch/all fetch error, using static fallback:', err);
-      applyFallbackData();
+      console.error('API /api/branch/all fetch error:', err);
+      setError('Network error fetching Branch Master data. Check server configuration and environment variables.');
     } finally {
       setLoading(false);
     }
-  }, [token, applyFallbackData]);
+  }, [token]);
 
   useEffect(() => {
     if (autoFetch) {

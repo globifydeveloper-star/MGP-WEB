@@ -8,7 +8,8 @@
 
 export const BRANCH_MASTER_BASE_URL =
   (process.env.NEXT_PUBLIC_BRANCH_MASTER_BASE_URL ||
-    'https://mgpcommonext-mgpuat.muthootexim.com').replace(/\/$/, '');
+    process.env.BRANCH_MASTER_BASE_URL ||
+    '').replace(/\/$/, '');
 
 export interface RawBranchSummary {
   branchCode: string;
@@ -60,6 +61,11 @@ export interface CachedBranchMasterDataset {
  * GET /Branch/FetchAll
  */
 export async function fetchAllBranchSummaries(): Promise<RawBranchSummary[]> {
+  if (!BRANCH_MASTER_BASE_URL) {
+    console.error('BRANCH_MASTER_BASE_URL environment variable is missing. Live branch fetch aborted.');
+    return [];
+  }
+
   try {
     const url = `${BRANCH_MASTER_BASE_URL}/Branch/FetchAll`;
     const res = await fetch(url, {
@@ -89,6 +95,11 @@ export async function fetchAllBranchSummaries(): Promise<RawBranchSummary[]> {
  * POST /Branch/Fetch
  */
 export async function fetchBranchByCode(branchCode: string): Promise<RawBranchDetails | null> {
+  if (!BRANCH_MASTER_BASE_URL) {
+    console.error('BRANCH_MASTER_BASE_URL environment variable is missing. Live branch fetch aborted.');
+    return null;
+  }
+
   try {
     const url = `${BRANCH_MASTER_BASE_URL}/Branch/Fetch`;
     const res = await fetch(url, {

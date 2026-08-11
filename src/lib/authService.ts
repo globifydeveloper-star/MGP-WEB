@@ -7,10 +7,12 @@
  * Response: JWT access token
  */
 
-export const AUTH_API_BASE_URL =
+export const AUTH_API_BASE_URL = (
   process.env.NEXT_PUBLIC_BRANCH_MASTER_BASE_URL ||
+  process.env.BRANCH_MASTER_BASE_URL ||
   process.env.CHANNEL_LEAD_BASE_URL ||
-  'https://mgpcommonext-mgpuat.muthootexim.com';
+  ''
+).replace(/\/$/, '');
 
 export interface AuthLoginResponse {
   success?: boolean;
