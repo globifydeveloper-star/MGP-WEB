@@ -42,10 +42,14 @@ export async function sendOtp(phone: string): Promise<OtpResponse> {
 
 export interface EnquiryDetails {
   name: string;
-  state: string;
-  city: string;
+  state?: string;
+  city?: string;
+  purity?: string;
+  weight?: string;
   message?: string;
-  consent: boolean;
+  consent?: boolean;
+  sourceForm?: string;
+  enquiryType?: string;
 }
 
 /**

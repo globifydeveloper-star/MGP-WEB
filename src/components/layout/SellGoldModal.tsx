@@ -108,7 +108,11 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       name: formData.name,
       state: formData.state,
       city: formData.city,
-      consent: true
+      purity: formData.purity,
+      weight: formData.weight,
+      consent: true,
+      sourceForm: 'Sell Gold Modal',
+      enquiryType: 'Gold Valuation',
     });
     if (success) {
       setIsSubmitted(true);
