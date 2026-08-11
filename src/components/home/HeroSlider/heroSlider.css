@@ -32,8 +32,9 @@
 .hero-slide-two-section {
   position: relative;
   width: 100%;
-  height: calc(880px * var(--hero-scale, 1));
-  min-height: 680px;
+  height: calc(820px * var(--hero-scale, 1));
+  max-height: 100vh;
+  min-height: 520px;
   background: linear-gradient(135deg, #06132E 0%, #0F224C 55%, #163376 100%);
   overflow: hidden;
   padding-top: 80px;
@@ -41,7 +42,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  --hero-scale: clamp(0.45, calc(100vw / 1580px), 1);
+  --hero-scale: clamp(0.45, min(calc(100vw / 1750px), calc((100vh - 80px) / 880px)), 0.82);
 }
 
 .hero-slide-two-bg {

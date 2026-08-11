@@ -38,6 +38,15 @@ export default function Hero({ slide, imageSrc }: HeroProps) {
   return (
     <section
       className="hero-section-root-v2">
+      {/* Floating Gold Coin decoration - Pinned to viewport left edge */}
+      <Image
+        src={coinImg}
+        alt=""
+        aria-hidden="true"
+        className="hero-floating-coin-left"
+        priority
+      />
+
       {/*
         Rendered before .hero-container-v2 (and given a lower z-index) so it
         sits behind the headline/copy instead of drawing over it - it shares
@@ -95,14 +104,6 @@ export default function Hero({ slide, imageSrc }: HeroProps) {
       */}
       <div className="hero-scaled-host hero-figma-canvas-host">
         <div className="hero-figma-canvas">
-          <Image
-            src={coinImg}
-            alt=""
-            aria-hidden="true"
-            className="hero-floating-coin-left"
-            priority
-          />
-
           {PATTERN_TILES.map((tile, i) => (
             <div
               key={i}

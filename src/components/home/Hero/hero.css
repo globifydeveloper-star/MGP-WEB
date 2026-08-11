@@ -9,15 +9,16 @@
 .hero-section-root-v2 {
   position: relative;
   width: 100%;
-  height: calc(880px * var(--hero-scale, 1));
-  min-height: 680px;
+  height: calc(820px * var(--hero-scale, 1));
+  max-height: 100vh;
+  min-height: 520px;
   background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
   overflow: hidden;
   padding-top: 80px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  --hero-scale: clamp(0.45, calc(100vw / 1580px), 1);
+  --hero-scale: clamp(0.45, min(calc(100vw / 1750px), calc((100vh - 80px) / 880px)), 0.82);
 }
 
 /* Host wrapper reserves the scaled layout box */
@@ -53,15 +54,15 @@
   transform-origin: top left;
 }
 
-/* Floating Gold Coin decoration */
+/* Floating Gold Coin decoration - Always sticks to the left-most edge of the viewport */
 .hero-floating-coin-left {
   position: absolute;
-  left: -40px;
-  top: 180.16px;
-  width: 80.04px;
-  height: 84.26px;
-  filter: blur(2.5px);
-  z-index: 3;
+  left: -10px;
+  top: max(130px, calc(180px * var(--hero-scale, 1)));
+  width: clamp(50px, calc(80px * var(--hero-scale, 1)), 80px);
+  height: auto;
+  filter: blur(2px);
+  z-index: 4;
   pointer-events: none;
   opacity: 0.9;
 }
@@ -104,10 +105,10 @@
   width: 100%;
   max-width: 1580px;
   margin: 0 auto;
-  padding: 2rem 2rem 3rem 2rem;
+  padding: 1.25rem 2rem 2rem 2rem;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 4rem;
+  gap: 3rem;
   align-items: center;
   position: relative;
   z-index: 2;

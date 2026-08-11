@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 2.25rem;
+  margin-bottom: 1.5rem;
   width: fit-content;
 }
 
@@ -60,11 +60,11 @@
 /* Headlines */
 .hero-main-title-v2 {
   font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: 50px;
+  font-size: clamp(34px, 2.9vw, 44px);
   font-weight: 300;
   line-height: 1.05;
   color: #FFFFFF;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
   letter-spacing: -0.01em;
 }
 
@@ -86,14 +86,14 @@
 /* Subcopy */
 .hero-subcopy-wrapper-v2 {
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-subcopy-text-v2 {
   font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: 25.36px;
+  font-size: clamp(16px, 1.4vw, 21px);
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #FFFFFF;
   max-width: 520px;
 }
@@ -101,21 +101,21 @@
 /* CTA buttons group */
 .hero-cta-group-v2 {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .btn-gold-gradient {
   font-family: 'Gilroy', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #000000;
   background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
   border: none;
   box-shadow: 0 4px 18px rgba(235, 175, 32, 0.3);
   transition: all 0.3s ease;
   cursor: pointer;
-  width: 266px;
-  height: 62px;
+  width: clamp(190px, 15vw, 230px);
+  height: 52px;
   padding: 0;
   display: flex;
   align-items: center;
@@ -132,14 +132,14 @@
 .btn-white-outline-v2 {
   font-family: 'Gilroy', 'Outfit', sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #FFFFFF;
   background: transparent;
   border: 1.26px solid #FFFFFF;
   transition: all 0.3s ease;
   cursor: pointer;
-  width: 267px;
-  height: 62px;
+  width: clamp(190px, 15vw, 230px);
+  height: 52px;
   padding: 0;
   display: flex;
   align-items: center;
