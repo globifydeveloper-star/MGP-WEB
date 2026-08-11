@@ -104,15 +104,12 @@ export default function ContactPage() {
   const { states: bmStates, locationsByState } = useBranchMaster();
 
   const statesList = useMemo(() => {
-    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+    return bmStates || [];
   }, [bmStates]);
 
   const availableCities = useMemo(() => {
     if (!formData.state) return [];
-    if (locationsByState[formData.state] && locationsByState[formData.state].length > 0) {
-      return locationsByState[formData.state];
-    }
-    return getCitiesByState(formData.state);
+    return locationsByState[formData.state] || [];
   }, [formData.state, locationsByState]);
 
   const handleChange = (

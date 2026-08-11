@@ -69,9 +69,8 @@ export default function BranchLocator({ states }: { states?: any[] }) {
     setSelectedBranchId(null);
   }, [query, selectedState]);
 
-  // All state summaries sorted by branch count
+  // All state summaries sorted by branch count (Loaded directly from live Branch Master API)
   const stateSummaries = useMemo(() => {
-    // Priority 1: Live Branch Master API
     if (apiStates && apiStates.length > 0) {
       return apiStates.map((stName) => {
         const bList = branchesByState[stName] || [];
@@ -110,38 +109,8 @@ export default function BranchLocator({ states }: { states?: any[] }) {
       }).sort((a, b) => b.count - a.count);
     }
 
-    // Priority 2: Strapi props (Fallback)
-    if (states && states.length > 0) {
-      return states.map((s) => {
-        const branches = s.branches || [];
-        const meta = STATE_COORDINATES[s.name] || { lat: 20.5937, lng: 78.9629, capital: s.name };
-        return {
-          state: s.name,
-          count: branches.length,
-          capitalCity: meta.capital,
-          lat: meta.lat,
-          lng: meta.lng,
-          branches: branches.map((b: any) => ({
-            id: b.id.toString(),
-            name: b.name,
-            url: b.viewDirectionsLink,
-            address: b.address,
-            city: b.city,
-            pincode: b.pincode,
-            state: s.name,
-            timing: b.timing || '10:00 AM - 6:30 PM',
-            phone: b.contactInfo || b.phone,
-            email: b.email,
-            lat: b.lat,
-            lng: b.lng,
-          })),
-        };
-      }).sort((a, b) => b.count - a.count);
-    }
-
-    // Priority 3: Static fallback dataset
-    return getStateSummaries();
-  }, [states, apiStates, branchesByState]);
+    return [];
+  }, [apiStates, branchesByState]);
 
   const allBranches = useMemo(() => {
     return stateSummaries.flatMap((s) => s.branches);

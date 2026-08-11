@@ -19,9 +19,6 @@ import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getStateCitiesMap, getUniqueStates } from '@/data/branchesData';
 import { submitFormSubmission } from '@/lib/strapi';
 
-const STATIC_STATE_CITIES = getStateCitiesMap();
-const STATIC_STATES_LIST = getUniqueStates();
-
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
@@ -29,11 +26,9 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
 
   const { states: bmStates, locationsByState } = useBranchMaster();
 
-  const STATES_LIST = bmStates && bmStates.length > 0 ? bmStates : STATIC_STATES_LIST;
+  const STATES_LIST = bmStates || [];
   const availableCities = selectedState
-    ? (locationsByState[selectedState] && locationsByState[selectedState].length > 0
-        ? locationsByState[selectedState]
-        : STATIC_STATE_CITIES[selectedState] || [])
+    ? locationsByState[selectedState] || []
     : [];
 
   // Close on ESC key press

@@ -58,8 +58,9 @@ export default function BranchSelector() {
   const { states: bmStates, branchesByState } = useBranchMaster();
 
   const states = useMemo(() => {
-    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+    return bmStates || [];
   }, [bmStates]);
+
   const availableBranches = useMemo(() => {
     if (!selectedState) return [];
     if (branchesByState[selectedState] && branchesByState[selectedState].length > 0) {
@@ -78,7 +79,7 @@ export default function BranchSelector() {
         lng: 0,
       }));
     }
-    return getBranchesByState(selectedState);
+    return [];
   }, [selectedState, branchesByState]);
 
   const selectedBranchObj = useMemo(() => {
