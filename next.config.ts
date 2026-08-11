@@ -32,7 +32,6 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-<<<<<<< HEAD
         hostname: "res.cloudinary.com",
         pathname: "/**",
       },
@@ -40,7 +39,6 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.r2.dev",
         pathname: "/**",
-      },
       },
     ],
     // Strapi runs on localhost in dev; Next 16 blocks image URLs that resolve
