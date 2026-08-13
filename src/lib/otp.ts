@@ -42,6 +42,7 @@ export async function sendOtp(phone: string): Promise<OtpResponse> {
 
 export interface EnquiryDetails {
   name: string;
+  email?: string;
   state?: string;
   city?: string;
   purity?: string;

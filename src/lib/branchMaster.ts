@@ -9,12 +9,12 @@ export const BRANCH_MASTER_BASE_URL = (
 export interface BranchMasterDetail {
   branchCode: string;
   branchName: string;
-  contactPersonMobile: string;
-  branchPhoneNo: string;
-  branchEmail: string;
+  contactPersonMobile?: string;
+  branchPhoneNo?: string;
+  branchEmail?: string;
   location: string;
-  addressLine1: string;
-  addressLine2: string;
+  addressLine1?: string;
+  addressLine2?: string;
   state: string;
   pin: string;
   isActive?: boolean;
