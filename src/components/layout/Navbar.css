@@ -477,8 +477,8 @@
   }
 }
 
-/* ── Laptop / Compact Desktop: 1025px–1536px (ThinkPad & 13"-15" laptops) ── */
-@media (min-width: 1025px) and (max-width: 1536px) {
+/* ── Compact Laptop: 1025px–1279px (Small 13" laptops) ── */
+@media (min-width: 1025px) and (max-width: 1279px) {
   .navbar-container-v2 {
     padding: 0 20px;
     display: flex;
@@ -487,24 +487,24 @@
   }
 
   .navbar-logo {
-    width: 185px !important;
+    width: 200px !important;
     height: auto !important;
     flex-shrink: 0;
   }
 
   .navbar-nav-v2 {
-    gap: 12px;
+    gap: 14px;
     transform: none;
   }
 
   .navbar-nav-v2 a {
-    font-size: 15.5px;
+    font-size: 16.5px;
     padding: 6px 6px 10px 6px;
     white-space: nowrap;
   }
 
   .navbar-right-group {
-    gap: 14px;
+    gap: 16px;
     flex-shrink: 0;
   }
 
@@ -513,21 +513,21 @@
   }
 
   .navbar-phone-group svg {
-    width: 20px !important;
-    height: 20px !important;
+    width: 22px !important;
+    height: 22px !important;
   }
 
   .navbar-phone-number {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .navbar-cta-btn-v2 {
-    width: 165px;
-    height: 40px;
+    width: 180px;
+    height: 42px;
   }
 
   .navbar-cta-btn-v2 span {
-    font-size: 15.5px;
+    font-size: 17px;
   }
 }
 
