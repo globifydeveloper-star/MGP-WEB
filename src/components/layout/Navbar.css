@@ -165,7 +165,7 @@
   justify-content: flex-start;
   align-items: center;
   gap: 18px;
-  transform: translateX(-30px);
+  transform: none;
 }
 
 .navbar-nav-v2 a {
@@ -480,47 +480,54 @@
 /* ── Laptop / Compact Desktop: 1025px–1536px (ThinkPad & 13"-15" laptops) ── */
 @media (min-width: 1025px) and (max-width: 1536px) {
   .navbar-container-v2 {
-    padding: 0 32px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .navbar-logo {
-    width: 205px !important;
+    width: 185px !important;
     height: auto !important;
+    flex-shrink: 0;
   }
 
   .navbar-nav-v2 {
-    gap: 16px;
+    gap: 12px;
+    transform: none;
   }
 
   .navbar-nav-v2 a {
-    font-size: 17px;
-    padding: 6px 8px 10px 8px;
+    font-size: 15.5px;
+    padding: 6px 6px 10px 6px;
+    white-space: nowrap;
   }
 
   .navbar-right-group {
-    gap: 18px;
+    gap: 14px;
+    flex-shrink: 0;
   }
 
   .navbar-phone-group {
-    gap: 8px;
+    gap: 6px;
   }
 
   .navbar-phone-group svg {
-    width: 24px !important;
-    height: 24px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   .navbar-phone-number {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .navbar-cta-btn-v2 {
-    width: 190px;
-    height: 44px;
+    width: 165px;
+    height: 40px;
   }
 
   .navbar-cta-btn-v2 span {
-    font-size: 18px;
+    font-size: 15.5px;
   }
 }
 

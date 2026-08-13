@@ -6,6 +6,8 @@
   padding: 1.5rem 2.5rem;
   z-index: 10;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  margin: 0;
 }
 
 .hero-stats-container-v2 {

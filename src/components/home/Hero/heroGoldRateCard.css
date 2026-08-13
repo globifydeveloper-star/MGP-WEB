@@ -3,14 +3,14 @@
 /* Today's Gold Rate Card overlay */
 .hero-gold-rate-card-v2 {
   position: absolute;
-  left: 1300.52px;
-  top: 410.02px;
-  width: 256px;
-  height: 256px;
+  left: 1275px;
+  top: 375px;
+  width: 310px;
+  height: 310px;
   background: #111A41;
-  border-radius: 16px;
-  padding: 34.54px 14.49px 20px 17.51px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  border-radius: 18px;
+  padding: 34.54px 18px 24px 20px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
   outline: 1px solid #EBAF20;
   outline-offset: -1px;
   pointer-events: auto;
@@ -85,7 +85,7 @@
 }
 
 .rate-card-title-v2 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #FFFFFF;
   font-family: 'Gilroy', 'Outfit', sans-serif;
@@ -142,9 +142,9 @@
 }
 
 .rate-card-purity-v2 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.6);
   font-family: 'Gilroy', 'Outfit', sans-serif;
 }
 
@@ -152,7 +152,7 @@
   display: flex;
   align-items: baseline;
   font-weight: 500;
-  font-size: 36px;
+  font-size: 42px;
   margin-top: 4px;
   font-family: 'Gilroy', 'Outfit', sans-serif;
 }
@@ -166,9 +166,9 @@
 }
 
 .rate-card-price-unit {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
-  margin-left: 0.15rem;
+  margin-left: 0.2rem;
 }
 
 .btn-rate-card-cta-v2 {
@@ -178,12 +178,12 @@
   gap: 8px;
   width: 100%;
   margin-top: auto;
-  padding: 14px 12px 14px 14px;
+  padding: 16px 14px;
   background: transparent;
   border: 1px solid #EBAF20;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #EBAF20;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;

@@ -9,16 +9,17 @@
 .hero-section-root-v2 {
   position: relative;
   width: 100%;
-  height: calc(820px * var(--hero-scale, 1));
-  max-height: 100vh;
-  min-height: 520px;
+  height: calc(100dvh - 80px);
+  min-height: calc(100dvh - 80px);
+  box-sizing: border-box;
   background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
   overflow: hidden;
   padding-top: 80px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  --hero-scale: clamp(0.45, min(calc(100vw / 1750px), calc((100vh - 80px) / 880px)), 0.82);
+  justify-content: center;
+  margin: 0;
+  --hero-scale: clamp(0.45, min(calc(100vw / 1680px), calc((100dvh - 80px) / 880px)), 0.95);
 }
 
 /* Host wrapper reserves the scaled layout box */
@@ -94,8 +95,8 @@
   top: 600.53px;
   width: 1100.88px;
   height: 450.49px;
-  transform: rotate(1.9deg);
-  transform-origin: center center;
+  transform: rotate(-5.8deg) translateY(-25px);
+  transform-origin: 85% 50%;
   pointer-events: none;
   z-index: 1;
 }
