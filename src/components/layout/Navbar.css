@@ -165,7 +165,7 @@
   justify-content: flex-start;
   align-items: center;
   gap: 18px;
-  transform: none;
+  transform: translateX(-45px);
 }
 
 .navbar-nav-v2 a {
