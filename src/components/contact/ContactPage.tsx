@@ -7,7 +7,8 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
-import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
+import { useBranchMaster } from '@/hooks/useBranchMaster';
+import { getUniqueStates } from '@/data/branchesData';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
 
@@ -108,10 +109,16 @@ export default function ContactPage() {
     resetOtpState
   } = useOtpVerification({ cooldownSeconds: 60 });
 
-  const statesList = useMemo(() => getUniqueStates(), []);
+  const { states: bmStates, locationsByState } = useBranchMaster();
+
+  const statesList = useMemo(() => {
+    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+  }, [bmStates]);
+
   const availableCities = useMemo(() => {
-    return formData.state ? getCitiesByState(formData.state) : [];
-  }, [formData.state]);
+    if (!formData.state) return [];
+    return locationsByState[formData.state] || [];
+  }, [formData.state, locationsByState]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -139,29 +146,36 @@ export default function ContactPage() {
       return;
     }
     setIsSubmitting(true);
-    const success = await verifyOtp(formData.phone, formData.otp, {
-      name: formData.name,
-      state: formData.state,
-      city: formData.city,
-      message: `[Service: ${formData.service || 'N/A'}] ${formData.message}`,
-      consent: true,
-      sourceForm: 'Contact Us Page',
-      enquiryType: 'Contact Us',
-    });
-    setIsSubmitting(false);
-    if (success) {
-      setIsSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        otp: '',
-        service: '',
-        state: '',
-        city: '',
-        message: '',
+    try {
+      const success = await verifyOtp(formData.phone, formData.otp, {
+        name: formData.name,
+        email: formData.email,
+        state: formData.state,
+        city: formData.city,
+        message: `[Service: ${formData.service || 'N/A'}] ${formData.message}`,
+        consent: true,
+        sourceForm: 'Contact Us Page',
+        enquiryType: formData.service || 'Contact Us',
       });
-      resetOtpState();
+      if (success) {
+        setIsSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          otp: '',
+          service: '',
+          state: '',
+          city: '',
+          message: '',
+        });
+        resetOtpState();
+      }
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      alert('Network error submitting contact form.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

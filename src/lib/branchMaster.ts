@@ -1,9 +1,10 @@
 import { resolveAuthToken } from './authService';
 
-const COMMON_BASE_URL =
-  process.env.BRANCH_MASTER_BASE_URL ||
+export const BRANCH_MASTER_BASE_URL = (
   process.env.NEXT_PUBLIC_BRANCH_MASTER_BASE_URL ||
-  'https://mgpcommonext-mgpuat.muthootexim.com';
+  process.env.BRANCH_MASTER_BASE_URL ||
+  'https://mgpcommonext-mgpuat.muthootexim.com'
+).replace(/\/$/, '');
 
 export interface BranchMasterDetail {
   branchCode: string;
@@ -20,80 +21,103 @@ export interface BranchMasterDetail {
   gstNo?: string;
 }
 
+export interface BranchMasterDetailsItem extends BranchMasterDetail {}
+
 export interface BranchMasterAllData {
   states: string[];
   locationsByState: Record<string, string[]>;
   branchesByState: Record<string, BranchMasterDetail[]>;
   allBranches: BranchMasterDetail[];
+  fetchedAt?: string;
 }
 
+export type CachedBranchMasterDataset = BranchMasterAllData;
+
 export async function fetchAllBranchSummaries(): Promise<Array<{ branchCode: string; branchName: string }>> {
-  const token = await resolveAuthToken();
-  const url = `${COMMON_BASE_URL}/Branch/FetchAll`;
+  try {
+    const token = await resolveAuthToken();
+    const headers: Record<string, string> = { accept: '*/*' };
+    if (token) {
+      headers['Authorization'] = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+    }
 
-  const res = await fetch(url, {
-    method: 'GET',
-    headers: {
-      accept: '*/*',
-      Authorization: `Bearer ${token}`,
-    },
-    next: { revalidate: 86400 },
-  });
+    const url = `${BRANCH_MASTER_BASE_URL}/Branch/FetchAll`;
+    const res = await fetch(url, {
+      method: 'GET',
+      headers,
+      next: { revalidate: 86400 },
+    });
 
-  if (!res.ok) {
-    throw new Error(`FetchAll failed: ${res.status} ${res.statusText}`);
+    if (!res.ok) {
+      console.warn(`fetchAllBranchSummaries failed with HTTP ${res.status}`);
+      return [];
+    }
+
+    const data = await res.json();
+    if (data?.success && Array.isArray(data?.respData?.branches)) {
+      return data.respData.branches;
+    }
+    return [];
+  } catch (err) {
+    console.error('[BranchMaster] fetchAllBranchSummaries error:', err);
+    return [];
   }
-
-  const data = await res.json();
-  if (data?.success && Array.isArray(data?.respData?.branches)) {
-    return data.respData.branches;
-  }
-  return [];
 }
 
 export async function fetchBranchDetail(branchCode: string): Promise<BranchMasterDetail | null> {
-  const token = await resolveAuthToken();
-  const url = `${COMMON_BASE_URL}/Branch/Fetch`;
-
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
+  try {
+    const token = await resolveAuthToken();
+    const headers: Record<string, string> = {
       accept: '*/*',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ branchCode }),
-    next: { revalidate: 86400 },
-  });
+    };
+    if (token) {
+      headers['Authorization'] = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+    }
 
-  if (!res.ok) {
+    const url = `${BRANCH_MASTER_BASE_URL}/Branch/Fetch`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ branchCode }),
+      next: { revalidate: 86400 },
+    });
+
+    if (!res.ok) {
+      return null;
+    }
+
+    const data = await res.json();
+    if (data?.success && data?.respData) {
+      const d = data.respData;
+      return {
+        branchCode: d.branchCode || branchCode,
+        branchName: d.branchName || '',
+        contactPersonMobile: d.contactPersonMobile || '',
+        branchPhoneNo: d.branchPhoneNumber || d.branchPhoneNo || '',
+        branchEmail: d.branchEmailId || d.branchEmail || '',
+        location: d.location || '',
+        addressLine1: d.addressLine1 || '',
+        addressLine2: d.addressLine2 || '',
+        state: d.state || '',
+        pin: d.pin || '',
+        isActive: d.isActive,
+        gstNo: d.gstNo,
+      };
+    }
+    return null;
+  } catch (err) {
+    console.error(`[BranchMaster] fetchBranchDetail error (${branchCode}):`, err);
     return null;
   }
-
-  const data = await res.json();
-  if (data?.success && data?.respData) {
-    const d = data.respData;
-    return {
-      branchCode: d.branchCode || branchCode,
-      branchName: d.branchName || '',
-      contactPersonMobile: d.contactPersonMobile || '',
-      branchPhoneNo: d.branchPhoneNumber || d.branchPhoneNo || '',
-      branchEmail: d.branchEmailId || d.branchEmail || '',
-      location: d.location || '',
-      addressLine1: d.addressLine1 || '',
-      addressLine2: d.addressLine2 || '',
-      state: d.state || '',
-      pin: d.pin || '',
-      isActive: d.isActive,
-      gstNo: d.gstNo,
-    };
-  }
-  return null;
 }
 
-export async function getDailyCachedBranchMasterData(): Promise<BranchMasterAllData> {
+export async function getDailyCachedBranchMasterData(): Promise<BranchMasterAllData | null> {
   try {
     const summaries = await fetchAllBranchSummaries();
+    if (!summaries || summaries.length === 0) {
+      return null;
+    }
 
     const detailPromises = summaries.map((s) =>
       fetchBranchDetail(s.branchCode).catch(() => null)
@@ -103,25 +127,31 @@ export async function getDailyCachedBranchMasterData(): Promise<BranchMasterAllD
       (d): d is BranchMasterDetail => d !== null && !!d.state
     );
 
+    if (details.length === 0) {
+      return null;
+    }
+
     const statesSet = new Set<string>();
     const locationsByState: Record<string, Set<string>> = {};
     const branchesByState: Record<string, BranchMasterDetail[]> = {};
 
     for (const b of details) {
-      if (!b.state) continue;
-      statesSet.add(b.state);
+      const st = b.state.trim();
+      const loc = b.location ? b.location.trim() : '';
 
-      if (!locationsByState[b.state]) {
-        locationsByState[b.state] = new Set<string>();
+      statesSet.add(st);
+
+      if (!locationsByState[st]) {
+        locationsByState[st] = new Set<string>();
       }
-      if (b.location) {
-        locationsByState[b.state].add(b.location);
+      if (loc) {
+        locationsByState[st].add(loc);
       }
 
-      if (!branchesByState[b.state]) {
-        branchesByState[b.state] = [];
+      if (!branchesByState[st]) {
+        branchesByState[st] = [];
       }
-      branchesByState[b.state].push(b);
+      branchesByState[st].push(b);
     }
 
     const states = Array.from(statesSet).sort();
@@ -135,14 +165,10 @@ export async function getDailyCachedBranchMasterData(): Promise<BranchMasterAllD
       locationsByState: formattedLocations,
       branchesByState,
       allBranches: details,
+      fetchedAt: new Date().toISOString(),
     };
   } catch (err) {
     console.error('[BranchMaster] Failed to fetch daily cached data:', err);
-    return {
-      states: [],
-      locationsByState: {},
-      branchesByState: {},
-      allBranches: [],
-    };
+    return null;
   }
 }

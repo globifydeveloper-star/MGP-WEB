@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
+import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './appoinment.css';
 
@@ -26,17 +27,25 @@ export default function Appoinment() {
     mobile: '',
     state: '',
     city: '',
-    purity: '',
     consent: false,
   });
 
   const [otp, setOtp] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const statesList = useMemo(() => getUniqueStates(), []);
+  const { states: bmStates, locationsByState } = useBranchMaster();
+
+  const statesList = useMemo(() => {
+    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+  }, [bmStates]);
+
   const availableCities = useMemo(() => {
-    return formData.state ? getCitiesByState(formData.state) : [];
-  }, [formData.state]);
+    if (!formData.state) return [];
+    if (locationsByState[formData.state] && locationsByState[formData.state].length > 0) {
+      return locationsByState[formData.state];
+    }
+    return getCitiesByState(formData.state);
+  }, [formData.state, locationsByState]);
 
   const {
     state: otpState,
@@ -74,7 +83,7 @@ export default function Appoinment() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.mobile || !otp || !formData.state || !formData.city || !formData.purity) {
+    if (!formData.fullName || !formData.mobile || !otp || !formData.state || !formData.city) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -87,7 +96,6 @@ export default function Appoinment() {
       name: formData.fullName,
       state: formData.state,
       city: formData.city,
-      purity: formData.purity,
       consent: formData.consent,
       sourceForm: 'Mobile Van Appointment',
       enquiryType: 'Mobile Van',
@@ -100,7 +108,6 @@ export default function Appoinment() {
         mobile: '',
         state: '',
         city: '',
-        purity: '',
         consent: false,
       });
       setOtp('');
@@ -262,20 +269,6 @@ export default function Appoinment() {
                   </div>
                 </div>
 
-                <div className="apt-field apt-field-full">
-                  <label htmlFor="apt-purity" className="apt-label">Purity<span className="apt-required">*</span></label>
-                  <input
-                    id="apt-purity"
-                    name="purity"
-                    type="text"
-                    className="apt-input"
-                    placeholder="Enter Purity"
-                    disabled={otpState === 'sending' || otpState === 'verifying'}
-                    value={formData.purity}
-                    onChange={handleChange}
-                  />
-                </div>
-
                 <label className="apt-consent">
                   <input
                     type="checkbox"
@@ -306,7 +299,6 @@ export default function Appoinment() {
                     !otp ||
                     !formData.state ||
                     !formData.city ||
-                    !formData.purity ||
                     !formData.consent
                   }
                   className="apt-submit-btn"

@@ -72,7 +72,6 @@ export async function verifyOtp(
       body: JSON.stringify({ phone, otp, ...details }),
     });
 
-
     const data = await res.json();
     if (!res.ok || !data.verified) {
       return {

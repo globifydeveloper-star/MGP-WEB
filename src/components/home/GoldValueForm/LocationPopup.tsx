@@ -15,15 +15,21 @@ interface LocationPopupProps {
   onSuccess?: () => void;
 }
 
+import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getStateCitiesMap, getUniqueStates } from '@/data/branchesData';
-
-const STATE_CITIES = getStateCitiesMap();
-const STATES_LIST = getUniqueStates();
+import { submitFormSubmission } from '@/lib/strapi';
 
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { states: bmStates, locationsByState } = useBranchMaster();
+
+  const STATES_LIST = bmStates || [];
+  const availableCities = selectedState
+    ? locationsByState[selectedState] || []
+    : [];
 
   // Close on ESC key press
   useEffect(() => {
@@ -58,12 +64,33 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
     setSelectedCity(''); // Reset city when state changes
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedState || !selectedCity) {
       alert('Please select both state and city.');
       return;
     }
+
+    try {
+      await submitFormSubmission({
+        name: clientData.name,
+        phone: clientData.phone,
+        branch: `${selectedCity}, ${selectedState}`,
+        enquiryType: 'Enquire Now',
+        sourceForm: `Gold Value Calculator (Purity: ${clientData.purity || 'N/A'}, Weight: ${clientData.weight || '0'}g)`,
+        purity: clientData.purity,
+        weight: clientData.weight,
+        details: {
+          purity: clientData.purity,
+          weight: clientData.weight,
+          state: selectedState,
+          city: selectedCity,
+        },
+      });
+    } catch (err) {
+      console.error('Gold value estimate submission error:', err);
+    }
+
     setIsSubmitted(true);
     if (onSuccess) {
       onSuccess();
@@ -131,7 +158,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
                   className="lp-select"
                 >
                   <option value="" disabled>Select City</option>
-                  {selectedState && STATE_CITIES[selectedState]?.map(city => (
+                  {availableCities.map(city => (
                     <option key={city} value={city}>{city}</option>
                   ))}
                 </select>

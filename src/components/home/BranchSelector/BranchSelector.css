@@ -40,13 +40,13 @@
   will-change: transform, opacity;
 }
 
-.branch-selector-bar.is-popped-up {
+.branch-selector-bar.is-visible {
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
 }
 
-.branch-selector-bar.is-popped-down {
+.branch-selector-bar.is-hidden {
   transform: translateY(120%);
   opacity: 0;
   visibility: hidden;

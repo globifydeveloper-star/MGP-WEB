@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
+import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './SellGoldHero.css';
 import coupleImg from '@/assets/images/gs-hro.png';
@@ -21,10 +22,19 @@ export default function SellGoldHero() {
     consent: true
   });
 
-  const statesList = useMemo(() => getUniqueStates(), []);
+  const { states: bmStates, locationsByState } = useBranchMaster();
+
+  const statesList = useMemo(() => {
+    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+  }, [bmStates]);
+
   const availableCities = useMemo(() => {
-    return formData.state ? getCitiesByState(formData.state) : [];
-  }, [formData.state]);
+    if (!formData.state) return [];
+    if (locationsByState[formData.state] && locationsByState[formData.state].length > 0) {
+      return locationsByState[formData.state];
+    }
+    return getCitiesByState(formData.state);
+  }, [formData.state, locationsByState]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 

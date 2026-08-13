@@ -3,19 +3,57 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { getUniqueStates, getBranchesByState, Branch } from '@/data/branchesData';
+import { getUniqueStates, getBranchesByState } from '@/data/branchesData';
 import './BranchSelector.css';
 
 export default function BranchSelector() {
   const pathname = usePathname();
   const [selectedState, setSelectedState] = useState('');
   const [selectedBranchId, setSelectedBranchId] = useState('');
-  const [isOpen, setIsOpen] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
-  // Reset selector bar to OPEN state on route change
+  // Reset selector bar to VISIBLE state on route change
   useEffect(() => {
-    setIsOpen(true);
+    setIsVisible(true);
   }, [pathname]);
+
+  // Hide bar on scroll down, reveal on scroll up
+  useEffect(() => {
+    let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+    let ticking = false;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Always show when near the very top of the page
+      if (currentScrollY < 80) {
+        setIsVisible(true);
+      } else {
+        const delta = currentScrollY - lastScrollY;
+        // Scroll down threshold (> 6px) -> Hide bar
+        if (delta > 6) {
+          setIsVisible(false);
+        }
+        // Scroll up threshold (< -6px) -> Show bar
+        else if (delta < -6) {
+          setIsVisible(true);
+        }
+      }
+
+      lastScrollY = currentScrollY;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(handleScroll);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const { states: bmStates, branchesByState } = useBranchMaster();
 
@@ -66,32 +104,8 @@ export default function BranchSelector() {
 
   return (
     <div className="branch-selector-wrapper">
-      {/* Minimized Trigger Tab (visible when minimized) */}
-      <div
-        className={`branch-selector-minimized-tab ${!isOpen ? 'is-visible' : 'is-hidden'}`}
-        onClick={() => setIsOpen(true)}
-        role="button"
-        tabIndex={0}
-        aria-label="Open branch selector"
-      >
-        <span className="minimized-rate-badge">22K/G: ₹8,629</span>
-        <span className="minimized-tab-label">Find Branch &amp; Directions</span>
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="expand-chevron"
-          style={{ width: 16, height: 16 }}
-        >
-          <polyline points="18 15 12 9 6 15" />
-        </svg>
-      </div>
-
-      {/* Main Branch Selector Bar (Open by default, minimizes on downward arrow click) */}
-      <div className={`branch-selector-bar glass-panel ${isOpen ? 'is-popped-up' : 'is-popped-down'}`}>
+      {/* Main Branch Selector Bar (Visible at top of page & on light scroll up; hidden on scroll down) */}
+      <div className={`branch-selector-bar glass-panel ${isVisible ? 'is-visible' : 'is-hidden'}`}>
         {/* Header Row: Info & Rate */}
         <div className="selector-header-row">
           <div className="selector-section-info">
@@ -149,29 +163,6 @@ export default function BranchSelector() {
         >
           Get Direction
         </button>
-
-        {/* Action button (Downward Arrow to Minimize) */}
-        <div className="selector-actions">
-          <button
-            type="button"
-            className="minimize-selector-btn"
-            onClick={() => setIsOpen(false)}
-            aria-label="Minimize branch selector"
-            title="Minimize"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="minimize-icon"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-        </div>
       </div>
     </div>
   );

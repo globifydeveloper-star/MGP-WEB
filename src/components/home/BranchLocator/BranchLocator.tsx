@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import dynamic from 'next/dynamic';
 import {
   getStateSummaries,
   STATE_COORDINATES,
+  resolveBranchCoordinates,
 } from '@/data/branchesData';
+import { useBranchMaster } from '@/hooks/useBranchMaster';
 import './BranchLocator.css';
 
 import BranchMap from './BranchMap';
-
 
 const SearchIcon = () => (
   <svg
@@ -62,40 +62,55 @@ export default function BranchLocator({ states }: { states?: any[] }) {
   const [showAllStates, setShowAllStates] = useState(false);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
 
+  const { states: apiStates, branchesByState } = useBranchMaster();
+
   // Clear the pinned branch whenever the user changes search/state context
   useEffect(() => {
     setSelectedBranchId(null);
   }, [query, selectedState]);
 
-  // All state summaries sorted by branch count
+  // All state summaries sorted by branch count (Loaded directly from live Branch Master API)
   const stateSummaries = useMemo(() => {
-    if (!states || states.length === 0) {
-      return getStateSummaries();
+    if (apiStates && apiStates.length > 0) {
+      return apiStates.map((stName) => {
+        const bList = branchesByState[stName] || [];
+        const meta = STATE_COORDINATES[stName] || { lat: 20.5937, lng: 78.9629, capital: stName };
+        return {
+          state: stName,
+          count: bList.length,
+          capitalCity: meta.capital,
+          lat: meta.lat,
+          lng: meta.lng,
+          branches: bList.map((b, idx) => {
+            const coords = resolveBranchCoordinates({
+              branchCode: b.branchCode,
+              name: b.branchName,
+              location: b.location,
+              state: stName,
+            });
+            return {
+              id: b.branchCode || `${stName}-${idx}`,
+              name: b.branchName || `Muthoot Gold Point - ${b.location}`,
+              url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                `Muthoot Gold Point, ${b.addressLine1 || ''}, ${b.location}, ${stName}`
+              )}`,
+              address: b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location,
+              city: b.location,
+              pincode: b.pin,
+              state: stName,
+              phone: b.branchPhoneNo || b.contactPersonMobile,
+              email: b.branchEmail,
+              timing: '10:00 AM - 6:30 PM',
+              lat: coords.lat,
+              lng: coords.lng,
+            };
+          }),
+        };
+      }).sort((a, b) => b.count - a.count);
     }
-    return states.map((s) => {
-      const branches = s.branches || [];
-      const meta = STATE_COORDINATES[s.name] || { lat: 20.5937, lng: 78.9629, capital: s.name };
-      return {
-        state: s.name,
-        count: branches.length,
-        capitalCity: meta.capital,
-        lat: meta.lat,
-        lng: meta.lng,
-        branches: branches.map((b: any) => ({
-          id: b.id.toString(),
-          name: b.name,
-          url: b.viewDirectionsLink,
-          address: b.address,
-          city: b.city,
-          pincode: b.pincode,
-          state: s.name,
-          timing: b.timing,
-          lat: b.lat,
-          lng: b.lng,
-        })),
-      };
-    }).sort((a, b) => b.count - a.count);
-  }, [states]);
+
+    return [];
+  }, [apiStates, branchesByState]);
 
   const allBranches = useMemo(() => {
     return stateSummaries.flatMap((s) => s.branches);
@@ -121,7 +136,7 @@ export default function BranchLocator({ states }: { states?: any[] }) {
     return stateSummaries.find((s) => s.state === selectedState) || null;
   }, [selectedState, stateSummaries]);
 
-  // States to display in initial view (top 4 or all 19)
+  // States to display in initial view (top 4 or all)
   const visibleStateSummaries = useMemo(() => {
     if (showAllStates) return stateSummaries;
     return stateSummaries.slice(0, 4);
@@ -129,7 +144,6 @@ export default function BranchLocator({ states }: { states?: any[] }) {
 
   // Map marker logic
   const mapMarkers = useMemo(() => {
-    // Mode 1: Search query active -> plot matched branches
     if (query.trim() !== '') {
       return filteredBranches.map((b) => ({
         id: b.id,
@@ -140,7 +154,6 @@ export default function BranchLocator({ states }: { states?: any[] }) {
       }));
     }
 
-    // Mode 2: Specific State Selected -> plot state branches
     if (activeStateSummary) {
       return activeStateSummary.branches.map((b: any) => ({
         id: b.id,
@@ -151,7 +164,6 @@ export default function BranchLocator({ states }: { states?: any[] }) {
       }));
     }
 
-    // Mode 3: Default State Overview -> plot top state capital markers
     return visibleStateSummaries.map((s) => ({
       id: s.state,
       label: s.state,
@@ -161,13 +173,11 @@ export default function BranchLocator({ states }: { states?: any[] }) {
     }));
   }, [query, filteredBranches, activeStateSummary, visibleStateSummaries]);
 
-  // Currently pinned branch (set when a branch card is clicked)
   const selectedBranch = useMemo(() => {
     if (!selectedBranchId) return null;
     return allBranches.find((b) => b.id === selectedBranchId) || null;
   }, [selectedBranchId, allBranches]);
 
-  // Map center calculation
   const mapCenter: [number, number] = useMemo(() => {
     if (selectedBranch) {
       return [selectedBranch.lat, selectedBranch.lng];
@@ -178,7 +188,7 @@ export default function BranchLocator({ states }: { states?: any[] }) {
     if (filteredBranches.length > 0) {
       return [filteredBranches[0].lat, filteredBranches[0].lng];
     }
-    return [18.5, 78.5]; // Central India default
+    return [18.5, 78.5];
   }, [selectedBranch, activeStateSummary, filteredBranches]);
 
   const mapZoom = selectedBranch ? 15 : activeStateSummary ? 7 : query.trim() ? 8 : 5;
@@ -225,7 +235,7 @@ export default function BranchLocator({ states }: { states?: any[] }) {
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
-                  if (selectedState) setSelectedState(null); // Reset state filter when typing
+                  if (selectedState) setSelectedState(null);
                 }}
                 aria-label="Search by city, state, locality or pincode"
               />
@@ -282,6 +292,16 @@ export default function BranchLocator({ states }: { states?: any[] }) {
                         <p className="branch-locator-branch-address">
                           <MapPinIcon /> {branch.address}, {branch.city} - {branch.pincode}
                         </p>
+                        {branch.phone && (
+                          <p className="branch-locator-branch-contact">
+                            📞 Phone: {branch.phone}
+                          </p>
+                        )}
+                        {branch.email && (
+                          <p className="branch-locator-branch-contact">
+                            ✉️ Email: {branch.email}
+                          </p>
+                        )}
                         <div className="branch-locator-branch-footer">
                           <span className="branch-locator-branch-timing">
                             <ClockIcon /> {branch.timing}
@@ -329,6 +349,16 @@ export default function BranchLocator({ states }: { states?: any[] }) {
                       <p className="branch-locator-branch-address">
                         <MapPinIcon /> {branch.address}, {branch.city} - {branch.pincode}
                       </p>
+                      {branch.phone && (
+                        <p className="branch-locator-branch-contact">
+                          📞 Phone: {branch.phone}
+                        </p>
+                      )}
+                      {branch.email && (
+                        <p className="branch-locator-branch-contact">
+                          ✉️ Email: {branch.email}
+                        </p>
+                      )}
                       <div className="branch-locator-branch-footer">
                         <span className="branch-locator-branch-timing">
                           <ClockIcon /> {branch.timing}
@@ -348,7 +378,7 @@ export default function BranchLocator({ states }: { states?: any[] }) {
               </div>
             )}
 
-            {/* CASE 3: DEFAULT STATE SUMMARY VIEW (Showing Top 4 or All States) */}
+            {/* CASE 3: DEFAULT STATE SUMMARY VIEW */}
             {query.trim() === '' && !activeStateSummary && (
               <div className="branch-locator-content">
                 <div className="branch-locator-states-header">
