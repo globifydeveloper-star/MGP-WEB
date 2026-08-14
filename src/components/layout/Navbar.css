@@ -235,7 +235,7 @@
   display: flex;
   flex-direction: column;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
   font-weight: 500;
   white-space: nowrap;
