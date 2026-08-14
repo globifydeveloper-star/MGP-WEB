@@ -714,3 +714,50 @@ export async function getStatesAndBranches(): Promise<State[]> {
     return [];
   }
 }
+
+export interface DynamicPageSection {
+  id: number;
+  __component: string;
+  [key: string]: any;
+}
+
+export interface DynamicPage {
+  id: number;
+  title: string;
+  slug: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  sections: DynamicPageSection[];
+}
+
+export async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
+  try {
+    const res = await fetch(
+      `${STRAPI_URL}/api/pages?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[sections][populate]=*`,
+      { cache: 'no-store' }
+    );
+    if (!res.ok) {
+      console.warn(`getPageBySlug: Strapi responded with ${res.status}`);
+      return null;
+    }
+    const json = await res.json();
+    const data = Array.isArray(json?.data) ? json.data : [];
+    if (data.length === 0) return null;
+    const flat = unwrap<any>(data[0]);
+    const rawSections = Array.isArray(flat.sections) ? flat.sections : [];
+    const sections = rawSections.map((sec: any) => unwrap<DynamicPageSection>(sec));
+    return {
+      id: flat.id,
+      title: flat.title,
+      slug: flat.slug,
+      seoTitle: flat.seoTitle,
+      seoDescription: flat.seoDescription,
+      sections,
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getPageBySlug: failed to fetch dynamic page', err);
+    return null;
+  }
+}
+
