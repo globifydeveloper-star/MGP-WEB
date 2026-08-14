@@ -136,7 +136,10 @@ export default function ContactPage() {
       alert('Please enter a valid 10-digit mobile number');
       return;
     }
-    await sendOtp(formData.phone);
+    const res = await sendOtp(formData.phone);
+    if (!res) {
+      alert('Failed to send OTP. Please try again.');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -170,6 +173,8 @@ export default function ContactPage() {
           message: '',
         });
         resetOtpState();
+      } else {
+        alert(otpErrorMessage || 'Incorrect or expired OTP. Please try again.');
       }
     } catch (err) {
       console.error('Contact submission error:', err);
@@ -368,6 +373,12 @@ export default function ContactPage() {
                       </h2>
                       <div className="cp-form-title-line" />
                     </div>
+
+                    {otpErrorMessage && (
+                      <div className="cp-error-banner" style={{ color: '#e74c3c', fontSize: '13px', marginBottom: '12px', textAlign: 'center', background: '#fdf2f2', padding: '8px 12px', borderRadius: '6px', border: '1px solid #f8d7da' }}>
+                        {otpErrorMessage}
+                      </div>
+                    )}
 
                     {/* Row 1: Full Name & Email */}
                     <div className="cp-form-row-2">
