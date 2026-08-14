@@ -1,4 +1,7 @@
+﻿import { cache } from 'react';
+
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL ?? 'http://localhost:1337';
+const REVALIDATE_INTERVAL = 60; // 60s ISR background refresh
 
 export interface Category {
   id: number;
@@ -74,10 +77,10 @@ function isDynamicServerError(err: any): boolean {
   );
 }
 
-export async function getBlogPosts(): Promise<BlogPost[]> {
+export const getBlogPosts = cache(async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/blog-posts?populate=*&sort=publishedAt:desc`, {
-      cache: 'no-store',
+      next: { revalidate: REVALIDATE_INTERVAL },
     });
     if (!res.ok) {
       console.error(`getBlogPosts: Strapi responded with ${res.status}`);
@@ -93,11 +96,13 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     console.error('getBlogPosts: failed to fetch blog posts', err);
     return [];
   }
-}
+});
 
-export async function getCategories(): Promise<Category[]> {
+export const getCategories = cache(async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/categories`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/categories`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.error(`getCategories: Strapi responded with ${res.status}`);
       return [];
@@ -112,13 +117,13 @@ export async function getCategories(): Promise<Category[]> {
     console.error('getCategories: failed to fetch categories', err);
     return [];
   }
-}
+});
 
-export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+export const getBlogPostBySlug = cache(async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
     const res = await fetch(
       `${STRAPI_URL}/api/blog-posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
-      { cache: 'no-store' }
+      { next: { revalidate: REVALIDATE_INTERVAL } }
     );
     if (!res.ok) {
       console.error(`getBlogPostBySlug: Strapi responded with ${res.status}`);
@@ -135,7 +140,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     console.error('getBlogPostBySlug: failed to fetch blog post', err);
     return null;
   }
-}
+});
 
 export interface BlogPageSettings {
   heroHeading?: string;
@@ -156,9 +161,11 @@ export interface BlogPageSettings {
   sortOldestLabel?: string;
 }
 
-export async function getBlogPageSettings(): Promise<BlogPageSettings | null> {
+export const getBlogPageSettings = cache(async function getBlogPageSettings(): Promise<BlogPageSettings | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/blog-page-setting?populate=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/blog-page-setting?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getBlogPageSettings: Strapi responded with ${res.status} (using default fallbacks)`);
       return null;
@@ -191,7 +198,7 @@ export async function getBlogPageSettings(): Promise<BlogPageSettings | null> {
     console.error('getBlogPageSettings: failed to fetch settings', err);
     return null;
   }
-}
+});
 
 // --- CAREER MODULE ACCESSORS ---
 
@@ -230,9 +237,11 @@ export interface CareerPageSettingsData {
   seoDescription?: string;
 }
 
-export async function getCareerPageSettings(): Promise<CareerPageSettingsData | null> {
+export const getCareerPageSettings = cache(async function getCareerPageSettings(): Promise<CareerPageSettingsData | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/career-page-setting?populate=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/career-page-setting?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) return null;
     const json = await res.json();
     if (!json?.data) return null;
@@ -251,11 +260,13 @@ export async function getCareerPageSettings(): Promise<CareerPageSettingsData | 
     console.error('getCareerPageSettings error:', err);
     return null;
   }
-}
+});
 
-export async function getJobDepartments(): Promise<JobDepartment[]> {
+export const getJobDepartments = cache(async function getJobDepartments(): Promise<JobDepartment[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/job-departments`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/job-departments`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) return [];
     const json = await res.json();
     const data = Array.isArray(json?.data) ? json.data : [];
@@ -265,11 +276,13 @@ export async function getJobDepartments(): Promise<JobDepartment[]> {
     console.error('getJobDepartments error:', err);
     return [];
   }
-}
+});
 
-export async function getJobPositions(): Promise<JobPosition[]> {
+export const getJobPositions = cache(async function getJobPositions(): Promise<JobPosition[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/job-positions?populate=*&filters[isOpen][$eq]=true`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/job-positions?populate=*&filters[isOpen][$eq]=true`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) return [];
     const json = await res.json();
     const data = Array.isArray(json?.data) ? json.data : [];
@@ -299,7 +312,7 @@ export async function getJobPositions(): Promise<JobPosition[]> {
     console.error('getJobPositions error:', err);
     return [];
   }
-}
+});
 
 export async function submitJobApplication(payload: {
   fullName: string;
@@ -478,9 +491,11 @@ function getMediaUrl(media: any): string | undefined {
   return flat?.url ? (resolveMediaUrl(flat.url) ?? flat.url) : undefined;
 }
 
-export async function getHomepageData(): Promise<HomepageData | null> {
+export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/homepage?populate=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/homepage?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getHomepageData: Strapi responded with ${res.status}`);
       return null;
@@ -509,11 +524,13 @@ export async function getHomepageData(): Promise<HomepageData | null> {
     console.error('getHomepageData: failed to fetch homepage settings', err);
     return null;
   }
-}
+});
 
-export async function getHeroSlides(): Promise<HeroSlide[]> {
+export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroSlide[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/hero-slides?populate=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/hero-slides?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getHeroSlides: Strapi responded with ${res.status}`);
       return [];
@@ -536,11 +553,13 @@ export async function getHeroSlides(): Promise<HeroSlide[]> {
     console.error('getHeroSlides: failed to fetch hero slides', err);
     return [];
   }
-}
+});
 
-export async function getProcessSteps(): Promise<ProcessStep[]> {
+export const getProcessSteps = cache(async function getProcessSteps(): Promise<ProcessStep[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/process-steps?populate=*&sort=order:asc`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/process-steps?populate=*&sort=order:asc`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getProcessSteps: Strapi responded with ${res.status}`);
       return [];
@@ -563,11 +582,13 @@ export async function getProcessSteps(): Promise<ProcessStep[]> {
     console.error('getProcessSteps: failed to fetch process steps', err);
     return [];
   }
-}
+});
 
-export async function getDifferenceBoxes(): Promise<DifferenceBox[]> {
+export const getDifferenceBoxes = cache(async function getDifferenceBoxes(): Promise<DifferenceBox[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/difference-boxes?populate=*&sort=order:asc`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/difference-boxes?populate=*&sort=order:asc`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getDifferenceBoxes: Strapi responded with ${res.status}`);
       return [];
@@ -590,11 +611,13 @@ export async function getDifferenceBoxes(): Promise<DifferenceBox[]> {
     console.error('getDifferenceBoxes: failed to fetch difference boxes', err);
     return [];
   }
-}
+});
 
-export async function getPromoSlides(): Promise<PromoSlide[]> {
+export const getPromoSlides = cache(async function getPromoSlides(): Promise<PromoSlide[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/promo-slides?populate=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/promo-slides?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getPromoSlides: Strapi responded with ${res.status}`);
       return [];
@@ -617,11 +640,13 @@ export async function getPromoSlides(): Promise<PromoSlide[]> {
     console.error('getPromoSlides: failed to fetch promo slides', err);
     return [];
   }
-}
+});
 
-export async function getTestimonials(): Promise<Testimonial[]> {
+export const getTestimonials = cache(async function getTestimonials(): Promise<Testimonial[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/testimonials?populate=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/testimonials?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getTestimonials: Strapi responded with ${res.status}`);
       return [];
@@ -644,13 +669,13 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     console.error('getTestimonials: failed to fetch testimonials', err);
     return [];
   }
-}
+});
 
-export async function getFaqs(section: 'home' | 'gold-rate' = 'home'): Promise<FAQ[]> {
+export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate' = 'home'): Promise<FAQ[]> {
   try {
     const res = await fetch(
       `${STRAPI_URL}/api/faqs?filters[section][$eq]=${section}&populate=*&sort=order:asc`,
-      { cache: 'no-store' }
+      { next: { revalidate: REVALIDATE_INTERVAL } }
     );
     if (!res.ok) {
       console.warn(`getFaqs: Strapi responded with ${res.status}`);
@@ -673,11 +698,13 @@ export async function getFaqs(section: 'home' | 'gold-rate' = 'home'): Promise<F
     console.error('getFaqs: failed to fetch FAQs', err);
     return [];
   }
-}
+});
 
-export async function getStatesAndBranches(): Promise<State[]> {
+export const getStatesAndBranches = cache(async function getStatesAndBranches(): Promise<State[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/states?populate[branches][populate]=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/states?populate[branches][populate]=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       console.warn(`getStatesAndBranches: Strapi responded with ${res.status}`);
       return [];
@@ -713,7 +740,7 @@ export async function getStatesAndBranches(): Promise<State[]> {
     console.error('getStatesAndBranches: failed to fetch states/branches', err);
     return [];
   }
-}
+});
 
 export interface DynamicPageSection {
   id: number;
@@ -730,11 +757,11 @@ export interface DynamicPage {
   sections: DynamicPageSection[];
 }
 
-export async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
+export const getPageBySlug = cache(async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
   try {
     const res = await fetch(
       `${STRAPI_URL}/api/pages?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[sections][populate]=*`,
-      { cache: 'no-store' }
+      { next: { revalidate: REVALIDATE_INTERVAL } }
     );
     if (!res.ok) {
       console.warn(`getPageBySlug: Strapi responded with ${res.status}`);
@@ -759,7 +786,7 @@ export async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
     console.error('getPageBySlug: failed to fetch dynamic page', err);
     return null;
   }
-}
+});
 
 export interface NavItem {
   id?: number;
@@ -778,7 +805,9 @@ export interface NavbarSetting {
 
 export async function getNavbarSetting(): Promise<NavbarSetting | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/navbar-setting?populate=*`, { cache: 'no-store' });
+    const res = await fetch(`${STRAPI_URL}/api/navbar-setting?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
     if (!res.ok) {
       return null;
     }
@@ -808,5 +837,3 @@ export async function getNavbarSetting(): Promise<NavbarSetting | null> {
     return null;
   }
 }
-
-
