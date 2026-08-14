@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import './SellGoldModal.css';
 
@@ -134,12 +135,18 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="sg-modal-overlay" onClick={onClose}>
-      <div className="sg-modal-container" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="sg-modal-container"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sg-modal-title"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="sg-modal-header">
-          <h2 className="sg-modal-title">
+          <h2 id="sg-modal-title" className="sg-modal-title">
             {isSubmitted ? "Request Received" : "Sell Your Gold Instantly – Get in Touch"}
           </h2>
           <button className="sg-modal-close-btn" onClick={onClose} aria-label="Close modal">
@@ -325,6 +332,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
           </form>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

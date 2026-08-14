@@ -11,7 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000; /* Ensure it stays above everything, including footer selector */
+  /* This portal layer must stay above the global branch selector and hero chrome. */
+  z-index: 20000;
   padding: 16px;
 }
 
