@@ -11,6 +11,7 @@ interface SellGoldModalProps {
 
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getStateCitiesMap } from '@/data/branchesData';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const STATIC_STATE_CITIES = getStateCitiesMap();
 
@@ -55,19 +56,20 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     resetOtpState
   } = useOtpVerification({ cooldownSeconds: 60 });
 
+  // Lock background scroll completely on mobile & desktop when modal is open
+  useBodyScrollLock(isOpen);
+
   // Close on ESC key press
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
-      document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);

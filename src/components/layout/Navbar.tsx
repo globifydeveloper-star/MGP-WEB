@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import logoImg from '@/assets/images/logo.png';
 import SellGoldModal from './SellGoldModal';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -22,6 +23,14 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
   const pathname = usePathname();
+
+  // Lock background scroll completely on mobile & desktop when hamburger menu is open
+  useBodyScrollLock(menuOpen);
+
+  // Close mobile menu on pathname change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   return (
     <header className={`navbar-header-v2 ${menuOpen ? 'header-menu-active' : ''}`}>

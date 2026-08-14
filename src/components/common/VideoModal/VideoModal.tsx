@@ -47,7 +47,7 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
     setIsPlaying(false);
   }, [activeCode, isOpen]);
 
-  // Handle ESC key to close modal & lock body scroll
+  // Handle ESC key to close modal & lock body/html scroll
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -56,12 +56,15 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
     };
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);

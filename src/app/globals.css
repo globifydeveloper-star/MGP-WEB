@@ -239,3 +239,12 @@ h6 {
   h3 { font-size: 1.5rem; }
   h4 { font-size: 1.25rem; }
 }
+
+/* Prevent mobile overscroll chaining on modal overlays and mobile nav */
+.sg-modal-overlay,
+.lp-modal-overlay,
+.vm-backdrop,
+.mobile-menu-dropdown {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}

@@ -11,10 +11,12 @@ export default function BranchSelector() {
   const [selectedState, setSelectedState] = useState('');
   const [selectedBranchId, setSelectedBranchId] = useState('');
   const [isVisible, setIsVisible] = useState(true);
+  const [isMinimized, setIsMinimized] = useState(false);
 
-  // Reset selector bar to VISIBLE state on route change
+  // Reset selector bar to VISIBLE & un-minimized state on route change
   useEffect(() => {
     setIsVisible(true);
+    setIsMinimized(false);
   }, [pathname]);
 
   // Hide bar on scroll down, reveal on scroll up
@@ -104,8 +106,8 @@ export default function BranchSelector() {
 
   return (
     <div className="branch-selector-wrapper">
-      {/* Main Branch Selector Bar (Visible at top of page & on light scroll up; hidden on scroll down) */}
-      <div className={`branch-selector-bar glass-panel ${isVisible ? 'is-visible' : 'is-hidden'}`}>
+      {/* Main Branch Selector Bar */}
+      <div className={`branch-selector-bar glass-panel ${!isMinimized && isVisible ? 'is-visible' : 'is-hidden'}`}>
         {/* Header Row: Info & Rate */}
         <div className="selector-header-row">
           <div className="selector-section-info">
@@ -163,6 +165,63 @@ export default function BranchSelector() {
         >
           Get Direction
         </button>
+
+        {/* Actions: Minimize Button */}
+        <div className="selector-actions">
+          <button
+            type="button"
+            className="minimize-selector-btn"
+            onClick={() => setIsMinimized(true)}
+            aria-label="Minimize Branch Locator"
+            title="Minimize"
+          >
+            <svg
+              className="minimize-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Minimized Tab Widget */}
+      <div
+        className={`branch-selector-minimized-tab ${isMinimized ? 'is-visible' : 'is-hidden'}`}
+        onClick={() => {
+          setIsMinimized(false);
+          setIsVisible(true);
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Expand Branch Locator"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setIsMinimized(false);
+            setIsVisible(true);
+          }
+        }}
+      >
+        <span className="minimized-rate-badge">22K/G ₹8,629</span>
+        <span className="minimized-tab-label">Select Branch</span>
+        <svg
+          className="expand-chevron"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="18 15 12 9 6 15" />
+        </svg>
       </div>
     </div>
   );

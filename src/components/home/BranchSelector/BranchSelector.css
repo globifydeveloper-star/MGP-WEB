@@ -175,28 +175,34 @@
 
 .close-selector-btn,
 .minimize-selector-btn {
-  background: transparent;
-  border: none;
+  background: rgba(241, 185, 51, 0.12);
+  border: 1px solid rgba(241, 185, 51, 0.35);
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
+  color: var(--gold-primary);
   transition: var(--transition-smooth);
-  padding: 0.25rem;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .close-selector-btn:hover,
 .minimize-selector-btn:hover {
+  background: rgba(241, 185, 51, 0.28);
   color: var(--text-white);
-  transform: scale(1.1);
+  border-color: var(--gold-primary);
+  transform: scale(1.08);
 }
 
 .close-icon,
 .minimize-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .selector-actions {

@@ -18,6 +18,7 @@ interface LocationPopupProps {
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getStateCitiesMap, getUniqueStates } from '@/data/branchesData';
 import { submitFormSubmission } from '@/lib/strapi';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
@@ -31,19 +32,20 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
     ? locationsByState[selectedState] || []
     : [];
 
+  // Lock background scroll completely on mobile & desktop when modal is open
+  useBodyScrollLock(isOpen);
+
   // Close on ESC key press
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
-      document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
