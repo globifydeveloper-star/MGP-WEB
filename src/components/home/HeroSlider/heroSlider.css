@@ -288,3 +288,19 @@
     font-size: 0.95rem;
   }
 }
+
+/* Shared carousel controls and responsive promo image treatment. */
+.hero-slider-stack { touch-action: pan-y; }
+.hero-slider-dots { position: absolute; left: 50%; bottom: 18px; z-index: 5; display: flex; gap: 9px; transform: translateX(-50%); }
+.hero-slider-dot { width: 9px; height: 9px; padding: 0; border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 999px; background: rgba(6, 19, 46, 0.55); cursor: pointer; transition: width 0.2s ease, background-color 0.2s ease; }
+.hero-slider-dot.is-active { width: 27px; background: #EBAF20; border-color: #EBAF20; }
+.hero-slide-two-btn { flex: 0 1 230px; }
+
+@media (max-width: 1024px) {
+  .hero-slide-two-bg { background: #06132E; }
+  .hero-slide-two-bg-img { object-fit: contain; object-position: center top; }
+}
+
+@media (max-width: 640px) {
+  .hero-slide-two-btn { width: 100%; max-width: 320px; flex-basis: 52px; }
+}

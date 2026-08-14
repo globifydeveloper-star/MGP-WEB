@@ -3,8 +3,16 @@ import goldsImg from '@/assets/images/golds.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import './heroSlider.css';
 
+export interface HeroSlideData {
+  heroText?: string;
+  heroSubtext?: string;
+  heroImage?: string;
+  button1?: { enabled?: boolean; label?: string; link?: string };
+  button2?: { enabled?: boolean; label?: string; link?: string };
+}
+
 interface HeroSlideTwoProps {
-  slide?: any;
+  slide?: HeroSlideData;
   imageSrc?: string;
 }
 
@@ -74,12 +82,12 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
 
           <div className="hero-slide-two-cta-group">
             {btn1Enabled && (
-              <button className="hero-slide-two-btn-gold" onClick={() => handleCta(btn1Link)}>
+              <button className="btn-gold-gradient hero-slide-two-btn" onClick={() => handleCta(btn1Link)}>
                 {btn1Label}
               </button>
             )}
             {btn2Enabled && (
-              <button className="hero-slide-two-btn-outline" onClick={() => handleCta(btn2Link)}>
+              <button className="btn-white-outline-v2 hero-slide-two-btn" onClick={() => handleCta(btn2Link)}>
                 {btn2Label}
               </button>
             )}

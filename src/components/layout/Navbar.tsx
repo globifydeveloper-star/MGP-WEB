@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
@@ -8,48 +8,80 @@ import { usePathname } from 'next/navigation';
 import logoImg from '@/assets/images/logo.png';
 import SellGoldModal from './SellGoldModal';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { getNavbarSetting, NavItem } from '@/lib/strapi';
 
-const NAV_LINKS = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about-us' },
-  { label: 'Mobile Van', href: '/mobilevantab' },
-  { label: 'Branches', href: 'https://branches.muthootgoldpoint.com/', isExternal: true },
-  { label: 'Gold Rate', href: '/gold-rate' },
-  { label: 'Career', href: '/career' },
+const DEFAULT_NAV_LINKS: NavItem[] = [
+  { label: 'Home', url: '/' },
+  { label: 'About Us', url: '/about-us' },
+  { label: 'Mobile Van', url: '/mobilevantab' },
+  { label: 'Branches', url: 'https://branches.muthootgoldpoint.com/', isExternal: true },
+  { label: 'Gold Rate', url: '/gold-rate' },
+  { label: 'Career', url: '/career' },
 ];
 
+function mergeNavLinks(customLinks: NavItem[]): NavItem[] {
+  if (!customLinks || customLinks.length === 0) return DEFAULT_NAV_LINKS;
+
+  // If the admin explicitly added 'Home' or '/' in Strapi, respect the full custom list
+  const hasHomeLink = customLinks.some((link) => link.url === '/' || link.label?.toLowerCase() === 'home');
+  if (hasHomeLink) {
+    return customLinks;
+  }
+
+  // Otherwise, preserve default links and append the new custom links (preventing duplicates)
+  const existingUrls = new Set(DEFAULT_NAV_LINKS.map((l) => l.url));
+  const additionalLinks = customLinks.filter((l) => !existingUrls.has(l.url));
+  return [...DEFAULT_NAV_LINKS, ...additionalLinks];
+}
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
+  const [navLinks, setNavLinks] = useState<NavItem[]>(DEFAULT_NAV_LINKS);
+  const [phoneNumber, setPhoneNumber] = useState('+91 9037 921 192');
+  const [phoneRaw, setPhoneRaw] = useState('+919037921192');
+  const [ctaLabel, setCtaLabel] = useState('Sell Your Gold');
   const pathname = usePathname();
 
   // Lock background scroll completely on mobile & desktop when hamburger menu is open
   useBodyScrollLock(menuOpen);
 
-  // Close mobile menu on pathname change
   useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+    let isMounted = true;
+    getNavbarSetting()
+      .then((data) => {
+        if (!isMounted || !data) return;
+        if (data.navLinks && data.navLinks.length > 0) {
+          setNavLinks(mergeNavLinks(data.navLinks));
+        }
+        if (data.phoneNumber) setPhoneNumber(data.phoneNumber);
+        if (data.phoneRaw) setPhoneRaw(data.phoneRaw);
+        if (data.ctaLabel) setCtaLabel(data.ctaLabel);
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <header className={`navbar-header-v2 ${menuOpen ? 'header-menu-active' : ''}`}>
       <div className="navbar-container-v2">
         {/* Hamburger Menu Toggle (Mobile) */}
         <button
-          className="mobile-menu-toggle"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle Menu"
+          className={`mobile-menu-toggle${menuOpen ? ' is-open' : ''}`}
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
         >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+          <span className="mobile-menu-bar" />
+          <span className="mobile-menu-bar" />
+          <span className="mobile-menu-bar" />
         </button>
 
         {/* Logo */}
-        <a href="/" className="navbar-logo-link" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <Link href="/" className="navbar-logo-link" onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <Image
             src={logoImg}
             alt="GOLDPOINT - We Buy Gold"
@@ -59,15 +91,15 @@ export default function Navbar() {
             priority
             style={{ display: 'block' }}
           />
-        </a>
+        </Link>
 
-        {/* Navigation Links */}
-        <nav className={`navbar-nav-v2 ${menuOpen ? 'menu-active' : ''}`}>
-          {NAV_LINKS.map((link) => (
+        {/* Navigation Links - All styled identically matching standard navbar theme */}
+        <nav className="navbar-nav-v2">
+          {navLinks.map((link) => (
             link.isExternal ? (
               <a
                 key={link.label}
-                href={link.href}
+                href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -76,8 +108,8 @@ export default function Navbar() {
             ) : (
               <Link
                 key={link.label}
-                href={link.href}
-                className={link.href !== '#' && pathname === link.href ? 'active' : ''}
+                href={link.url}
+                className={link.url !== '#' && pathname === link.url ? 'active' : ''}
               >
                 {link.label}
               </Link>
@@ -87,7 +119,7 @@ export default function Navbar() {
 
         {/* Right Side: Phone Contact & CTA */}
         <div className="navbar-right-group">
-          <a href="tel:+919037921192" className="navbar-phone-group">
+          <a href={`tel:${phoneRaw}`} className="navbar-phone-group">
             <svg
               viewBox="0 0 24 24"
               fill="white"
@@ -97,22 +129,22 @@ export default function Navbar() {
               <path d="M15 3c3.31 0 6 2.69 6 6" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
               <path d="M15 7c1.1 0 2 .9 2 2" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
             </svg>
-            <div className="navbar-phone-number">+91 9037 921 192</div>
+            <div className="navbar-phone-number">{phoneNumber}</div>
           </a>
           <button className="navbar-cta-btn-v2" onClick={() => setIsSellGoldOpen(true)}>
-            <span>Sell Your Gold</span>
+            <span>{ctaLabel}</span>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`mobile-menu-dropdown ${menuOpen ? 'open' : ''}`}>
+      <div id="mobile-navigation" className={`mobile-menu-dropdown ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
         <nav className="mobile-nav-links">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             link.isExternal ? (
               <a
                 key={link.label}
-                href={link.href}
+                href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
@@ -122,8 +154,8 @@ export default function Navbar() {
             ) : (
               <Link
                 key={link.label}
-                href={link.href}
-                className={link.href !== '#' && pathname === link.href ? 'active' : ''}
+                href={link.url}
+                className={link.url !== '#' && pathname === link.url ? 'active' : ''}
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}
@@ -136,4 +168,4 @@ export default function Navbar() {
       <SellGoldModal isOpen={isSellGoldOpen} onClose={() => setIsSellGoldOpen(false)} />
     </header>
   );
-}     
+}

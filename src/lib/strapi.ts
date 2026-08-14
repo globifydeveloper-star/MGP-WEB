@@ -761,3 +761,52 @@ export async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
   }
 }
 
+export interface NavItem {
+  id?: number;
+  label: string;
+  url: string;
+  isExternal?: boolean;
+  isButton?: boolean;
+}
+
+export interface NavbarSetting {
+  navLinks: NavItem[];
+  phoneNumber?: string;
+  phoneRaw?: string;
+  ctaLabel?: string;
+}
+
+export async function getNavbarSetting(): Promise<NavbarSetting | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/navbar-setting?populate=*`, { cache: 'no-store' });
+    if (!res.ok) {
+      return null;
+    }
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<any>(json.data);
+    const rawLinks = Array.isArray(flat.navLinks) ? flat.navLinks : [];
+    const navLinks = rawLinks.map((item: any) => {
+      const flatItem = unwrap<any>(item);
+      return {
+        id: flatItem.id,
+        label: flatItem.label,
+        url: flatItem.url,
+        isExternal: Boolean(flatItem.isExternal),
+        isButton: Boolean(flatItem.isButton),
+      };
+    });
+    return {
+      navLinks,
+      phoneNumber: flat.phoneNumber,
+      phoneRaw: flat.phoneRaw,
+      ctaLabel: flat.ctaLabel,
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.warn('getNavbarSetting: failed to fetch navbar setting', err);
+    return null;
+  }
+}
+
+
