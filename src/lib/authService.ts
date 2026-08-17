@@ -35,6 +35,10 @@ export interface AuthLoginResponse {
 
 let cachedAuthToken: { token: string; expiresAt: number } | null = null;
 
+export function invalidateAuthToken(): void {
+  cachedAuthToken = null;
+}
+
 export async function loginChannelLead(
   username?: string,
   password?: string
