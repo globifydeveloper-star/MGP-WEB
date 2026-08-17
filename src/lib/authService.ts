@@ -1,46 +1,39 @@
 /**
  * Muthoot API Auth Service
- * Supports Muthoot Channel Login (POST /channel/channellogin) and Legacy (/Auth/Login)
+ * Endpoint: POST /Auth/Login
+ * Base URL: https://mgpcommonext-mgpuat.muthootexim.com
  */
 
-const AUTH_URL = (
-  process.env.CRM_AUTH_URL ||
-  process.env.CHANNEL_AUTH_URL ||
-  'https://mgpauthext-mgpuat.muthootexim.com/channel/channellogin'
-).trim();
+const COMMON_BASE_URL = (
+  process.env.BRANCH_MASTER_BASE_URL ||
+  process.env.NEXT_PUBLIC_BRANCH_MASTER_BASE_URL ||
+  process.env.CHANNEL_LEAD_BASE_URL ||
+  'https://mgpcommonext-mgpuat.muthootexim.com'
+).replace(/\/$/, '');
 
 const USERNAME =
   process.env.CHANNEL_LEAD_USERNAME ||
   process.env.BRANCH_MASTER_USERNAME ||
-  process.env.CRM_USERNAME;
-
+  'MP20500356';
 
 const PASSWORD =
   process.env.CHANNEL_LEAD_PASSWORD ||
   process.env.BRANCH_MASTER_PASSWORD ||
-  process.env.CRM_PASSWORD;
-
+  'dssds';
 
 export interface AuthLoginResponse {
   success?: boolean;
   token?: string;
   access_token?: string;
-  accessToken?: string;
   message?: string;
   respData?: {
     token?: string;
     access_token?: string;
-    accessToken?: string;
     expiresIn?: number;
-    [key: string]: unknown;
   };
 }
 
 let cachedAuthToken: { token: string; expiresAt: number } | null = null;
-
-export function invalidateAuthToken(): void {
-  cachedAuthToken = null;
-}
 
 export async function loginChannelLead(
   username?: string,
@@ -54,7 +47,8 @@ export async function loginChannelLead(
   const p = password || PASSWORD;
 
   try {
-    const res = await fetch(AUTH_URL, {
+    const url = `${COMMON_BASE_URL}/Auth/Login`;
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,25 +59,24 @@ export async function loginChannelLead(
     });
 
     if (!res.ok) {
-      console.warn(`[Auth/Login] HTTP ${res.status} from ${AUTH_URL}`);
+      console.warn(`[Auth/Login] HTTP ${res.status}`);
       return null;
     }
 
     const data: AuthLoginResponse = await res.json();
     const token =
-      data?.respData?.accessToken ||
-      data?.respData?.token ||
-      data?.respData?.access_token ||
       data?.token ||
       data?.access_token ||
+      data?.respData?.token ||
+      data?.respData?.access_token ||
       (typeof data?.respData === 'string' ? data.respData : null);
 
-    if (token && typeof token === 'string') {
+    if (token) {
       cachedAuthToken = {
-        token: token.trim(),
+        token,
         expiresAt: Date.now() + 23 * 60 * 60 * 1000,
       };
-      return cachedAuthToken.token;
+      return token;
     }
 
     return null;
@@ -101,8 +94,7 @@ export async function resolveAuthToken(explicitToken?: string): Promise<string |
     process.env.NEXT_PUBLIC_BRANCH_MASTER_JWT_TOKEN ||
     process.env.NEXT_PUBLIC_BRANCH_MASTER_TOKEN ||
     process.env.BRANCH_MASTER_TOKEN ||
-    process.env.CHANNEL_LEAD_TOKEN ||
-    process.env.CRM_TOKEN;
+    process.env.CHANNEL_LEAD_TOKEN;
 
   if (envToken && envToken.trim().length > 0) {
     return envToken.trim();
