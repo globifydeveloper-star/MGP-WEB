@@ -2,11 +2,28 @@
 
 import React from 'react';
 import './RateSummary.css';
-import { GOLD_RATE_SUMMARY } from '@/lib/goldRateData';
+import { PURITY_ORDER } from '@/lib/goldRateData';
+import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
 
 const formatRupee = (value: number) => `₹${value.toLocaleString('en-IN')}`;
 
 export default function RateSummary() {
+  const { rates } = useLiveGoldRates();
+
+  const summaryRows = PURITY_ORDER.map((key) => {
+    const rate = rates[key];
+    const yesterdayRate = rate.yesterdayRate ?? (rate.perGram - rate.changeAmount);
+    return {
+      key,
+      label: `${rate.key} (${rate.purity})`,
+      todayRate: rate.perGram,
+      yesterdayRate,
+      change: rate.changeAmount,
+      changePercent: rate.changePercent,
+      trend: rate.trend,
+    };
+  });
+
   return (
     <div className="grs-panel">
       <h2 className="grs-title">Today&apos;s Gold Rate Summary</h2>
@@ -24,7 +41,7 @@ export default function RateSummary() {
             </tr>
           </thead>
           <tbody>
-            {GOLD_RATE_SUMMARY.map((row) => (
+            {summaryRows.map((row) => (
               <tr key={row.key}>
                 <td className="grs-td-purity">{row.label}</td>
                 <td>{formatRupee(row.todayRate)}</td>
@@ -43,7 +60,7 @@ export default function RateSummary() {
 
       {/* Mobile cards */}
       <div className="grs-mobile-cards">
-        {GOLD_RATE_SUMMARY.map((row) => (
+        {summaryRows.map((row) => (
           <div className="grs-mobile-card" key={row.key}>
             <div className="grs-mobile-card-header">
               <span className="grs-mobile-card-purity">{row.label}</span>
@@ -69,7 +86,7 @@ export default function RateSummary() {
         ))}
       </div>
 
-      <p className="grs-note">Rates shown are per gram. Demo data for illustration.</p>
+      <p className="grs-note">Rates shown are per gram. Live daily rates from Muthoot Exim.</p>
     </div>
   );
 }

@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './GoldValueForm.css';
 import LocationPopup from './LocationPopup';
+import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
+import { animate } from 'animejs';
 
 interface GoldValueFormProps {
   sectionImage?: string;
@@ -12,6 +14,11 @@ interface GoldValueFormProps {
 }
 
 export default function GoldValueForm({ sectionImage, heading, headingHighlight, note }: GoldValueFormProps) {
+  const { rates } = useLiveGoldRates();
+  const rate24k = rates['24K']?.perGram || 7502;
+  const [displayRate, setDisplayRate] = useState(rate24k);
+  const prevRateRef = useRef(rate24k);
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -19,6 +26,24 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
     weight: ''
   });
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+
+  useEffect(() => {
+    const target = rate24k;
+    const start = prevRateRef.current === target ? Math.max(1000, Math.floor(target * 0.85)) : prevRateRef.current;
+    
+    const rateObj = { val: start };
+    animate(rateObj, {
+      val: target,
+      round: 1,
+      ease: 'outExpo',
+      duration: 1800,
+      onUpdate: () => {
+        setDisplayRate(rateObj.val);
+      },
+    });
+
+    prevRateRef.current = target;
+  }, [rate24k]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,9 +85,9 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   Live
                 </span>
               </div>
-              <div className="gvf-rate-purity">24K (999)</div>
+              <div className="gvf-rate-purity">24K ({rates['24K']?.purity || '999'})</div>
               <div className="gvf-rate-value">
-                <span className="gvf-rupee">₹9,185</span>
+                <span className="gvf-rupee">₹{displayRate.toLocaleString('en-IN')}</span>
                 <span className="gvf-rate-unit">/g</span>
               </div>
             </div>
@@ -71,7 +96,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
           {/* Right: Estimate form */}
           <div className="gvf-form-col">
             <form className="gvf-form" onSubmit={handleSubmit}>
-              {/* Animated Glowing border beam (aura/shine effect) */}
+              {/* Animated Glowing border beam */}
               <svg
                 className="gvf-gold-beam-svg"
                 viewBox="0 0 430 520"
@@ -169,7 +194,6 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
         onClose={() => setIsLocationModalOpen(false)}
         clientData={formData}
         onSuccess={() => {
-          // Reset form on successful estimate submission
           setFormData({
             name: '',
             phone: '',

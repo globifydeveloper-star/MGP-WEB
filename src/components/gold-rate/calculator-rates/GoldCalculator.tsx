@@ -2,17 +2,19 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 import './GoldCalculator.css';
-import { GOLD_RATES, PURITY_ORDER, PurityKey } from '@/lib/goldRateData';
+import { PURITY_ORDER, PurityKey } from '@/lib/goldRateData';
 import { calculateGoldValue } from '@/lib/calculateGoldValue';
+import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
 
 export default function GoldCalculator() {
+  const { rates } = useLiveGoldRates();
   const [purity, setPurity] = useState<PurityKey>('24K');
   const [weight, setWeight] = useState('10');
   const [makingCharges, setMakingCharges] = useState('');
   const [deductions, setDeductions] = useState('');
   const resultRef = useRef<HTMLDivElement>(null);
 
-  const rate = GOLD_RATES[purity];
+  const rate = rates[purity] || rates['24K'];
 
   const result = useMemo(
     () =>
@@ -47,7 +49,7 @@ export default function GoldCalculator() {
                 className={`gc-purity-btn ${purity === key ? 'gc-purity-btn-active' : ''}`}
                 onClick={() => setPurity(key)}
               >
-                {key} ({GOLD_RATES[key].purity})
+                {key} ({rates[key]?.purity || '999'})
               </button>
             ))}
           </div>

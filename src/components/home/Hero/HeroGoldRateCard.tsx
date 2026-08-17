@@ -5,11 +5,23 @@ import Image from 'next/image';
 import { animate, createTimeline, stagger, set } from 'animejs';
 import './heroGoldRateCard.css';
 import sparkle2Img from '@/assets/images/sparkle2.png';
+import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
+import { PurityKey } from '@/lib/goldRateData';
 
-export default function HeroGoldRateCard() {
+interface HeroGoldRateCardProps {
+  purityKey?: PurityKey;
+}
+
+export default function HeroGoldRateCard({
+  purityKey = '24K',
+}: HeroGoldRateCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [displayRate, setDisplayRate] = useState(7500);
+  const { rates, isLive } = useLiveGoldRates();
+  
+  const currentRate = rates[purityKey] || rates['24K'];
+  const [displayRate, setDisplayRate] = useState(currentRate.perGram);
+  const prevRateRef = useRef(currentRate.perGram);
 
   const handleScrollToForm = () => {
     const element = document.getElementById('gold-value-form');
@@ -18,6 +30,26 @@ export default function HeroGoldRateCard() {
     }
   };
 
+  // Animate counter whenever rate changes or arrives
+  useEffect(() => {
+    const target = currentRate.perGram;
+    const start = prevRateRef.current === target ? Math.max(1000, Math.floor(target * 0.85)) : prevRateRef.current;
+    
+    const rateObj = { val: start };
+    animate(rateObj, {
+      val: target,
+      round: 1,
+      ease: 'outExpo',
+      duration: 1800,
+      onUpdate: () => {
+        setDisplayRate(rateObj.val);
+      },
+    });
+
+    prevRateRef.current = target;
+  }, [currentRate.perGram]);
+
+  // Entrance & Sparkle animations
   useEffect(() => {
     if (cardRef.current) {
       const card = cardRef.current;
@@ -29,15 +61,13 @@ export default function HeroGoldRateCard() {
       const button = buttonRef.current;
 
       if (card && header && divider && purity && price && button) {
-        // 1. Initial hidden state for entrance animation
         set(card, { opacity: 0, translateY: 60, scale: 0.93 });
         set([header, divider, purity, price, button], { opacity: 0 });
 
-        // 2. Entrance Timeline
         const tl = createTimeline({
           defaults: {
             ease: 'outExpo',
-          }
+          },
         });
 
         tl.add(card, {
@@ -64,20 +94,6 @@ export default function HeroGoldRateCard() {
           }, '-=400');
       }
 
-      // 3. Count up animation for gold rate (runs after card is partially visible)
-      const rateObj = { val: 7500 };
-      animate(rateObj, {
-        val: 9185,
-        round: 1,
-        ease: 'outExpo',
-        duration: 2200,
-        delay: 500,
-        onUpdate: () => {
-          setDisplayRate(rateObj.val);
-        }
-      });
-
-      // 4. Gentle loop for sparkles
       animate(Array.from(sparkles), {
         scale: [1, 1.08, 1],
         rotate: [-3, 3, -3],
@@ -149,8 +165,13 @@ export default function HeroGoldRateCard() {
         height={34}
       />
 
-      {/* Animated Glowing border beam (aura/shine effect) */}
-      <svg className="gold-beam-svg" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+      {/* Animated Glowing border beam */}
+      <svg
+        className="gold-beam-svg"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+      >
         <defs>
           <linearGradient id="shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
             <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
@@ -186,7 +207,7 @@ export default function HeroGoldRateCard() {
         </div>
       </div>
       <div className="rate-card-divider" />
-      <div className="rate-card-purity-v2">24K (999)</div>
+      <div className="rate-card-purity-v2">{currentRate.key} ({currentRate.purity})</div>
       <div className="rate-card-price-value">
         <span>₹{displayRate.toLocaleString('en-IN')}</span>
         <span className="rate-card-price-unit">/g</span>
@@ -199,7 +220,9 @@ export default function HeroGoldRateCard() {
         onMouseLeave={handleMouseLeave}
       >
         <span>Check Full rate</span>
-        <span className="rate-card-cta-arrow" style={{ display: 'inline-block' }}>&gt;</span>
+        <span className="rate-card-cta-arrow" style={{ display: 'inline-block' }}>
+          &gt;
+        </span>
       </button>
     </div>
   );

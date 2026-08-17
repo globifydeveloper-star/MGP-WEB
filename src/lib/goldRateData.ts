@@ -16,6 +16,7 @@ export interface PurityRate {
   perGram: number;
   per8Gram: number;
   per10Gram: number;
+  yesterdayRate?: number;
   changeAmount: number;
   changePercent: number;
   trend: 'up' | 'down';
@@ -52,6 +53,7 @@ export const GOLD_RATES: Record<PurityKey, PurityRate> = {
     perGram: 7502,
     per8Gram: 60016,
     per10Gram: 75020,
+    yesterdayRate: 7409,
     changeAmount: 93,
     changePercent: 1.25,
     trend: 'up',
@@ -63,6 +65,7 @@ export const GOLD_RATES: Record<PurityKey, PurityRate> = {
     perGram: 6878,
     per8Gram: 55024,
     per10Gram: 68780,
+    yesterdayRate: 6797,
     changeAmount: 81,
     changePercent: 1.18,
     trend: 'up',
@@ -74,6 +77,7 @@ export const GOLD_RATES: Record<PurityKey, PurityRate> = {
     perGram: 5627,
     per8Gram: 45016,
     per10Gram: 56270,
+    yesterdayRate: 5566,
     changeAmount: 61,
     changePercent: 1.1,
     trend: 'up',
@@ -88,7 +92,7 @@ export const FEATURED_RATE = GOLD_RATES['24K'];
 // Demo yesterday-vs-today summary table data.
 export const GOLD_RATE_SUMMARY: GoldRateSummaryRow[] = PURITY_ORDER.map((key) => {
   const rate = GOLD_RATES[key];
-  const yesterdayRate = rate.perGram - rate.changeAmount;
+  const yesterdayRate = rate.yesterdayRate ?? (rate.perGram - rate.changeAmount);
   return {
     key,
     label: `${rate.key} (${rate.purity})`,
