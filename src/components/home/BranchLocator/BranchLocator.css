@@ -387,6 +387,14 @@
   color: #E29D24;
 }
 
+.branch-locator-branch-contact {
+  margin: 0;
+  color: #5B6478;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .branch-locator-branch-footer {
   display: flex;
   align-items: center;

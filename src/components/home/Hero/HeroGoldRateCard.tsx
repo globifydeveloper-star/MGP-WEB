@@ -17,11 +17,16 @@ export default function HeroGoldRateCard({
 }: HeroGoldRateCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { rates, isLive } = useLiveGoldRates();
+  const { rates, isLoading, isLive } = useLiveGoldRates();
   
   const currentRate = rates[purityKey] || rates['24K'];
-  const [displayRate, setDisplayRate] = useState(currentRate.perGram);
+  const isRateReady = !isLoading && isLive;
+  const [displayRate, setDisplayRate] = useState<number | null>(
+    isRateReady ? currentRate.perGram : null
+  );
   const prevRateRef = useRef(currentRate.perGram);
+  const hasDisplayedLiveRateRef = useRef(isRateReady);
+  const visibleRate = displayRate ?? currentRate.perGram;
 
   const handleScrollToForm = () => {
     const element = document.getElementById('gold-value-form');
@@ -32,8 +37,22 @@ export default function HeroGoldRateCard({
 
   // Animate counter whenever rate changes or arrives
   useEffect(() => {
+    if (!isRateReady) return;
+
     const target = currentRate.perGram;
-    const start = prevRateRef.current === target ? Math.max(1000, Math.floor(target * 0.85)) : prevRateRef.current;
+
+    // Never expose or animate from the demo fallback on first load.
+    if (!hasDisplayedLiveRateRef.current || prevRateRef.current === target) {
+      const frameId = requestAnimationFrame(() => {
+        setDisplayRate(target);
+        prevRateRef.current = target;
+        hasDisplayedLiveRateRef.current = true;
+      });
+
+      return () => cancelAnimationFrame(frameId);
+    }
+
+    const start = prevRateRef.current;
     
     const rateObj = { val: start };
     animate(rateObj, {
@@ -47,7 +66,7 @@ export default function HeroGoldRateCard({
     });
 
     prevRateRef.current = target;
-  }, [currentRate.perGram]);
+  }, [currentRate.perGram, isRateReady]);
 
   // Entrance & Sparkle animations
   useEffect(() => {
@@ -160,7 +179,7 @@ export default function HeroGoldRateCard({
         alt=""
         aria-hidden="true"
         className="hero-sparkle-flare"
-        style={{ position: 'absolute', right: -21.86, bottom: -20.78 }}
+        style={{ position: 'absolute', right: -21.86, bottom: -17 }}
         width={145}
         height={34}
       />
@@ -200,16 +219,16 @@ export default function HeroGoldRateCard({
       </svg>
 
       <div className="rate-card-header-v2">
-        <span className="rate-card-title-v2">Today's Gold Rate</span>
-        <div className="rate-card-live-indicator">
+        <span className="rate-card-title-v2">Today&apos;s Gold Rate</span>
+        <div className={`rate-card-live-indicator${isRateReady ? '' : ' is-pending'}`}>
           <span className="live-dot-v2" />
-          <span>Live</span>
+          <span>{isLoading ? 'Updating' : isLive ? 'Live' : 'Unavailable'}</span>
         </div>
       </div>
       <div className="rate-card-divider" />
       <div className="rate-card-purity-v2">{currentRate.key} ({currentRate.purity})</div>
       <div className="rate-card-price-value">
-        <span>₹{displayRate.toLocaleString('en-IN')}</span>
+        <span>₹{isRateReady ? visibleRate.toLocaleString('en-IN') : '—'}</span>
         <span className="rate-card-price-unit">/g</span>
       </div>
       <button

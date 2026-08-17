@@ -3,10 +3,10 @@
 /* Today's Gold Rate Card overlay */
 .hero-gold-rate-card-v2 {
   position: absolute;
-  left: 1275px;
-  top: 375px;
-  width: 310px;
-  height: 310px;
+  left: 1265px;
+  top: 365px;
+  width: 330px;
+  height: 330px;
   background: #111A41;
   border-radius: 18px;
   padding: 34.54px 18px 24px 20px;
@@ -97,8 +97,10 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 64px;
+  width: auto;
+  min-width: 64px;
   height: 24px;
+  padding: 0 8px;
   flex-shrink: 0;
   background: #334155;
   border: 1px solid #4ADE80;
@@ -107,6 +109,16 @@
   font-size: 12px;
   font-weight: 500;
   box-sizing: border-box;
+}
+
+.rate-card-live-indicator.is-pending {
+  border-color: rgba(235, 175, 32, 0.8);
+  color: #EBAF20;
+}
+
+.rate-card-live-indicator.is-pending .live-dot-v2 {
+  background-color: #EBAF20;
+  animation: pulse-pending 1.6s infinite;
 }
 
 .live-dot-v2 {
@@ -285,12 +297,25 @@
   }
 
   .hero-mobile-rate-card-container .rate-card-live-indicator {
-    width: 54px;
+    width: auto;
+    min-width: 54px;
     height: 20px;
+    padding: 0 6px;
     font-size: 10px;
   }
 
   .hero-mobile-rate-card-container .rate-card-divider {
     margin: 10px 0;
+  }
+}
+
+@keyframes pulse-pending {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 1;
   }
 }

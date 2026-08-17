@@ -40,6 +40,10 @@
 
 .hero-figma-canvas-host {
   z-index: 2;
+  /* The rate card ends just beyond the 1580px layout guide. Let the desktop
+     canvas render its border and flare; the hero root still clips the scene
+     at the actual viewport edge. */
+  overflow: visible;
 }
 
 .hero-curve-star-host {
