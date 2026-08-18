@@ -11,6 +11,11 @@ import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates } from '@/data/branchesData';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
+import { ContactUsPageData } from '@/lib/strapi';
+
+interface ContactPageProps {
+  data: ContactUsPageData;
+}
 
 const SERVICES = [
   'Sell Gold for Cash',
@@ -85,7 +90,7 @@ const MailIconGold = () => (
   </svg>
 );
 
-export default function ContactPage() {
+export default function ContactPage({ data }: ContactPageProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
