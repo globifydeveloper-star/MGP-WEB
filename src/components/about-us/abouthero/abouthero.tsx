@@ -7,6 +7,7 @@ import goldImg from '@/assets/images/aboutslide1.png';
 import testImg from '@/assets/images/aboutslide2.png';
 import goldsImg from '@/assets/images/aboutslide3.png';
 import muthootLogo from '@/assets/images/muthootlogo.png';
+import { AboutUsPageData } from '@/lib/strapi';
 
 const HERO_IMAGES = [
   { src: goldImg, alt: 'Refined gold ready for precision valuation' },
@@ -18,7 +19,7 @@ interface AboutHeroProps {
   onExploreClick: () => void;
 }
 
-export default function AboutHero({ onExploreClick }: AboutHeroProps) {
+export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {

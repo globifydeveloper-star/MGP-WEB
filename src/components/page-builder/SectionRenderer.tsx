@@ -6,6 +6,7 @@ import NewSection from '@/components/home/NewSection/NewSection';
 import Feedback from '@/components/home/Feedback/Feedback';
 import FAQ from '@/components/home/FAQ/FAQ';
 import OTPEnquiryForm from '@/components/common/OTPEnquiryForm/OTPEnquiryForm';
+import ReactMarkdown from 'react-markdown';
 import { DynamicPageSection } from '@/lib/strapi';
 
 interface SectionRendererProps {
@@ -92,6 +93,15 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
                   sourceForm={section.sourceForm}
                   enquiryType={section.enquiryType}
                 />
+              </section>
+            );
+
+                    case 'sections.rich-text':
+            return (
+              <section key={key} className="container" style={{ padding: '40px 20px' }}>
+                <div className="prose" style={{ maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+                  <ReactMarkdown>{section.content}</ReactMarkdown>
+                </div>
               </section>
             );
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import './MobileVan.css';
 
 interface MobileVanProps {
@@ -22,7 +23,9 @@ export default function MobileVan({ headingLight, headingBold, description, butt
           <p className="mobile-van-desc">
             {description || "Can't visit us? Our Mobile Van carries the full GoldPoint setup — XRF machines, precision balances, real-time rates — directly to your home or office."}
           </p>
-          <button className="btn mobile-van-btn">{buttonLabel || "Book a Van Visit"}</button>
+          <Link href="/mobilevantab">
+            <button className="btn mobile-van-btn">{buttonLabel || "Book a Van Visit"}</button>
+          </Link>
         </div>
 
         <div className="mobile-van-right">

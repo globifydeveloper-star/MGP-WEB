@@ -1,4 +1,4 @@
-﻿import { cache } from 'react';
+import { cache } from 'react';
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL ?? 'http://localhost:1337';
 const REVALIDATE_INTERVAL = 60; // 60s ISR background refresh
@@ -233,6 +233,7 @@ export interface CareerPageSettingsData {
   heroImage?: string;
   cultureHeading?: string;
   cultureDescription?: string;
+  careerBenefits?: { id: number; title: string; desc?: string }[];
   seoTitle?: string;
   seoDescription?: string;
 }
@@ -252,6 +253,7 @@ export const getCareerPageSettings = cache(async function getCareerPageSettings(
       heroImage: getMediaUrl(flat.heroImage),
       cultureHeading: flat.cultureHeading,
       cultureDescription: flat.cultureDescription,
+      careerBenefits: flat.careerBenefits,
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
     };
@@ -784,6 +786,160 @@ export const getPageBySlug = cache(async function getPageBySlug(slug: string): P
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
     console.error('getPageBySlug: failed to fetch dynamic page', err);
+    return null;
+  }
+});
+
+export interface AboutUsPageData {
+  heroEyebrow?: string;
+  heroTitle?: string;
+  heroDescription?: string;
+  heroChecklist?: { id: number; text: string }[];
+  heroStats?: { id: number; label: string; number: string }[];
+  heroImages?: string[];
+  recyclingSubtitle?: string;
+  recyclingTitle?: string;
+  recyclingDescription?: string;
+  recyclingSteps?: { id: number; title: string; desc?: string; iconSvg?: string }[];
+  historySubtitle?: string;
+  historyTitle?: string;
+  historyDescription?: string;
+  historyMilestones?: { id: number; year?: string; title: string; desc?: string }[];
+  parentEyebrow?: string;
+  parentTitle?: string;
+  parentDescription?: string;
+  parentChecklist?: { id: number; text: string }[];
+  parentCompareHeading?: string;
+  parentStats?: { id: number; label: string; number: string }[];
+  parentPortraitImage?: string;
+  philanthropySubtitle?: string;
+  philanthropyTitle?: string;
+  philanthropyDescription?: string;
+  philanthropyInitiativeTitle?: string;
+  philanthropyInitiativeDesc?: string;
+  philanthropyPillars?: { id: number; letter?: string; title: string; desc?: string; iconSvg?: string }[];
+  philanthropyConclusion?: string;
+  presentSubtitle?: string;
+  presentTitle?: string;
+  presentDescription?: string;
+  presentSubDescription?: string;
+  presentCardTag?: string;
+  presentCardTitle?: string;
+  presentCardDesc?: string;
+  presentServicesTitle?: string;
+  presentServices?: { id: number; title: string; icon?: string }[];
+  seoTitle?: string;
+  seoDescription?: string;
+  ogImage?: string;
+}
+
+export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<AboutUsPageData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/about-us-page?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      heroEyebrow: flat.heroEyebrow,
+      heroTitle: flat.heroTitle,
+      heroDescription: flat.heroDescription,
+      heroChecklist: flat.heroChecklist,
+      heroStats: flat.heroStats,
+      heroImages: Array.isArray(flat.heroImages) ? flat.heroImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
+      recyclingSubtitle: flat.recyclingSubtitle,
+      recyclingTitle: flat.recyclingTitle,
+      recyclingDescription: flat.recyclingDescription,
+      recyclingSteps: flat.recyclingSteps,
+      historySubtitle: flat.historySubtitle,
+      historyTitle: flat.historyTitle,
+      historyDescription: flat.historyDescription,
+      historyMilestones: flat.historyMilestones,
+      parentEyebrow: flat.parentEyebrow,
+      parentTitle: flat.parentTitle,
+      parentDescription: flat.parentDescription,
+      parentChecklist: flat.parentChecklist,
+      parentCompareHeading: flat.parentCompareHeading,
+      parentStats: flat.parentStats,
+      parentPortraitImage: getMediaUrl(flat.parentPortraitImage),
+      philanthropySubtitle: flat.philanthropySubtitle,
+      philanthropyTitle: flat.philanthropyTitle,
+      philanthropyDescription: flat.philanthropyDescription,
+      philanthropyInitiativeTitle: flat.philanthropyInitiativeTitle,
+      philanthropyInitiativeDesc: flat.philanthropyInitiativeDesc,
+      philanthropyPillars: flat.philanthropyPillars,
+      philanthropyConclusion: flat.philanthropyConclusion,
+      presentSubtitle: flat.presentSubtitle,
+      presentTitle: flat.presentTitle,
+      presentDescription: flat.presentDescription,
+      presentSubDescription: flat.presentSubDescription,
+      presentCardTag: flat.presentCardTag,
+      presentCardTitle: flat.presentCardTitle,
+      presentCardDesc: flat.presentCardDesc,
+      presentServicesTitle: flat.presentServicesTitle,
+      presentServices: flat.presentServices,
+      seoTitle: flat.seoTitle,
+      seoDescription: flat.seoDescription,
+      ogImage: getMediaUrl(flat.ogImage),
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getAboutUsPage: failed to fetch', err);
+    return null;
+  }
+});
+
+export interface ContactUsPageData {
+  heroHeading?: string;
+  heroLead?: string;
+  heroImage?: string;
+  formTitle?: string;
+  formServices?: { id: number; text: string }[];
+  officeName?: string;
+  officeAddress?: string;
+  officePhone1?: string;
+  officePhone2?: string;
+  officeEmail?: string;
+  officeMapUrl?: string;
+  officeMapPopupTitle?: string;
+  officeMapPopupText?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  ogImage?: string;
+}
+
+export const getContactUsPage = cache(async function getContactUsPage(): Promise<ContactUsPageData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/contact-us-page?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      heroHeading: flat.heroHeading,
+      heroLead: flat.heroLead,
+      heroImage: getMediaUrl(flat.heroImage),
+      formTitle: flat.formTitle,
+      formServices: flat.formServices,
+      officeName: flat.officeName,
+      officeAddress: flat.officeAddress,
+      officePhone1: flat.officePhone1,
+      officePhone2: flat.officePhone2,
+      officeEmail: flat.officeEmail,
+      officeMapUrl: flat.officeMapUrl,
+      officeMapPopupTitle: flat.officeMapPopupTitle,
+      officeMapPopupText: flat.officeMapPopupText,
+      seoTitle: flat.seoTitle,
+      seoDescription: flat.seoDescription,
+      ogImage: getMediaUrl(flat.ogImage),
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getContactUsPage: failed to fetch', err);
     return null;
   }
 });

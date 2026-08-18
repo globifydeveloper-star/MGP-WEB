@@ -1,7 +1,10 @@
 import React from 'react';
 import './careerbenefits.css';
+import { CareerPageSettingsData } from '@/lib/strapi';
 
-export default function CareerBenefits() {
+interface CareerBenefitsProps { data?: CareerPageSettingsData | null; }
+
+export default function CareerBenefits({ data }: CareerBenefitsProps) {
   return (
     <section className="career-benefits-section">
       <div className="container">

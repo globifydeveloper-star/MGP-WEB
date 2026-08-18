@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import Navbar from '@/components/layout/Navbar';
+import { CareerPageSettingsData } from '@/lib/strapi';
 import Footer from '@/components/layout/Footer';
 import CareerHero from './careerhero/careerhero';
 import CareerBenefits from './careerbenefits/careerbenefits';
@@ -9,7 +10,9 @@ import OpenPositions from './openpositions/openpositions';
 import ApplyForm from './applyform/applyform';
 import { submitJobApplication } from '@/lib/strapi';
 
-export default function CareerPage() {
+interface CareerPageProps { data?: CareerPageSettingsData | null; }
+
+export default function CareerPage({ data }: CareerPageProps) {
   // Form State
   const [formData, setFormData] = useState<{
     name: string;
@@ -130,7 +133,7 @@ export default function CareerPage() {
         />
 
         {/* Career Benefits */}
-        <CareerBenefits />
+        <CareerBenefits data={data} />
 
         {/* Open Positions List */}
         <OpenPositions 

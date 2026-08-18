@@ -10,8 +10,13 @@ import History from './history/history';
 import StandToday from './standtoday/standtoday';
 import Philanthropy from './philanthropy/philanthropy';
 import FAQ from '@/components/home/FAQ/FAQ';
+import { AboutUsPageData } from '@/lib/strapi';
 
-export default function AboutUsPage() {
+interface AboutUsPageProps {
+  data: AboutUsPageData;
+}
+
+export default function AboutUsPage({ data }: AboutUsPageProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -21,37 +26,22 @@ export default function AboutUsPage() {
 
   return (
     <>
-      {/* 1. Navigation Navbar */}
       <Navbar />
 
       <main>
-        {/* 2. Hero Section */}
         <AboutHero
+          data={data}
           onExploreClick={() => scrollToSection('what-we-do')}
         />
 
-        {/* 3. Gold Recycling & transparent processes */}
-        <GoldRecycling />
-        {/* 5. Historical Milestones Timeline */}
-        <History />
-
-        {/* 4. Parent Group (Muthoot Pappachan Group / Muthoot Blue) */}
-        <MuthootBlue />
-
-        {/* 6. Present day financial supermarket status */}
-        <StandToday />
-
-
-
-        {/* 7. Philanthropy & HEEL program details */}
-        <Philanthropy />
-
-        {/* 8. Frequently Asked Questions */}
+        <GoldRecycling data={data} />
+        <History data={data} />
+        <MuthootBlue data={data} />
+        <StandToday data={data} />
+        <Philanthropy data={data} />
         <FAQ />
-
       </main>
 
-      {/* 9. Footer Section */}
       <Footer />
     </>
   );
