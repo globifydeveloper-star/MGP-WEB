@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { AboutUsPageData } from '@/lib/strapi';
 import './muthootblue.css';
 import portraitImg from '@/assets/images/hm6-img01.png';
 
@@ -10,7 +11,9 @@ const STATS = [
   { num: '24,000+', label: 'Employees' },
 ];
 
-export default function MuthootBlue() {
+interface MuthootBlueProps { data?: AboutUsPageData | null; }
+
+export default function MuthootBlue({ data }: MuthootBlueProps) {
   return (
     <section className="muthoot-blue-section">
       <div className="container">

@@ -1,9 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
+import { AboutUsPageData } from '@/lib/strapi';
 import './philanthropy.css';
 import aboutlastImg from '@/assets/images/aboutlast.jpeg';
 
-export default function Philanthropy() {
+interface PhilanthropyProps { data?: AboutUsPageData | null; }
+
+export default function Philanthropy({ data }: PhilanthropyProps) {
   const heelPillars = [
     {
       letter: "H",

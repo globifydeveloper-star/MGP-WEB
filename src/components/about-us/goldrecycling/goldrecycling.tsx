@@ -1,9 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
+import { AboutUsPageData } from '@/lib/strapi';
 import './goldrecycling.css';
 import aboutVanImg from '@/assets/images/aboutvan.png';
 
-export default function GoldRecycling() {
+interface GoldRecyclingProps { data?: AboutUsPageData | null; }
+
+export default function GoldRecycling({ data }: GoldRecyclingProps) {
   const steps = [
     {
       id: 1,

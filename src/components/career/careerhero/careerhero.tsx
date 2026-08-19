@@ -1,12 +1,15 @@
 import React from 'react';
 import './careerhero.css';
 
+import { CareerPageSettingsData } from '@/lib/strapi';
+
 interface CareerHeroProps {
+  data?: CareerPageSettingsData | null;
   onApplyClick: () => void;
   onViewPositionsClick: () => void;
 }
 
-export default function CareerHero({ onApplyClick, onViewPositionsClick }: CareerHeroProps) {
+export default function CareerHero({ data, onApplyClick, onViewPositionsClick }: CareerHeroProps) {
   return (
     <section className="career-hero-section">
       {/* Background overlay pattern */}

@@ -17,7 +17,7 @@ const HERO_IMAGES = [
 
 interface AboutHeroProps {
   onExploreClick: () => void;
-  data: AboutUsPageData;
+  data?: AboutUsPageData | null;
 }
 
 export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {

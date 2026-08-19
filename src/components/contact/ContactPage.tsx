@@ -13,9 +13,7 @@ import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
 import { ContactUsPageData } from '@/lib/strapi';
 
-interface ContactPageProps {
-  data: ContactUsPageData;
-}
+
 
 const SERVICES = [
   'Sell Gold for Cash',
@@ -90,7 +88,7 @@ const MailIconGold = () => (
   </svg>
 );
 
-export default function ContactPage({ data }: ContactPageProps) {
+export default function ContactPage({ data }: { data?: ContactUsPageData | null }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',

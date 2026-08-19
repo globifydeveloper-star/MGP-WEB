@@ -1,7 +1,10 @@
 import React from 'react';
+import { AboutUsPageData } from '@/lib/strapi';
 import './history.css';
 
-export default function History() {
+interface HistoryProps { data?: AboutUsPageData | null; }
+
+export default function History({ data }: HistoryProps) {
   const milestones = [
     {
       year: "1887",

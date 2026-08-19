@@ -1,7 +1,10 @@
 import React from 'react';
+import { AboutUsPageData } from '@/lib/strapi';
 import './standtoday.css';
 
-export default function StandToday() {
+interface StandTodayProps { data?: AboutUsPageData | null; }
+
+export default function StandToday({ data }: StandTodayProps) {
   const services = [
     {
       title: "Gold Loans & Precious Metals",
