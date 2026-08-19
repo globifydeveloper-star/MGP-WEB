@@ -27,9 +27,11 @@ const PATTERN_TILES = [
 interface HeroProps {
   slide?: any;
   imageSrc?: string;
+  mediaType?: 'image' | 'video';
+  layout?: 'full' | 'half';
 }
 
-export default function Hero({ slide, imageSrc }: HeroProps) {
+export default function Hero({ slide, imageSrc, mediaType, layout = 'full' }: HeroProps) {
   // Below the design width/height, uniformly scale the pixel-pinned canvas down so
   // it still fits the viewport instead of overflowing/clipping (e.g. the
   // gold rate card running off-screen or vertically below the page).
@@ -37,7 +39,9 @@ export default function Hero({ slide, imageSrc }: HeroProps) {
 
   return (
     <section
-      className="hero-section-root-v2">
+      className={`hero-section-root-v2 ${layout === 'half' ? 'hero-layout-half' : ''}`}
+      style={layout === 'half' ? { maxWidth: '1000px', margin: '0 auto' } : undefined}
+    >
       {/* Floating Gold Coin decoration - Pinned to viewport left edge */}
       <Image
         src={coinImg}
@@ -75,7 +79,7 @@ export default function Hero({ slide, imageSrc }: HeroProps) {
             className="hmv-curve-img"
             priority
           />
-          <HeroModelPhoto imageSrc={imageSrc} />
+          <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} />
         </div>
       </div>
 
@@ -117,7 +121,7 @@ export default function Hero({ slide, imageSrc }: HeroProps) {
           <div className="hero-model-golden-aura" aria-hidden="true" />
           <div className="hero-model-bg-glow" aria-hidden="true" />
 
-          <HeroModelPhoto imageSrc={imageSrc} />
+          <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} />
           <HeroGoldRateCard />
           <HeroCurve />
 

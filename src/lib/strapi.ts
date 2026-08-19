@@ -756,6 +756,7 @@ export interface DynamicPage {
   slug: string;
   seoTitle?: string;
   seoDescription?: string;
+  ogImage?: { url: string };
   sections: DynamicPageSection[];
 }
 
@@ -787,6 +788,36 @@ export const getPageBySlug = cache(async function getPageBySlug(slug: string): P
     if (isDynamicServerError(err)) throw err;
     console.error('getPageBySlug: failed to fetch dynamic page', err);
     return null;
+  }
+});
+
+
+export const getFaqsByPage = cache(async function getFaqsByPage(pageId: number): Promise<FAQ[]> {
+  try {
+    const res = await fetch(
+      `${STRAPI_URL}/api/faqs?filters[page][id][$eq]=${pageId}&populate=*&sort=order:asc`,
+      { next: { revalidate: REVALIDATE_INTERVAL } }
+    );
+    if (!res.ok) {
+      console.warn(`getFaqsByPage: Strapi responded with ${res.status}`);
+      return [];
+    }
+    const json = await res.json();
+    const data = Array.isArray(json?.data) ? json.data : [];
+    return data.map((entry: any) => {
+      const flat = unwrap<any>(entry);
+      return {
+        id: flat.id,
+        question: flat.question,
+        answer: flat.answer,
+        section: flat.section ?? 'home',
+        order: flat.order ?? 0,
+      };
+    });
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getFaqsByPage: failed to fetch FAQs', err);
+    return [];
   }
 });
 
