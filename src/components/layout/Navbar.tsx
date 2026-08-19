@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
@@ -19,19 +19,18 @@ const DEFAULT_NAV_LINKS: NavItem[] = [
   { label: 'Career', url: '/career' },
 ];
 
+function resolveUrl(link: NavItem): string {
+  if (link.url) return link.url;
+  if (link.page?.slug) {
+    if (link.page.slug === 'home' || link.page.slug === '/') return '/';
+    return `/${link.page.slug}`;
+  }
+  return '#';
+}
+
 function mergeNavLinks(customLinks: NavItem[]): NavItem[] {
   if (!customLinks || customLinks.length === 0) return DEFAULT_NAV_LINKS;
-
-  // If the admin explicitly added 'Home' or '/' in Strapi, respect the full custom list
-  const hasHomeLink = customLinks.some((link) => link.url === '/' || link.label?.toLowerCase() === 'home');
-  if (hasHomeLink) {
-    return customLinks;
-  }
-
-  // Otherwise, preserve default links and append the new custom links (preventing duplicates)
-  const existingUrls = new Set(DEFAULT_NAV_LINKS.map((l) => l.url));
-  const additionalLinks = customLinks.filter((l) => !existingUrls.has(l.url));
-  return [...DEFAULT_NAV_LINKS, ...additionalLinks];
+  return customLinks; // We now fully trust Strapi for NavLinks as per the requirement
 }
 
 export default function Navbar() {
@@ -95,26 +94,28 @@ export default function Navbar() {
 
         {/* Navigation Links - All styled identically matching standard navbar theme */}
         <nav className="navbar-nav-v2">
-          {navLinks.map((link) => (
-            link.isExternal ? (
+          {navLinks.map((link, i) => {
+            const resolvedUrl = resolveUrl(link);
+            const label = link.label || link.page?.slug || 'Link';
+            return link.isExternal ? (
               <a
-                key={link.label}
-                href={link.url}
+                key={label + i}
+                href={resolvedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {link.label}
+                {label}
               </a>
             ) : (
               <Link
-                key={link.label}
-                href={link.url}
-                className={link.url !== '#' && pathname === link.url ? 'active' : ''}
+                key={label + i}
+                href={resolvedUrl}
+                className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}
               >
-                {link.label}
+                {label}
               </Link>
             )
-          ))}
+          })}
         </nav>
 
         {/* Right Side: Phone Contact & CTA */}
@@ -140,28 +141,30 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown */}
       <div id="mobile-navigation" className={`mobile-menu-dropdown ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
         <nav className="mobile-nav-links">
-          {navLinks.map((link) => (
-            link.isExternal ? (
+          {navLinks.map((link, i) => {
+            const resolvedUrl = resolveUrl(link);
+            const label = link.label || link.page?.slug || 'Link';
+            return link.isExternal ? (
               <a
-                key={link.label}
-                href={link.url}
+                key={label + i}
+                href={resolvedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
               >
-                {link.label}
+                {label}
               </a>
             ) : (
               <Link
-                key={link.label}
-                href={link.url}
-                className={link.url !== '#' && pathname === link.url ? 'active' : ''}
+                key={label + i}
+                href={resolvedUrl}
+                className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}
                 onClick={() => setMenuOpen(false)}
               >
-                {link.label}
+                {label}
               </Link>
             )
-          ))}
+          })}
         </nav>
       </div>
 

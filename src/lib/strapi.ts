@@ -782,6 +782,7 @@ export const getPageBySlug = cache(async function getPageBySlug(slug: string): P
       slug: flat.slug,
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
+      ogImage: flat.ogImage ? { url: resolveMediaUrl(flat.ogImage.url) ?? flat.ogImage.url } : undefined,
       sections,
     };
   } catch (err) {
@@ -981,7 +982,37 @@ export interface NavItem {
   url: string;
   isExternal?: boolean;
   isButton?: boolean;
+  page?: { slug: string };
 }
+
+
+export interface FooterSetting {
+  quickLinks: NavItem[];
+  legalLinks: NavItem[];
+}
+
+export const getFooterSetting = cache(async function getFooterSetting(): Promise<FooterSetting | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) {
+      console.warn(`getFooterSetting: Strapi responded with ${res.status}`);
+      return null;
+    }
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      quickLinks: Array.isArray(flat.quickLinks) ? flat.quickLinks : [],
+      legalLinks: Array.isArray(flat.legalLinks) ? flat.legalLinks : [],
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getFooterSetting: failed to fetch settings', err);
+    return null;
+  }
+});
 
 export interface NavbarSetting {
   navLinks: NavItem[];
@@ -992,7 +1023,7 @@ export interface NavbarSetting {
 
 export async function getNavbarSetting(): Promise<NavbarSetting | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/navbar-setting?populate=*`, {
+    const res = await fetch(`${STRAPI_URL}/api/navbar-setting?populate[navLinks][populate]=*`, {
       next: { revalidate: REVALIDATE_INTERVAL },
     });
     if (!res.ok) {

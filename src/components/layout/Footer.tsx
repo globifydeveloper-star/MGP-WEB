@@ -1,10 +1,57 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import './Footer.css';
+import { getFooterSetting, NavItem } from '@/lib/strapi';
+
+const DEFAULT_QUICK_LINKS: NavItem[] = [
+  { label: 'About Us', url: '/about-us' },
+  { label: 'Sell Gold', url: '/sell-gold-for-cash' },
+  { label: 'Careers', url: '/career' },
+  { label: 'Branch Locator', url: 'https://branches.muthootgoldpoint.com/', isExternal: true },
+  { label: 'FAQs', url: '/faq' },
+  { label: 'Contact Us', url: '/contact-us' },
+  { label: 'Blog', url: '/blog' },
+];
+
+const DEFAULT_LEGAL_LINKS: NavItem[] = [
+  { label: 'Privacy Policy', url: '/privacy-policy' },
+  { label: 'Cookie Policy', url: '/cookie-policy' },
+  { label: 'Terms of Service', url: '/terms-of-service' },
+];
+
+function resolveUrl(link: NavItem): string {
+  if (link.url) return link.url;
+  if (link.page?.slug) {
+    if (link.page.slug === 'home' || link.page.slug === '/') return '/';
+    return `/${link.page.slug}`;
+  }
+  return '#';
+}
 
 export default function Footer() {
+  const [quickLinks, setQuickLinks] = useState<NavItem[]>(DEFAULT_QUICK_LINKS);
+  const [legalLinks, setLegalLinks] = useState<NavItem[]>(DEFAULT_LEGAL_LINKS);
+
+  useEffect(() => {
+    let isMounted = true;
+    getFooterSetting()
+      .then((data) => {
+        if (!isMounted || !data) return;
+        if (data.quickLinks && data.quickLinks.length > 0) {
+          setQuickLinks(data.quickLinks);
+        }
+        if (data.legalLinks && data.legalLinks.length > 0) {
+          setLegalLinks(data.legalLinks);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <footer className="footer-root">
       <div className="container footer-container">
@@ -44,13 +91,19 @@ export default function Footer() {
         <div className="footer-col links-col">
           <h4 className="footer-col-title">Quick Links</h4>
           <ul className="footer-links-list">
-            <li><Link href="/about-us" className="footer-link">About Us</Link></li>
-            <li><Link href="/sell-gold-for-cash" className="footer-link">Sell Gold</Link></li>
-            <li><Link href="/career" className="footer-link">Careers</Link></li>
-            <li><a href="https://branches.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="footer-link">Branch Locator</a></li>
-            <li><Link href="/faq" className="footer-link">FAQs</Link></li>
-            <li><Link href="/contact-us" className="footer-link">Contact Us</Link></li>
-            <li><Link href="/blog " className="footer-link">Blog</Link></li>
+            {quickLinks.map((link, i) => {
+              const resolvedUrl = resolveUrl(link);
+              const label = link.label || link.page?.slug || 'Link';
+              return (
+                <li key={label + i}>
+                  {link.isExternal ? (
+                    <a href={resolvedUrl} target="_blank" rel="noopener noreferrer" className="footer-link">{label}</a>
+                  ) : (
+                    <Link href={resolvedUrl} className="footer-link">{label}</Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -110,9 +163,15 @@ export default function Footer() {
             Copyright &copy; Muthoot Exim {new Date().getFullYear()}. All Rights Reserved.
           </p>
           <div className="footer-bottom-links">
-            <Link href="/privacy-policy" className="footer-bottom-link">Privacy Policy</Link>
-            <Link href="/cookie-policy" className="footer-bottom-link">Cookie Policy</Link>
-            <Link href="/terms-of-service" className="footer-bottom-link">Terms of Service</Link>
+            {legalLinks.map((link, i) => {
+              const resolvedUrl = resolveUrl(link);
+              const label = link.label || link.page?.slug || 'Link';
+              return link.isExternal ? (
+                <a key={label + i} href={resolvedUrl} target="_blank" rel="noopener noreferrer" className="footer-bottom-link">{label}</a>
+              ) : (
+                <Link key={label + i} href={resolvedUrl} className="footer-bottom-link">{label}</Link>
+              );
+            })}
           </div>
         </div>
       </div>
