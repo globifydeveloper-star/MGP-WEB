@@ -546,7 +546,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
         <BranchLocator />
       </main>
 
-      <Footer />
+      { !data?.hideFooter && <Footer /> }
     </>
   );
 }

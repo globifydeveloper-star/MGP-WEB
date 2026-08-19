@@ -108,7 +108,7 @@ export default async function Home() {
       <BranchLocator states={states} />
 
       {/* 10. Footer Section */}
-      <Footer />
+      { !homepage?.hideFooter && <Footer /> }
     </main>
   );
 }

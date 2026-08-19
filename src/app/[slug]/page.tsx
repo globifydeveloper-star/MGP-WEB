@@ -53,7 +53,7 @@ export default async function DynamicPage({ params }: PageProps) {
     <main>
       <Navbar />
       <SectionRenderer sections={page.sections} pageId={page.id} />
-      <Footer />
+      { !page?.hideFooter && <Footer /> }
     </main>
   );
 }

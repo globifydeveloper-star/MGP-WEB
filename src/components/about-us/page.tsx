@@ -42,7 +42,7 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
         <FAQ />
       </main>
 
-      <Footer />
+      { !data?.hideFooter && <Footer /> }
     </>
   );
 }

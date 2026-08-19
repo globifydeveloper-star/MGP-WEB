@@ -412,6 +412,7 @@ export interface HomepageData {
   seoTitle?: string;
   seoDescription?: string;
   ogImage?: string;
+  hideFooter?: boolean;
 }
 
 export interface HeroSlide {
@@ -520,6 +521,7 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
       ogImage: getMediaUrl(flat.ogImage),
+      hideFooter: flat.hideFooter ?? false,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
@@ -758,6 +760,7 @@ export interface DynamicPage {
   seoDescription?: string;
   ogImage?: { url: string };
   sections: DynamicPageSection[];
+  hideFooter?: boolean;
 }
 
 export const getPageBySlug = cache(async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
@@ -784,6 +787,7 @@ export const getPageBySlug = cache(async function getPageBySlug(slug: string): P
       seoDescription: flat.seoDescription,
       ogImage: flat.ogImage ? { url: resolveMediaUrl(flat.ogImage.url) ?? flat.ogImage.url } : undefined,
       sections,
+      hideFooter: flat.hideFooter ?? false,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
@@ -863,6 +867,7 @@ export interface AboutUsPageData {
   seoTitle?: string;
   seoDescription?: string;
   ogImage?: string;
+  hideFooter?: boolean;
 }
 
 export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<AboutUsPageData | null> {
@@ -915,6 +920,7 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
       ogImage: getMediaUrl(flat.ogImage),
+      hideFooter: flat.hideFooter ?? false,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
@@ -940,6 +946,7 @@ export interface ContactUsPageData {
   seoTitle?: string;
   seoDescription?: string;
   ogImage?: string;
+  hideFooter?: boolean;
 }
 
 export const getContactUsPage = cache(async function getContactUsPage(): Promise<ContactUsPageData | null> {
@@ -968,6 +975,7 @@ export const getContactUsPage = cache(async function getContactUsPage(): Promise
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
       ogImage: getMediaUrl(flat.ogImage),
+      hideFooter: flat.hideFooter ?? false,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
@@ -989,6 +997,16 @@ export interface NavItem {
 export interface FooterSetting {
   quickLinks: NavItem[];
   legalLinks: NavItem[];
+  footerDescription?: string;
+  facebookUrl?: string;
+  instagramUrl?: string;
+  youtubeUrl?: string;
+  linkedinUrl?: string;
+  twitterUrl?: string;
+  officeAddress?: string;
+  officeHours?: string;
+  tollFreeNumber?: string;
+  copyrightText?: string;
 }
 
 export const getFooterSetting = cache(async function getFooterSetting(): Promise<FooterSetting | null> {
