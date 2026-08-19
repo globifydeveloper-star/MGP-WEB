@@ -36,7 +36,12 @@ function mergeNavLinks(customLinks: NavItem[]): NavItem[] {
 export default function NavbarClient({ initialData }: { initialData: any }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // ADD THIS
   const [navLinks, setNavLinks] = useState<NavItem[]>(initialData?.navLinks?.length ? mergeNavLinks(initialData.navLinks) : DEFAULT_NAV_LINKS);
+  
+  // ADD THESE TWO LINES:
+  const visibleLinks = navLinks.slice(0, 5); // Show first 5 links on desktop
+  const moreLinks = navLinks.slice(5);       // Everything else goes in "More"
   const [phoneNumber, setPhoneNumber] = useState(initialData?.phoneNumber || '+91 9037 921 192');
   const [phoneRaw, setPhoneRaw] = useState(initialData?.phoneRaw || '+919037921192');
   const [ctaLabel, setCtaLabel] = useState(initialData?.ctaLabel || 'Sell Your Gold');
@@ -76,30 +81,51 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
           />
         </Link>
 
-        {/* Navigation Links - All styled identically matching standard navbar theme */}
+        {/* Navigation Links - Desktop */}
         <nav className="navbar-nav-v2">
-          {navLinks.map((link, i) => {
+          {visibleLinks.map((link, i) => {
             const resolvedUrl = resolveUrl(link);
             const label = link.label || link.page?.slug || 'Link';
             return link.isExternal ? (
-              <a
-                key={label + i}
-                href={resolvedUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {label}
-              </a>
+              <a key={label + i} href={resolvedUrl} target="_blank" rel="noopener noreferrer">{label}</a>
             ) : (
-              <Link
-                key={label + i}
-                href={resolvedUrl}
-                className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}
-              >
-                {label}
-              </Link>
+              <Link key={label + i} href={resolvedUrl} className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}>{label}</Link>
             )
           })}
+          
+          {/* The "More" Dropdown */}
+          {moreLinks.length > 0 && (
+            <div 
+              onMouseEnter={() => setDropdownOpen(true)}
+              onMouseLeave={() => setDropdownOpen(false)}
+              style={{ position: 'relative', display: 'flex', alignItems: 'center', height: '100%', cursor: 'pointer', marginLeft: '8px' }}
+            >
+              <span style={{ color: 'white', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px', fontSize: '15px' }}>
+                More
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+              
+              {dropdownOpen && (
+                <div style={{ 
+                    position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', backgroundColor: 'white', 
+                    borderRadius: '8px', padding: '8px 0', minWidth: '180px', 
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column',
+                    zIndex: 100, marginTop: '10px'
+                  }}
+                >
+                  {moreLinks.map((link, i) => {
+                    const resolvedUrl = resolveUrl(link);
+                    const label = link.label || link.page?.slug || 'Link';
+                    return link.isExternal ? (
+                      <a key={label + i} href={resolvedUrl} target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', color: '#0F1A4D', textDecoration: 'none', fontSize: '15px', fontWeight: 500, display: 'block' }}>{label}</a>
+                    ) : (
+                      <Link key={label + i} href={resolvedUrl} style={{ padding: '10px 20px', color: '#0F1A4D', textDecoration: 'none', fontSize: '15px', fontWeight: 500, display: 'block' }}>{label}</Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </nav>
 
         {/* Right Side: Phone Contact & CTA */}
