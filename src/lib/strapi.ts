@@ -1024,6 +1024,16 @@ export const getFooterSetting = cache(async function getFooterSetting(): Promise
     return {
       quickLinks: Array.isArray(flat.quickLinks) ? flat.quickLinks : [],
       legalLinks: Array.isArray(flat.legalLinks) ? flat.legalLinks : [],
+      footerDescription: flat.footerDescription,
+      facebookUrl: flat.facebookUrl,
+      instagramUrl: flat.instagramUrl,
+      youtubeUrl: flat.youtubeUrl,
+      linkedinUrl: flat.linkedinUrl,
+      twitterUrl: flat.twitterUrl,
+      officeAddress: flat.officeAddress,
+      officeHours: flat.officeHours,
+      tollFreeNumber: flat.tollFreeNumber,
+      copyrightText: flat.copyrightText,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;

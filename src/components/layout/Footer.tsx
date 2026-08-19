@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import './Footer.css';
 import { getFooterSetting, NavItem } from '@/lib/strapi';
@@ -30,54 +28,33 @@ function resolveUrl(link: NavItem): string {
   return '#';
 }
 
-export default function Footer() {
-  const [quickLinks, setQuickLinks] = useState<NavItem[]>(DEFAULT_QUICK_LINKS);
-  const [legalLinks, setLegalLinks] = useState<NavItem[]>(DEFAULT_LEGAL_LINKS);
-  const [footerDesc, setFooterDesc] = useState('Muthoot Gold Point is the first National level organized sector venture to get into recycling of Gold, backed by a 133+ year legacy.');
-  const [socials, setSocials] = useState({
-    facebook: 'https://www.facebook.com/MGoldPoint/',
-    instagram: 'https://www.instagram.com/muthoot.goldpoint/',
-    youtube: 'https://www.youtube.com/watch?v=qntmLoXsN_c',
-    linkedin: 'https://www.linkedin.com/company/muthoot-exim-private-limited/',
-    twitter: 'https://x.com/muthootindia?lang=en'
-  });
-  const [officeData, setOfficeData] = useState({
-    address: 'Muthoot Exim Private Limited Ground Floor Muthoot Towers, M.G.Road, Opposite Abad Plaza Ernakulam, Kerala, 682035',
-    hours: '9:00 AM - 6:00 PM',
-    tollFree: '1800 102 1616',
-    copyright: 'Copyright © Muthoot Exim ' + new Date().getFullYear() + '. All Rights Reserved.'
-  });
+export default async function Footer() {
+  const data = await getFooterSetting();
 
-  useEffect(() => {
-    let isMounted = true;
-    getFooterSetting()
-      .then((data) => {
-        if (!isMounted || !data) return;
-        if (data.quickLinks && data.quickLinks.length > 0) setQuickLinks(data.quickLinks);
-        if (data.legalLinks && data.legalLinks.length > 0) setLegalLinks(data.legalLinks);
-        
-        if (data.footerDescription) setFooterDesc(data.footerDescription);
-        
-        setSocials(prev => ({
-          facebook: data.facebookUrl || prev.facebook,
-          instagram: data.instagramUrl || prev.instagram,
-          youtube: data.youtubeUrl || prev.youtube,
-          linkedin: data.linkedinUrl || prev.linkedin,
-          twitter: data.twitterUrl || prev.twitter
-        }));
-        
-        setOfficeData(prev => ({
-          address: data.officeAddress || prev.address,
-          hours: data.officeHours || prev.hours,
-          tollFree: data.tollFreeNumber || prev.tollFree,
-          copyright: data.copyrightText ? data.copyrightText.replace('{year}', new Date().getFullYear().toString()) : prev.copyright
-        }));
-      })
-      .catch(() => {});
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  // Fallbacks
+  const quickLinks = data?.quickLinks?.length ? data.quickLinks : DEFAULT_QUICK_LINKS;
+  const legalLinks = data?.legalLinks?.length ? data.legalLinks : DEFAULT_LEGAL_LINKS;
+
+  const footerDesc = data?.footerDescription || 'Muthoot Gold Point is the first National level organized sector venture to get into recycling of Gold, backed by a 133+ year legacy.';
+
+  const socials = {
+    facebook: data?.facebookUrl || 'https://www.facebook.com/MGoldPoint/',
+    instagram: data?.instagramUrl || 'https://www.instagram.com/muthoot.goldpoint/',
+    youtube: data?.youtubeUrl || 'https://www.youtube.com/watch?v=qntmLoXsN_c',
+    linkedin: data?.linkedinUrl || 'https://www.linkedin.com/company/muthoot-exim-private-limited/',
+    twitter: data?.twitterUrl || 'https://x.com/muthootindia?lang=en'
+  };
+
+  const officeData = {
+    address: data?.officeAddress || 'Muthoot Exim Private Limited Ground Floor Muthoot Towers, M.G.Road, Opposite Abad Plaza Ernakulam, Kerala, 682035',
+    hours: data?.officeHours || '9:00 AM - 6:00 PM',
+    tollFree: data?.tollFreeNumber || '1800 102 1616',
+    copyright: data?.copyrightText
+      ? data.copyrightText.replace('{year}', new Date().getFullYear().toString())
+      : 'Copyright © Muthoot Exim ' + new Date().getFullYear() + '. All Rights Reserved.'
+  };
+
+
 
   return (
     <footer className="footer-root">
