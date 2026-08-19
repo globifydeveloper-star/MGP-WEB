@@ -136,7 +136,7 @@
   background-repeat: repeat;
   background-size: auto;
   background-position: left top;
-  overflow: hidden;
+  overflow: visible;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -271,6 +271,72 @@
   position: absolute;
   pointer-events: none;
   opacity: 0.10;
+}
+
+/* More Dropdown Styles */
+.navbar-more-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.navbar-more-trigger {
+  color: white;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 18px;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  transition: color 0.2s ease;
+  padding: 6px 12px 10px 12px;
+}
+
+.navbar-more-trigger:hover {
+  color: #EBAF20;
+}
+
+.navbar-more-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1E1B4B;
+  background-image: url('../../assets/images/NAVBAR BG.png');
+  background-size: cover;
+  border-radius: 8px;
+  padding: 12px 0;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-nav-v2 a.navbar-dropdown-item {
+  padding: 12px 24px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  text-align: left;
+  align-items: flex-start;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar-nav-v2 a.navbar-dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #EBAF20;
+}
+
+.navbar-nav-v2 a.navbar-dropdown-item::after {
+  display: none;
 }
 
 /* Hamburger Toggle Button Style */

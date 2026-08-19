@@ -1063,12 +1063,14 @@ export async function getNavbarSetting(): Promise<NavbarSetting | null> {
     const rawLinks = Array.isArray(flat.navLinks) ? flat.navLinks : [];
     const navLinks = rawLinks.map((item: any) => {
       const flatItem = unwrap<any>(item);
+      const page = flatItem.page ? unwrap<any>(flatItem.page) : undefined;
       return {
         id: flatItem.id,
         label: flatItem.label,
         url: flatItem.url,
         isExternal: Boolean(flatItem.isExternal),
         isButton: Boolean(flatItem.isButton),
+        page: page ? { slug: page.slug } : undefined,
       };
     });
     return {
