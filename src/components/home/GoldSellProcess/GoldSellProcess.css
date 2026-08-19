@@ -29,6 +29,21 @@
   color: #CB9224;
 }
 
+.gsp-left-content {
+  animation: fadeSlideUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .gsp-desc {
   font-size: 0.98rem;
   color: #41444f;

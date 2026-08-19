@@ -118,6 +118,16 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
     });
   }, [openIndex, steps]);
 
+  // Add this timer to auto-cycle Desktop steps
+  useEffect(() => {
+    if (!steps || steps.length === 0) return;
+    const timer = setInterval(() => {
+      setOpenIndex((prev) => (prev + 1) % steps.length);
+      setActiveIndex((prev) => (prev + 1) % steps.length);
+    }, 4000); // Changes every 4 seconds
+    return () => clearInterval(timer);
+  }, [steps.length]);
+
   return (
     <div className="gsp-grid">
       {/* Left Column: Heading, description & image */}
@@ -125,10 +135,12 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
         <h2 className="gsp-heading">
           Gold Selling <span className="gsp-heading-highlight">Process</span>
         </h2>
-        <p className="gsp-desc">{activeStep?.leftDesc}</p>
-        <div className="gsp-image-wrap">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={sectionImage || activeStep?.image} alt={activeStep?.title} className="gsp-image" />
+        <div key={activeIndex} className="gsp-left-content">
+          <p className="gsp-desc">{activeStep?.leftDesc}</p>
+          <div className="gsp-image-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={sectionImage || activeStep?.image} alt={activeStep?.title} className="gsp-image" />
+          </div>
         </div>
       </div>
 
