@@ -58,7 +58,7 @@ export default async function Home() {
   return (
     <main>
       {/* 1. Navbar Navigation */}
-      <Navbar />
+      {!homepageData?.hideNavbar && <Navbar />}
 
       {/* Hero Section - crossfades between the Hero and a second promo slide */}
       <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} />

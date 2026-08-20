@@ -24,7 +24,7 @@ export default async function Page() {
   if (!data) return notFound();
   return (
     <>
-      <Navbar />
+      {!pageData?.hideNavbar && <Navbar />}
       <ContactPage data={data} />
       { !data?.hideFooter && <Footer /> }
     </>

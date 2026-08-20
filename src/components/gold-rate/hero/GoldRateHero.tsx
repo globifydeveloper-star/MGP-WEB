@@ -16,6 +16,8 @@ const RUPEE = '₹';
 
 interface GoldRateHeroProps {
   onSellGoldClick: () => void;
+  heroTitle?: string;
+  heroDescription?: string;
 }
 
 function scrollToId(id: string) {
@@ -23,7 +25,7 @@ function scrollToId(id: string) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-export default function GoldRateHero({ onSellGoldClick }: GoldRateHeroProps) {
+export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescription }: GoldRateHeroProps) {
   const today = new Date().toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -48,10 +50,14 @@ export default function GoldRateHero({ onSellGoldClick }: GoldRateHeroProps) {
         <div className="container grh-top-grid">
           <div className="grh-left">
             <h1 className="grh-heading">
-              Today&apos;s <span className="gold-text">Gold Rate</span>
+              {heroTitle ? (
+                <span dangerouslySetInnerHTML={{ __html: heroTitle }} />
+              ) : (
+                <>Today&apos;s <span className="gold-text">Gold Rate</span></>
+              )}
             </h1>
             <p className="grh-subtext">
-              Stay updated with the latest gold prices and know the value of your gold with complete transparency.
+              {heroDescription || 'Stay updated with the latest gold prices and know the value of your gold with complete transparency.'}
             </p>
 
             <div className="grh-meta-row">

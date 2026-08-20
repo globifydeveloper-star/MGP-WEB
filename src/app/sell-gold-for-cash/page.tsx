@@ -10,7 +10,7 @@ export const metadata = {
 export default function Page() {
   return (
     <>
-      <Navbar />
+      <div style={{ position: "relative", zIndex: 9999 }}><Navbar /></div>
       <SellGoldForCashPage />
       <Footer />
     </>

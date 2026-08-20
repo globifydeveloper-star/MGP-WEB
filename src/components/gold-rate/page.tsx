@@ -10,14 +10,17 @@ import GoldRateCTA from './cta/GoldRateCTA';
 import GoldRateFAQ from './faq/GoldRateFAQ';
 import TrustStrip from './trust-strip/TrustStrip';
 
-export default function GoldRatePage() {
+export default function GoldRatePage({ data }: { data?: any }) {
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
 
   return (
     <>
-      
       <main>
-        <GoldRateHero onSellGoldClick={() => setIsSellGoldOpen(true)} />
+        <GoldRateHero
+          onSellGoldClick={() => setIsSellGoldOpen(true)}
+          heroTitle={data?.heroTitle}
+          heroDescription={data?.heroDescription}
+        />
 
         <GoldValueForm />
 
@@ -27,12 +30,11 @@ export default function GoldRatePage() {
 
         <GoldRateCTA onSellGoldClick={() => setIsSellGoldOpen(true)} />
 
-        <GoldRateFAQ />
+        <GoldRateFAQ faqs={data?.faqs} />
 
         <TrustStrip />
       </main>
 
-      
       <SellGoldModal isOpen={isSellGoldOpen} onClose={() => setIsSellGoldOpen(false)} />
     </>
   );

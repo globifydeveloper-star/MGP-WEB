@@ -5,12 +5,23 @@ import Image from 'next/image';
 import './GoldRateFAQ.css';
 import { GOLD_RATE_FAQS } from '@/lib/goldRateFaqs';
 
-export default function GoldRateFAQ() {
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface GoldRateFAQProps {
+  faqs?: FaqItem[];
+}
+
+export default function GoldRateFAQ({ faqs }: GoldRateFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const finalFaqs = (faqs && faqs.length > 0) ? faqs : GOLD_RATE_FAQS;
 
   return (
     <section className="grf-section" id="faq">
@@ -19,7 +30,7 @@ export default function GoldRateFAQ() {
           <h2 className="grf-title">Frequently Asked Questions</h2>
 
           <div className="grf-list">
-            {GOLD_RATE_FAQS.map((faq, idx) => {
+            {finalFaqs.map((faq, idx) => {
               const isOpen = openIndex === idx;
               return (
                 <div className={`grf-item ${isOpen ? 'grf-item-open' : ''}`} key={faq.question}>

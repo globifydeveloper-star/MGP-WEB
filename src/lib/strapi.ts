@@ -413,6 +413,7 @@ export interface HomepageData {
   seoDescription?: string;
   ogImage?: string;
   hideFooter?: boolean;
+  hideNavbar?: boolean;
 }
 
 export interface HeroSlide {
@@ -719,6 +720,7 @@ export interface DynamicPage {
   ogImage?: { url: string };
   sections: DynamicPageSection[];
   hideFooter?: boolean;
+  hideNavbar?: boolean;
 }
 
 export const getPageBySlug = cache(async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
@@ -826,6 +828,7 @@ export interface AboutUsPageData {
   seoDescription?: string;
   ogImage?: string;
   hideFooter?: boolean;
+  hideNavbar?: boolean;
 }
 
 export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<AboutUsPageData | null> {
@@ -905,6 +908,7 @@ export interface ContactUsPageData {
   seoDescription?: string;
   ogImage?: string;
   hideFooter?: boolean;
+  hideNavbar?: boolean;
 }
 
 export const getContactUsPage = cache(async function getContactUsPage(): Promise<ContactUsPageData | null> {
@@ -1043,3 +1047,42 @@ export async function getNavbarSetting(): Promise<NavbarSetting | null> {
     return null;
   }
 }
+
+
+export interface GoldRatePageData {
+  seoTitle?: string;
+  seoDescription?: string;
+  ogImage?: string;
+  hideFooter?: boolean;
+  hideNavbar?: boolean;
+  heroTitle?: string;
+  heroDescription?: string;
+  faqs?: Faq[];
+}
+
+export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<any>(json.data);
+    const ogImageRaw = flat.ogImage ? unwrap<any>(flat.ogImage) : undefined;
+    return {
+      seoTitle: flat.seoTitle,
+      seoDescription: flat.seoDescription,
+      ogImage: ogImageRaw?.url ? (resolveMediaUrl(ogImageRaw.url) ?? ogImageRaw.url) : undefined,
+      hideFooter: Boolean(flat.hideFooter),
+      hideNavbar: Boolean(flat.hideNavbar),
+      heroTitle: flat.heroTitle,
+      heroDescription: flat.heroDescription,
+      faqs: Array.isArray(flat.faqs) ? flat.faqs.map(unwrap) : [],
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getGoldRatePage: failed to fetch', err);
+    return null;
+  }
+});
