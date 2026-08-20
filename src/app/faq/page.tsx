@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import FAQPage from '@/components/faq/FAQPage';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
   title: 'FAQs | Muthoot Gold Point',
@@ -13,4 +15,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default FAQPage;
+export default function FAQRoute() {
+  return (
+    <>
+      <Navbar />
+      <FAQPage />
+      <Footer />
+    </>
+  );
+}

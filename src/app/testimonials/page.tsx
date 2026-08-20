@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import TestimonialsPage from '@/components/testimonials/page';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
   title: 'Customer Testimonials | Muthoot Gold Point',
@@ -13,4 +15,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default TestimonialsPage;
+export default function TestimonialsRoute() {
+  return (
+    <>
+      <Navbar />
+      <TestimonialsPage />
+      <Footer />
+    </>
+  );
+}

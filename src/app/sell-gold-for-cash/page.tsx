@@ -1,4 +1,6 @@
 import SellGoldForCashPage from '@/components/sell-gold-for-cash/page';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
 export const metadata = {
   title: 'Sell Gold for Cash | Muthoot Gold Point',
@@ -6,5 +8,11 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <SellGoldForCashPage />;
+  return (
+    <>
+      <Navbar />
+      <SellGoldForCashPage />
+      <Footer />
+    </>
+  );
 }
