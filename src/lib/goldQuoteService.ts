@@ -54,7 +54,7 @@ interface CacheEntry {
   expiresAt: number;
 }
 
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
 const quoteCache = new Map<string, CacheEntry>();
 
 export function clearQuoteCache(): void {
@@ -118,6 +118,7 @@ export async function fetchGoldQuote({
   const now = Date.now();
 
   if (cached && now < cached.expiresAt) {
+    console.log(`[GoldQuote] Serving from cache (12h TTL): ${weight}g at ${purity}%`);
     return {
       ...cached.data,
       fromCache: true,
@@ -201,6 +202,7 @@ export async function fetchGoldQuote({
         data: result,
         expiresAt: now + CACHE_TTL_MS,
       });
+      console.log(`[GoldQuote] Saved live rate to cache (12h TTL): ${weight}g at ${purity}%`);
 
       return {
         ...result,
