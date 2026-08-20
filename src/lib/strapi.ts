@@ -1057,7 +1057,7 @@ export interface GoldRatePageData {
   hideNavbar?: boolean;
   heroTitle?: string;
   heroDescription?: string;
-  faqs?: Faq[];
+  faqs?: FAQ[];
 }
 
 export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
