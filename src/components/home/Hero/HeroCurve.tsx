@@ -224,7 +224,7 @@ export default function HeroCurve() {
       {/* Mid curve star */}
       <div
         className="small-star"
-        style={{ position: 'absolute', left: 583.6, top: 534.2, width: 22, height: 43, opacity: 0 }}
+        style={{ position: 'absolute', left: 600.4, top: 534.2, width: 22, height: 43, opacity: 0 }}
       >
         <Image
           src={starImg}
