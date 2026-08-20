@@ -3,8 +3,6 @@
 import React, { useState, useMemo } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import Image from 'next/image';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
@@ -189,8 +187,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
 
   return (
     <>
-      <Navbar />
-
+      
       <main className="cp-page">
         {/* TOP HERO BANNER */}
         <section className="cp-hero-banner">
@@ -546,7 +543,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
         <BranchLocator />
       </main>
 
-      { !data?.hideFooter && <Footer /> }
+
     </>
   );
 }

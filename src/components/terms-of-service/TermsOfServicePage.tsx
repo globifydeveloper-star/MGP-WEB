@@ -2,8 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import './terms-of-service.css';
 
@@ -31,8 +29,7 @@ export default function TermsOfServicePage() {
 
   return (
     <>
-      <Navbar />
-
+      
       <main className="terms-page-root">
         <div className="container terms-container">
 
@@ -214,7 +211,6 @@ export default function TermsOfServicePage() {
         <BranchLocator />
       </main>
 
-      <Footer />
-    </>
+          </>
   );
 }

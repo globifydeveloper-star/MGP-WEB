@@ -107,7 +107,7 @@
 
 @keyframes van-motion-line-move {
   0% {
-    transform: translateX(-14px);
+    transform: translateX(8px);
     opacity: 0;
   }
 
@@ -116,7 +116,7 @@
   }
 
   100% {
-    transform: translateX(8px);
+    transform: translateX(-14px);
     opacity: 0;
   }
 }
@@ -183,7 +183,7 @@
   }
 
   to {
-    background-position-x: -50px;
+    background-position-x: 50px;
   }
 }
 

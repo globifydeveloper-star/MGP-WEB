@@ -2,16 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import './privacy-policy.css';
 
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <Navbar />
-
+      
       <main className="privacy-page-root">
         {/* Main Content Section (No Hero Banner) */}
         <section className="privacy-content-section">
@@ -295,7 +292,6 @@ export default function PrivacyPolicyPage() {
         <BranchLocator />
       </main>
 
-      <Footer />
-    </>
+          </>
   );
 }

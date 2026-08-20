@@ -1,8 +1,6 @@
 'use client';
 
 import React from 'react';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import AboutHero from './abouthero/abouthero';
 import GoldRecycling from './goldrecycling/goldrecycling';
 import MuthootBlue from './muthootblue/muthootblue';
@@ -26,8 +24,7 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
 
   return (
     <>
-      <Navbar />
-
+      
       <main>
         <AboutHero
           data={data}
@@ -42,7 +39,7 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
         <FAQ />
       </main>
 
-      { !data?.hideFooter && <Footer /> }
+
     </>
   );
 }

@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SellGoldModal from '@/components/layout/SellGoldModal';
 import GoldRateHero from './hero/GoldRateHero';
 import GoldValueForm from '@/components/home/GoldValueForm/GoldValueForm';
@@ -17,8 +15,7 @@ export default function GoldRatePage() {
 
   return (
     <>
-      <Navbar />
-
+      
       <main>
         <GoldRateHero onSellGoldClick={() => setIsSellGoldOpen(true)} />
 
@@ -35,8 +32,7 @@ export default function GoldRatePage() {
         <TrustStrip />
       </main>
 
-      <Footer />
-
+      
       <SellGoldModal isOpen={isSellGoldOpen} onClose={() => setIsSellGoldOpen(false)} />
     </>
   );

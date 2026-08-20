@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import ContactPage from '@/components/contact/ContactPage';
 import { getContactUsPage } from '@/lib/strapi';
 import { notFound } from 'next/navigation';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getContactUsPage();
@@ -20,5 +22,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   const data = await getContactUsPage();
   if (!data) return notFound();
-  return <ContactPage data={data} />;
+  return (
+    <>
+      <Navbar />
+      <ContactPage data={data} />
+      { !data?.hideFooter && <Footer /> }
+    </>
+  );
 }

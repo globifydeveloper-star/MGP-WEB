@@ -3,8 +3,6 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import faqHeroBg from '@/assets/images/faqimg.png';
 import './FAQPage.css';
@@ -90,8 +88,7 @@ export default function FAQPage() {
 
   return (
     <>
-      <Navbar />
-
+      
       <main className="faq-page">
         {/* HERO BANNER - Exact size and style matching Contact Page */}
         <section className="faq-hero-banner">
@@ -244,7 +241,6 @@ export default function FAQPage() {
         <BranchLocator />
       </main>
 
-      <Footer />
-    </>
+          </>
   );
 }

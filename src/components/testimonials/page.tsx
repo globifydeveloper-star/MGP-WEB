@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SellGoldModal from '@/components/layout/SellGoldModal';
 import TestimonialsHero from './testimonialshero/testimonialshero';
 import StatsStrip from './statsstrip/statsstrip';
@@ -14,8 +12,7 @@ export default function TestimonialsPage() {
 
   return (
     <>
-      <Navbar />
-
+      
       <main>
         <TestimonialsHero />
 
@@ -26,8 +23,7 @@ export default function TestimonialsPage() {
         <TestimonialsCTA onSellGoldClick={() => setIsSellGoldOpen(true)} />
       </main>
 
-      <Footer />
-
+      
       <SellGoldModal isOpen={isSellGoldOpen} onClose={() => setIsSellGoldOpen(false)} />
     </>
   );

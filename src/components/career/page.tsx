@@ -1,9 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import Navbar from '@/components/layout/Navbar';
 import { CareerPageSettingsData } from '@/lib/strapi';
-import Footer from '@/components/layout/Footer';
 import CareerHero from './careerhero/careerhero';
 import CareerBenefits from './careerbenefits/careerbenefits';
 import OpenPositions from './openpositions/openpositions';
@@ -123,8 +121,7 @@ export default function CareerPage({ data }: CareerPageProps) {
 
   return (
     <>
-      <Navbar />
-      
+            
       <main>
         {/* Career Hero */}
         <CareerHero 
@@ -154,7 +151,6 @@ export default function CareerPage({ data }: CareerPageProps) {
         </div>
       </main>
 
-      <Footer />
-    </>
+          </>
   );
 }

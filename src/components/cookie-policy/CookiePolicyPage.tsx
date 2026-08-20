@@ -2,15 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import './cookie-policy.css';
 
 export default function CookiePolicyPage() {
   return (
     <>
-      <Navbar />
-
+      
       <main className="cookie-page-root">
         <div className="container cookie-doc-container">
 
@@ -129,7 +126,6 @@ export default function CookiePolicyPage() {
         </div>
       </main>
 
-      <Footer />
-    </>
+          </>
   );
 }

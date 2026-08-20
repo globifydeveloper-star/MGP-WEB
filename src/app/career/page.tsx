@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import CareerPage from '@/components/career/page';
 import { getCareerPageSettings } from '@/lib/strapi';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getCareerPageSettings();
@@ -17,5 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const data = await getCareerPageSettings();
-  return <CareerPage data={data} />;
+  return (
+    <>
+      <Navbar />
+      <CareerPage data={data} />
+      { !(data as any)?.hideFooter && <Footer /> }
+    </>
+  );
 }
