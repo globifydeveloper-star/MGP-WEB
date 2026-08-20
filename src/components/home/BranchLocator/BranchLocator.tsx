@@ -56,7 +56,7 @@ const MapPinIcon = () => (
   </svg>
 );
 
-export default function BranchLocator({ states }: { states?: any[] }) {
+export default function BranchLocator() {
   const [query, setQuery] = useState('');
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [showAllStates, setShowAllStates] = useState(false);

@@ -20,7 +20,6 @@ import {
   getPromoSlides,
   getTestimonials,
   getFaqs,
-  getStatesAndBranches,
 } from '@/lib/strapi';
 
 export async function generateMetadata() {
@@ -43,7 +42,6 @@ export default async function Home() {
     promoSlides,
     testimonials,
     faqs,
-    states,
   ] = await Promise.all([
     getBlogPosts(),
     getHomepageData(),
@@ -53,7 +51,6 @@ export default async function Home() {
     getPromoSlides(),
     getTestimonials(),
     getFaqs('home'),
-    getStatesAndBranches(),
   ]);
 
   const recentPosts = posts.slice(0, 3);
@@ -105,7 +102,7 @@ export default async function Home() {
       <RecentPost posts={recentPosts} />
 
       {/* Branch Locator Section */}
-      <BranchLocator states={states} />
+      <BranchLocator />
 
       {/* 10. Footer Section */}
       { !homepageData?.hideFooter && <Footer /> }

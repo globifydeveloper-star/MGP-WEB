@@ -704,48 +704,6 @@ export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate
   }
 });
 
-export const getStatesAndBranches = cache(async function getStatesAndBranches(): Promise<State[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/states?populate[branches][populate]=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getStatesAndBranches: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      const rawBranches = Array.isArray(flat.branches) ? flat.branches : [];
-      const branches = rawBranches.map((b: any) => {
-        const flatB = unwrap<any>(b);
-        return {
-          id: flatB.id,
-          name: flatB.name,
-          address: flatB.address,
-          city: flatB.city,
-          pincode: flatB.pincode,
-          timing: flatB.timing,
-          lat: Number(flatB.lat),
-          lng: Number(flatB.lng),
-          viewDirectionsLink: flatB.viewDirectionsLink,
-          contactInfo: flatB.contactInfo,
-        };
-      });
-      return {
-        id: flat.id,
-        name: flat.name,
-        branches,
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getStatesAndBranches: failed to fetch states/branches', err);
-    return [];
-  }
-});
-
 export interface DynamicPageSection {
   id: number;
   __component: string;
