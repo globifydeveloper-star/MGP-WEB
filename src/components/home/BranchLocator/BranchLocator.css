@@ -179,6 +179,44 @@
   transform: translateY(-1px);
 }
 
+.branch-locator-locate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  background: #F5B301;
+  color: #10182B;
+  border: none;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 12px rgba(245, 179, 1, 0.25);
+  margin-left: 0.25rem;
+}
+
+.branch-locator-locate-btn:hover:not(:disabled) {
+  background: #E29D24;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(226, 157, 36, 0.35);
+}
+
+.branch-locator-locate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.branch-locator-locate-icon {
+  width: 18px;
+  height: 18px;
+}
+
 .branch-locator-clear-btn {
   background: transparent;
   border: none;

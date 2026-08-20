@@ -11,6 +11,21 @@ import './BranchLocator.css';
 
 import BranchMap from './BranchMap';
 
+// Haversine formula to calculate distance in km
+function getDistanceInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) *
+    Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 const SearchIcon = () => (
   <svg
     className="branch-locator-search-icon"
@@ -56,11 +71,26 @@ const MapPinIcon = () => (
   </svg>
 );
 
+const LocateIcon = () => (
+  <svg
+    className="branch-locator-locate-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polygon points="3 11 22 2 13 21 11 13 3 11" />
+  </svg>
+);
+
 export default function BranchLocator() {
   const [query, setQuery] = useState('');
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [showAllStates, setShowAllStates] = useState(false);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
 
   const { states: apiStates, branchesByState } = useBranchMaster();
 
@@ -115,6 +145,49 @@ export default function BranchLocator() {
   const allBranches = useMemo(() => {
     return stateSummaries.flatMap((s) => s.branches);
   }, [stateSummaries]);
+
+  const handleLocateMe = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        let nearestBranch: any = null;
+        let minDistance = Infinity;
+
+        allBranches.forEach((branch) => {
+          if (branch.lat && branch.lng) {
+            const distance = getDistanceInKm(latitude, longitude, branch.lat, branch.lng);
+            if (distance < minDistance) {
+              minDistance = distance;
+              nearestBranch = branch;
+            }
+          }
+        });
+
+        if (nearestBranch) {
+          // Set query to the branch's city so it filters down
+          setQuery(nearestBranch.city);
+          // Wait a tick for the useEffect to clear selectedBranchId, then set it
+          setTimeout(() => {
+            setSelectedBranchId(nearestBranch.id);
+          }, 50);
+        } else {
+          alert('Could not find any nearby branches.');
+        }
+        setIsLocating(false);
+      },
+      (error) => {
+        console.error('Error getting location', error);
+        alert('Unable to retrieve your location. Please ensure location permissions are granted.');
+        setIsLocating(false);
+      },
+      { timeout: 10000 }
+    );
+  };
 
   // Filtered branches when search query is typed
   const filteredBranches = useMemo(() => {
@@ -253,6 +326,27 @@ export default function BranchLocator() {
                   Find Branch
                 </button>
               )}
+              <button
+                type="button"
+                className="branch-locator-locate-btn"
+                onClick={handleLocateMe}
+                disabled={isLocating || allBranches.length === 0}
+                title="Find nearest branch"
+              >
+                {isLocating ? (
+                  <span className="branch-locator-loading-spinner" style={{ display: 'inline-block', width: '18px', height: '18px', border: '2px solid rgba(16,24,43,0.3)', borderTopColor: '#10182B', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></span>
+                ) : (
+                  <LocateIcon />
+                )}
+                <span className="branch-locator-locate-text" style={{ marginLeft: '4px' }}>Near Me</span>
+              </button>
+              <style dangerouslySetInnerHTML={{
+                __html: `
+                @keyframes spin { 100% { transform: rotate(360deg); } }
+                @media (max-width: 640px) {
+                  .branch-locator-locate-btn { order: 4; width: 100%; margin-left: 0; margin-top: 0.5rem; }
+                }
+              `}} />
             </form>
 
             {/* CASE 1: SEARCH QUERY ACTIVE */}
