@@ -24,6 +24,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { states: bmStates, locationsByState } = useBranchMaster();
 
@@ -73,6 +74,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
       return;
     }
 
+    setIsSubmitting(true);
     try {
       await submitFormSubmission({
         name: clientData.name,
@@ -91,6 +93,8 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
       });
     } catch (err) {
       console.error('Gold value estimate submission error:', err);
+    } finally {
+      setIsSubmitting(false);
     }
 
     setIsSubmitted(true);
@@ -169,8 +173,15 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="lp-submit-btn">
-              SUBMIT ESTIMATE
+            <button type="submit" className="lp-submit-btn" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span>
+                  SUBMITTING...
+                </>
+              ) : (
+                'SUBMIT ESTIMATE'
+              )}
             </button>
           </form>
         )}

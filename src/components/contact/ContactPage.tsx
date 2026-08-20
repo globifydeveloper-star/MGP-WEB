@@ -524,7 +524,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                       disabled={isSubmitting}
                       className="cp-submit-btn"
                     >
-                      <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                      <span>{isSubmitting ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Sending... </>) : ('Send Message')}</span>
                       <span className="cp-btn-arrow-circle">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="9 18 15 12 9 6" />

@@ -277,7 +277,7 @@ export default function OTPEnquiryForm({
             }
             className="otp-submit-btn"
           >
-            {state === 'verifying' ? 'VERIFYING...' : 'SUBMIT'}
+            {state === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> VERIFYING... </>) : ('SUBMIT')}
           </button>
         </form>
       )}
