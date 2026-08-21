@@ -1,5 +1,6 @@
 import React from 'react';
 import './locationservice.css';
+import { MobileVanPageData } from '@/lib/strapi';
 
 const LOCATIONS = [
   {
@@ -32,16 +33,22 @@ const PhoneIcon = () => (
   </svg>
 );
 
-export default function LocationService() {
+interface LocationServiceProps {
+  data?: MobileVanPageData | null;
+}
+
+export default function LocationService({ data }: LocationServiceProps) {
   return (
     <section className="ls-section">
       <div className="container">
         <div className="ls-header">
           <h2 className="ls-title">
-            Available <span className="ls-title-highlight">Location Services</span>
+            {data?.locationsTitle ? data.locationsTitle : (
+              <>Available <span className="ls-title-highlight">Location Services</span></>
+            )}
           </h2>
           <p className="ls-subtitle">
-            Our transparent process ensures you get the true value of your gold using scientific methods right in front of your eyes.
+            {data?.locationsDescription || 'Our transparent process ensures you get the true value of your gold using scientific methods right in front of your eyes.'}
           </p>
         </div>
 

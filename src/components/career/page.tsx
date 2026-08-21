@@ -125,6 +125,7 @@ export default function CareerPage({ data }: CareerPageProps) {
       <main>
         {/* Career Hero */}
         <CareerHero 
+          data={data}
           onApplyClick={scrollToApplyForm}
           onViewPositionsClick={scrollToOpenPositions}
         />

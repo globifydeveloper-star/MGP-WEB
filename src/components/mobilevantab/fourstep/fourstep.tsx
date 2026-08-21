@@ -1,7 +1,8 @@
 import React from 'react';
 import './fourstep.css';
+import { MobileVanPageData } from '@/lib/strapi';
 
-const STEPS = [
+const DEFAULT_STEPS = [
   {
     num: '01',
     title: 'Book a Visit',
@@ -58,22 +59,35 @@ const STEPS = [
   },
 ];
 
-export default function FourStep() {
+interface FourStepProps {
+  data?: MobileVanPageData | null;
+}
+
+export default function FourStep({ data }: FourStepProps) {
+  const steps = data?.howItWorksSteps && data.howItWorksSteps.length > 0 
+    ? data.howItWorksSteps.map((s, i) => ({
+        num: `0${i + 1}`.slice(-2),
+        title: s.title,
+        desc: s.desc,
+        icon: DEFAULT_STEPS[i % DEFAULT_STEPS.length].icon // Fallback to default icons
+      }))
+    : DEFAULT_STEPS;
+
   return (
     <section className="fs-section">
       <div className="fs-bg-pattern" aria-hidden="true" />
       <div className="container">
         <div className="fs-header">
           <h2 className="fs-title">
-            A Seamless <span className="fs-title-highlight">4-Step Journey</span>
+            {data?.howItWorksTitle || <>A Seamless <span className="fs-title-highlight">4-Step Journey</span></>}
           </h2>
           <p className="fs-subtitle">
-            Our transparent process ensures you get the true value of your gold using scientific methods right in front of your eyes.
+            {data?.howItWorksSubtitle || 'Our transparent process ensures you get the true value of your gold using scientific methods right in front of your eyes.'}
           </p>
         </div>
 
         <div className="fs-grid">
-          {STEPS.map((step) => (
+          {steps.map((step) => (
             <div className="fs-card" key={step.num}>
               <div className="fs-card-num">{step.num}</div>
               <div className="fs-card-icon">{step.icon}</div>

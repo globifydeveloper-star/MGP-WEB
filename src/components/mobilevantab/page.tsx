@@ -5,27 +5,32 @@ import TestingCards from '@/components/mobilevantab/testingcards/testingcards';
 import LocationService from '@/components/mobilevantab/locationservice/locationservice';
 import Appoinment from '@/components/mobilevantab/appoinment/appoinment';
 import Footer from '@/components/layout/Footer';
+import { MobileVanPageData } from '@/lib/strapi';
 
-export default function MobileVanTab() {
+interface MobileVanTabProps {
+  data?: MobileVanPageData | null;
+}
+
+export default function MobileVanTab({ data }: MobileVanTabProps) {
   return (
     <main>
       {/* 1. Navbar Navigation */}
       <Navbar />
 
       {/* Mobile Van Hero Section */}
-      <MobileVanHero />
+      <MobileVanHero data={data} />
 
       {/* A Seamless 4-Step Journey */}
-      <FourStep />
+      <FourStep data={data} />
 
       {/* Testing Cards Section */}
-      <TestingCards />
+      <TestingCards data={data} />
 
       {/* Available Location Services */}
-      <LocationService />
+      <LocationService data={data} />
 
       {/* Book Your Van Appointment */}
-      <Appoinment />
+      <Appoinment data={data} />
 
       {/* 2. Footer Section */}
       <Footer />

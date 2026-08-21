@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import './mobilevanhero.css';
+import { MobileVanPageData } from '@/lib/strapi';
 
 // Import frame images statically
 import frame1 from '@/assets/images/frames/Van-Frames-Animated/frame 1.png';
@@ -10,11 +11,14 @@ import frame3 from '@/assets/images/frames/Van-Frames-Animated/frame 3.png';
 import frame4 from '@/assets/images/frames/Van-Frames-Animated/frame 4.png';
 import frame5 from '@/assets/images/frames/Van-Frames-Animated/frame 5.png';
 import frame6 from '@/assets/images/frames/Van-Frames-Animated/frame 6.png';
-import van from '@/assets/images/van.png';
 
 const frames = [frame1, frame2, frame3, frame4, frame5, frame6];
 
-export default function MobileVanHero() {
+interface MobileVanHeroProps {
+  data?: MobileVanPageData | null;
+}
+
+export default function MobileVanHero({ data }: MobileVanHeroProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -97,12 +101,12 @@ export default function MobileVanHero() {
 
         <div className="mvh-content-col">
           <h1 className="mvh-heading">
-            <span className="mvh-heading-light">Premium Gold</span>
-            <span className="mvh-heading-light">Liquidation</span>
-            <span className="mvh-heading-bold">At Your Doorstep</span>
+            <span className="mvh-heading-light">{data?.heroHeadingLight1 || 'Premium Gold'}</span>
+            <span className="mvh-heading-light">{data?.heroHeadingLight2 || 'Liquidation'}</span>
+            <span className="mvh-heading-bold">{data?.heroHeadingBold || 'At Your Doorstep'}</span>
           </h1>
           <p className="mvh-desc">
-            Experience the luxury of professional gold valuation without leaving your home. Our secure mobile vans bring high-tech XRF testing and instant bank transfers directly to you.
+            {data?.heroDescription || 'Experience the luxury of professional gold valuation without leaving your home. Our secure mobile vans bring high-tech XRF testing and instant bank transfers directly to you.'}
           </p>
         </div>
       </div>

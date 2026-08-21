@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
+import { MobileVanPageData } from '@/lib/strapi';
 import './appoinment.css';
 
 const GaugeIcon = () => (
@@ -21,7 +22,11 @@ const LockIcon = () => (
   </svg>
 );
 
-export default function Appoinment() {
+interface AppoinmentProps {
+  data?: MobileVanPageData | null;
+}
+
+export default function Appoinment({ data }: AppoinmentProps) {
   const [formData, setFormData] = useState({
     fullName: '',
     mobile: '',
@@ -125,10 +130,12 @@ export default function Appoinment() {
             <div className="apt-left-content">
               <div className="apt-left-text">
                 <h2 className="apt-heading">
-                  Book <span className="apt-heading-highlight">Your Van</span>
+                  {data?.appointmentTitle ? data.appointmentTitle : (
+                    <>Book <span className="apt-heading-highlight">Your Van</span></>
+                  )}
                 </h2>
                 <p className="apt-desc">
-                  Fill in the details and our representative will contact you to confirm the appointment slot.
+                  {data?.appointmentDescription || 'Fill in the details and our representative will contact you to confirm the appointment slot.'}
                 </p>
               </div>
 

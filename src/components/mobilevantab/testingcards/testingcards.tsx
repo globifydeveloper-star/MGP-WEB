@@ -2,8 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import './testingcards.css';
 import purityImg from '@/assets/images/purity.png';
+import { MobileVanPageData } from '@/lib/strapi';
 
-const CARDS = [
+const DEFAULT_CARDS = [
   {
     title: 'No-Damage Testing',
     desc: 'Our XRF spectrometer determines gold purity without any touchstone scraping or melting of your precious jewelry.',
@@ -40,13 +41,30 @@ const CARDS = [
   },
 ];
 
-export default function TestingCards() {
+interface TestingCardsProps {
+  data?: MobileVanPageData | null;
+}
+
+export default function TestingCards({ data }: TestingCardsProps) {
+  const cards = data?.testingMethods && data.testingMethods.length > 0
+    ? data.testingMethods.map((c, i) => ({
+        title: c.title,
+        desc: c.desc,
+        icon: DEFAULT_CARDS[i % DEFAULT_CARDS.length].icon
+      }))
+    : DEFAULT_CARDS;
+
   return (
     <section className="tc-section">
       <div className="container">
+        {data?.testingMethodsTitle && (
+          <h2 style={{ textAlign: 'center', marginBottom: '2rem', color: 'var(--brand-blue-dark)' }}>
+            {data.testingMethodsTitle}
+          </h2>
+        )}
         <div className="tc-grid">
           <div className="tc-cards-col">
-            {CARDS.map((card) => (
+            {cards.map((card) => (
               <div className="tc-card" key={card.title}>
                 <div className="tc-card-header">
                   <span className="tc-card-icon">{card.icon}</span>

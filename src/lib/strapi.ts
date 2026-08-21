@@ -1086,3 +1086,38 @@ export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<G
     return null;
   }
 });
+
+export interface MobileVanPageData {
+  heroHeadingLight1?: string;
+  heroHeadingLight2?: string;
+  heroHeadingBold?: string;
+  heroDescription?: string;
+  howItWorksSubtitle?: string;
+  howItWorksTitle?: string;
+  howItWorksSteps?: { id: number; title: string; desc?: string; iconSvg?: string }[];
+  testingMethodsTitle?: string;
+  testingMethods?: { id: number; title: string; desc?: string }[];
+  locationsTitle?: string;
+  locationsDescription?: string;
+  appointmentTitle?: string;
+  appointmentDescription?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
+export const getMobileVanPageSettings = cache(async function getMobileVanPageSettings(): Promise<MobileVanPageData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/mobile-van-page?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json?.data) return null;
+    return unwrap<MobileVanPageData>(json.data);
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getMobileVanPageSettings error:', err);
+    return null;
+  }
+});
+
