@@ -1,4 +1,4 @@
-﻿import type { NextConfig } from "next";
+import type { NextConfig } from "next";
 
 const strapiUrl = new URL(process.env.NEXT_PUBLIC_STRAPI_URL ?? "http://localhost:1337");
 
@@ -7,6 +7,7 @@ const isLocalStrapi = ["localhost", "127.0.0.1", "::1"].includes(strapiUrl.hostn
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
+  output: "standalone",
   async headers() {
     return [
       {
