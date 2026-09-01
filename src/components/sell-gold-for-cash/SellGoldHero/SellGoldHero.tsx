@@ -19,10 +19,11 @@ export default function SellGoldHero() {
     otp: '',
     state: '',
     city: '',
+    branchCode: '',
     consent: true
   });
 
-  const { states: bmStates, locationsByState } = useBranchMaster();
+  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
   const statesList = useMemo(() => {
     return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
@@ -35,6 +36,12 @@ export default function SellGoldHero() {
     }
     return getCitiesByState(formData.state);
   }, [formData.state, locationsByState]);
+
+  const availableBranches = useMemo(() => {
+    if (!formData.state || !formData.city) return [];
+    const list = branchesByState[formData.state] || [];
+    return list.filter(b => b.location.toLowerCase() === formData.city.toLowerCase());
+  }, [formData.state, formData.city, branchesByState]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -51,12 +58,16 @@ export default function SellGoldHero() {
     const { name, value, type } = e.target;
     const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
 
-    setFormData(prev => ({
-      ...prev,
-      [name]: val,
-      // Clear city if state changes
-      ...(name === 'state' ? { city: '' } : {})
-    }));
+    setFormData(prev => {
+      const updates: any = { [name]: val };
+      if (name === 'state') {
+        updates.city = '';
+        updates.branchCode = '';
+      } else if (name === 'city') {
+        updates.branchCode = '';
+      }
+      return { ...prev, ...updates };
+    });
   };
 
   const handleGetOtp = async () => {
@@ -82,6 +93,8 @@ export default function SellGoldHero() {
       name: formData.name,
       state: formData.state,
       city: formData.city,
+      branchCode: formData.branchCode,
+      branchName: availableBranches.find(b => b.branchCode === formData.branchCode)?.branchName,
       consent: formData.consent,
       sourceForm: 'Sell Gold Hero Form',
       enquiryType: 'Enquire Now',
@@ -96,6 +109,7 @@ export default function SellGoldHero() {
         otp: '',
         state: '',
         city: '',
+        branchCode: '',
         consent: true
       });
       resetOtpState();
@@ -353,10 +367,33 @@ export default function SellGoldHero() {
                       className={`sg-form-select ${!formData.city ? 'sg-placeholder-selected' : ''}`}
                     >
                       <option value="" disabled>
-                        {formData.state ? 'Select City / Branch*' : 'Select City*'}
+                        {formData.state ? 'Select City*' : 'Select City*'}
                       </option>
                       {availableCities.map(city => (
                         <option key={city} value={city}>{city}</option>
+                      ))}
+                    </select>
+                    <span className="sg-select-arrow" />
+                  </div>
+                </div>
+
+                {/* Branch Select */}
+                <div className="sg-form-row">
+                  <div className="sg-form-group sg-select-wrapper">
+                    <select
+                      id="branchCode"
+                      name="branchCode"
+                      required
+                      disabled={!formData.city}
+                      value={formData.branchCode}
+                      onChange={handleInputChange}
+                      className={`sg-form-select ${!formData.branchCode ? 'sg-placeholder-selected' : ''}`}
+                    >
+                      <option value="" disabled>
+                        {formData.city ? 'Select Branch*' : 'Select Branch (Select City First)*'}
+                      </option>
+                      {availableBranches.map(b => (
+                        <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
                       ))}
                     </select>
                     <span className="sg-select-arrow" />
@@ -399,6 +436,7 @@ export default function SellGoldHero() {
                     !formData.otp ||
                     !formData.state ||
                     !formData.city ||
+                    !formData.branchCode ||
                     !formData.consent
                   }
                   className="sg-submit-btn btn-primary"

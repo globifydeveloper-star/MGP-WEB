@@ -23,14 +23,20 @@ import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [selectedBranchCode, setSelectedBranchCode] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedData, setSubmittedData] = useState<{name: string, phone: string, weight: string} | null>(null);
 
-  const { states: bmStates, locationsByState } = useBranchMaster();
+  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
   const STATES_LIST = bmStates || [];
   const availableCities = selectedState
     ? locationsByState[selectedState] || []
+    : [];
+
+  const availableBranches = selectedState && selectedCity
+    ? (branchesByState[selectedState] || []).filter(b => b.location.toLowerCase() === selectedCity.toLowerCase())
     : [];
 
   // Lock background scroll completely on mobile & desktop when modal is open
@@ -56,7 +62,9 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
     if (!isOpen) {
       setSelectedState('');
       setSelectedCity('');
+      setSelectedBranchCode('');
       setIsSubmitted(false);
+      setSubmittedData(null);
     }
   }, [isOpen]);
 
@@ -65,14 +73,21 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedState(e.target.value);
     setSelectedCity(''); // Reset city when state changes
+    setSelectedBranchCode('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedState || !selectedCity) {
-      alert('Please select both state and city.');
+    if (!selectedState || !selectedCity || !selectedBranchCode) {
+      alert('Please select state, city and branch.');
       return;
     }
+
+    setSubmittedData({
+      name: clientData.name,
+      phone: clientData.phone,
+      weight: clientData.weight
+    });
 
     setIsSubmitting(true);
     try {
@@ -80,6 +95,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
         name: clientData.name,
         phone: clientData.phone,
         branch: `${selectedCity}, ${selectedState}`,
+        branchCode: selectedBranchCode,
         enquiryType: 'Enquire Now',
         sourceForm: `Gold Value Calculator (Purity: ${clientData.purity || 'N/A'}, Weight: ${clientData.weight || '0'}g)`,
         purity: clientData.purity,
@@ -89,6 +105,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
           weight: clientData.weight,
           state: selectedState,
           city: selectedCity,
+          branchCode: selectedBranchCode,
         },
       });
     } catch (err) {
@@ -125,9 +142,9 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
                 <path className="lp-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
               </svg>
             </div>
-            <h3 className="lp-success-title">Thank You, {clientData.name}!</h3>
+            <h3 className="lp-success-title">Thank You, {submittedData?.name}!</h3>
             <p className="lp-success-message">
-              Your valuation request for {clientData.weight}g of gold has been received. Our team in {selectedCity}, {selectedState} will contact you at +91 {clientData.phone} shortly.
+              Your valuation request for {submittedData?.weight}g of gold has been received. Our team in {selectedCity}, {selectedState} will contact you at +91 {submittedData?.phone} shortly.
             </p>
             <button type="button" className="lp-success-close-btn" onClick={onClose}>
               Close
@@ -160,12 +177,34 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
                   required
                   disabled={!selectedState}
                   value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedCity(e.target.value);
+                    setSelectedBranchCode('');
+                  }}
                   className="lp-select"
                 >
                   <option value="" disabled>Select City</option>
                   {availableCities.map(city => (
                     <option key={city} value={city}>{city}</option>
+                  ))}
+                </select>
+                <span className="lp-select-chevron"></span>
+              </div>
+            </div>
+
+            {/* Branch Selection */}
+            <div className="lp-form-group">
+              <div className="lp-select-wrapper">
+                <select
+                  required
+                  disabled={!selectedCity}
+                  value={selectedBranchCode}
+                  onChange={(e) => setSelectedBranchCode(e.target.value)}
+                  className="lp-select"
+                >
+                  <option value="" disabled>Select Branch</option>
+                  {availableBranches.map(b => (
+                    <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
                   ))}
                 </select>
                 <span className="lp-select-chevron"></span>

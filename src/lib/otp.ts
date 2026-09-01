@@ -45,6 +45,8 @@ export interface EnquiryDetails {
   email?: string;
   state?: string;
   city?: string;
+  branchCode?: string;
+  branchName?: string;
   purity?: string;
   weight?: string;
   message?: string;

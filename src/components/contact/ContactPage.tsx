@@ -95,6 +95,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     service: '',
     state: '',
     city: '',
+    branchCode: '',
     message: '',
   });
 
@@ -110,7 +111,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     resetOtpState
   } = useOtpVerification({ cooldownSeconds: 60 });
 
-  const { states: bmStates, locationsByState } = useBranchMaster();
+  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
   const statesList = useMemo(() => {
     return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
@@ -121,15 +122,26 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     return locationsByState[formData.state] || [];
   }, [formData.state, locationsByState]);
 
+  const availableBranches = useMemo(() => {
+    if (!formData.state || !formData.city) return [];
+    const list = branchesByState[formData.state] || [];
+    return list.filter(b => b.location.toLowerCase() === formData.city.toLowerCase());
+  }, [formData.state, formData.city, branchesByState]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === 'state' ? { city: '' } : {}),
-    }));
+    setFormData((prev) => {
+      const updates: any = { [name]: value };
+      if (name === 'state') {
+        updates.city = '';
+        updates.branchCode = '';
+      } else if (name === 'city') {
+        updates.branchCode = '';
+      }
+      return { ...prev, ...updates };
+    });
   };
 
   const handleGetOtp = async () => {
@@ -145,10 +157,6 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.message) {
-      alert('Please fill in all required fields.');
-      return;
-    }
     setIsSubmitting(true);
     try {
       const success = await verifyOtp(formData.phone, formData.otp, {
@@ -156,6 +164,8 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
         email: formData.email,
         state: formData.state,
         city: formData.city,
+        branchCode: formData.branchCode,
+        branchName: availableBranches.find(b => b.branchCode === formData.branchCode)?.branchName,
         message: `[Service: ${formData.service || 'N/A'}] ${formData.message}`,
         consent: true,
         sourceForm: 'Contact Us Page',
@@ -171,6 +181,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
           service: '',
           state: '',
           city: '',
+          branchCode: '',
           message: '',
         });
         resetOtpState();
@@ -491,10 +502,30 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                         className={`cp-select-field ${!formData.city ? 'cp-placeholder-selected' : ''}`}
                       >
                         <option value="" disabled>
-                          {formData.state ? 'Select City / Branch*' : 'Select City (Select State First)*'}
+                          {formData.state ? 'Select City*' : 'Select City (Select State First)*'}
                         </option>
                         {availableCities.map((ct) => (
                           <option key={ct} value={ct}>{ct}</option>
+                        ))}
+                      </select>
+                      <ChevronDownIcon />
+                    </div>
+
+                    {/* Row 5.5: Select Branch */}
+                    <div className="cp-field-wrap cp-select-wrap">
+                      <select
+                        name="branchCode"
+                        value={formData.branchCode}
+                        onChange={handleChange}
+                        disabled={!formData.city}
+                        required
+                        className={`cp-select-field ${!formData.branchCode ? 'cp-placeholder-selected' : ''}`}
+                      >
+                        <option value="" disabled>
+                          {formData.city ? 'Select Branch*' : 'Select Branch (Select City First)*'}
+                        </option>
+                        {availableBranches.map((b) => (
+                          <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
                         ))}
                       </select>
                       <ChevronDownIcon />

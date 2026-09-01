@@ -32,11 +32,12 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     otp: '',
     state: '',
     city: '',
+    branchCode: '',
     purity: '',
     weight: ''
   });
 
-  const { states: bmStates, locationsByState } = useBranchMaster();
+  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
   const availableStates = bmStates && bmStates.length > 0 ? bmStates : Object.keys(STATIC_STATE_CITIES);
 
@@ -44,6 +45,10 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     ? (locationsByState[formData.state] && locationsByState[formData.state].length > 0
         ? locationsByState[formData.state]
         : STATIC_STATE_CITIES[formData.state] || [])
+    : [];
+
+  const availableBranches = formData.state && formData.city
+    ? (branchesByState[formData.state] || []).filter(b => b.location.toLowerCase() === formData.city.toLowerCase())
     : [];
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -85,6 +90,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
         otp: '',
         state: '',
         city: '',
+        branchCode: '',
         purity: '',
         weight: ''
       });
@@ -95,12 +101,16 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-      // Clear city if state changes
-      ...(name === 'state' ? { city: '' } : {})
-    }));
+    setFormData(prev => {
+      const updates: any = { [name]: value };
+      if (name === 'state') {
+        updates.city = '';
+        updates.branchCode = '';
+      } else if (name === 'city') {
+        updates.branchCode = '';
+      }
+      return { ...prev, ...updates };
+    });
   };
 
   const handleGetOtp = async () => {
@@ -114,14 +124,17 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Validate inputs
-    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.purity || !formData.weight) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.branchCode || !formData.purity || !formData.weight) {
       alert('Please fill in all required fields.');
       return;
     }
+
     const success = await verifyOtp(formData.phone, formData.otp, {
       name: formData.name,
       state: formData.state,
       city: formData.city,
+      branchCode: formData.branchCode,
+      branchName: availableBranches.find(b => b.branchCode === formData.branchCode)?.branchName,
       purity: formData.purity,
       weight: formData.weight,
       consent: true,
@@ -269,6 +282,26 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
               </div>
             </div>
 
+            {/* Branch (Full width or similar) */}
+            <div className="sg-form-group">
+              <div className="sg-select-wrapper">
+                <select
+                  name="branchCode"
+                  required
+                  disabled={!formData.city}
+                  className="sg-select"
+                  value={formData.branchCode}
+                  onChange={handleChange}
+                >
+                  <option value="" disabled>Select Branch</option>
+                  {availableBranches.map(b => (
+                    <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
+                  ))}
+                </select>
+                <span className="sg-select-chevron"></span>
+              </div>
+            </div>
+
             {/* Gold Purity */}
             <div className="sg-form-group">
               <div className="sg-select-wrapper">
@@ -323,6 +356,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 !formData.otp ||
                 !formData.state ||
                 !formData.city ||
+                !formData.branchCode ||
                 !formData.purity ||
                 !formData.weight
               }

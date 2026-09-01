@@ -32,13 +32,14 @@ export default function Appoinment({ data }: AppoinmentProps) {
     mobile: '',
     state: '',
     city: '',
+    branchCode: '',
     consent: false,
   });
 
   const [otp, setOtp] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { states: bmStates, locationsByState } = useBranchMaster();
+  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
   const statesList = useMemo(() => {
     return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
@@ -51,6 +52,12 @@ export default function Appoinment({ data }: AppoinmentProps) {
     }
     return getCitiesByState(formData.state);
   }, [formData.state, locationsByState]);
+
+  const availableBranches = useMemo(() => {
+    if (!formData.state || !formData.city) return [];
+    const list = branchesByState[formData.state] || [];
+    return list.filter(b => b.location.toLowerCase() === formData.city.toLowerCase());
+  }, [formData.state, formData.city, branchesByState]);
 
   const {
     state: otpState,
@@ -66,11 +73,16 @@ export default function Appoinment({ data }: AppoinmentProps) {
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-      ...(name === 'state' ? { city: '' } : {}),
-    }));
+    setFormData((prev) => {
+      const updates: any = { [name]: type === 'checkbox' ? checked : value };
+      if (name === 'state') {
+        updates.city = '';
+        updates.branchCode = '';
+      } else if (name === 'city') {
+        updates.branchCode = '';
+      }
+      return { ...prev, ...updates };
+    });
   };
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +113,8 @@ export default function Appoinment({ data }: AppoinmentProps) {
       name: formData.fullName,
       state: formData.state,
       city: formData.city,
+      branchCode: formData.branchCode,
+      branchName: availableBranches.find(b => b.branchCode === formData.branchCode)?.branchName,
       consent: formData.consent,
       sourceForm: 'Mobile Van Appointment',
       enquiryType: 'Mobile Van',
@@ -113,6 +127,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
         mobile: '',
         state: '',
         city: '',
+        branchCode: '',
         consent: false,
       });
       setOtp('');
@@ -276,6 +291,25 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   </div>
                 </div>
 
+                <div className="apt-form-row">
+                  <div className="apt-field">
+                    <label htmlFor="apt-branchCode" className="apt-label">Branch<span className="apt-required">*</span></label>
+                    <select
+                      id="apt-branchCode"
+                      name="branchCode"
+                      className="apt-select"
+                      disabled={!formData.city || otpState === 'sending' || otpState === 'verifying'}
+                      value={formData.branchCode}
+                      onChange={handleChange}
+                    >
+                      <option value="" disabled>Select Branch</option>
+                      {availableBranches.map((b) => (
+                        <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
                 <label className="apt-consent">
                   <input
                     type="checkbox"
@@ -306,6 +340,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                     !otp ||
                     !formData.state ||
                     !formData.city ||
+                    !formData.branchCode ||
                     !formData.consent
                   }
                   className="apt-submit-btn"
