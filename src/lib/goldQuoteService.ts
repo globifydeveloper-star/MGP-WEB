@@ -245,11 +245,15 @@ export async function fetchAllGoldRates(): Promise<AllGoldRatesResponse> {
   try {
     const results = await Promise.all(
       purities.map(async (p) => {
-        const quote = await fetchGoldQuote({ weightInGms: 1, purityPerc: p.purityPerc });
-        const price = quote.success && quote.respData?.purchasePrice
+        let quote: any = { success: false };
+        if (p.key === '24K') {
+          quote = await fetchGoldQuote({ weightInGms: 1, purityPerc: p.purityPerc });
+        }
+        
+        const price = quote.success && quote?.respData?.purchasePrice
           ? Math.round(quote.respData.purchasePrice)
           : p.defaultPerGram;
-        const isLive = quote.success && !!quote.respData?.purchasePrice;
+        const isLive = quote.success && !!quote?.respData?.purchasePrice;
 
         const changeAmount = p.defaultChange;
         const yesterdayRate = price - changeAmount;

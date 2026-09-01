@@ -370,6 +370,7 @@ export async function submitFormSubmission(payload: {
   phone: string;
   email?: string;
   branch?: string;
+  branchCode?: string;
   enquiryType?: string;
   sourceForm?: string;
   purity?: string;
