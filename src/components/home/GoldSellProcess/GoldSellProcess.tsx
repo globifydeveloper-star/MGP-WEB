@@ -51,6 +51,7 @@ interface GoldSellProcessProps {
 function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; sectionImage?: string }) {
   const [openIndex, setOpenIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const toggleStep = (index: number) => {
@@ -118,18 +119,22 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
     });
   }, [openIndex, steps]);
 
-  // Add this timer to auto-cycle Desktop steps
+  // Auto-cycle Desktop steps unless hovered
   useEffect(() => {
-    if (!steps || steps.length === 0) return;
+    if (!steps || steps.length === 0 || isHovered) return;
     const timer = setInterval(() => {
       setOpenIndex((prev) => (prev + 1) % steps.length);
       setActiveIndex((prev) => (prev + 1) % steps.length);
     }, 4000); // Changes every 4 seconds
     return () => clearInterval(timer);
-  }, [steps.length]);
+  }, [steps.length, isHovered]);
 
   return (
-    <div className="gsp-grid">
+    <div 
+      className="gsp-grid"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* Left Column: Heading, description & image */}
       <div className="gsp-left">
         <h2 className="gsp-heading">
@@ -144,13 +149,20 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
         </div>
       </div>
 
-      {/* Right Column: Clickable step accordion */}
+      {/* Right Column: Hoverable/clickable step accordion */}
       <div className="gsp-right" ref={containerRef}>
         <div className="gsp-steps">
           {steps.map((step, idx) => {
             const isOpen = openIndex === idx;
             return (
-              <div key={step.num} className={`gsp-step-card ${isOpen ? 'gsp-step-open' : ''}`}>
+              <div 
+                key={step.num} 
+                className={`gsp-step-card ${isOpen ? 'gsp-step-open' : ''}`}
+                onMouseEnter={() => {
+                  setOpenIndex(idx);
+                  setActiveIndex(idx);
+                }}
+              >
                 <div className="gsp-step-body">
                   <div className="gsp-step-num-wrap">
                     <span className="gsp-step-badge-label">Step</span>
@@ -356,13 +368,15 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
 /* ── Root component: renders carousel on mobile/tablet, accordion on desktop ── */
 export default function GoldSellProcess({ steps, sectionImage }: GoldSellProcessProps) {
   const activeSteps = steps && steps.length > 0
-    ? steps.map((s, idx) => ({
-        num: (idx + 1).toString(),
-        title: s.stepTitle,
-        desc: s.stepDescription,
-        leftDesc: s.leftDescription,
-        image: s.stepImage || '/g_selling.png'
-      }))
+    ? [...steps]
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .map((s, idx) => ({
+          num: (idx + 1).toString(),
+          title: s.stepTitle,
+          desc: s.stepDescription,
+          leftDesc: s.leftDescription,
+          image: s.stepImage || '/g_selling.png'
+        }))
     : DEFAULT_STEPS;
 
   return (

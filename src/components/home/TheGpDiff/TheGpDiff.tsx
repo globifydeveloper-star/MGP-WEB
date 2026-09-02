@@ -61,13 +61,15 @@ function getIcon(type: string) {
 
 export default function TheGpDiff({ cards }: TheGpDiffProps) {
   const activeCards = cards && cards.length > 0
-    ? cards.map((c) => ({
-        image: c.boxImage || '/gcard1.png',
-        alt: c.boxTitle,
-        title: c.boxTitle,
-        desc: c.boxDescription,
-        iconType: c.iconType
-      }))
+    ? [...cards]
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .map((c) => ({
+          image: c.boxImage || '/gcard1.png',
+          alt: c.boxTitle,
+          title: c.boxTitle,
+          desc: c.boxDescription,
+          iconType: c.iconType
+        }))
     : DEFAULT_CARDS;
 
   return (
