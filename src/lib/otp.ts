@@ -1,4 +1,16 @@
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+const STRAPI_URL = (() => {
+  const url = process.env.NEXT_PUBLIC_STRAPI_URL;
+  if (url) return url;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'NEXT_PUBLIC_STRAPI_URL is not set. This value is compiled into the ' +
+      'client bundle at build time and cannot be set at runtime. Pass it ' +
+      'as a --build-arg (see buildspec.yml) or set it in .env.local for ' +
+      'local development.'
+    );
+  }
+  return 'http://localhost:1337';
+})();
 
 export interface OtpResponse {
   success: boolean;

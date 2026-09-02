@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getDailyCachedBranchMasterData } from '@/lib/branchMaster';
 
 export const revalidate = 86400; // Cache on server for 24 hours (86,400 seconds)
+export const dynamic = 'force-dynamic';
+
 
 export async function GET() {
   try {
