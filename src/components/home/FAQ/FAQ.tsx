@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import './FAQ.css';
 
 interface FAQProps {
@@ -80,8 +81,8 @@ export default function FAQ({ faqs }: FAQProps) {
                 </button>
 
                 <div className={`faq2-answer-wrapper ${isOpen ? 'faq2-expanded' : ''}`}>
-                  <div className="faq2-answer-content">
-                    <p>{faq.answer}</p>
+                  <div className="faq2-answer-content prose" style={{ color: 'inherit' }}>
+                    <ReactMarkdown>{faq.answer}</ReactMarkdown>
                   </div>
                 </div>
               </div>

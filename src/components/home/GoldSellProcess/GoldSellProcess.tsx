@@ -119,7 +119,7 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
     });
   }, [openIndex, steps]);
 
-  // Auto-cycle Desktop steps unless hovered
+  // Auto-cycle Desktop steps unless user is hovering
   useEffect(() => {
     if (!steps || steps.length === 0 || isHovered) return;
     const timer = setInterval(() => {
@@ -144,7 +144,9 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
           <p className="gsp-desc">{activeStep?.leftDesc}</p>
           <div className="gsp-image-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={sectionImage || activeStep?.image} alt={activeStep?.title} className="gsp-image" />
+            {(sectionImage || activeStep?.image) && (
+              <img src={sectionImage || activeStep?.image} alt={activeStep?.title} className="gsp-image" />
+            )}
           </div>
         </div>
       </div>
@@ -303,12 +305,14 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
           {/* Step image */}
           <div className="gsp-carousel-img-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={sectionImage || step?.image}
-              alt={step?.title}
-              className="gsp-carousel-img"
-              draggable={false}
-            />
+            {(sectionImage || step?.image) && (
+              <img
+                src={sectionImage || step?.image}
+                alt={step?.title}
+                className="gsp-carousel-img"
+                draggable={false}
+              />
+            )}
           </div>
 
           {/* Step content */}
@@ -372,10 +376,10 @@ export default function GoldSellProcess({ steps, sectionImage }: GoldSellProcess
         .sort((a, b) => (a.order || 0) - (b.order || 0))
         .map((s, idx) => ({
           num: (idx + 1).toString(),
-          title: s.stepTitle,
-          desc: s.stepDescription,
-          leftDesc: s.leftDescription,
-          image: s.stepImage || '/g_selling.png'
+          title: s.stepTitle || s.title || `Step ${idx + 1}`,
+          desc: s.stepDescription || s.desc || '',
+          leftDesc: s.leftDescription || s.leftDesc || '',
+          image: s.stepImage || s.image
         }))
     : DEFAULT_STEPS;
 
