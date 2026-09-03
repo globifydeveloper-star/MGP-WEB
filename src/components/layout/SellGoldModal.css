@@ -148,7 +148,7 @@
   border-color: #e2e8f0;
 }
 
-.sg-select:disabled ~ .sg-select-chevron {
+.sg-select:disabled~.sg-select-chevron {
   border-top-color: #cbd5e1;
 }
 
@@ -235,6 +235,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -246,29 +247,30 @@
   .sg-modal-container {
     max-height: 95vh;
   }
-  
+
   .sg-modal-header {
     padding: 16px 20px;
   }
-  
+
   .sg-modal-title {
     font-size: 18px;
   }
-  
+
   .sg-modal-form {
     padding: 20px;
     gap: 14px;
   }
-  
+
   .sg-form-row {
-    flex-direction: row; /* Keep locations side-by-side unless extremely narrow */
+    flex-direction: row;
+    /* Keep locations side-by-side unless extremely narrow */
     gap: 10px;
   }
-  
+
   .sg-phone-row {
     flex-direction: row;
   }
-  
+
   .sg-otp-btn {
     padding: 0 16px;
     font-size: 12px;
@@ -382,9 +384,12 @@
 }
 
 @keyframes sg-scale {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: none;
   }
+
   50% {
     transform: scale3d(1.1, 1.1, 1);
   }

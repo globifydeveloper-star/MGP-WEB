@@ -73,8 +73,8 @@ export default async function Footer() {
           <div className="footer-socials">
             <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Facebook">
               <svg className="social-icon" width="28" height="28" viewBox="0 0 24 24">
-                <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                <path fill="#ffffff" d="M16.671 15.343l.532-3.47h-3.328V9.623c0-.949.465-1.874 1.956-1.874h1.514V4.796s-1.374-.235-2.686-.235c-2.741 0-4.533 1.662-4.533 4.669v2.643H7.078v3.47h3.047v8.385c.618.096 1.25.148 1.875.148.626 0 1.258-.052 1.875-.148v-8.385h2.796z"/>
+                <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                <path fill="#ffffff" d="M16.671 15.343l.532-3.47h-3.328V9.623c0-.949.465-1.874 1.956-1.874h1.514V4.796s-1.374-.235-2.686-.235c-2.741 0-4.533 1.662-4.533 4.669v2.643H7.078v3.47h3.047v8.385c.618.096 1.25.148 1.875.148.626 0 1.258-.052 1.875-.148v-8.385h2.796z" />
               </svg>
             </a>
             <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Instagram">
@@ -169,15 +169,16 @@ export default async function Footer() {
             </div>
           </div>
 
-          <div className="cert-box">
-            <span className="cert-icon">
-              <svg fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
-            </span>
-            <span className="cert-text">Bureau of Indian Standards Licensed Gold Buying Center</span>
-          </div>
+          <Link href="/bureau-of-indian-standards-licence-muthoot-gold-point" className="bis-logo-link">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/bis_logo.png"
+              alt="Bureau of Indian Standards - The National Standards Body of India"
+              className="bis-logo-img"
+              width={220}
+              height={65}
+            />
+          </Link>
         </div>
       </div>
 
