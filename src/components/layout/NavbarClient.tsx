@@ -30,7 +30,7 @@ function resolveUrl(link: NavItem): string {
 
 function mergeNavLinks(customLinks: NavItem[]): NavItem[] {
   if (!customLinks || customLinks.length === 0) return DEFAULT_NAV_LINKS;
-  
+
   const merged = [...DEFAULT_NAV_LINKS];
   for (const custom of customLinks) {
     const idx = merged.findIndex(def => def.label.toLowerCase() === custom.label.toLowerCase());
@@ -48,7 +48,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false); // ADD THIS
   const [navLinks, setNavLinks] = useState<NavItem[]>(initialData?.navLinks?.length ? mergeNavLinks(initialData.navLinks) : DEFAULT_NAV_LINKS);
-  
+
   // ADD THESE TWO LINES:
   const visibleLinks = navLinks.slice(0, 6); // Show first 6 links on desktop
   const moreLinks = navLinks.slice(6);       // Everything else goes in "More"
@@ -60,7 +60,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
   // Lock background scroll completely on mobile & desktop when hamburger menu is open
   useBodyScrollLock(menuOpen);
 
-  
+
 
   return (
     <header className={`navbar-header-v2 ${menuOpen ? 'header-menu-active' : ''}`}>
@@ -102,10 +102,10 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
               <Link key={label + i} href={resolvedUrl} className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}>{label}</Link>
             )
           })}
-          
+
           {/* The "More" Dropdown */}
           {moreLinks.length > 0 && (
-            <div 
+            <div
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
               className="navbar-more-wrapper"
@@ -114,7 +114,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
                 More
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </span>
-              
+
               {dropdownOpen && (
                 <div className="navbar-more-dropdown">
                   {moreLinks.map((link, i) => {

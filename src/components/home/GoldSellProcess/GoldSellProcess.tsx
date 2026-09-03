@@ -144,8 +144,8 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
           <p className="gsp-desc">{activeStep?.leftDesc}</p>
           <div className="gsp-image-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {(sectionImage || activeStep?.image) && (
-              <img src={sectionImage || activeStep?.image} alt={activeStep?.title} className="gsp-image" />
+            {(activeStep?.image) && (
+              <img src={activeStep?.image} alt={activeStep?.title} className="gsp-image" />
             )}
           </div>
         </div>
@@ -161,9 +161,11 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
                 key={step.num} 
                 className={`gsp-step-card ${isOpen ? 'gsp-step-open' : ''}`}
                 onMouseEnter={() => {
+                  setIsHovered(true);
                   setOpenIndex(idx);
                   setActiveIndex(idx);
                 }}
+                onMouseLeave={() => setIsHovered(false)}
               >
                 <div className="gsp-step-body">
                   <div className="gsp-step-num-wrap">
@@ -305,9 +307,9 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
           {/* Step image */}
           <div className="gsp-carousel-img-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {(sectionImage || step?.image) && (
+            {(step?.image) && (
               <img
-                src={sectionImage || step?.image}
+                src={step?.image}
                 alt={step?.title}
                 className="gsp-carousel-img"
                 draggable={false}

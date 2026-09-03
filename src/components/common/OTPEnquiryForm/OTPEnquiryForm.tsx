@@ -58,6 +58,14 @@ export default function OTPEnquiryForm({
     setTimeout(() => setShake(false), 500);
   };
 
+  const handleGetOtp = async () => {
+    if (!phone || phone.length < 10) {
+      alert("Please enter a valid phone number");
+      return;
+    }
+    await sendOtp(phone);
+  };
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, '').slice(0, 10);
     setPhone(val);
@@ -125,92 +133,6 @@ export default function OTPEnquiryForm({
               setOtp('');
               setSelectedState('');
               setSelectedCity('');
-              setMessage('');
-              setConsent(false);
-            }}
-          >
-            Submit Another Enquiry
-          </button>
-        </div>
-      ) : (
-        <form className="otp-enquiry-form" onSubmit={handleSubmit}>
-          <h2 className="otp-enquiry-title">Quick Enquiry</h2>
-          <p className="otp-enquiry-subtitle">
-            Fill in the details to connect with us.
-          </p>
-
-          {/* Name Field */}
-          <div className="otp-form-group">
-            <input
-              type="text"
-              id="enquiry-name"
-              name="name"
-              required
-              disabled={state === 'sending' || state === 'verifying'}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Name*"
-              className="otp-form-input"
-            />
-          </div>
-
-          {/* Phone Field + Get OTP */}
-          <div className="otp-form-group otp-phone-wrapper">
-            <input
-              type="tel"
-              id="enquiry-phone"
-              name="phone"
-              required
-              pattern="[0-9]{10}"
-              maxLength={10}
-              disabled={state === 'sending' || state === 'verifying'}
-              value={phone}
-              onChange={handlePhoneChange}
-              placeholder="Mobile Number*"
-              className="otp-form-input otp-phone-input"
-            />
-            <button
-              type="button"
-              className="otp-get-btn"
-              onClick={handleGetOtp}
-              disabled={state === 'sending' || state === 'verifying' || countdown > 0 || !/^\d{10}$/.test(phone)}
-            >
-              {state === 'sending' ? '...' : countdown > 0 ? `${countdown}s` : 'GET OTP'}
-            </button>
-          </div>
-
-  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/\D/g, '').slice(0, 6);
-    setOtp(val);
-  };
-
-  const isSubmitted = state === 'verified';
-
-  return (
-    <div className={`otp-enquiry-card ${shake ? 'shake-animation' : ''}`}>
-      {isSubmitted ? (
-        <div className="otp-enquiry-success">
-          <div className="sg-success-checkmark-circle">
-            <svg className="sg-success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-              <circle className="sg-success-checkmark-bg" cx="26" cy="26" r="25" fill="none" />
-              <path className="sg-success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-            </svg>
-          </div>
-          <h3 className="otp-success-title">Thank You!</h3>
-          <p className="otp-success-desc">
-            We will be in touch shortly.
-          </p>
-          <button
-            type="button"
-            className="otp-submit-btn otp-reset-btn"
-            onClick={() => {
-              resetOtpState();
-              setName('');
-              setPhone('');
-              setOtp('');
-              setSelectedState('');
-              setSelectedCity('');
-              setSelectedBranchCode('');
               setMessage('');
               setConsent(false);
             }}

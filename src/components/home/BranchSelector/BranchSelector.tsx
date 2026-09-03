@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getBranchesByState } from '@/data/branchesData';
+import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
 import './BranchSelector.css';
 
 export default function BranchSelector() {
@@ -58,6 +59,8 @@ export default function BranchSelector() {
   }, []);
 
   const { states: bmStates, branchesByState } = useBranchMaster();
+  const { rates } = useLiveGoldRates();
+  const currentRate = rates['24K'];
 
   const states = useMemo(() => {
     return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
@@ -116,8 +119,8 @@ export default function BranchSelector() {
           </div>
 
           <div className="selector-rate-badge">
-            <span className="rate-label">22K/G</span>
-            <span className="rate-price">₹8,629</span>
+            <span className="rate-label">24K/G</span>
+            <span className="rate-price">₹{currentRate ? currentRate.perGram.toLocaleString('en-IN') : '8,629'}</span>
           </div>
         </div>
 
@@ -207,7 +210,7 @@ export default function BranchSelector() {
           }
         }}
       >
-        <span className="minimized-rate-badge">22K/G ₹8,629</span>
+        <span className="minimized-rate-badge">24K/G ₹{currentRate ? currentRate.perGram.toLocaleString('en-IN') : '8,629'}</span>
         <span className="minimized-tab-label">Select Branch</span>
         <svg
           className="expand-chevron"
