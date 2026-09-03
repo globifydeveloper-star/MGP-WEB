@@ -169,7 +169,7 @@ export default async function Footer() {
             </div>
           </div>
 
-          <Link href="/bureau-of-indian-standards-licence-muthoot-gold-point" className="bis-logo-link">
+          <a href="/bureau-of-indian-standards-licence-muthoot-gold-point.pdf" target="_blank" rel="noopener noreferrer" className="bis-logo-link">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/bis_logo.png"
@@ -178,7 +178,7 @@ export default async function Footer() {
               width={220}
               height={65}
             />
-          </Link>
+          </a>
         </div>
       </div>
 
