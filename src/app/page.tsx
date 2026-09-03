@@ -75,7 +75,7 @@ export default async function Home() {
       />
 
       {/* Video Section */}
-      <VideoSection />
+      <VideoSection videos={homepageData?.homeVideos} />
 
       {/* 3. The Gold Point Difference */}
       <TheGpDiff cards={differenceBoxes} />

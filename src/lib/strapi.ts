@@ -410,6 +410,15 @@ export async function submitFormSubmission(payload: {
 
 // --- HOMEPAGE CONTENT CONTROL TYPES & ACCESSORS ---
 
+export interface HomeVideoItem {
+  id?: number;
+  code: string;
+  label: string;
+  poster?: string | null;
+  video?: string | null;
+  videoUrl?: string | null;
+}
+
 export interface HomepageData {
   heroFirstSlideImage?: string;
   processSectionImage?: string;
@@ -427,6 +436,7 @@ export interface HomepageData {
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
+  homeVideos?: HomeVideoItem[];
 }
 
 export interface HeroSlide {
@@ -510,7 +520,7 @@ function getMediaUrl(media: any): string | undefined {
 
 export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/homepage?populate=*`, {
+    const res = await fetch(`${STRAPI_URL}/api/homepage?populate[homeVideos][populate]=*&populate=*`, {
       next: { revalidate: REVALIDATE_INTERVAL },
     });
     if (!res.ok) {
@@ -536,6 +546,16 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
       seoDescription: flat.seoDescription,
       ogImage: getMediaUrl(flat.ogImage),
       hideFooter: flat.hideFooter ?? false,
+      homeVideos: Array.isArray(flat.homeVideos)
+        ? flat.homeVideos.map((item: any) => ({
+            id: item.id,
+            code: item.code,
+            label: item.label,
+            poster: getMediaUrl(item.poster),
+            video: getMediaUrl(item.video) ?? item.videoUrl ?? null,
+            videoUrl: item.videoUrl,
+          }))
+        : undefined,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;

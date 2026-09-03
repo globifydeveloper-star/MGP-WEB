@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import type { HomeVideoItem } from '@/lib/strapi';
 import './VideoSection.css';
 
-const LANGUAGES = [
+const DEFAULT_LANGUAGES = [
   { code: 'hi', label: 'हिंदी', poster: '/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
   { code: 'ml', label: 'മലയാളം', poster: '/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
   { code: 'ta', label: 'தமிழ்', poster: '/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
@@ -16,15 +17,31 @@ const LANGUAGES = [
 
 const VISIBLE_COUNT = 4;
 
-export default function VideoSection() {
-  const [activeCode, setActiveCode] = useState(LANGUAGES[0].code);
+interface VideoSectionProps {
+  videos?: HomeVideoItem[];
+}
+
+export default function VideoSection({ videos }: VideoSectionProps) {
+  const languages = React.useMemo(() => {
+    if (videos && videos.length > 0) {
+      return videos.map((item) => ({
+        code: item.code,
+        label: item.label,
+        poster: item.poster || '/video_thumb.png',
+        video: item.video || item.videoUrl || null,
+      }));
+    }
+    return DEFAULT_LANGUAGES;
+  }, [videos]);
+
+  const [activeCode, setActiveCode] = useState(languages[0]?.code ?? 'hi');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const visibleLanguages = LANGUAGES.slice(0, VISIBLE_COUNT);
-  const moreLanguages = LANGUAGES.slice(VISIBLE_COUNT);
-  const activeLanguage = LANGUAGES.find((l) => l.code === activeCode) ?? LANGUAGES[0];
+  const visibleLanguages = languages.slice(0, VISIBLE_COUNT);
+  const moreLanguages = languages.slice(VISIBLE_COUNT);
+  const activeLanguage = languages.find((l) => l.code === activeCode) ?? languages[0];
 
   const selectLanguage = (code: string) => {
     setActiveCode(code);
