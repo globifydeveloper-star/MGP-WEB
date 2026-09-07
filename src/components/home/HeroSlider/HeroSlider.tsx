@@ -48,7 +48,7 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full' }:
   if (!ENABLE_SECOND_SLIDE || slideCount <= 1) {
     const firstSlide = slideList[0];
     const mediaType = firstSlide?.mediaType || (firstSlide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
-    const imageSrc = firstSlideImage || firstSlide?.media?.url;
+    const imageSrc = firstSlideImage || firstSlide?.heroImage || firstSlide?.media?.url;
     return (
       <>
         <Hero slide={firstSlide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} />
@@ -63,7 +63,7 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full' }:
         {slideList.map((slide, idx) => {
           const isActive = activeSlide === idx;
           const mediaType = slide?.mediaType || (slide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
-          const imageSrc = idx === 0 ? (firstSlideImage || slide?.media?.url) : (slide?.heroImage || slide?.media?.url);
+          const imageSrc = idx === 0 ? (firstSlideImage || slide?.heroImage || slide?.media?.url) : (slide?.heroImage || slide?.media?.url);
           return (
             <div key={idx} className={`hero-slider-slide${isActive ? ' is-active' : ''}`} aria-hidden={!isActive}>
               {idx === 0 ? (

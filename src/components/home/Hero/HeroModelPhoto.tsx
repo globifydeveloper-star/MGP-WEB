@@ -1,4 +1,3 @@
-import hm6Img01 from '@/assets/images/hm6-img01.png';
 import Image from 'next/image';
 
 interface HeroModelPhotoProps {
@@ -19,16 +18,16 @@ export default function HeroModelPhoto({ imageSrc, mediaType }: HeroModelPhotoPr
           className="hero-model-img"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
-      ) : (
+      ) : imageSrc ? (
         <Image
-          src={imageSrc ?? hm6Img01}
+          src={imageSrc}
           alt="Muthoot Goldpoint Premium Customer Service"
           className="hero-model-img"
           fill
           priority
           sizes="(max-width: 1024px) 320px, 521px"
         />
-      )}
+      ) : null}
     </div>
   );
 }

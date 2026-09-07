@@ -54,7 +54,7 @@ interface CacheEntry {
   expiresAt: number;
 }
 
-const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
 const quoteCache = new Map<string, CacheEntry>();
 
 export function clearQuoteCache(): void {
@@ -245,10 +245,7 @@ export async function fetchAllGoldRates(): Promise<AllGoldRatesResponse> {
   try {
     const results = await Promise.all(
       purities.map(async (p) => {
-        let quote: any = { success: false };
-        if (p.key === '24K') {
-          quote = await fetchGoldQuote({ weightInGms: 1, purityPerc: p.purityPerc });
-        }
+        const quote = await fetchGoldQuote({ weightInGms: 1, purityPerc: p.purityPerc });
         
         const price = quote.success && quote?.respData?.purchasePrice
           ? Math.round(quote.respData.purchasePrice)
@@ -289,8 +286,8 @@ export async function fetchAllGoldRates(): Promise<AllGoldRatesResponse> {
         '18K': results.find((r) => r.key === '18K')!.item,
       },
     };
-  } catch (err) {
-    console.error('[fetchAllGoldRates] Error:', err);
+  } catch (err: any) {
+    console.error('[fetchAllGoldRates] Error fetching gold rates:', err?.message || err, err?.stack || '');
     return {
       success: true,
       isLive: false,

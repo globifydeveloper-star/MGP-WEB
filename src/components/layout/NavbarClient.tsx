@@ -14,7 +14,6 @@ const DEFAULT_NAV_LINKS: NavItem[] = [
   { label: 'Home', url: '/' },
   { label: 'About Us', url: '/about-us' },
   { label: 'Mobile Van', url: '/mobilevantab' },
-  { label: 'Branches', url: 'https://branches.muthootgoldpoint.com/', isExternal: true },
   { label: 'Gold Rate', url: '/gold-rate' },
   { label: 'Career', url: '/career' },
 ];

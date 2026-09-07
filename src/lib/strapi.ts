@@ -92,7 +92,8 @@ function isDynamicServerError(err: any): boolean {
 export const getBlogPosts = cache(async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/blog-posts?populate=*&sort=publishedAt:desc`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
+      // next: { revalidate: REVALIDATE_INTERVAL },
+      cache: "no-store",
     });
     if (!res.ok) {
       console.error(`getBlogPosts: Strapi responded with ${res.status}`);
