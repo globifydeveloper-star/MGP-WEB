@@ -91,6 +91,7 @@ export default function SellGoldHero() {
 
     const success = await verifyOtp(formData.phone, formData.otp, {
       name: formData.name,
+      email: formData.email,
       state: formData.state,
       city: formData.city,
       branchCode: formData.branchCode,
