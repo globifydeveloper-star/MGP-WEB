@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
+import { validateName, validatePhone, validateRequired, validateOtp } from '@/lib/otp';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import { MobileVanPageData } from '@/lib/strapi';
@@ -38,6 +39,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
   const [otp, setOtp] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
@@ -83,16 +85,22 @@ export default function Appoinment({ data }: AppoinmentProps) {
       }
       return { ...prev, ...updates };
     });
+    // Clear error for this field
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, '').slice(0, 6);
     setOtp(val);
+    if (errors.otp) setErrors((prev) => ({ ...prev, otp: '' }));
   };
 
   const handleGetOtp = async () => {
-    if (!formData.mobile || formData.mobile.length < 10) {
-      alert('Please enter a valid 10-digit phone number');
+    const phoneError = validatePhone(formData.mobile);
+    if (phoneError) {
+      setErrors((prev) => ({ ...prev, mobile: phoneError }));
       return;
     }
     await sendOtp(formData.mobile);
@@ -100,12 +108,32 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.mobile || !otp || !formData.state || !formData.city) {
-      alert('Please fill in all required fields.');
-      return;
-    }
+    const newErrors: Record<string, string> = {};
+
+    const nameErr = validateName(formData.fullName);
+    if (nameErr) newErrors.fullName = nameErr;
+
+    const phoneErr = validatePhone(formData.mobile);
+    if (phoneErr) newErrors.mobile = phoneErr;
+
+    const stateErr = validateRequired(formData.state, 'State');
+    if (stateErr) newErrors.state = stateErr;
+
+    const cityErr = validateRequired(formData.city, 'City');
+    if (cityErr) newErrors.city = cityErr;
+
+    const branchErr = validateRequired(formData.branchCode, 'Branch');
+    if (branchErr) newErrors.branchCode = branchErr;
+
+    const otpErr = validateOtp(otp);
+    if (otpErr) newErrors.otp = otpErr;
+
     if (!formData.consent) {
-      alert('You must authorize communication to submit.');
+      newErrors.consent = 'You must authorize communication to submit.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
@@ -209,6 +237,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                       value={formData.fullName}
                       onChange={handleChange}
                     />
+                    {errors.fullName && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.fullName}</span>}
                   </div>
 
                   <div className="apt-field">
@@ -233,6 +262,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                         {otpState === 'sending' ? '...' : otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
                       </button>
                     </div>
+                    {errors.mobile && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.mobile}</span>}
                   </div>
                 </div>
 
@@ -252,6 +282,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                       value={otp}
                       onChange={handleOtpChange}
                     />
+                    {errors.otp && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.otp}</span>}
                   </div>
                 </div>
 
@@ -271,6 +302,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                         <option key={state} value={state}>{state}</option>
                       ))}
                     </select>
+                    {errors.state && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.state}</span>}
                   </div>
 
                   <div className="apt-field">
@@ -288,6 +320,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                         <option key={city} value={city}>{city}</option>
                       ))}
                     </select>
+                    {errors.city && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.city}</span>}
                   </div>
                 </div>
 
@@ -307,6 +340,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                         <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
                       ))}
                     </select>
+                    {errors.branchCode && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.branchCode}</span>}
                   </div>
                 </div>
 
@@ -322,6 +356,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                     I authorize Muthoot Exim Pvt. Ltd. &amp; other Muthoot Pappachan Group companies to communicate with me on their product offerings/promotions through Telephone/Mobile/SMS/Email.
                   </span>
                 </label>
+                {errors.consent && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block', marginBottom: '1rem'}}>{errors.consent}</span>}
 
                 {otpErrorMessage && (
                   <div className="otp-error-msg" role="alert" style={{ color: '#DC2626', fontSize: '0.8rem', marginTop: '-0.5rem', marginBottom: '1.25rem' }}>

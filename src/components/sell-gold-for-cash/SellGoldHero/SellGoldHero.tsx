@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
+import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/otp';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './SellGoldHero.css';
@@ -44,6 +45,7 @@ export default function SellGoldHero() {
   }, [formData.state, formData.city, branchesByState]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const {
     state: otpState,
@@ -68,11 +70,15 @@ export default function SellGoldHero() {
       }
       return { ...prev, ...updates };
     });
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleGetOtp = async () => {
-    if (!formData.phone || formData.phone.length < 10) {
-      alert('Please enter a valid 10-digit phone number');
+    const phoneErr = validatePhone(formData.phone);
+    if (phoneErr) {
+      setErrors(prev => ({ ...prev, phone: phoneErr }));
       return;
     }
     await sendOtp(formData.phone);
@@ -80,12 +86,35 @@ export default function SellGoldHero() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city) {
-      alert('Please fill in all required fields.');
-      return;
-    }
+    const newErrors: Record<string, string> = {};
+
+    const nameErr = validateName(formData.name);
+    if (nameErr) newErrors.name = nameErr;
+
+    const emailErr = validateEmail(formData.email);
+    if (emailErr) newErrors.email = emailErr;
+
+    const phoneErr = validatePhone(formData.phone);
+    if (phoneErr) newErrors.phone = phoneErr;
+
+    const otpErr = validateOtp(formData.otp);
+    if (otpErr) newErrors.otp = otpErr;
+
+    const stateErr = validateRequired(formData.state, 'State');
+    if (stateErr) newErrors.state = stateErr;
+
+    const cityErr = validateRequired(formData.city, 'City');
+    if (cityErr) newErrors.city = cityErr;
+
+    const branchErr = validateRequired(formData.branchCode, 'Branch');
+    if (branchErr) newErrors.branchCode = branchErr;
+
     if (!formData.consent) {
-      alert('You must authorize communication to submit.');
+      newErrors.consent = 'You must authorize communication to submit.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
@@ -282,6 +311,7 @@ export default function SellGoldHero() {
                     placeholder="Name*"
                     className="sg-form-input"
                   />
+                  {errors.name && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.name}</span>}
                 </div>
 
                 {/* Email */}
@@ -296,6 +326,7 @@ export default function SellGoldHero() {
                     placeholder="Email*"
                     className="sg-form-input"
                   />
+                  {errors.email && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.email}</span>}
                 </div>
 
                 {/* Mobile Number, OTP button & OTP input in one row */}
@@ -322,6 +353,7 @@ export default function SellGoldHero() {
                       {otpState === 'sending' ? '...' : otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
                     </button>
                   </div>
+                  {errors.phone && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block', gridColumn: '1 / -1'}}>{errors.phone}</span>}
 
                   <div className="sg-form-group sg-otp-group">
                     <input
@@ -335,6 +367,7 @@ export default function SellGoldHero() {
                       placeholder="OTP*"
                       className="sg-form-input"
                     />
+                    {errors.otp && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.otp}</span>}
                   </div>
                 </div>
 
@@ -355,6 +388,7 @@ export default function SellGoldHero() {
                       ))}
                     </select>
                     <span className="sg-select-arrow" />
+                    {errors.state && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.state}</span>}
                   </div>
 
                   <div className="sg-form-group sg-select-wrapper">
@@ -375,6 +409,7 @@ export default function SellGoldHero() {
                       ))}
                     </select>
                     <span className="sg-select-arrow" />
+                    {errors.city && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.city}</span>}
                   </div>
                 </div>
 
@@ -398,6 +433,7 @@ export default function SellGoldHero() {
                       ))}
                     </select>
                     <span className="sg-select-arrow" />
+                    {errors.branchCode && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.branchCode}</span>}
                   </div>
                 </div>
 
@@ -416,6 +452,7 @@ export default function SellGoldHero() {
                       Authorize Muthoot Exim Pvt Ltd. & other Muthoot Pappachan Group companies (including its Agents/representatives) to call/communicate with me on their product offerings/ promotions through Telephone/Mobile/SMS/email ID.
                     </span>
                   </label>
+                  {errors.consent && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.consent}</span>}
                 </div>
 
                 {otpErrorMessage && (

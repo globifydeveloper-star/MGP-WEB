@@ -108,7 +108,10 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
 
           <aside className="blog-post-sidebar">
             <div className="blog-sidebar-sticky">
-              <OTPEnquiryForm />
+              <OTPEnquiryForm 
+                sourceForm={`Blog: ${post.title}`} 
+                enquiryType="Blog Enquiry" 
+              />
             </div>
           </aside>
         </div>

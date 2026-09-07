@@ -824,6 +824,8 @@ export interface AboutUsPageData {
   heroEyebrow?: string;
   heroTitle?: string;
   heroDescription?: string;
+  heroButtonText?: string;
+  heroButtonLink?: string;
   heroChecklist?: { id: number; text: string }[];
   heroStats?: { id: number; label: string; number: string }[];
   heroImages?: string[];
@@ -878,6 +880,8 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
       heroEyebrow: flat.heroEyebrow,
       heroTitle: flat.heroTitle,
       heroDescription: flat.heroDescription,
+      heroButtonText: flat.heroButtonText,
+      heroButtonLink: flat.heroButtonLink,
       heroChecklist: flat.heroChecklist,
       heroStats: flat.heroStats,
       heroImages: Array.isArray(flat.heroImages) ? flat.heroImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
