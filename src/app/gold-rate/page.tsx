@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import GoldRatePage from '@/components/gold-rate/page';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { getGoldRatePage } from '@/lib/strapi';
+import { getGoldRatePage, getSharedMedia } from '@/lib/strapi';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getGoldRatePage();
@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function GoldRateRoute() {
-  const data = await getGoldRatePage();
+  const [data, sharedMedia] = await Promise.all([getGoldRatePage(), getSharedMedia()]);
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -45,7 +45,7 @@ export default async function GoldRateRoute() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <GoldRatePage data={data} />
+      <GoldRatePage data={data} goldValueFormImage={sharedMedia?.goldValueFormImage} />
       {!data?.hideFooter && <Footer />}
     </>
   );

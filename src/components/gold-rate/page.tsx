@@ -10,7 +10,13 @@ import GoldRateCTA from './cta/GoldRateCTA';
 import GoldRateFAQ from './faq/GoldRateFAQ';
 import TrustStrip from './trust-strip/TrustStrip';
 
-export default function GoldRatePage({ data }: { data?: any }) {
+export default function GoldRatePage({
+  data,
+  goldValueFormImage,
+}: {
+  data?: any;
+  goldValueFormImage?: string;
+}) {
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
 
   return (
@@ -22,7 +28,7 @@ export default function GoldRatePage({ data }: { data?: any }) {
           heroDescription={data?.heroDescription}
         />
 
-        <GoldValueForm sectionImage={data?.estimateGoldImage} />
+        <GoldValueForm sectionImage={goldValueFormImage} />
 
         <WhyRatesChange />
 

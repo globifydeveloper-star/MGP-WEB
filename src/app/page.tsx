@@ -14,6 +14,7 @@ import FAQ from '@/components/home/FAQ/FAQ';
 import {
   getBlogPosts,
   getHomepageData,
+  getSharedMedia,
   getHeroSlides,
   getProcessSteps,
   getDifferenceBoxes,
@@ -36,6 +37,7 @@ export default async function Home() {
   const [
     posts,
     homepageData,
+    sharedMedia,
     heroSlides,
     processSteps,
     differenceBoxes,
@@ -45,6 +47,7 @@ export default async function Home() {
   ] = await Promise.all([
     getBlogPosts(),
     getHomepageData(),
+    getSharedMedia(),
     getHeroSlides(),
     getProcessSteps(),
     getDifferenceBoxes(),
@@ -68,7 +71,7 @@ export default async function Home() {
 
       {/* Estimate The Value Of Your Gold Section */}
       <GoldValueForm
-        sectionImage={homepageData?.estimateGoldImage}
+        sectionImage={sharedMedia?.goldValueFormImage}
         heading={homepageData?.estimateGoldHeading}
         headingHighlight={homepageData?.estimateGoldHeadingHighlight}
         note={homepageData?.estimateGoldNote}

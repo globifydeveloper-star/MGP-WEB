@@ -423,7 +423,6 @@ export interface HomeVideoItem {
 export interface HomepageData {
   heroFirstSlideImage?: string;
   processSectionImage?: string;
-  estimateGoldImage?: string;
   estimateGoldHeading?: string;
   estimateGoldHeadingHighlight?: string;
   estimateGoldNote?: string;
@@ -534,7 +533,6 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
     return {
       heroFirstSlideImage: getMediaUrl(flat.heroFirstSlideImage),
       processSectionImage: getMediaUrl(flat.processSectionImage),
-      estimateGoldImage: getMediaUrl(flat.estimateGoldImage),
       estimateGoldHeading: flat.estimateGoldHeading,
       estimateGoldHeadingHighlight: flat.estimateGoldHeadingHighlight,
       estimateGoldNote: flat.estimateGoldNote,
@@ -561,6 +559,32 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
     console.error('getHomepageData: failed to fetch homepage settings', err);
+    return null;
+  }
+});
+
+export interface SharedMediaData {
+  goldValueFormImage?: string;
+}
+
+export const getSharedMedia = cache(async function getSharedMedia(): Promise<SharedMediaData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/shared-media?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) {
+      console.warn(`getSharedMedia: Strapi responded with ${res.status}`);
+      return null;
+    }
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      goldValueFormImage: getMediaUrl(flat.goldValueFormImage),
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getSharedMedia: failed to fetch shared media', err);
     return null;
   }
 });
@@ -1100,7 +1124,7 @@ export interface GoldRatePageData {
 
 export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs,estimateGoldImage`, {
+    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs`, {
       next: { revalidate: REVALIDATE_INTERVAL },
     });
     if (!res.ok) return null;
@@ -1117,7 +1141,6 @@ export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<G
       heroTitle: flat.heroTitle,
       heroDescription: flat.heroDescription,
       faqs: Array.isArray(flat.faqs) ? flat.faqs.map(unwrap) : [],
-      estimateGoldImage: flat.estimateGoldImage ? (resolveMediaUrl(unwrap(flat.estimateGoldImage).url) ?? unwrap(flat.estimateGoldImage).url) : undefined,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
