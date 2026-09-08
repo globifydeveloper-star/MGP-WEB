@@ -102,7 +102,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
 
             <div className="about-hero-footer-row">
               <button onClick={onExploreClick} className="about-hero-know-more">
-                Sell Your Gold
+                {data?.heroButtonText || 'Sell Your Gold'}
               </button>
 
               <Image

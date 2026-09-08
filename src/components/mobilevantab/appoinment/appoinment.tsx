@@ -125,6 +125,9 @@ export default function Appoinment({ data }: AppoinmentProps) {
     const branchErr = validateRequired(formData.branchCode, 'Branch');
     if (branchErr) newErrors.branchCode = branchErr;
 
+    const addressErr = validateRequired(formData.address, 'Address');
+    if (addressErr) newErrors.address = addressErr;
+
     const otpErr = validateOtp(otp);
     if (otpErr) newErrors.otp = otpErr;
 
@@ -341,6 +344,24 @@ export default function Appoinment({ data }: AppoinmentProps) {
                       ))}
                     </select>
                     {errors.branchCode && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.branchCode}</span>}
+                  </div>
+                </div>
+
+                
+                <div className="apt-form-row">
+                  <div className="apt-field" style={{ width: '100%' }}>
+                    <label htmlFor="apt-address" className="apt-label">Address<span className="apt-required">*</span></label>
+                    <textarea
+                      id="apt-address"
+                      name="address"
+                      className="apt-input"
+                      placeholder="Enter your complete address"
+                      disabled={otpState === 'sending' || otpState === 'verifying'}
+                      value={formData.address}
+                      onChange={handleChange as any}
+                      style={{ resize: 'vertical', minHeight: '80px', fontFamily: 'inherit', padding: '0.75rem 1rem' }}
+                    />
+                    {errors.address && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block'}}>{errors.address}</span>}
                   </div>
                 </div>
 
