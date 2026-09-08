@@ -103,6 +103,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if (e.target.type === 'number' && Number(value) < 0) return;
     setFormData(prev => {
       const updates: any = { [name]: value };
       if (name === 'state') {
@@ -371,6 +372,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
             <div className="sg-form-group">
               <input
                 type="number"
+                min="0"
                 step="0.01"
                 name="weight"
                 placeholder="Gold Weight (e.g., 15.5)"
@@ -378,6 +380,11 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 className="sg-input"
                 value={formData.weight}
                 onChange={handleChange}
+                onKeyDown={(e) => {
+                  if (e.key === '-') {
+                    e.preventDefault();
+                  }
+                }}
               />
               <span className="sg-input-helper">Enter total weight in grams (e.g., 15.5g)</span>
               {errors.weight && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.weight}</span>}

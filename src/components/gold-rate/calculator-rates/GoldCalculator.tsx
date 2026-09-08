@@ -67,7 +67,13 @@ export default function GoldCalculator() {
               className="gc-input"
               placeholder="Enter weight in grams"
               value={weight}
-              onChange={(e) => setWeight(e.target.value)}
+              onChange={(e) => {
+                if (Number(e.target.value) < 0) return;
+                setWeight(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === '-') e.preventDefault();
+              }}
             />
             <span className="gc-input-suffix">grams</span>
           </div>
@@ -86,7 +92,13 @@ export default function GoldCalculator() {
               className="gc-input"
               placeholder="Enter making charges per gram"
               value={makingCharges}
-              onChange={(e) => setMakingCharges(e.target.value)}
+              onChange={(e) => {
+                if (Number(e.target.value) < 0) return;
+                setMakingCharges(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === '-') e.preventDefault();
+              }}
             />
           </div>
         </div>
@@ -104,7 +116,13 @@ export default function GoldCalculator() {
               className="gc-input"
               placeholder="Enter other deductions"
               value={deductions}
-              onChange={(e) => setDeductions(e.target.value)}
+              onChange={(e) => {
+                if (Number(e.target.value) < 0) return;
+                setDeductions(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === '-') e.preventDefault();
+              }}
             />
           </div>
         </div>

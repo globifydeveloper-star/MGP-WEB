@@ -47,6 +47,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (e.target.type === 'number' && Number(value) < 0) return;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -175,10 +176,17 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   id="gvf-weight"
                   name="weight"
                   type="number"
+                  min="0"
+                  step="0.01"
                   className="gvf-input"
                   placeholder="Quantity (in grams)"
                   value={formData.weight}
                   onChange={handleChange}
+                  onKeyDown={(e) => {
+                    if (e.key === '-') {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
 
