@@ -22,7 +22,7 @@ export default function GoldRatePage({ data }: { data?: any }) {
           heroDescription={data?.heroDescription}
         />
 
-        <GoldValueForm />
+        <GoldValueForm sectionImage={data?.estimateGoldImage} />
 
         <WhyRatesChange />
 

@@ -1100,7 +1100,7 @@ export interface GoldRatePageData {
 
 export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs`, {
+    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs,estimateGoldImage`, {
       next: { revalidate: REVALIDATE_INTERVAL },
     });
     if (!res.ok) return null;
@@ -1117,6 +1117,7 @@ export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<G
       heroTitle: flat.heroTitle,
       heroDescription: flat.heroDescription,
       faqs: Array.isArray(flat.faqs) ? flat.faqs.map(unwrap) : [],
+      estimateGoldImage: flat.estimateGoldImage ? (resolveMediaUrl(unwrap(flat.estimateGoldImage).url) ?? unwrap(flat.estimateGoldImage).url) : undefined,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
