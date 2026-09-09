@@ -63,7 +63,7 @@ const REASONS = [
   },
 ];
 
-export default function WhyRatesChange() {
+export default function WhyRatesChange({ sectionImage }: { sectionImage?: string }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const animatedRef = useRef(false);
 
@@ -153,7 +153,7 @@ export default function WhyRatesChange() {
 
         <div className="wrc-image-wrap">
           <Image
-            src={treasureChestImg}
+            src={sectionImage || treasureChestImg}
             alt="A gold treasure chest overflowing with gold coins and jewellery on a soft white background"
             className="wrc-image"
             fill

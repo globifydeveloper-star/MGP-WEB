@@ -79,8 +79,10 @@ export default function TestingCards({ data }: TestingCardsProps) {
             <div className="tc-image-glow" aria-hidden="true" />
             <div className="tc-image-box">
               <Image
-                src={purityImg}
+                src={data?.testingMethodsImage || purityImg}
                 alt="Lab technician performing XRF gold purity testing"
+                width={1541}
+                height={1021}
                 className="tc-image"
                 priority
               />

@@ -18,6 +18,7 @@ interface GoldRateHeroProps {
   onSellGoldClick: () => void;
   heroTitle?: string;
   heroDescription?: string;
+  heroImage?: string;
 }
 
 function scrollToId(id: string) {
@@ -25,7 +26,7 @@ function scrollToId(id: string) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescription }: GoldRateHeroProps) {
+export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescription, heroImage }: GoldRateHeroProps) {
   const today = new Date().toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -37,7 +38,7 @@ export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescripti
       <div className="grh-hero-top">
         <div className="grh-bg" aria-hidden="true">
           <Image
-            src={heroBgImg}
+            src={heroImage || heroBgImg}
             alt=""
             fill
             priority

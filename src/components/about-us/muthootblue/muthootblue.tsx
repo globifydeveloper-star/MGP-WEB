@@ -74,8 +74,10 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
           <div className="blue-media-side">
             <div className="blue-media-pattern" aria-hidden="true" />
             <Image
-              src={portraitImg}
+              src={data?.parentPortraitImage || portraitImg}
               alt="Representative of the Muthoot Pappachan Group"
+              width={1978}
+              height={3215}
               className="blue-portrait-img"
             />
           </div>

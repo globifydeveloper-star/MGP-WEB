@@ -204,7 +204,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
         <section className="cp-hero-banner">
           <div className="cp-hero-bg-wrapper">
             <Image
-              src={contactHeroBg}
+              src={data?.heroImage || contactHeroBg}
               alt="Muthoot Gold Point Contact Us"
               fill
               priority

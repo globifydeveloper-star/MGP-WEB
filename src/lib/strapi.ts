@@ -1119,12 +1119,14 @@ export interface GoldRatePageData {
   hideNavbar?: boolean;
   heroTitle?: string;
   heroDescription?: string;
+  heroImage?: string;
+  whyGoldRateChangesImage?: string;
   faqs?: FAQ[];
 }
 
 export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs`, {
+    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs,heroImage,whyGoldRateChangesImage`, {
       next: { revalidate: REVALIDATE_INTERVAL },
     });
     if (!res.ok) return null;
@@ -1140,6 +1142,8 @@ export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<G
       hideNavbar: Boolean(flat.hideNavbar),
       heroTitle: flat.heroTitle,
       heroDescription: flat.heroDescription,
+      heroImage: getMediaUrl(flat.heroImage),
+      whyGoldRateChangesImage: getMediaUrl(flat.whyGoldRateChangesImage),
       faqs: Array.isArray(flat.faqs) ? flat.faqs.map(unwrap) : [],
     };
   } catch (err) {
@@ -1165,6 +1169,9 @@ export interface MobileVanPageData {
   appointmentDescription?: string;
   seoTitle?: string;
   seoDescription?: string;
+  heroImage?: string;
+  testingMethodsImage?: string;
+  bookVanFormImage?: string;
 }
 
 export const getMobileVanPageSettings = cache(async function getMobileVanPageSettings(): Promise<MobileVanPageData | null> {
@@ -1175,7 +1182,13 @@ export const getMobileVanPageSettings = cache(async function getMobileVanPageSet
     if (!res.ok) return null;
     const json = await res.json();
     if (!json?.data) return null;
-    return unwrap<MobileVanPageData>(json.data);
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      ...(flat as MobileVanPageData),
+      heroImage: getMediaUrl(flat.heroImage),
+      testingMethodsImage: getMediaUrl(flat.testingMethodsImage),
+      bookVanFormImage: getMediaUrl(flat.bookVanFormImage),
+    };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
     console.error('getMobileVanPageSettings error:', err);

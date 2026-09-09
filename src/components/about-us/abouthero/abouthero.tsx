@@ -23,12 +23,20 @@ interface AboutHeroProps {
 export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
   const [activeImage, setActiveImage] = useState(0);
 
+  const cmsImages = data?.heroImages?.filter(Boolean) ?? [];
+  const slides = cmsImages.length
+    ? cmsImages.map((src, idx) => ({
+        src,
+        alt: HERO_IMAGES[idx % HERO_IMAGES.length].alt,
+      }))
+    : HERO_IMAGES;
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveImage((prev) => (prev + 1) % HERO_IMAGES.length);
+      setActiveImage((prev) => (prev + 1) % slides.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
     <section className="about-hero-section">
@@ -38,11 +46,13 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
           <div className="about-hero-media">
             <div className="about-hero-img-wrapper">
               <div className="about-hero-img-clip">
-                {HERO_IMAGES.map((image, idx) => (
+                {slides.map((image, idx) => (
                   <Image
-                    key={image.alt}
+                    key={`${image.alt}-${idx}`}
                     src={image.src}
                     alt={image.alt}
+                    width={1536}
+                    height={1024}
                     className={`about-hero-img ${idx === activeImage ? 'about-hero-img-active' : ''}`}
                     priority={idx === 0}
                   />

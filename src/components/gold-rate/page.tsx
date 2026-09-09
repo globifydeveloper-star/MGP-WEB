@@ -26,11 +26,12 @@ export default function GoldRatePage({
           onSellGoldClick={() => setIsSellGoldOpen(true)}
           heroTitle={data?.heroTitle}
           heroDescription={data?.heroDescription}
+          heroImage={data?.heroImage}
         />
 
         <GoldValueForm sectionImage={goldValueFormImage} />
 
-        <WhyRatesChange />
+        <WhyRatesChange sectionImage={data?.whyGoldRateChangesImage} />
 
         <ValuationProcess />
 
