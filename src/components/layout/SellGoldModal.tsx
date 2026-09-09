@@ -399,7 +399,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
             {/* Submit Button */}
             <button
               type="submit"
-              className="sg-submit-btn"
+              className="sg-modal-submit-btn"
               disabled={
                 otpState === 'idle' ||
                 otpState === 'sending' ||
