@@ -34,6 +34,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
     state: '',
     city: '',
     branchCode: '',
+    address: '',
     consent: false,
   });
 
@@ -159,6 +160,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
         state: '',
         city: '',
         branchCode: '',
+        address: '',
         consent: false,
       });
       setOtp('');
