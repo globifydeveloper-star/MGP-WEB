@@ -9,7 +9,11 @@ import AboutHero from '@/components/about-us/abouthero/abouthero';
 import GoldSellContact from './GoldSellContact/GoldSellContact';
 import StickyWatchNow from './StickyWatchNow/StickyWatchNow';
 
-export default function SellGoldForCashPage() {
+interface SellGoldForCashPageProps {
+  processSteps?: any[];
+}
+
+export default function SellGoldForCashPage({ processSteps }: SellGoldForCashPageProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -26,7 +30,7 @@ export default function SellGoldForCashPage() {
         <SellGoldHero />
 
         {/* Gold Selling Process Section */}
-        <GoldSellProcess />
+        <GoldSellProcess steps={processSteps} />
 
         {/* How We're Different From Traditional Jewellers */}
         <GoldSellComparison />
