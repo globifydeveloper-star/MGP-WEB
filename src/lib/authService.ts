@@ -3,6 +3,8 @@
  * Supports Muthoot Channel Login (POST /channel/channellogin) and Legacy (/Auth/Login)
  */
 
+import 'server-only';
+
 const AUTH_URL = (
   process.env.CRM_AUTH_URL ||
   process.env.CHANNEL_AUTH_URL ||
@@ -109,8 +111,6 @@ export async function resolveAuthToken(explicitToken?: string): Promise<string |
 
   const envToken =
     process.env.BRANCH_MASTER_JWT_TOKEN ||
-    process.env.NEXT_PUBLIC_BRANCH_MASTER_JWT_TOKEN ||
-    process.env.NEXT_PUBLIC_BRANCH_MASTER_TOKEN ||
     process.env.BRANCH_MASTER_TOKEN ||
     process.env.CHANNEL_LEAD_TOKEN ||
     process.env.CRM_TOKEN;

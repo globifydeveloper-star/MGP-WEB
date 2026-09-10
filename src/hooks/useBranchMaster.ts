@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { BranchMasterDetailsItem } from '@/lib/branchMaster';
+import type { BranchMasterDetailsItem } from '@/lib/branchMaster';
 import {
   getUniqueStates as getFallbackStates,
   getCitiesByState as getFallbackCities,

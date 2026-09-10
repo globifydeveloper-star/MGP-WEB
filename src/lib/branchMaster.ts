@@ -1,3 +1,4 @@
+import 'server-only';
 import { resolveAuthToken } from './authService';
 
 export const BRANCH_MASTER_BASE_URL = (
