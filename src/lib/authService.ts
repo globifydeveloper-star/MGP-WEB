@@ -8,20 +8,20 @@ import 'server-only';
 const AUTH_URL = (
   process.env.CRM_AUTH_URL ||
   process.env.CHANNEL_AUTH_URL ||
-  'https://mgpauthext-mgpuat.muthootexim.com/channel/channellogin'
+  ''
 ).trim();
 
 const USERNAME =
   process.env.CHANNEL_LEAD_USERNAME ||
   process.env.BRANCH_MASTER_USERNAME ||
   process.env.CRM_USERNAME ||
-  'MP20500356';
-
+  '';
+ 
 const PASSWORD =
   process.env.CHANNEL_LEAD_PASSWORD ||
   process.env.BRANCH_MASTER_PASSWORD ||
   process.env.CRM_PASSWORD ||
-  'password123';
+  '';
 
 export interface AuthLoginResponse {
   success?: boolean;
