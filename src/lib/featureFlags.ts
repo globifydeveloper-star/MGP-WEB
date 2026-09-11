@@ -8,11 +8,17 @@
  */
 
 /**
- * Controls the gold rate card shown in the homepage hero slides and in the
- * /gold-rate page hero.
+ * Controls every live gold rate shown to visitors. Temporarily switched off at
+ * the client's request; set it back to `true` to restore all of them at once.
  *
- * Temporarily switched off at the client's request. Set this back to `true`
- * to restore the card in all three places. Live rates keep flowing to the
- * gold calculator, the branch selector and the gold value form either way.
+ * It covers:
+ *  - the rate card in the homepage hero, both slides, desktop and mobile
+ *  - the rate card in the /gold-rate page hero
+ *  - the "Today's Gold Rate" badge on the gold value form, which appears on
+ *    the homepage and on /gold-rate
+ *  - the rate in the branch locator bar and in its minimized tab
+ *
+ * Rates are still fetched, so the estimate the gold value form produces after
+ * a visitor submits it is unaffected.
  */
 export const SHOW_GOLD_RATE_CARD: boolean = false;

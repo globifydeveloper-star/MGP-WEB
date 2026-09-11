@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './GoldValueForm.css';
 import LocationPopup from './LocationPopup';
 import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
+import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import { animate } from 'animejs';
 
 interface GoldValueFormProps {
@@ -72,26 +73,28 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
 
         <div className="gvf-grid">
           {/* Left: Gold image with live rate badge */}
-          <div className="gvf-image-col">
+          <div className={`gvf-image-col${SHOW_GOLD_RATE_CARD ? '' : ' gvf-image-col--no-badge'}`}>
             <div className="gvf-image-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={sectionImage || "/bangle.png"} alt="Gold bangles" className="gvf-image" />
             </div>
 
-            <div className="gvf-rate-badge">
-              <div className="gvf-rate-badge-header">
-                <span className="gvf-rate-badge-title">Today&apos;s Gold Rate</span>
-                <span className="gvf-live-pill">
-                  <span className="gvf-live-dot" />
-                  Live
-                </span>
+            {SHOW_GOLD_RATE_CARD && (
+              <div className="gvf-rate-badge">
+                <div className="gvf-rate-badge-header">
+                  <span className="gvf-rate-badge-title">Today&apos;s Gold Rate</span>
+                  <span className="gvf-live-pill">
+                    <span className="gvf-live-dot" />
+                    Live
+                  </span>
+                </div>
+                <div className="gvf-rate-purity">24K ({rates['24K']?.purity || '999'})</div>
+                <div className="gvf-rate-value">
+                  <span className="gvf-rupee">₹{displayRate.toLocaleString('en-IN')}</span>
+                  <span className="gvf-rate-unit">/g</span>
+                </div>
               </div>
-              <div className="gvf-rate-purity">24K ({rates['24K']?.purity || '999'})</div>
-              <div className="gvf-rate-value">
-                <span className="gvf-rupee">₹{displayRate.toLocaleString('en-IN')}</span>
-                <span className="gvf-rate-unit">/g</span>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Right: Estimate form */}

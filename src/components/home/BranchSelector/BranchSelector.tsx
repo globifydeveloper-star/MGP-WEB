@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getBranchesByState } from '@/data/branchesData';
 import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
+import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import './BranchSelector.css';
 
 export default function BranchSelector() {
@@ -118,10 +119,12 @@ export default function BranchSelector() {
             <span className="info-subtitle">Select a branch</span>
           </div>
 
-          <div className="selector-rate-badge">
-            <span className="rate-label">24K/G</span>
-            <span className="rate-price">₹{currentRate ? currentRate.perGram.toLocaleString('en-IN') : '8,629'}</span>
-          </div>
+          {SHOW_GOLD_RATE_CARD && (
+            <div className="selector-rate-badge">
+              <span className="rate-label">24K/G</span>
+              <span className="rate-price">₹{currentRate ? currentRate.perGram.toLocaleString('en-IN') : '8,629'}</span>
+            </div>
+          )}
         </div>
 
         {/* Dropdown controls */}
@@ -210,7 +213,9 @@ export default function BranchSelector() {
           }
         }}
       >
-        <span className="minimized-rate-badge">24K/G ₹{currentRate ? currentRate.perGram.toLocaleString('en-IN') : '8,629'}</span>
+        {SHOW_GOLD_RATE_CARD && (
+          <span className="minimized-rate-badge">24K/G ₹{currentRate ? currentRate.perGram.toLocaleString('en-IN') : '8,629'}</span>
+        )}
         <span className="minimized-tab-label">Select Branch</span>
         <svg
           className="expand-chevron"

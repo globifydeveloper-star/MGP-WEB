@@ -300,6 +300,12 @@
   .gvf-image-col {
     padding-bottom: 3rem;
   }
+
+  /* The padding above only exists to clear the floating rate badge, which
+     overhangs the image. With the badge hidden there is nothing to clear. */
+  .gvf-image-col--no-badge {
+    padding-bottom: 0;
+  }
 }
 
 @media (max-width: 640px) {
