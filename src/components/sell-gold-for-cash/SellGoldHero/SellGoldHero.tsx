@@ -7,7 +7,7 @@ import { validateName, validateEmail, validatePhone, validateRequired, validateO
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './SellGoldHero.css';
-import coupleImg from '@/assets/images/gs-hro.png';
+import coupleImg from '@/assets/images/hm6-img01.png';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import coinImg from '@/assets/images/COIN.png';

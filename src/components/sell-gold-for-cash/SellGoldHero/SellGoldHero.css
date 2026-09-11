@@ -3,13 +3,12 @@
 .sg-hero-root {
   position: relative;
   min-height: 0;
-  background-color: var(--bg-primary);
-  background-image: var(--bg-radial);
+  background-color: #ffffff;
   padding: 1.75rem 0;
   overflow: hidden;
   display: flex;
   align-items: center;
-  color: var(--text-white);
+  color: #333333;
 }
 
 /* Background Overlay Patterns & Glows */
@@ -32,7 +31,7 @@
   left: -10%;
   width: 50%;
   height: 50%;
-  background: radial-gradient(circle, rgba(241, 185, 51, 0.08) 0%, rgba(241, 185, 51, 0) 70%);
+  background: radial-gradient(circle, rgba(241, 185, 51, 0.15) 0%, rgba(241, 185, 51, 0) 70%);
   filter: blur(80px);
   pointer-events: none;
   z-index: 1;
@@ -44,7 +43,7 @@
   right: -5%;
   width: 60%;
   height: 60%;
-  background: radial-gradient(circle, rgba(12, 31, 108, 0.4) 0%, rgba(28, 38, 72, 0) 70%);
+  background: radial-gradient(circle, rgba(241, 185, 51, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
   filter: blur(100px);
   pointer-events: none;
   z-index: 1;
@@ -177,14 +176,14 @@
 .sg-trust-badge-text {
   font-family: var(--font-outfit), sans-serif;
   font-size: 0.95rem;
-  color: var(--text-white);
-  font-weight: 500;
+  color: #333333;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
 .sg-gold-highlight {
-  color: var(--gold-primary);
-  font-weight: 700;
+  color: var(--gold-dark);
+  font-weight: 800;
 }
 
 .sg-trust-badge-line-wrap {
@@ -219,13 +218,14 @@
   font-weight: 800;
   margin-bottom: 0.5rem;
   letter-spacing: -0.01em;
+  color: #333333;
 }
 
 .sg-hero-subtitle {
   font-family: var(--font-outfit), sans-serif;
   font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--gold-secondary);
+  font-weight: 700;
+  color: var(--gold-dark);
 }
 
 /* Bullet Points */
@@ -243,9 +243,9 @@
   align-items: center;
   gap: 0.85rem;
   font-size: 0.98rem;
-  font-weight: 500;
+  font-weight: 600;
   font-family: var(--font-outfit), sans-serif;
-  color: #E2E8F0;
+  color: #444444;
 }
 
 .sg-bullet-check {
@@ -254,12 +254,12 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  background: rgba(241, 185, 51, 0.15);
-  border: 1px solid rgba(241, 185, 51, 0.4);
+  background: rgba(241, 185, 51, 0.2);
+  border: 1px solid var(--gold-primary);
   border-radius: 50%;
-  color: var(--gold-primary);
+  color: var(--gold-dark);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 800;
   flex-shrink: 0;
 }
 
@@ -321,12 +321,10 @@
   width: 100%;
   max-width: 380px;
   padding: 1.1rem 1.35rem 1.3rem;
-  background: linear-gradient(135deg, #06132E 0%, #0F224C 50%, #163376 100%);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(241, 185, 51, 0.35);
+  background: #ffffff;
+  border: 1px solid rgba(241, 185, 51, 0.6);
   border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), var(--shadow-gold);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(241, 185, 51, 0.15);
   transition: transform 0.3s, border-color 0.3s;
   overflow: hidden;
 }
@@ -355,9 +353,9 @@
 
 .sg-form-title {
   font-family: var(--font-outfit), sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 800;
-  color: var(--gold-secondary);
+  color: var(--bg-primary);
   text-align: center;
   margin-bottom: 0.3rem;
   letter-spacing: 0.05em;
@@ -365,9 +363,9 @@
 
 .sg-form-subtitle {
   font-family: var(--font-outfit), sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   line-height: 1.3;
-  color: var(--text-muted);
+  color: #555555;
   text-align: center;
   margin-bottom: 0.7rem;
 }
@@ -400,10 +398,10 @@
   width: 100%;
   height: 36px;
   padding: 0 0.9rem;
-  background: rgba(15, 28, 65, 0.4);
-  border: 1px solid rgba(241, 185, 51, 0.45);
+  background: #ffffff;
+  border: 1px solid #cccccc;
   border-radius: 8px;
-  color: var(--text-white);
+  color: #333333;
   font-size: 0.88rem;
   font-family: var(--font-outfit), sans-serif;
   outline: none;
@@ -411,12 +409,12 @@
 }
 
 .sg-form-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: #888888;
 }
 
 .sg-form-input:focus {
-  border-color: var(--gold-primary);
-  background: rgba(10, 19, 44, 0.7);
+  border-color: var(--gold-dark);
+  background: #fffcf5;
   box-shadow: 0 0 8px rgba(241, 185, 51, 0.25);
 }
 
@@ -470,10 +468,10 @@
   width: 100%;
   height: 36px;
   padding: 0 1.6rem 0 0.75rem;
-  background: rgba(15, 28, 65, 0.4);
-  border: 1px solid rgba(241, 185, 51, 0.45);
+  background: #ffffff;
+  border: 1px solid #cccccc;
   border-radius: 8px;
-  color: var(--text-white);
+  color: #333333;
   font-size: 0.74rem;
   font-family: var(--font-outfit), sans-serif;
   outline: none;
@@ -483,34 +481,35 @@
 }
 
 .sg-form-select.sg-placeholder-selected {
-  color: rgba(255, 255, 255, 0.5);
+  color: #888888;
 }
 
 .sg-form-select option {
-  background-color: #0c1835;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #333333;
   padding: 10px 14px;
   font-size: 0.88rem;
 }
 
 .sg-form-select option:disabled {
-  color: rgba(255, 255, 255, 0.45);
-  background-color: #070e22;
+  color: #888888;
+  background-color: #f5f5f5;
 }
 
 .sg-form-select option:checked {
-  background-color: #DAA12E;
+  background-color: var(--gold-primary);
   color: #0c1835;
 }
 
 .sg-form-select:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: #f0f0f0;
 }
 
 .sg-form-select:focus {
-  border-color: var(--gold-primary);
-  background: rgba(10, 19, 44, 0.7);
+  border-color: var(--gold-dark);
+  background: #fffcf5;
 }
 
 .sg-select-arrow {
@@ -557,7 +556,7 @@
   font-family: var(--font-outfit), sans-serif;
   font-size: 0.66rem;
   line-height: 1.35;
-  color: rgba(255, 255, 255, 0.65);
+  color: #555555;
 }
 
 /* Submit Button */
@@ -570,7 +569,14 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(218, 161, 46, 0.2);
+  box-shadow: 0 4px 14px rgba(218, 161, 46, 0.3);
+  background: var(--bg-primary);
+  color: var(--text-white);
+  transition: all 0.3s;
+}
+.sg-submit-btn:hover {
+  background: var(--gold-dark);
+  color: #ffffff;
 }
 
 /* Success View */
@@ -625,7 +631,7 @@
   font-family: var(--font-outfit), sans-serif;
   font-size: 1.8rem;
   font-weight: 800;
-  color: var(--text-white);
+  color: #333333;
   margin-bottom: 0.75rem;
 }
 
@@ -633,7 +639,7 @@
   font-family: var(--font-outfit), sans-serif;
   font-size: 0.95rem;
   line-height: 1.5;
-  color: var(--text-muted);
+  color: #555555;
   margin-bottom: 2rem;
 }
 
