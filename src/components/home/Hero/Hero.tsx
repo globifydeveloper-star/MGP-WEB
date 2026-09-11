@@ -5,6 +5,7 @@ import HeroLeftColumn from './HeroLeftColumn';
 import HeroModelPhoto from './HeroModelPhoto';
 import HeroGoldRateCard from './HeroGoldRateCard';
 import HeroCurve from './HeroCurve';
+import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import Image from 'next/image';
 import coinImg from '@/assets/images/COIN.png';
 import starImg from '@/assets/images/Star.png';
@@ -94,9 +95,11 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full' }: He
 
         {/* Right Column - holds mobile visual content under 1024px */}
         <div className="hero-right-column-v2">
-          <div className="hero-mobile-rate-card-container">
-            <HeroGoldRateCard />
-          </div>
+          {SHOW_GOLD_RATE_CARD && (
+            <div className="hero-mobile-rate-card-container">
+              <HeroGoldRateCard />
+            </div>
+          )}
         </div>
       </div>
 
@@ -122,7 +125,7 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full' }: He
           <div className="hero-model-bg-glow" aria-hidden="true" />
 
           <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} />
-          <HeroGoldRateCard />
+          {SHOW_GOLD_RATE_CARD && <HeroGoldRateCard />}
           <HeroCurve />
 
         </div>

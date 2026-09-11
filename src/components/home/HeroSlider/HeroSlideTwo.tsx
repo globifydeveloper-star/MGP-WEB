@@ -2,6 +2,7 @@ import Image from 'next/image';
 import goldsImg from '@/assets/images/golds.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import './heroSlider.css';
+import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 
 export interface HeroSlideData {
   heroText?: string;
@@ -95,19 +96,23 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
         </div>
 
         {/* Mobile Gold Rate Card */}
-        <div className="hero-slide-two-mobile-rate-card">
-          <div className="hero-mobile-rate-card-container">
-            <HeroGoldRateCard />
+        {SHOW_GOLD_RATE_CARD && (
+          <div className="hero-slide-two-mobile-rate-card">
+            <div className="hero-mobile-rate-card-container">
+              <HeroGoldRateCard />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Desktop Gold Rate Card Canvas */}
-      <div className="hero-scaled-host hero-figma-canvas-host hero-slide-two-desktop-rate-card">
-        <div className="hero-figma-canvas">
-          <HeroGoldRateCard />
+      {SHOW_GOLD_RATE_CARD && (
+        <div className="hero-scaled-host hero-figma-canvas-host hero-slide-two-desktop-rate-card">
+          <div className="hero-figma-canvas">
+            <HeroGoldRateCard />
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

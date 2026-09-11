@@ -5,6 +5,7 @@ import Image from 'next/image';
 import './GoldRateHero.css';
 import heroBgImg from '@/assets/images/gold_rate_component_photos/09-hero-background-gold-bars-jewellery.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
+import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import {
   GOLD_RATES,
   PURITY_ORDER,
@@ -94,9 +95,11 @@ export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescripti
             </div>
           </div>
 
-          <div className="grh-right">
-            <HeroGoldRateCard />
-          </div>
+          {SHOW_GOLD_RATE_CARD && (
+            <div className="grh-right">
+              <HeroGoldRateCard />
+            </div>
+          )}
         </div>
       </div>
     </section>
