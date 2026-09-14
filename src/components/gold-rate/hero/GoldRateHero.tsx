@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
+import DOMPurify from 'isomorphic-dompurify';
+
 import './GoldRateHero.css';
 import heroBgImg from '@/assets/images/gold_rate_component_photos/09-hero-background-gold-bars-jewellery.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
@@ -53,7 +55,7 @@ export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescripti
           <div className="grh-left">
             <h1 className="grh-heading">
               {heroTitle ? (
-                <span dangerouslySetInnerHTML={{ __html: heroTitle }} />
+                <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(heroTitle) }} />
               ) : (
                 <>Today&apos;s <span className="gold-text">Gold Rate</span></>
               )}
