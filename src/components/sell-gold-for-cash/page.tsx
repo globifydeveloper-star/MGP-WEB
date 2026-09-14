@@ -26,7 +26,7 @@ export default function SellGoldForCashPage({ processSteps }: SellGoldForCashPag
             {/* Sticky 3D Flipping Watch Now Button & Multilingual Video Modal */}
       <StickyWatchNow />
 
-      <main style={{ paddingTop: '80px', minHeight: 'calc(100vh - 80px)', backgroundColor: '#0c1835' }}>
+      <main style={{ backgroundColor: '#0c1835' }}>
         <SellGoldHero />
 
         {/* Gold Selling Process Section */}

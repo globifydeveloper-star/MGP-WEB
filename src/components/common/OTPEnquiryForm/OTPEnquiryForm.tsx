@@ -5,14 +5,6 @@ import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import './OTPEnquiryForm.css';
 
-const STATE_CITIES: Record<string, string[]> = {
-  'Karnataka': ['Bengaluru', 'Mysore', 'Mangalore', 'Hubli'],
-  'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Trichy'],
-  'Kerala': ['Kochi', 'Trivandrum', 'Calicut', 'Thrissur'],
-  'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Kalyan'],
-  'Delhi': ['Delhi', 'New Delhi']
-};
-
 export default function OTPEnquiryForm({
   sourceForm = 'OTP Enquiry Form',
   enquiryType = 'Enquire Now',
@@ -30,15 +22,9 @@ export default function OTPEnquiryForm({
   const [consent, setConsent] = useState(false);
   const [shake, setShake] = useState(false);
 
-  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
+  const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
 
-  const statesList = bmStates && bmStates.length > 0 ? bmStates : Object.keys(STATE_CITIES);
-
-  const availableCities = selectedState
-    ? (locationsByState[selectedState] && locationsByState[selectedState].length > 0
-        ? locationsByState[selectedState]
-        : STATE_CITIES[selectedState] || [])
-    : [];
+  const availableCities = selectedState ? locationsByState[selectedState] || [] : [];
 
   const availableBranches = selectedState && selectedCity
     ? (branchesByState[selectedState] || []).filter(b => b.location.toLowerCase() === selectedCity.toLowerCase())

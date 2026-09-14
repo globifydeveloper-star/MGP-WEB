@@ -3,57 +3,38 @@
 import React from 'react';
 import './BranchLocator.css';
 
-export interface MapMarkerItem {
-  id: string;
-  label: string;
-  sublabel?: string;
-  lat: number;
-  lng: number;
-}
-
 interface BranchMapProps {
-  markers?: MapMarkerItem[];
-  center?: [number, number];
-  zoom?: number;
-  selectedId?: string | null;
   selectedBranchAddress?: string;
   searchQuery?: string;
   activeStateName?: string;
+  nearCoords?: { lat: number; lng: number } | null;
 }
 
 export default function BranchMap({
-  markers = [],
-  center = [18.5, 78.5],
-  zoom = 5,
-  selectedId = null,
   selectedBranchAddress,
   searchQuery = '',
   activeStateName,
+  nearCoords,
 }: BranchMapProps) {
   // Determine map location query and zoom level for Google Maps Embed
   let mapQuery = 'Muthoot Gold Point, India';
-  let effectiveZoom = zoom;
+  let zoom = 5;
 
-  if (selectedId) {
-    const foundMarker = markers.find((m) => m.id === selectedId);
-    if (selectedBranchAddress) {
-      mapQuery = encodeURIComponent(selectedBranchAddress);
-      effectiveZoom = 16;
-    } else if (foundMarker) {
-      mapQuery = `${foundMarker.lat},${foundMarker.lng}`;
-      effectiveZoom = 16;
-    }
+  if (selectedBranchAddress) {
+    mapQuery = selectedBranchAddress;
+    zoom = 16;
   } else if (searchQuery.trim()) {
-    mapQuery = encodeURIComponent(`Muthoot Gold Point, ${searchQuery.trim()}`);
-    effectiveZoom = 12;
+    mapQuery = `Muthoot Gold Point, ${searchQuery.trim()}`;
+    zoom = 12;
   } else if (activeStateName) {
-    mapQuery = encodeURIComponent(`Muthoot Gold Point, ${activeStateName}`);
-    effectiveZoom = 8;
-  } else if (center && (center[0] !== 18.5 || center[1] !== 78.5)) {
-    mapQuery = `${center[0]},${center[1]}`;
+    mapQuery = `Muthoot Gold Point, ${activeStateName}`;
+    zoom = 8;
+  } else if (nearCoords) {
+    mapQuery = `${nearCoords.lat},${nearCoords.lng}`;
+    zoom = 14;
   }
 
-  const embedUrl = `https://maps.google.com/maps?q=${mapQuery}&t=&z=${effectiveZoom}&ie=UTF8&iwloc=&output=embed`;
+  const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&t=&z=${zoom}&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <div className="branch-map-container">
@@ -67,4 +48,3 @@ export default function BranchMap({
     </div>
   );
 }
-

@@ -5,12 +5,12 @@ import Image from 'next/image';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/otp';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
+
 import './SellGoldHero.css';
-import coupleImg from '@/assets/images/hm6-img01.png';
+import coupleImg from '@/assets/images/sellgoldimg.png';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
-import coinImg from '@/assets/images/COIN.png';
+import bannerLogo from '@/assets/images/banner-logo.png';
 
 export default function SellGoldHero() {
   const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ export default function SellGoldHero() {
   const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
   const statesList = useMemo(() => {
-    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
+    return bmStates || [];
   }, [bmStates]);
 
   const availableCities = useMemo(() => {
@@ -35,7 +35,7 @@ export default function SellGoldHero() {
     if (locationsByState[formData.state] && locationsByState[formData.state].length > 0) {
       return locationsByState[formData.state];
     }
-    return getCitiesByState(formData.state);
+    return [];
   }, [formData.state, locationsByState]);
 
   const availableBranches = useMemo(() => {
@@ -147,8 +147,9 @@ export default function SellGoldHero() {
   };
 
   return (
-    <section className="sg-hero-root">
-      {/* Background patterns/glows matching home design */}
+    <div style={{ position: 'relative' }}>
+      <section className="sg-hero-root">
+        {/* Background patterns/glows matching home design */}
       <div className="sg-hero-bg-overlay" aria-hidden="true" />
       <div className="sg-hero-glow-1" aria-hidden="true" />
       <div className="sg-hero-glow-2" aria-hidden="true" />
@@ -217,60 +218,12 @@ export default function SellGoldHero() {
               <span>Free Ultrasonic cleaning of ornaments</span>
             </li>
           </ul>
-
-          {/* "We Buy Gold" coins badge */}
-          <div className="sg-we-buy-gold-container">
-            <div className="sg-coin-pile-overlay">
-              <Image
-                src={coinImg}
-                alt="Gold Coins"
-                className="sg-coin-img-floating"
-                width={95}
-                height={75}
-              />
-            </div>
-            <div className="sg-buy-gold-badge">
-              <span className="sg-buy-gold-text">WE BUY GOLD</span>
-            </div>
-          </div>
         </div>
 
         {/* Section 3: Get In Touch Form */}
         <div className="sg-hero-right" id="sell-gold-form">
           <div className="sg-form-card glass-panel">
-            {/* Animated Glowing border beam (aura/shine effect) */}
-            <svg
-              className="sg-gold-beam-svg"
-              viewBox="0 0 380 560"
-              preserveAspectRatio="none"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient id="sg-shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
-                  <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
-                  <animate attributeName="y1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
-                  <animate attributeName="x2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
-                  <animate attributeName="y2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
 
-                  <stop offset="0%" stopColor="#EBAF20" stopOpacity="0" />
-                  <stop offset="40%" stopColor="#EBAF20" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#FFD778" stopOpacity="1" />
-                  <stop offset="60%" stopColor="#EBAF20" stopOpacity="0" />
-                  <stop offset="100%" stopColor="#EBAF20" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <rect
-                x="1"
-                y="1"
-                width="378"
-                height="558"
-                rx="14"
-                fill="none"
-                stroke="url(#sg-shine-gradient)"
-                className="sg-gold-beam-rect"
-              />
-            </svg>
 
             {isSubmitted ? (
               <div className="sg-form-success">
@@ -346,7 +299,7 @@ export default function SellGoldHero() {
                     />
                     <button
                       type="button"
-                      className="sg-get-otp-btn"
+                      className="btn btn-primary sg-get-otp-btn"
                       onClick={handleGetOtp}
                       disabled={otpState === 'sending' || otpState === 'verifying' || otpCountdown > 0 || !/^\d{10}$/.test(formData.phone)}
                     >
@@ -477,7 +430,7 @@ export default function SellGoldHero() {
                     !formData.branchCode ||
                     !formData.consent
                   }
-                  className="sg-submit-btn btn-primary"
+                  className="btn btn-primary sg-submit-btn"
                 >
                   {otpState === 'verifying' ? (
                     <>
@@ -493,6 +446,12 @@ export default function SellGoldHero() {
           </div>
         </div>
       </div>
-    </section>
+      </section>
+
+      {/* Banner Logo overlapping bottom */}
+      <div className="sg-banner-logo-container">
+        <Image src={bannerLogo} alt="We Buy Gold" className="sg-banner-logo-img" />
+      </div>
+    </div>
   );
 }

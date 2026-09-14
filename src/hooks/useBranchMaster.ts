@@ -2,30 +2,51 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { BranchMasterDetailsItem } from '@/lib/branchMaster';
-import {
-  getUniqueStates as getFallbackStates,
-  getCitiesByState as getFallbackCities,
-  getBranchesByState as getFallbackBranches,
-} from '@/data/branchesData';
 
 export interface UseBranchMasterOptions {
-  token?: string;
   autoFetch?: boolean;
 }
 
-const LOCAL_STORAGE_KEY = 'mgp_branch_master_cache_v1';
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-interface CachedStoragePayload {
-  timestamp: number;
+interface BranchMasterPayload {
   states: string[];
   locationsByState: Record<string, string[]>;
   branchesByState: Record<string, BranchMasterDetailsItem[]>;
   allBranches: BranchMasterDetailsItem[];
 }
 
+// One request per page load, shared by every component that uses this hook.
+let branchRequest: Promise<BranchMasterPayload> | null = null;
+
+async function requestBranches(): Promise<BranchMasterPayload> {
+  const res = await fetch('/api/branch/all', { method: 'GET', cache: 'no-store' });
+  const json = await res.json();
+
+  if (!res.ok || !json.success || !Array.isArray(json.states) || json.states.length === 0) {
+    throw new Error(json?.message || 'Failed to fetch Branch Master data.');
+  }
+
+  return {
+    states: json.states,
+    locationsByState: json.locationsByState || {},
+    branchesByState: json.branchesByState || {},
+    allBranches: json.allBranches || [],
+  };
+}
+
+function loadBranches(force: boolean): Promise<BranchMasterPayload> {
+  if (branchRequest && !force) return branchRequest;
+
+  const request = requestBranches();
+  branchRequest = request;
+  // Drop a failed request so the next caller retries instead of reusing the error
+  request.catch(() => {
+    if (branchRequest === request) branchRequest = null;
+  });
+  return request;
+}
+
 export function useBranchMaster(options: UseBranchMasterOptions = {}) {
-  const { token, autoFetch = true } = options;
+  const { autoFetch = true } = options;
 
   const [states, setStates] = useState<string[]>([]);
   const [locationsByState, setLocationsByState] = useState<Record<string, string[]>>({});
@@ -38,109 +59,32 @@ export function useBranchMaster(options: UseBranchMasterOptions = {}) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [usingFallback, setUsingFallback] = useState<boolean>(false);
 
-  // Apply fallback static data if API is unreachable
-  const applyFallbackData = useCallback(() => {
-    setUsingFallback(true);
-    const fbStates = getFallbackStates();
-    const locMap: Record<string, string[]> = {};
-    const branchMap: Record<string, BranchMasterDetailsItem[]> = {};
-    const allFbBranches: BranchMasterDetailsItem[] = [];
-
-    fbStates.forEach((st) => {
-      locMap[st] = getFallbackCities(st);
-      const fbList = getFallbackBranches(st);
-      branchMap[st] = fbList.map((b) => ({
-        branchCode: b.id,
-        branchName: b.name,
-        location: b.city,
-        state: b.state,
-        addressLine1: b.address,
-        pin: b.pincode,
-        branchPhoneNo: '1800 102 1616',
-      }));
-      allFbBranches.push(...branchMap[st]);
-    });
-
-    setStates(fbStates);
-    setLocationsByState(locMap);
-    setBranchesByState(branchMap);
-    setAllBranches(allFbBranches);
-  }, []);
-
-  const loadData = useCallback(async () => {
+  const fetchBranches = useCallback(async (force: boolean) => {
     setLoading(true);
     setError(null);
 
-    // 1. Try reading from 24-hour localStorage cache first
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (stored) {
-          const payload: CachedStoragePayload = JSON.parse(stored);
-          const age = Date.now() - payload.timestamp;
-          if (age < CACHE_TTL_MS && payload.states && payload.states.length > 0) {
-            setStates(payload.states);
-            setLocationsByState(payload.locationsByState || {});
-            setBranchesByState(payload.branchesByState || {});
-            setAllBranches(payload.allBranches || []);
-            setUsingFallback(false);
-            setLoading(false);
-            return;
-          }
-        }
-      } catch (e) {
-        console.warn('Failed reading branch master cache from localStorage:', e);
-      }
-    }
-
-    // 2. Fetch from 24-hour server cached route /api/branch/all
     try {
-      const headers: Record<string, string> = {};
-      if (token) {
-        headers['Authorization'] = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
-      }
-
-      const res = await fetch('/api/branch/all', { method: 'GET', headers });
-      const json = await res.json();
-
-      if (res.ok && json.success && Array.isArray(json.states) && json.states.length > 0) {
-        setStates(json.states);
-        setLocationsByState(json.locationsByState || {});
-        setBranchesByState(json.branchesByState || {});
-        setAllBranches(json.allBranches || []);
-        setUsingFallback(false);
-
-        // Store into localStorage for 24-hour instant load
-        if (typeof window !== 'undefined') {
-          const cachePayload: CachedStoragePayload = {
-            timestamp: Date.now(),
-            states: json.states,
-            locationsByState: json.locationsByState || {},
-            branchesByState: json.branchesByState || {},
-            allBranches: json.allBranches || [],
-          };
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cachePayload));
-        }
-      } else {
-        setError(json?.message || 'Failed to fetch Branch Master data.');
-        applyFallbackData();
-      }
+      const data = await loadBranches(force);
+      setStates(data.states);
+      setLocationsByState(data.locationsByState);
+      setBranchesByState(data.branchesByState);
+      setAllBranches(data.allBranches);
     } catch (err) {
       console.error('API /api/branch/all fetch error:', err);
-      setError('Network error fetching Branch Master data.');
-      applyFallbackData();
+      setError(err instanceof Error ? err.message : 'Network error fetching Branch Master data.');
     } finally {
       setLoading(false);
     }
-  }, [token, applyFallbackData]);
+  }, []);
+
+  const refetch = useCallback(() => fetchBranches(true), [fetchBranches]);
 
   useEffect(() => {
     if (autoFetch) {
-      loadData();
+      fetchBranches(false);
     }
-  }, [autoFetch, loadData]);
+  }, [autoFetch, fetchBranches]);
 
   // Derived location list for selected state
   const availableLocations = useMemo(() => {
@@ -199,8 +143,7 @@ export function useBranchMaster(options: UseBranchMasterOptions = {}) {
     selectedBranch,
     loading,
     error,
-    usingFallback,
-    refetch: loadData,
+    refetch,
     selectState,
     selectLocation,
     setSelectedBranch,

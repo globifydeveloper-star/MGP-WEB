@@ -16,7 +16,6 @@ interface LocationPopupProps {
 }
 
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { getStateCitiesMap, getUniqueStates } from '@/data/branchesData';
 import { submitFormSubmission } from '@/lib/strapi';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 

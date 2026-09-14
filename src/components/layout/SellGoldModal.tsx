@@ -12,10 +12,7 @@ interface SellGoldModalProps {
 }
 
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { getStateCitiesMap } from '@/data/branchesData';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-
-const STATIC_STATE_CITIES = getStateCitiesMap();
 
 const PURITIES = [
   '24K (99.9%)',
@@ -38,15 +35,9 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     weight: ''
   });
 
-  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
+  const { states: availableStates, locationsByState, branchesByState } = useBranchMaster();
 
-  const availableStates = bmStates && bmStates.length > 0 ? bmStates : Object.keys(STATIC_STATE_CITIES);
-
-  const availableCities = formData.state
-    ? (locationsByState[formData.state] && locationsByState[formData.state].length > 0
-      ? locationsByState[formData.state]
-      : STATIC_STATE_CITIES[formData.state] || [])
-    : [];
+  const availableCities = formData.state ? locationsByState[formData.state] || [] : [];
 
   const availableBranches = formData.state && formData.city
     ? (branchesByState[formData.state] || []).filter(b => b.location.toLowerCase() === formData.city.toLowerCase())

@@ -6,7 +6,6 @@ import Image from 'next/image';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { getUniqueStates } from '@/data/branchesData';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
 import { ContactUsPageData } from '@/lib/strapi';
@@ -111,11 +110,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     resetOtpState
   } = useOtpVerification({ cooldownSeconds: 60 });
 
-  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
-
-  const statesList = useMemo(() => {
-    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
-  }, [bmStates]);
+  const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
 
   const availableCities = useMemo(() => {
     if (!formData.state) return [];

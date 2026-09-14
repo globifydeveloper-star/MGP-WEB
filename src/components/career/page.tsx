@@ -63,6 +63,16 @@ export default function CareerPage({ data }: CareerPageProps) {
       alert('Please fill in all required fields.');
       return;
     }
+
+    if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
+      alert('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    if (!formData.resumeFile) {
+      alert('Please upload your resume (PDF or DOCX).');
+      return;
+    }
     
     setIsSubmitting(true);
     setSubmitError('');

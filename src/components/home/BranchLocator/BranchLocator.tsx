@@ -1,30 +1,10 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  getStateSummaries,
-  STATE_COORDINATES,
-  resolveBranchCoordinates,
-} from '@/data/branchesData';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import './BranchLocator.css';
 
 import BranchMap from './BranchMap';
-
-// Haversine formula to calculate distance in km
-function getDistanceInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) *
-    Math.cos(lat2 * (Math.PI / 180)) *
-    Math.sin(dLon / 2) *
-    Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
 
 const SearchIcon = () => (
   <svg
@@ -91,61 +71,50 @@ export default function BranchLocator() {
   const [showAllStates, setShowAllStates] = useState(false);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
   const [isLocating, setIsLocating] = useState(false);
+  const [nearCoords, setNearCoords] = useState<{ lat: number; lng: number } | null>(null);
 
   const { states: apiStates, branchesByState } = useBranchMaster();
 
-  // Clear the pinned branch whenever the user changes search/state context
+  // Clear the pinned branch whenever the user changes search/state context;
+  // a search or state pick also replaces the "Near Me" map view
   useEffect(() => {
     setSelectedBranchId(null);
+    if (query.trim() || selectedState) setNearCoords(null);
   }, [query, selectedState]);
 
   // All state summaries sorted by branch count (Loaded directly from live Branch Master API)
   const stateSummaries = useMemo(() => {
-    if (apiStates && apiStates.length > 0) {
-      return apiStates.map((stName) => {
-        const bList = branchesByState[stName] || [];
-        const meta = STATE_COORDINATES[stName] || { lat: 20.5937, lng: 78.9629, capital: stName };
-        return {
+    return apiStates.map((stName) => {
+      const bList = branchesByState[stName] || [];
+      return {
+        state: stName,
+        count: bList.length,
+        branches: bList.map((b, idx) => ({
+          id: b.branchCode || `${stName}-${idx}`,
+          branchCode: b.branchCode,
+          name: b.branchName || `Muthoot Gold Point - ${b.location}`,
+          url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+            `Muthoot Gold Point, ${b.addressLine1 || ''}, ${b.location}, ${stName}`
+          )}`,
+          address: b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location,
+          city: b.location,
+          pincode: b.pin,
           state: stName,
-          count: bList.length,
-          capitalCity: meta.capital,
-          lat: meta.lat,
-          lng: meta.lng,
-          branches: bList.map((b, idx) => {
-            const coords = resolveBranchCoordinates({
-              branchCode: b.branchCode,
-              name: b.branchName,
-              location: b.location,
-              state: stName,
-            });
-            return {
-              id: b.branchCode || `${stName}-${idx}`,
-              name: b.branchName || `Muthoot Gold Point - ${b.location}`,
-              url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                `Muthoot Gold Point, ${b.addressLine1 || ''}, ${b.location}, ${stName}`
-              )}`,
-              address: b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location,
-              city: b.location,
-              pincode: b.pin,
-              state: stName,
-              phone: b.branchPhoneNo || b.contactPersonMobile,
-              email: b.branchEmail,
-              timing: '10:00 AM - 6:30 PM',
-              lat: coords.lat,
-              lng: coords.lng,
-            };
-          }),
-        };
-      }).sort((a, b) => b.count - a.count);
-    }
-
-    return [];
+          phone: b.branchPhoneNo,
+          mobile: b.contactPersonMobile,
+          email: b.branchEmail,
+          timing: '10:00 AM - 6:30 PM',
+        })),
+      };
+    }).sort((a, b) => b.count - a.count);
   }, [apiStates, branchesByState]);
 
   const allBranches = useMemo(() => {
     return stateSummaries.flatMap((s) => s.branches);
   }, [stateSummaries]);
 
+  // The Branch Master API has no coordinates, so "Near Me" centres the map on
+  // the visitor's own location instead of picking a branch from the list
   const handleLocateMe = () => {
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser');
@@ -154,30 +123,10 @@ export default function BranchLocator() {
     setIsLocating(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude } = position.coords;
-        let nearestBranch: any = null;
-        let minDistance = Infinity;
-
-        allBranches.forEach((branch) => {
-          if (branch.lat && branch.lng) {
-            const distance = getDistanceInKm(latitude, longitude, branch.lat, branch.lng);
-            if (distance < minDistance) {
-              minDistance = distance;
-              nearestBranch = branch;
-            }
-          }
-        });
-
-        if (nearestBranch) {
-          // Set query to the branch's city so it filters down
-          setQuery(nearestBranch.city);
-          // Wait a tick for the useEffect to clear selectedBranchId, then set it
-          setTimeout(() => {
-            setSelectedBranchId(nearestBranch.id);
-          }, 50);
-        } else {
-          alert('Could not find any nearby branches.');
-        }
+        setQuery('');
+        setSelectedState(null);
+        setSelectedBranchId(null);
+        setNearCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
         setIsLocating(false);
       },
       (error) => {
@@ -215,56 +164,10 @@ export default function BranchLocator() {
     return stateSummaries.slice(0, 4);
   }, [stateSummaries, showAllStates]);
 
-  // Map marker logic
-  const mapMarkers = useMemo(() => {
-    if (query.trim() !== '') {
-      return filteredBranches.map((b) => ({
-        id: b.id,
-        label: b.name,
-        sublabel: `${b.city}, ${b.state}`,
-        lat: b.lat,
-        lng: b.lng,
-      }));
-    }
-
-    if (activeStateSummary) {
-      return activeStateSummary.branches.map((b: any) => ({
-        id: b.id,
-        label: b.name,
-        sublabel: b.city,
-        lat: b.lat,
-        lng: b.lng,
-      }));
-    }
-
-    return visibleStateSummaries.map((s) => ({
-      id: s.state,
-      label: s.state,
-      sublabel: `${s.count} branches`,
-      lat: s.lat,
-      lng: s.lng,
-    }));
-  }, [query, filteredBranches, activeStateSummary, visibleStateSummaries]);
-
   const selectedBranch = useMemo(() => {
     if (!selectedBranchId) return null;
     return allBranches.find((b) => b.id === selectedBranchId) || null;
   }, [selectedBranchId, allBranches]);
-
-  const mapCenter: [number, number] = useMemo(() => {
-    if (selectedBranch) {
-      return [selectedBranch.lat, selectedBranch.lng];
-    }
-    if (activeStateSummary) {
-      return [activeStateSummary.lat, activeStateSummary.lng];
-    }
-    if (filteredBranches.length > 0) {
-      return [filteredBranches[0].lat, filteredBranches[0].lng];
-    }
-    return [18.5, 78.5];
-  }, [selectedBranch, activeStateSummary, filteredBranches]);
-
-  const mapZoom = selectedBranch ? 15 : activeStateSummary ? 7 : query.trim() ? 8 : 5;
 
   return (
     <section className="branch-locator-section" id="branches">
@@ -282,13 +185,10 @@ export default function BranchLocator() {
           {/* Map Column */}
           <div className="branch-locator-map-col">
             <BranchMap
-              markers={mapMarkers}
-              center={mapCenter}
-              zoom={mapZoom}
-              selectedId={selectedBranchId}
               selectedBranchAddress={selectedBranch ? `Muthoot Gold Point, ${selectedBranch.address}, ${selectedBranch.city}` : undefined}
               searchQuery={query}
               activeStateName={activeStateSummary?.state}
+              nearCoords={nearCoords}
             />
           </div>
 
@@ -330,7 +230,7 @@ export default function BranchLocator() {
                 type="button"
                 className="branch-locator-locate-btn"
                 onClick={handleLocateMe}
-                disabled={isLocating || allBranches.length === 0}
+                disabled={isLocating}
                 title="Find nearest branch"
               >
                 {isLocating ? (
@@ -382,6 +282,9 @@ export default function BranchLocator() {
                             <h3 className="branch-locator-branch-name">{branch.name}</h3>
                             <span className="branch-locator-state-tag">{branch.state}</span>
                           </div>
+                          {branch.branchCode && (
+                            <div style={{ fontSize: '0.75rem', color: '#7a899e', marginTop: '0.25rem', fontWeight: 600 }}>Code: {branch.branchCode}</div>
+                          )}
                         </div>
                         <p className="branch-locator-branch-address">
                           <MapPinIcon /> {branch.address}, {branch.city} - {branch.pincode}
@@ -389,6 +292,11 @@ export default function BranchLocator() {
                         {branch.phone && (
                           <p className="branch-locator-branch-contact">
                             📞 Phone: {branch.phone}
+                          </p>
+                        )}
+                        {branch.mobile && (
+                          <p className="branch-locator-branch-contact">
+                            📱 Mobile: {branch.mobile}
                           </p>
                         )}
                         {branch.email && (
@@ -439,13 +347,26 @@ export default function BranchLocator() {
                       key={branch.id}
                       onClick={() => setSelectedBranchId(branch.id)}
                     >
-                      <h4 className="branch-locator-branch-name">{branch.name}</h4>
+                      <div className="branch-locator-branch-header">
+                        <div>
+                          <h4 className="branch-locator-branch-name">{branch.name}</h4>
+                          <span className="branch-locator-state-tag">{branch.state}</span>
+                        </div>
+                        {branch.branchCode && (
+                          <div style={{ fontSize: '0.75rem', color: '#7a899e', marginTop: '0.25rem', fontWeight: 600 }}>Code: {branch.branchCode}</div>
+                        )}
+                      </div>
                       <p className="branch-locator-branch-address">
                         <MapPinIcon /> {branch.address}, {branch.city} - {branch.pincode}
                       </p>
                       {branch.phone && (
                         <p className="branch-locator-branch-contact">
                           📞 Phone: {branch.phone}
+                        </p>
+                      )}
+                      {branch.mobile && (
+                        <p className="branch-locator-branch-contact">
+                          📱 Mobile: {branch.mobile}
                         </p>
                       )}
                       {branch.email && (

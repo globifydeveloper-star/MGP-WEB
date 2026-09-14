@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import './GoldSellContact.css';
 import handHoldingGoldImg from '@/assets/images/gold_rate_component_photos/05-cta-hand-holding-gold.png';
 
@@ -23,18 +22,11 @@ export default function GoldSellContact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { states: bmStates, locationsByState } = useBranchMaster();
-
-  const statesList = useMemo(() => {
-    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
-  }, [bmStates]);
+  const { states: statesList, locationsByState } = useBranchMaster();
 
   const availableCities = useMemo(() => {
     if (!formData.state) return [];
-    if (locationsByState[formData.state] && locationsByState[formData.state].length > 0) {
-      return locationsByState[formData.state];
-    }
-    return getCitiesByState(formData.state);
+    return locationsByState[formData.state] || [];
   }, [formData.state, locationsByState]);
 
   // OTP Countdown timer

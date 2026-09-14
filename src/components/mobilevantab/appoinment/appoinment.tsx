@@ -4,7 +4,6 @@ import React, { useState, useMemo } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validatePhone, validateRequired, validateOtp } from '@/lib/otp';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { getUniqueStates, getCitiesByState } from '@/data/branchesData';
 import { MobileVanPageData } from '@/lib/strapi';
 import './appoinment.css';
 
@@ -42,18 +41,11 @@ export default function Appoinment({ data }: AppoinmentProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
-
-  const statesList = useMemo(() => {
-    return bmStates && bmStates.length > 0 ? bmStates : getUniqueStates();
-  }, [bmStates]);
+  const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
 
   const availableCities = useMemo(() => {
     if (!formData.state) return [];
-    if (locationsByState[formData.state] && locationsByState[formData.state].length > 0) {
-      return locationsByState[formData.state];
-    }
-    return getCitiesByState(formData.state);
+    return locationsByState[formData.state] || [];
   }, [formData.state, locationsByState]);
 
   const availableBranches = useMemo(() => {
