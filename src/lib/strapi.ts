@@ -391,12 +391,12 @@ export async function submitFormSubmission(payload: {
   details?: Record<string, any>;
 }): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/form-submissions`, {
+    const res = await fetch(`${STRAPI_URL}/api/gold-valuation-submissions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ data: payload }),
     });
     if (!res.ok) {
       const errJson = await res.json().catch(() => ({}));
@@ -585,6 +585,46 @@ export const getSharedMedia = cache(async function getSharedMedia(): Promise<Sha
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
     console.error('getSharedMedia: failed to fetch shared media', err);
+    return null;
+  }
+});
+
+export interface GlobalStatsData {
+  branchesValue: string;
+  branchesLabel: string;
+  legacyValue: string;
+  legacyLabel: string;
+  employeesValue: string;
+  employeesLabel: string;
+  customersValue: string;
+  customersLabel: string;
+}
+
+export const getGlobalStats = cache(async function getGlobalStats(): Promise<GlobalStatsData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/global-stat`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) {
+      console.warn(`getGlobalStats: Strapi responded with ${res.status}`);
+      return null;
+    }
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      branchesValue: flat.branchesValue,
+      branchesLabel: flat.branchesLabel,
+      legacyValue: flat.legacyValue,
+      legacyLabel: flat.legacyLabel,
+      employeesValue: flat.employeesValue,
+      employeesLabel: flat.employeesLabel,
+      customersValue: flat.customersValue,
+      customersLabel: flat.customersLabel,
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getGlobalStats: failed to fetch global stats', err);
     return null;
   }
 });
