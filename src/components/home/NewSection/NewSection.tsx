@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './NewSection.css';
@@ -135,7 +135,14 @@ export default function NewSection({ slides }: NewSectionProps) {
       const element = document.getElementById(link.substring(1));
       if (element) element.scrollIntoView({ behavior: 'smooth' });
     } else {
-      window.open(link, '_blank');
+      try {
+        const url = new URL(link, window.location.origin);
+        if (url.origin === window.location.origin) {
+          window.open(url.href, '_blank');
+        }
+      } catch (e) {
+        console.error('Invalid URL', e);
+      }
     }
   };
 

@@ -17,12 +17,31 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.muthootgoldpoint.com'),
+  title: {
+    default: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
+    template: "%s | Muthoot Goldpoint"
+  },
   description: "Sell your old, unused, or pledged gold instantly at Muthoot Goldpoint. Get the true market value through a transparent evaluation process conducted right in front of you.",
+  keywords: ["sell gold", "gold for cash", "muthoot gold point", "gold buyers", "gold valuation", "sell gold online", "old gold buyers", "cash for gold"],
+  authors: [{ name: "Muthoot Exim" }],
+  creator: "Muthoot Exim",
+  publisher: "Muthoot Exim",
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
     description: "Get the true market value for your gold through a transparent process.",
     type: "website",
+    url: "/",
+    siteName: "Muthoot Goldpoint",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
+    description: "Sell your old, unused, or pledged gold instantly at Muthoot Goldpoint.",
   },
   other: {
     'color-scheme': 'light',
