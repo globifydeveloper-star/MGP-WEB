@@ -15,6 +15,7 @@ interface HeroSliderProps {
   slides?: any[];
   firstSlideImage?: string;
   layout?: 'full' | 'half';
+  globalStats?: any;
 }
 
 export default function HeroSlider({ slides, firstSlideImage, layout = 'full' }: HeroSliderProps) {
