@@ -21,6 +21,7 @@ import {
   getPromoSlides,
   getTestimonials,
   getFaqs,
+  getGlobalStats,
 } from '@/lib/strapi';
 
 export async function generateMetadata() {
@@ -44,6 +45,7 @@ export default async function Home() {
     promoSlides,
     testimonials,
     faqs,
+    globalStats,
   ] = await Promise.all([
     getBlogPosts(),
     getHomepageData(),
@@ -54,6 +56,7 @@ export default async function Home() {
     getPromoSlides(),
     getTestimonials(),
     getFaqs('home'),
+    getGlobalStats(),
   ]);
 
   const recentPosts = posts.slice(0, 3);
@@ -64,7 +67,7 @@ export default async function Home() {
       {!homepageData?.hideNavbar && <Navbar />}
 
       {/* Hero Section - crossfades between the Hero and a second promo slide */}
-      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} />
+      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} globalStats={globalStats} />
 
       {/* Gold Selling Process Section */}
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />

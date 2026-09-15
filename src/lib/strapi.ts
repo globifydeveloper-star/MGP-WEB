@@ -391,17 +391,52 @@ export async function submitFormSubmission(payload: {
   details?: Record<string, any>;
 }): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/form-submissions`, {
+    // 1. Submit to Gold Valuation Submissions
+    const valuationRes = await fetch(`${STRAPI_URL}/api/gold-valuation-submissions`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: {
+          name: payload.name,
+          phone: payload.phone,
+          email: payload.email,
+          purity: payload.purity,
+          weight: payload.weight,
+          branch: payload.branch,
+          sourceForm: payload.sourceForm,
+          details: payload.details,
+        }
+      }),
     });
-    if (!res.ok) {
-      const errJson = await res.json().catch(() => ({}));
-      return { success: false, error: errJson?.error?.message ?? `Server responded with ${res.status}` };
+
+    if (!valuationRes.ok) {
+      const errJson = await valuationRes.json().catch(() => ({}));
+      return { success: false, error: errJson?.error?.message ?? `Server responded with ${valuationRes.status}` };
     }
+
+    // 2. Mirror to All Leads
+    const leadRes = await fetch(`${STRAPI_URL}/api/all-leads`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: {
+          name: payload.name,
+          phone: payload.phone,
+          email: payload.email,
+          formSource: 'Gold Rate Check',
+          sourceFormDetail: payload.sourceForm,
+          branch: payload.branch,
+          branchCode: payload.branchCode,
+          extraData: payload.details,
+        }
+      }),
+    });
+    
+    // We don't fail the primary submission if mirroring fails, but we can log it
+    if (!leadRes.ok) {
+      console.error('Failed to mirror to all-leads:', await leadRes.text());
+    }
+
     return { success: true };
   } catch (err) {
     console.error('submitFormSubmission error:', err);
@@ -585,6 +620,46 @@ export const getSharedMedia = cache(async function getSharedMedia(): Promise<Sha
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
     console.error('getSharedMedia: failed to fetch shared media', err);
+    return null;
+  }
+});
+
+export interface GlobalStatsData {
+  branchesValue: string;
+  branchesLabel: string;
+  legacyValue: string;
+  legacyLabel: string;
+  employeesValue: string;
+  employeesLabel: string;
+  customersValue: string;
+  customersLabel: string;
+}
+
+export const getGlobalStats = cache(async function getGlobalStats(): Promise<GlobalStatsData | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/global-stat`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) {
+      console.warn(`getGlobalStats: Strapi responded with ${res.status}`);
+      return null;
+    }
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      branchesValue: flat.branchesValue,
+      branchesLabel: flat.branchesLabel,
+      legacyValue: flat.legacyValue,
+      legacyLabel: flat.legacyLabel,
+      employeesValue: flat.employeesValue,
+      employeesLabel: flat.employeesLabel,
+      customersValue: flat.customersValue,
+      customersLabel: flat.customersLabel,
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getGlobalStats: failed to fetch global stats', err);
     return null;
   }
 });
