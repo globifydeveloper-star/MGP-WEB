@@ -17,17 +17,17 @@ export default function BranchMap({
   nearCoords,
 }: BranchMapProps) {
   // Determine map location query and zoom level for Google Maps Embed
-  let mapQuery = 'Muthoot Gold Point, India';
+  let mapQuery = '"Muthoot Gold Point", India';
   let zoom = 5;
 
   if (selectedBranchAddress) {
     mapQuery = selectedBranchAddress;
     zoom = 16;
   } else if (searchQuery.trim()) {
-    mapQuery = `Muthoot Gold Point, ${searchQuery.trim()}`;
+    mapQuery = `"Muthoot Gold Point", ${searchQuery.trim()}`;
     zoom = 12;
   } else if (activeStateName) {
-    mapQuery = `Muthoot Gold Point, ${activeStateName}`;
+    mapQuery = `"Muthoot Gold Point", ${activeStateName}`;
     zoom = 8;
   } else if (nearCoords) {
     mapQuery = `${nearCoords.lat},${nearCoords.lng}`;

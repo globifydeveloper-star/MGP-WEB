@@ -99,7 +99,29 @@ export default function OpenPositions({ onApplyForRole, initialJobs, initialDepa
                   
                   {expandedJobId === (job.documentId ?? job.id) && (
                     <div className="career-job-details" onClick={e => e.stopPropagation()}>
-                      {job.description && <p>{job.description}</p>}
+                      {job.summary && (
+                        <>
+                          <div className="career-job-details-title">Role Summary:</div>
+                          <p className="career-job-summary" style={{ fontWeight: '500', marginBottom: '15px' }}>
+                            {job.summary}
+                          </p>
+                        </>
+                      )}
+                      
+                      {job.description && (
+                        <>
+                          <div className="career-job-details-title">Job Description:</div>
+                          <p style={{ marginBottom: '15px' }}>{job.description}</p>
+                        </>
+                      )}
+                      
+                      {job.responsibilities && (
+                        <>
+                          <div className="career-job-details-title">Key Responsibilities:</div>
+                          <p style={{ whiteSpace: 'pre-line', marginBottom: '15px' }}>{job.responsibilities}</p>
+                        </>
+                      )}
+                      
                       {job.requirements && (
                         <>
                           <div className="career-job-details-title">Key Requirements:</div>

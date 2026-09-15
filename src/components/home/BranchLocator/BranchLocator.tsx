@@ -94,7 +94,7 @@ export default function BranchLocator() {
           branchCode: b.branchCode,
           name: b.branchName || `Muthoot Gold Point - ${b.location}`,
           url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-            `Muthoot Gold Point, ${b.addressLine1 || ''}, ${b.location}, ${stName}`
+            `"Muthoot Gold Point", ${b.addressLine1 || ''}, ${b.location}, ${stName}`
           )}`,
           address: b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location,
           city: b.location,
@@ -185,7 +185,7 @@ export default function BranchLocator() {
           {/* Map Column */}
           <div className="branch-locator-map-col">
             <BranchMap
-              selectedBranchAddress={selectedBranch ? `Muthoot Gold Point, ${selectedBranch.address}, ${selectedBranch.city}` : undefined}
+              selectedBranchAddress={selectedBranch ? `"Muthoot Gold Point", ${selectedBranch.address}, ${selectedBranch.city}` : undefined}
               searchQuery={query}
               activeStateName={activeStateSummary?.state}
               nearCoords={nearCoords}
