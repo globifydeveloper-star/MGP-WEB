@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
+const strapiUrlString = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+
 if (!process.env.NEXT_PUBLIC_STRAPI_URL) {
-  throw new Error("NEXT_PUBLIC_STRAPI_URL is required in the environment variables.");
+  console.warn("WARNING: NEXT_PUBLIC_STRAPI_URL is missing in environment variables. Falling back to http://localhost:1337.");
 }
-const strapiUrl = new URL(process.env.NEXT_PUBLIC_STRAPI_URL);
+
+const strapiUrl = new URL(strapiUrlString);
 
 const isLocalStrapi = ["localhost", "127.0.0.1", "::1"].includes(strapiUrl.hostname);
 
