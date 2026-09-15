@@ -2,7 +2,7 @@ import { resolveAuthToken, loginChannelLead, invalidateAuthToken } from './authS
 
 export const GOLD_QUOTE_BASE_URL = (
   process.env.GOLD_QUOTE_BASE_URL ||
-  'https://mgpmgpext-mgpuat.muthootexim.com'
+  ''
 ).replace(/\/$/, '');
 
 export interface GoldQuoteRequest {

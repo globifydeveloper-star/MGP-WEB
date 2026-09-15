@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
-const strapiUrl = new URL(process.env.NEXT_PUBLIC_STRAPI_URL ?? "http://localhost:1337");
+if (!process.env.NEXT_PUBLIC_STRAPI_URL) {
+  throw new Error("NEXT_PUBLIC_STRAPI_URL is required in the environment variables.");
+}
+const strapiUrl = new URL(process.env.NEXT_PUBLIC_STRAPI_URL);
 
 const isLocalStrapi = ["localhost", "127.0.0.1", "::1"].includes(strapiUrl.hostname);
 
@@ -15,7 +18,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "frame-ancestors 'self' http://localhost:1337 http://127.0.0.1:1337 https://mgp-strapi.onrender.com",
+            value: `frame-ancestors 'self' ${process.env.NEXT_PUBLIC_STRAPI_URL}`,
           },
           {
             key: "X-Frame-Options",
