@@ -6,18 +6,38 @@ import { getGoldRatePage, getSharedMedia } from '@/lib/strapi';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getGoldRatePage();
+  const title = data?.seoTitle ?? "Today's Gold Rate | Gold Price Per Gram | Gold Point";
+  const description = data?.seoDescription ?? "Check today's gold rate and gold price per gram. Calculate the estimated value of your gold and explore transparent gold valuation with Gold Point.";
+  const ogImage = data?.ogImage || '/default-og-image.jpg';
+
   return {
-    title: data?.seoTitle ?? "Today's Gold Rate | Gold Price Per Gram | Gold Point",
-    description:
-      data?.seoDescription ??
-      "Check today's gold rate and gold price per gram. Calculate the estimated value of your gold and explore transparent gold valuation with Gold Point.",
+    title,
+    description,
+    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map(k => k.trim()) : ['Today Gold Rate', 'Gold Rate Today', 'Gold Price Per Gram', 'Live Gold Price', 'Muthoot Gold Rate', 'Gold Calculator'],
+    authors: [{ name: 'Muthoot Gold Point' }],
+    alternates: {
+      canonical: '/gold-rate',
+    },
     openGraph: {
-      title: data?.seoTitle ?? "Today's Gold Rate | Gold Price Per Gram | Gold Point",
-      description:
-        data?.seoDescription ??
-        "Check today's gold rate and gold price per gram. Calculate the estimated value of your gold with Gold Point.",
+      title,
+      description,
+      url: '/gold-rate',
+      siteName: 'Muthoot Gold Point',
       type: 'website',
-      ...(data?.ogImage && { images: [{ url: data.ogImage }] }),
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
     },
   };
 }

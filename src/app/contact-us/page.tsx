@@ -7,15 +7,39 @@ import Footer from '@/components/layout/Footer';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getContactUsPage();
+  const title = data?.seoTitle || 'Contact Us | Muthoot Gold Point';
+  const description = data?.seoDescription || 'Get in touch with Muthoot Gold Point. Find our registered office details, write to us directly, or look up the address, phone, and email for any of our branches.';
+  const ogImage = data?.ogImage || '/default-og-image.jpg';
+
   return {
-    title: data?.seoTitle || 'Contact Us | Muthoot Gold Point',
-    description: data?.seoDescription || 'Get in touch with Muthoot Gold Point. Find our registered office details, write to us directly, or look up the address, phone, and email for any of our branches.',
+    title,
+    description,
+    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map(k => k.trim()) : ['Contact Muthoot Gold Point', 'Muthoot Gold Point Customer Care', 'Gold Point Branches', 'Muthoot Exim Contact'],
+    authors: [{ name: 'Muthoot Gold Point' }],
+    alternates: {
+      canonical: '/contact-us',
+    },
     openGraph: {
-      title: data?.seoTitle || 'Contact Us | Muthoot Gold Point',
-      description: data?.seoDescription || 'Find our registered office details, write to us directly, or look up any Muthoot Gold Point branch by city.',
+      title,
+      description,
+      url: '/contact-us',
+      siteName: 'Muthoot Gold Point',
       type: 'website',
-      images: data?.ogImage ? [{ url: data.ogImage }] : undefined,
-    }
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 

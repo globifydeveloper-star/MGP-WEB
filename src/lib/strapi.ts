@@ -164,6 +164,7 @@ export interface BlogPageSettings {
   };
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   noPostsMessage?: string;
   noPostsInCategoryMessage?: string;
   allCategoryLabel?: string;
@@ -249,6 +250,7 @@ export interface CareerPageSettingsData {
   careerBenefits?: { id: number; title: string; desc?: string }[];
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
 }
 
 export const getCareerPageSettings = cache(async function getCareerPageSettings(): Promise<CareerPageSettingsData | null> {
@@ -269,6 +271,7 @@ export const getCareerPageSettings = cache(async function getCareerPageSettings(
       careerBenefits: flat.careerBenefits,
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
     };
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
@@ -468,6 +471,7 @@ export interface HomepageData {
   vanImage?: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -578,6 +582,7 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
       vanImage: getMediaUrl(flat.vanImage),
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
       ogImage: getMediaUrl(flat.ogImage),
       hideFooter: flat.hideFooter ?? false,
       homeVideos: Array.isArray(flat.homeVideos)
@@ -850,6 +855,7 @@ export interface DynamicPage {
   slug: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: { url: string };
   sections: DynamicPageSection[];
   hideFooter?: boolean;
@@ -878,6 +884,7 @@ export const getPageBySlug = cache(async function getPageBySlug(slug: string): P
       slug: flat.slug,
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
       ogImage: flat.ogImage ? { url: resolveMediaUrl(flat.ogImage.url) ?? flat.ogImage.url } : undefined,
       sections,
       hideFooter: flat.hideFooter ?? false,
@@ -961,6 +968,7 @@ export interface AboutUsPageData {
   presentServices?: { id: number; title: string; icon?: string }[];
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -1017,6 +1025,7 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
       presentServices: flat.presentServices,
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
       ogImage: getMediaUrl(flat.ogImage),
       hideFooter: flat.hideFooter ?? false,
     };
@@ -1043,6 +1052,7 @@ export interface ContactUsPageData {
   officeMapPopupText?: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -1073,6 +1083,7 @@ export const getContactUsPage = cache(async function getContactUsPage(): Promise
       officeMapPopupText: flat.officeMapPopupText,
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
       ogImage: getMediaUrl(flat.ogImage),
       hideFooter: flat.hideFooter ?? false,
     };
@@ -1189,6 +1200,7 @@ export async function getNavbarSetting(): Promise<NavbarSetting | null> {
 export interface GoldRatePageData {
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -1212,6 +1224,7 @@ export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<G
     return {
       seoTitle: flat.seoTitle,
       seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
       ogImage: ogImageRaw?.url ? (resolveMediaUrl(ogImageRaw.url) ?? ogImageRaw.url) : undefined,
       hideFooter: Boolean(flat.hideFooter),
       hideNavbar: Boolean(flat.hideNavbar),
@@ -1244,6 +1257,7 @@ export interface MobileVanPageData {
   appointmentDescription?: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   heroImage?: string;
   testingMethodsImage?: string;
   bookVanFormImage?: string;
@@ -1271,3 +1285,33 @@ export const getMobileVanPageSettings = cache(async function getMobileVanPageSet
   }
 });
 
+
+
+export interface SellGoldPageSettings {
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  ogImage?: string;
+}
+
+export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/sell-gold-page-setting?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      seoTitle: flat.seoTitle,
+      seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
+      ogImage: getMediaUrl(flat.ogImage),
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getSellGoldPageSettings: failed to fetch', err);
+    return null;
+  }
+});

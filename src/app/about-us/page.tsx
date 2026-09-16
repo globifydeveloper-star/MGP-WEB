@@ -7,15 +7,40 @@ import Footer from '@/components/layout/Footer';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getAboutUsPage();
+  
+  const title = data?.seoTitle || 'About Us - Muthoot Gold Point | A Legacy of Trust';
+  const description = data?.seoDescription || "Discover the history, values, and vision of Muthoot Gold Point, India's pioneer in safe, scientific, and transparent gold recycling under the Muthoot Pappachan Group.";
+  const ogImage = data?.ogImage || '/default-og-image.jpg'; // Using a fallback image if none provided
+
   return {
-    title: data?.seoTitle || 'About Us - Muthoot Gold Point | A Legacy of Trust',
-    description: data?.seoDescription || "Discover the history, values, and vision of Muthoot Gold Point, India's pioneer in safe, scientific, and transparent gold recycling under the Muthoot Pappachan Group.",
+    title,
+    description,
+    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map(k => k.trim()) : ['Muthoot Gold Point', 'About Us', 'Gold Recycling', 'Muthoot Pappachan Group', 'Muthoot Blue', 'Sell Gold', 'Gold Buyers'],
+    authors: [{ name: 'Muthoot Gold Point' }],
+    alternates: {
+      canonical: '/about-us',
+    },
     openGraph: {
-      title: data?.seoTitle || 'About Us - Muthoot Gold Point | A Legacy of Trust',
-      description: data?.seoDescription || "Discover the history, values, and vision of Muthoot Gold Point, India's pioneer in gold recycling.",
+      title,
+      description,
+      url: '/about-us',
+      siteName: 'Muthoot Gold Point',
       type: 'website',
-      images: data?.ogImage ? [{ url: data.ogImage }] : undefined,
-    }
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 

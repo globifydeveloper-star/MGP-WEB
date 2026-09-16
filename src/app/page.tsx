@@ -26,11 +26,39 @@ import {
 
 export async function generateMetadata() {
   const homepageData = await getHomepageData();
+  const title = homepageData?.seoTitle ?? 'Sell Gold For Cash | Online Gold Valuation | Gold Point';
+  const description = homepageData?.seoDescription ?? 'Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you';
+  const ogImage = homepageData?.ogImage || '/default-og-image.jpg';
+
   return {
-    title: homepageData?.seoTitle ?? 'Sell Gold For Cash | Online Gold Valuation | Gold Point',
-    description:
-      homepageData?.seoDescription ??
-      'Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you',
+    title,
+    description,
+    keywords: homepageData?.seoKeywords ? homepageData.seoKeywords.split(',').map(k => k.trim()) : ['Muthoot Gold Point', 'Sell Gold', 'Gold Buyers', 'Cash for Gold', 'Gold Valuation', 'Gold Recycling'],
+    authors: [{ name: 'Muthoot Gold Point' }],
+    alternates: {
+      canonical: '/',
+    },
+    openGraph: {
+      title,
+      description,
+      url: '/',
+      siteName: 'Muthoot Gold Point',
+      type: 'website',
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
