@@ -431,7 +431,7 @@ export async function submitFormSubmission(payload: {
         }
       }),
     });
-    
+
     // We don't fail the primary submission if mirroring fails, but we can log it
     if (!leadRes.ok) {
       console.error('Failed to mirror to all-leads:', await leadRes.text());
@@ -556,7 +556,7 @@ function getMediaUrl(media: any): string | undefined {
 export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/homepage?populate[homeVideos][populate]=*&populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
+      cache: 'no-store',
     });
     if (!res.ok) {
       console.warn(`getHomepageData: Strapi responded with ${res.status}`);
@@ -582,13 +582,13 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
       hideFooter: flat.hideFooter ?? false,
       homeVideos: Array.isArray(flat.homeVideos)
         ? flat.homeVideos.map((item: any) => ({
-            id: item.id,
-            code: item.code,
-            label: item.label,
-            poster: getMediaUrl(item.poster),
-            video: getMediaUrl(item.video) ?? item.videoUrl ?? null,
-            videoUrl: item.videoUrl,
-          }))
+          id: item.id,
+          code: item.code,
+          label: item.label,
+          poster: getMediaUrl(item.poster),
+          video: getMediaUrl(item.video) ?? item.videoUrl ?? null,
+          videoUrl: item.videoUrl,
+        }))
         : undefined,
     };
   } catch (err) {
@@ -638,7 +638,7 @@ export interface GlobalStatsData {
 export const getGlobalStats = cache(async function getGlobalStats(): Promise<GlobalStatsData | null> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/global-stat`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
+      cache: 'no-store',
     });
     if (!res.ok) {
       console.warn(`getGlobalStats: Strapi responded with ${res.status}`);
@@ -969,7 +969,7 @@ export interface AboutUsPageData {
 export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<AboutUsPageData | null> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/about-us-page?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
+      cache: 'no-store',
     });
     if (!res.ok) return null;
     const json = await res.json();

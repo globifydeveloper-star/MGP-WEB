@@ -18,7 +18,7 @@ interface HeroSliderProps {
   globalStats?: any;
 }
 
-export default function HeroSlider({ slides, firstSlideImage, layout = 'full' }: HeroSliderProps) {
+export default function HeroSlider({ slides, firstSlideImage, layout = 'full', globalStats }: HeroSliderProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
@@ -53,7 +53,7 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full' }:
     return (
       <>
         <Hero slide={firstSlide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} />
-        <HeroStats />
+        <HeroStats globalStats={globalStats} />
       </>
     );
   }
@@ -81,7 +81,7 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full' }:
           ))}
         </div>
       </div>
-      <HeroStats />
+      <HeroStats globalStats={globalStats} />
     </>
   );
 }

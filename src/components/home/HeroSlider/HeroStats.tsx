@@ -1,6 +1,9 @@
+import type { GlobalStatsData } from '@/lib/strapi';
 import './heroStats.css';
-
-export default function HeroStats() {
+interface HeroStatsProps {
+  globalStats?: GlobalStatsData | null;
+}
+export default function HeroStats({ globalStats }: HeroStatsProps) {
   return (
     <div className="hero-stats-ribbon-v2">
       <div className="hero-stats-container-v2">
@@ -24,11 +27,10 @@ export default function HeroStats() {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">4,200</span>
-            <span className="hero-stat-metric-label">Branches across India</span>
+            <span className="hero-stat-metric-value">{globalStats?.branchesValue || "4,200"}</span>
+            <span className="hero-stat-metric-label">{globalStats?.branchesLabel || "Branches across India"}</span>
           </div>
         </div>
-
         {/* Stat 2: Legacy */}
         <div className="hero-stat-item-v2">
           <div className="hero-stat-circle-icon">
@@ -40,11 +42,10 @@ export default function HeroStats() {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">133+</span>
-            <span className="hero-stat-metric-label">Years of legacy</span>
+            <span className="hero-stat-metric-value">{globalStats?.legacyValue || "133+"}</span>
+            <span className="hero-stat-metric-label">{globalStats?.legacyLabel || "Years of legacy"}</span>
           </div>
         </div>
-
         {/* Stat 3: Employees */}
         <div className="hero-stat-item-v2">
           <div className="hero-stat-circle-icon">
@@ -58,11 +59,10 @@ export default function HeroStats() {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">24,000</span>
-            <span className="hero-stat-metric-label">Employees serving millions of customer</span>
+            <span className="hero-stat-metric-value">{globalStats?.employeesValue || "24,000"}</span>
+            <span className="hero-stat-metric-label">{globalStats?.employeesLabel || "Employees serving millions of customer"}</span>
           </div>
         </div>
-
         {/* Stat 4: Customers */}
         <div className="hero-stat-item-v2">
           <div className="hero-stat-circle-icon">
@@ -74,8 +74,8 @@ export default function HeroStats() {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">1,00,000</span>
-            <span className="hero-stat-metric-label">Customers per day</span>
+            <span className="hero-stat-metric-value">{globalStats?.customersValue || "1,00,000"}</span>
+            <span className="hero-stat-metric-label">{globalStats?.customersLabel || "Customers per day"}</span>
           </div>
         </div>
       </div>
