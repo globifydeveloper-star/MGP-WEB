@@ -33,7 +33,7 @@ export async function generateMetadata() {
   return {
     title,
     description,
-    keywords: homepageData?.seoKeywords ? homepageData.seoKeywords.split(',').map(k => k.trim()) : ['Muthoot Gold Point', 'Sell Gold', 'Gold Buyers', 'Cash for Gold', 'Gold Valuation', 'Gold Recycling'],
+    keywords: homepageData?.seoKeywords ? homepageData.seoKeywords.split(',').map((k: string) => k.trim()) : ['Muthoot Gold Point', 'Sell Gold', 'Gold Buyers', 'Cash for Gold', 'Gold Valuation', 'Gold Recycling'],
     authors: [{ name: 'Muthoot Gold Point' }],
     alternates: {
       canonical: '/',

@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
-    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map(k => k.trim()) : ['Mobile Van Gold Buyer', 'Sell Gold from Home', 'Muthoot Gold Point Mobile Van', 'Gold Valuation at Home'],
+    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map((k: string) => k.trim()) : ['Mobile Van Gold Buyer', 'Sell Gold from Home', 'Muthoot Gold Point Mobile Van', 'Gold Valuation at Home'],
     authors: [{ name: 'Muthoot Gold Point' }],
     alternates: {
       canonical: '/mobilevantab',

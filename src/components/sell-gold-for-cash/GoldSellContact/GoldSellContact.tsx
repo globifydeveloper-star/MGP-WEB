@@ -31,7 +31,7 @@ export default function GoldSellContact() {
     resetOtpState
   } = useOtpVerification({ cooldownSeconds: 60 });
 
-  const { states: statesList, locationsByState } = useBranchMaster();
+  const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
 
   const availableCities = useMemo(() => {
     if (!formData.state) return [];
@@ -41,7 +41,7 @@ export default function GoldSellContact() {
   const availableBranches = useMemo(() => {
     if (!formData.state || !formData.city) return [];
     const list = branchesByState[formData.state] || [];
-    return list.filter(b => b.location.toLowerCase() === formData.city.toLowerCase());
+    return list.filter((b: any) => b.location.toLowerCase() === formData.city.toLowerCase());
   }, [formData.state, formData.city, branchesByState]);
 
   const handleChange = (
@@ -90,7 +90,7 @@ export default function GoldSellContact() {
         state: formData.state,
         city: formData.city,
         branchCode: formData.branchCode,
-        branchName: availableBranches.find(b => b.branchCode === formData.branchCode)?.branchName,
+        branchName: availableBranches.find((b: any) => b.branchCode === formData.branchCode)?.branchName,
         message: 'Enquiry from Sell Gold For Cash Page',
         consent: true,
         sourceForm: 'Sell Gold For Cash Page',
@@ -294,7 +294,7 @@ export default function GoldSellContact() {
                     <option value="" disabled>
                       {formData.city ? 'Select Branch*' : 'Select Branch (Select City First)*'}
                     </option>
-                    {availableBranches.map((b) => (
+                    {availableBranches.map((b: any) => (
                       <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
                     ))}
                   </select>

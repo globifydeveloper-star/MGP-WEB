@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
-    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map(k => k.trim()) : ['Muthoot Gold Point', 'About Us', 'Gold Recycling', 'Muthoot Pappachan Group', 'Muthoot Blue', 'Sell Gold', 'Gold Buyers'],
+    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map((k: string) => k.trim()) : ['Muthoot Gold Point', 'About Us', 'Gold Recycling', 'Muthoot Pappachan Group', 'Muthoot Blue', 'Sell Gold', 'Gold Buyers'],
     authors: [{ name: 'Muthoot Gold Point' }],
     alternates: {
       canonical: '/about-us',

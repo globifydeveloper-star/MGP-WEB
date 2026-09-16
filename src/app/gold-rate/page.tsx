@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
-    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map(k => k.trim()) : ['Today Gold Rate', 'Gold Rate Today', 'Gold Price Per Gram', 'Live Gold Price', 'Muthoot Gold Rate', 'Gold Calculator'],
+    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map((k: string) => k.trim()) : ['Today Gold Rate', 'Gold Rate Today', 'Gold Price Per Gram', 'Live Gold Price', 'Muthoot Gold Rate', 'Gold Calculator'],
     authors: [{ name: 'Muthoot Gold Point' }],
     alternates: {
       canonical: '/gold-rate',

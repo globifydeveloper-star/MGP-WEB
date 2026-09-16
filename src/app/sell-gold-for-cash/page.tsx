@@ -14,7 +14,7 @@ export async function generateMetadata() {
   return {
     title,
     description,
-    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map(k => k.trim()) : ['Sell Gold', 'Cash for Gold', 'Gold Buyers', 'Sell Old Gold', 'Muthoot Gold Point', 'Instant Cash for Gold'],
+    keywords: data?.seoKeywords ? data.seoKeywords.split(',').map((k: string) => k.trim()) : ['Sell Gold', 'Cash for Gold', 'Gold Buyers', 'Sell Old Gold', 'Muthoot Gold Point', 'Instant Cash for Gold'],
     authors: [{ name: 'Muthoot Gold Point' }],
     alternates: {
       canonical: '/sell-gold-for-cash',

@@ -468,6 +468,7 @@ export interface HomepageData {
   vanImage?: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -961,6 +962,7 @@ export interface AboutUsPageData {
   presentServices?: { id: number; title: string; icon?: string }[];
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -1043,6 +1045,7 @@ export interface ContactUsPageData {
   officeMapPopupText?: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -1189,6 +1192,7 @@ export async function getNavbarSetting(): Promise<NavbarSetting | null> {
 export interface GoldRatePageData {
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   ogImage?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
@@ -1244,9 +1248,11 @@ export interface MobileVanPageData {
   appointmentDescription?: string;
   seoTitle?: string;
   seoDescription?: string;
+  seoKeywords?: string;
   heroImage?: string;
   testingMethodsImage?: string;
   bookVanFormImage?: string;
+  ogImage?: string;
 }
 
 export const getMobileVanPageSettings = cache(async function getMobileVanPageSettings(): Promise<MobileVanPageData | null> {
@@ -1267,6 +1273,35 @@ export const getMobileVanPageSettings = cache(async function getMobileVanPageSet
   } catch (err) {
     if (isDynamicServerError(err)) throw err;
     console.error('getMobileVanPageSettings error:', err);
+    return null;
+  }
+});
+
+export interface SellGoldPageSettings {
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  ogImage?: string;
+}
+
+export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/sell-gold-page-setting?populate=*`, {
+      next: { revalidate: REVALIDATE_INTERVAL },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json?.data) return null;
+    const flat = unwrap<Record<string, any>>(json.data);
+    return {
+      seoTitle: flat.seoTitle,
+      seoDescription: flat.seoDescription,
+      seoKeywords: flat.seoKeywords,
+      ogImage: getMediaUrl(flat.ogImage),
+    };
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getSellGoldPageSettings error:', err);
     return null;
   }
 });
