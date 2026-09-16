@@ -9,7 +9,7 @@ import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import Image from 'next/image';
 import coinImg from '@/assets/images/COIN.png';
 import starImg from '@/assets/images/Star.png';
-import heroWaveImg from '@/assets/images/hero-wave.png';
+
 import groupHeroImg from '@/assets/images/GroupHero.png';
 
 // Star vector at the very start (top) of the curve - exact Figma position
@@ -52,22 +52,7 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full' }: He
         priority
       />
 
-      {/*
-        Rendered before .hero-container-v2 (and given a lower z-index) so it
-        sits behind the headline/copy instead of drawing over it - it shares
-        the same Figma coordinate space as .hero-figma-canvas below.
-      */}
-      <div className="hero-scaled-host hero-wave-host">
-        <div className="hero-wave-inner">
-          <Image
-            src={heroWaveImg}
-            alt=""
-            aria-hidden="true"
-            className="hero-scene-wave"
-            priority
-          />
-        </div>
-      </div>
+
 
       {/* Mobile-only Model Photo (rendered on top on mobile/tablet) */}
       <div className="hero-mobile-top-model-wrapper">
