@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
+import { useOtpVerification } from '@/hooks/useOtpVerification';
 import './GoldSellContact.css';
 import handHoldingGoldImg from '@/assets/images/gold_rate_component_photos/05-cta-hand-holding-gold.png';
 
@@ -14,13 +15,21 @@ export default function GoldSellContact() {
     otp: '',
     state: '',
     city: '',
+    branchCode: '',
     consent: true,
   });
 
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpCountdown, setOtpCountdown] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const {
+    state: otpState,
+    countdown: otpCountdown,
+    errorMessage: otpErrorMessage,
+    sendOtp,
+    verifyOtp,
+    resetOtpState
+  } = useOtpVerification({ cooldownSeconds: 60 });
 
   const { states: statesList, locationsByState } = useBranchMaster();
 
@@ -29,40 +38,43 @@ export default function GoldSellContact() {
     return locationsByState[formData.state] || [];
   }, [formData.state, locationsByState]);
 
-  // OTP Countdown timer
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (otpCountdown > 0) {
-      timer = setTimeout(() => setOtpCountdown((prev) => prev - 1), 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [otpCountdown]);
+  const availableBranches = useMemo(() => {
+    if (!formData.state || !formData.city) return [];
+    const list = branchesByState[formData.state] || [];
+    return list.filter(b => b.location.toLowerCase() === formData.city.toLowerCase());
+  }, [formData.state, formData.city, branchesByState]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
     const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: val,
-      ...(name === 'state' ? { city: '' } : {}),
-    }));
+    setFormData((prev) => {
+      const updates: any = { [name]: val };
+      if (name === 'state') {
+        updates.city = '';
+        updates.branchCode = '';
+      } else if (name === 'city') {
+        updates.branchCode = '';
+      }
+      return { ...prev, ...updates };
+    });
   };
 
-  const handleGetOtp = () => {
+  const handleGetOtp = async () => {
     if (!formData.phone || formData.phone.length < 10) {
       alert('Please enter a valid 10-digit phone number');
       return;
     }
-    setOtpSent(true);
-    setOtpCountdown(30);
-    alert(`OTP sent successfully to +91 ${formData.phone} (Simulated)`);
+    const res = await sendOtp(formData.phone);
+    if (!res) {
+      alert('Failed to send OTP. Please try again.');
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.branchCode) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -71,21 +83,41 @@ export default function GoldSellContact() {
       return;
     }
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        otp: '',
-        state: '',
-        city: '',
+    try {
+      const success = await verifyOtp(formData.phone, formData.otp, {
+        name: formData.name,
+        email: formData.email,
+        state: formData.state,
+        city: formData.city,
+        branchCode: formData.branchCode,
+        branchName: availableBranches.find(b => b.branchCode === formData.branchCode)?.branchName,
+        message: 'Enquiry from Sell Gold For Cash Page',
         consent: true,
+        sourceForm: 'Sell Gold For Cash Page',
+        enquiryType: 'Sell Gold',
       });
-      setOtpSent(false);
-      setOtpCountdown(0);
-    }, 1200);
+      if (success) {
+        setIsSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          otp: '',
+          state: '',
+          city: '',
+          branchCode: '',
+          consent: true,
+        });
+        resetOtpState();
+      } else {
+        alert(otpErrorMessage || 'Incorrect or expired OTP. Please try again.');
+      }
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      alert('Network error submitting form.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -141,6 +173,11 @@ export default function GoldSellContact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
+              {otpErrorMessage && (
+                <div style={{ color: '#e74c3c', fontSize: '13px', marginBottom: '12px', textAlign: 'center', background: '#fdf2f2', padding: '8px 12px', borderRadius: '6px', border: '1px solid #f8d7da' }}>
+                  {otpErrorMessage}
+                </div>
+              )}
               {/* Name */}
               <div className="grct-form-group">
                 <input
@@ -185,9 +222,9 @@ export default function GoldSellContact() {
                     type="button"
                     className="grct-get-otp-btn"
                     onClick={handleGetOtp}
-                    disabled={otpCountdown > 0}
+                    disabled={otpState === 'sending' || otpState === 'verifying' || otpCountdown > 0 || !/^\d{10}$/.test(formData.phone)}
                   >
-                    {otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
+                    {otpState === 'sending' ? '...' : otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
                   </button>
                 </div>
 
@@ -199,7 +236,7 @@ export default function GoldSellContact() {
                     value={formData.otp}
                     onChange={handleChange}
                     placeholder="OTP*"
-                    disabled={!otpSent}
+                    disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                     required
                   />
                 </div>
@@ -234,10 +271,31 @@ export default function GoldSellContact() {
                     className={!formData.city ? 'grct-placeholder-selected' : ''}
                   >
                     <option value="" disabled>
-                      {formData.state ? 'Select City / Branch*' : 'Select City*'}
+                      {formData.state ? 'Select City*' : 'Select City*'}
                     </option>
                     {availableCities.map((city) => (
                       <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grct-form-row">
+                <div className="grct-form-group grct-select-wrap">
+                  <select
+                    id="grct-branchCode"
+                    name="branchCode"
+                    value={formData.branchCode}
+                    onChange={handleChange}
+                    disabled={!formData.city}
+                    required
+                    className={!formData.branchCode ? 'grct-placeholder-selected' : ''}
+                  >
+                    <option value="" disabled>
+                      {formData.city ? 'Select Branch*' : 'Select Branch (Select City First)*'}
+                    </option>
+                    {availableBranches.map((b) => (
+                      <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
                     ))}
                   </select>
                 </div>
