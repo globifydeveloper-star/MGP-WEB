@@ -14,6 +14,9 @@ export default function CareerBenefits({ data }: CareerBenefitsProps) {
     <section className="career-benefits-section">
       <div className="container">
         <h2 className="career-benefits-title">{data?.cultureHeading || 'Why Join Muthoot?'}</h2>
+        {data?.cultureDescription && (
+          <p className="career-benefits-desc" style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 2rem", color: "var(--text-muted)" }}>{data.cultureDescription}</p>
+        )}
         <div className="career-benefits-grid">
 
           {benefits.length > 0 ? (

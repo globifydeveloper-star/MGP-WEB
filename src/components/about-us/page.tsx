@@ -28,7 +28,7 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
       <main>
         <AboutHero
           data={data}
-          onExploreClick={() => scrollToSection('what-we-do')}
+          onExploreClick={() => window.location.href = '/sell-gold-for-cash'}
         />
 
         <GoldRecycling data={data} />

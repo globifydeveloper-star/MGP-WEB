@@ -80,7 +80,7 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
             </ul>
 
             <a
-              href="https://www.muthoot.com"
+              href="https://www.muthootpappachan.com"
               target="_blank"
               rel="noopener noreferrer"
               className="blue-cta-btn"

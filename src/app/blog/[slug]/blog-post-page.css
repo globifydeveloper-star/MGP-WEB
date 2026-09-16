@@ -84,6 +84,22 @@
   }
 }
 
+@media (max-width: 768px) {
+  .blog-layout-wrapper {
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .blog-post-sidebar {
+    margin-top: 1rem;
+  }
+  
+  .blog-post-sidebar .otp-enquiry-card {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 640px) {
   .blog-post-title {
     font-size: 1.65rem;

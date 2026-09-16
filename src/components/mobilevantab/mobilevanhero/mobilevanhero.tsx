@@ -55,14 +55,15 @@ export default function MobileVanHero({ data }: MobileVanHeroProps) {
   }, [isMounted]);
 
   useEffect(() => {
-    if (!isAnimationStarted) return;
+    // If a custom heroImage is provided, don't animate the default van frames
+    if (!isAnimationStarted || data?.heroImage) return;
 
     const interval = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % 6);
     }, 150); // Decent loop interval: 150ms per frame
 
     return () => clearInterval(interval);
-  }, [isAnimationStarted]);
+  }, [isAnimationStarted, data?.heroImage]);
 
   return (
     <section className="mvh-section">
@@ -74,16 +75,16 @@ export default function MobileVanHero({ data }: MobileVanHeroProps) {
       <div className="mvh-container">
         <div className="mvh-image-col">
           <div className="mvh-van-container">
-            {/* 1. Base image (always rendered to establish layout size, invisible when animating) */}
+            {/* 1. Base image (always rendered to establish layout size, invisible when animating default frames) */}
             <img
-              src="/van.png"
+              src={data?.heroImage || '/van.png'}
               alt="Muthoot Gold Point mobile van"
               className="mvh-van-img"
-              style={{ opacity: (isMounted && isAnimationStarted) ? 0 : 1 }}
+              style={{ opacity: (isMounted && isAnimationStarted && !data?.heroImage) ? 0 : 1 }}
             />
 
-            {/* 2. The running animated frames view once loaded */}
-            {isMounted && isAnimationStarted && (
+            {/* 2. The running animated frames view once loaded (only if no custom heroImage) */}
+            {isMounted && isAnimationStarted && !data?.heroImage && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={frames[currentFrame].src}

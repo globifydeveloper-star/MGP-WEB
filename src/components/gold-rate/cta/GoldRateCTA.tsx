@@ -23,9 +23,9 @@ export default function GoldRateCTA({ onSellGoldClick }: GoldRateCTAProps) {
             <button type="button" className="grc-btn grc-btn-dark" onClick={onSellGoldClick}>
               Sell Your Gold
             </button>
-            <Link href="/#branches" className="grc-btn grc-btn-outline">
+            <a href="/#branches" className="grc-btn grc-btn-outline">
               Find a Branch
-            </Link>
+            </a>
           </div>
         </div>
       </div>

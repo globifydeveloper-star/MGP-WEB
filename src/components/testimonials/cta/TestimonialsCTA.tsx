@@ -20,9 +20,9 @@ export default function TestimonialsCTA({ onSellGoldClick }: TestimonialsCTAProp
           <button type="button" className="tcta-btn tcta-btn-dark" onClick={onSellGoldClick}>
             Sell Your Gold
           </button>
-          <Link href="/#branches" className="tcta-btn tcta-btn-outline">
+          <a href="/#branches" className="tcta-btn tcta-btn-outline">
             Find a Branch
-          </Link>
+          </a>
         </div>
       </div>
     </section>

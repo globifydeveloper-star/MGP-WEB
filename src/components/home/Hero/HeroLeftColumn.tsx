@@ -90,10 +90,12 @@ export default function HeroLeftColumn({ heroText, button1, button2 }: HeroLeftC
       try {
         const url = new URL(link, window.location.origin);
         if (url.origin === window.location.origin) {
-          window.open(url.href, '_blank');
+          window.location.href = link;
+        } else {
+          window.open(link, '_blank');
         }
       } catch (e) {
-        console.error('Invalid URL', e);
+        window.location.href = link;
       }
     }
   };

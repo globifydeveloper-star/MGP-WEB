@@ -35,7 +35,7 @@ export default function CareerHero({ data, onApplyClick, onViewPositionsClick }:
           )}
 
           <p className="career-hero-desc">
-            {data?.cultureDescription || 'We believe in transparency, integrity, and building customer trust. Join a fast-growing team redefining the gold liquidation sector with cutting-edge technology and premium service.'}
+            {(data as any)?.heroDescription || 'We believe in transparency, integrity, and building customer trust. Join a fast-growing team redefining the gold liquidation sector with cutting-edge technology and premium service.'}
           </p>
 
           <div className="career-hero-ctas">

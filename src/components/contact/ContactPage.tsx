@@ -241,8 +241,8 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                       <PinIconGold />
                     </div>
                     <div className="cp-card-item-body">
-                      <h3 className="cp-company-title">{REGISTERED_OFFICE.name}</h3>
-                      <p className="cp-company-addr">{REGISTERED_OFFICE.address}</p>
+                      <h3 className="cp-company-title">{data?.officeName || REGISTERED_OFFICE.name}</h3>
+                      <p className="cp-company-addr">{data?.officeAddress || REGISTERED_OFFICE.address}</p>
                     </div>
                   </div>
 
@@ -254,8 +254,8 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                       <PhoneIconGold />
                     </div>
                     <div className="cp-card-item-body">
-                      <a href={`tel:${REGISTERED_OFFICE.phone1.replace(/\s+/g, '')}`} className="cp-contact-link">
-                        {REGISTERED_OFFICE.phone1}
+                      <a href={`tel:${(data?.officePhone1 || REGISTERED_OFFICE.phone1).replace(/\s+/g, '')}`} className="cp-contact-link">
+                        {data?.officePhone1 || REGISTERED_OFFICE.phone1}
                       </a>
                     </div>
                   </div>
@@ -268,8 +268,8 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                       <BriefcaseIconGold />
                     </div>
                     <div className="cp-card-item-body">
-                      <a href={`tel:${REGISTERED_OFFICE.phone2.replace(/\s+/g, '')}`} className="cp-contact-link">
-                        {REGISTERED_OFFICE.phone2}
+                      <a href={`tel:${(data?.officePhone2 || REGISTERED_OFFICE.phone2).replace(/\s+/g, '')}`} className="cp-contact-link">
+                        {data?.officePhone2 || REGISTERED_OFFICE.phone2}
                       </a>
                     </div>
                   </div>
@@ -282,27 +282,26 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                       <MailIconGold />
                     </div>
                     <div className="cp-card-item-body">
-                      <a href={`mailto:${REGISTERED_OFFICE.email}`} className="cp-contact-link">
-                        {REGISTERED_OFFICE.email}
+                      <a href={`mailto:${data?.officeEmail || REGISTERED_OFFICE.email}`} className="cp-contact-link">
+                        {data?.officeEmail || REGISTERED_OFFICE.email}
                       </a>
                     </div>
                   </div>
                 </div>
 
-                {/* Map Box */}
                 <div className="cp-map-box">
                   <iframe
                     title="Muthoot Gold Point Registered Office Location"
                     className="cp-map-iframe"
-                    src={REGISTERED_OFFICE.mapEmbedUrl}
+                    src={data?.officeMapUrl || REGISTERED_OFFICE.mapEmbedUrl}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />
                   {/* Floating Marker Card on Map */}
                   <div className="cp-map-popup">
                     <div className="cp-map-popup-body">
-                      <h4 className="cp-map-popup-title">Muthoot Towers</h4>
-                      <p className="cp-map-popup-text">M.G. Road, Ernakulam, Kerala - 682035</p>
+                      <h4 className="cp-map-popup-title">{data?.officeMapPopupTitle || 'Muthoot Towers'}</h4>
+                      <p className="cp-map-popup-text">{data?.officeMapPopupText || 'M.G. Road, Ernakulam, Kerala - 682035'}</p>
                     </div>
                     <div className="cp-map-popup-pin">
                       <svg viewBox="0 0 24 24" width="28" height="28" fill="#0B1536">
