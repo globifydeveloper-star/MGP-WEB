@@ -1,6 +1,6 @@
 const STRAPI_URL = (() => {
   const url = process.env.NEXT_PUBLIC_STRAPI_URL;
-  if (url) return url;
+  if (url) return url.replace(/\/+$/, '');
   if (process.env.NODE_ENV === 'production') {
     console.warn(
       'WARNING: NEXT_PUBLIC_STRAPI_URL is not set. This value is compiled into the ' +
