@@ -50,6 +50,16 @@ const nextConfig: NextConfig = {
         hostname: "*.r2.dev",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "mgpwebsiteuat.s3.amazonaws.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "mgpwebsiteuat.s3.*.amazonaws.com",
+        pathname: "/**",
+      },
     ],
     // Strapi runs on localhost in dev; Next 16 blocks image URLs that resolve
     // to a private/loopback IP unless explicitly opted in.
