@@ -56,3 +56,12 @@ Run the container:
 ```bash
 docker run -p 3000:3000 mgp-web
 ```
+
+## Data Flow & Architecture
+
+MGP-WEB is a public-facing lead-generation and informational website built on Next.js. Data flows through two main pipelines:
+
+1. **Content Management (Read-Only)**
+   The application fetches page configurations, blog posts, career listings, hero images, and static copy from a headless **Strapi CMS**. This data is retrieved via REST API calls (handled cleanly in `src/lib/strapi.ts`) and rendered dynamically on the frontend.
+2. **Dynamic Operations & Leads (Read/Write)**
+   For dynamic and sensitive operations like fetching live gold quotes, retrieving real-time branch locations, or posting user forms, the frontend communicates with local Next.js API routes (e.g., `/api/gold-quote`). These API routes authenticate themselves using secure tokens from `authService.ts` and proxy the requests to external **Muthoot Exim Core APIs**. Form submissions (like gold valuations) are recorded in Strapi and simultaneously mirrored to external CRM endpoints.

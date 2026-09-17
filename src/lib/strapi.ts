@@ -89,70 +89,43 @@ function isDynamicServerError(err: any): boolean {
   );
 }
 
-export const getBlogPosts = cache(async function getBlogPosts(): Promise<BlogPost[]> {
+async function fetchStrapi<T>(
+  endpoint: string,
+  options?: RequestInit,
+  errorMessage: string = 'fetch error'
+): Promise<T | null> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/blog-posts?populate=*&sort=publishedAt:desc`, {
-      // next: { revalidate: REVALIDATE_INTERVAL },
-      cache: "no-store",
-    });
+    const res = await fetch(`${STRAPI_URL}${endpoint}`, options);
     if (!res.ok) {
-      console.error(`getBlogPosts: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map(normalizeBlogPost);
-  } catch (err) {
-    if (isDynamicServerError(err)) {
-      throw err;
-    }
-    console.error('getBlogPosts: failed to fetch blog posts', err);
-    return [];
-  }
-});
-
-export const getCategories = cache(async function getCategories(): Promise<Category[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/categories`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.error(`getCategories: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: unknown) => unwrap<Category>(entry));
-  } catch (err) {
-    if (isDynamicServerError(err)) {
-      throw err;
-    }
-    console.error('getCategories: failed to fetch categories', err);
-    return [];
-  }
-});
-
-export const getBlogPostBySlug = cache(async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  try {
-    const res = await fetch(
-      `${STRAPI_URL}/api/blog-posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
-      { next: { revalidate: REVALIDATE_INTERVAL } }
-    );
-    if (!res.ok) {
-      console.error(`getBlogPostBySlug: Strapi responded with ${res.status}`);
+      console.warn(`${errorMessage}: Strapi responded with ${res.status}`);
       return null;
     }
     const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    if (data.length === 0) return null;
-    return normalizeBlogPost(data[0]);
+    return json?.data ?? null;
   } catch (err) {
-    if (isDynamicServerError(err)) {
-      throw err;
-    }
-    console.error('getBlogPostBySlug: failed to fetch blog post', err);
+    if (isDynamicServerError(err)) throw err;
+    console.error(errorMessage, err);
     return null;
   }
+}
+
+export const getBlogPosts = cache(async function getBlogPosts(): Promise<BlogPost[]> {
+  const data = await fetchStrapi<any[]>('/api/blog-posts?populate=*&sort=publishedAt:desc', { cache: 'no-store' }, 'getBlogPosts');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map(normalizeBlogPost);
+});
+
+export const getCategories = cache(async function getCategories(): Promise<Category[]> {
+  const data = await fetchStrapi<any[]>('/api/categories', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCategories');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: unknown) => unwrap<Category>(entry));
+});
+
+export const getBlogPostBySlug = cache(async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const data = await fetchStrapi<any[]>(`/api/blog-posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getBlogPostBySlug');
+  const arr = Array.isArray(data) ? data : [];
+  if (arr.length === 0) return null;
+  return normalizeBlogPost(arr[0]);
 });
 
 export interface BlogPageSettings {
@@ -175,42 +148,27 @@ export interface BlogPageSettings {
 }
 
 export const getBlogPageSettings = cache(async function getBlogPageSettings(): Promise<BlogPageSettings | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/blog-page-setting?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getBlogPageSettings: Strapi responded with ${res.status} (using default fallbacks)`);
-      return null;
-    }
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, unknown>>(json.data);
-    const heroImageRaw = flat.heroImage ? unwrap<{ url: string; mime: string }>(flat.heroImage) : undefined;
-    return {
-      heroHeading: flat.heroHeading as string | undefined,
-      heroSubheading: flat.heroSubheading as string | undefined,
-      heroImage: heroImageRaw
-        ? { url: resolveMediaUrl(heroImageRaw.url) ?? heroImageRaw.url, mime: heroImageRaw.mime }
-        : undefined,
-      seoTitle: flat.seoTitle as string | undefined,
-      seoDescription: flat.seoDescription as string | undefined,
-      noPostsMessage: flat.noPostsMessage as string | undefined,
-      noPostsInCategoryMessage: flat.noPostsInCategoryMessage as string | undefined,
-      allCategoryLabel: flat.allCategoryLabel as string | undefined,
-      readMoreLabel: flat.readMoreLabel as string | undefined,
-      backToBlogLabel: flat.backToBlogLabel as string | undefined,
-      relatedArticlesHeading: flat.relatedArticlesHeading as string | undefined,
-      sortNewestLabel: flat.sortNewestLabel as string | undefined,
-      sortOldestLabel: flat.sortOldestLabel as string | undefined,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) {
-      throw err;
-    }
-    console.error('getBlogPageSettings: failed to fetch settings', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/blog-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getBlogPageSettings');
+  if (!data) return null;
+  const flat = unwrap<Record<string, unknown>>(data);
+  const heroImageRaw = flat.heroImage ? unwrap<{ url: string; mime: string }>(flat.heroImage) : undefined;
+  return {
+    heroHeading: flat.heroHeading as string | undefined,
+    heroSubheading: flat.heroSubheading as string | undefined,
+    heroImage: heroImageRaw
+      ? { url: resolveMediaUrl(heroImageRaw.url) ?? heroImageRaw.url, mime: heroImageRaw.mime }
+      : undefined,
+    seoTitle: flat.seoTitle as string | undefined,
+    seoDescription: flat.seoDescription as string | undefined,
+    noPostsMessage: flat.noPostsMessage as string | undefined,
+    noPostsInCategoryMessage: flat.noPostsInCategoryMessage as string | undefined,
+    allCategoryLabel: flat.allCategoryLabel as string | undefined,
+    readMoreLabel: flat.readMoreLabel as string | undefined,
+    backToBlogLabel: flat.backToBlogLabel as string | undefined,
+    relatedArticlesHeading: flat.relatedArticlesHeading as string | undefined,
+    sortNewestLabel: flat.sortNewestLabel as string | undefined,
+    sortOldestLabel: flat.sortOldestLabel as string | undefined,
+  };
 });
 
 // --- CAREER MODULE ACCESSORS ---
@@ -252,81 +210,51 @@ export interface CareerPageSettingsData {
 }
 
 export const getCareerPageSettings = cache(async function getCareerPageSettings(): Promise<CareerPageSettingsData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/career-page-setting?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      heroHeading: flat.heroHeading,
-      heroSubheading: flat.heroSubheading,
-      heroImage: getMediaUrl(flat.heroImage),
-      cultureHeading: flat.cultureHeading,
-      cultureDescription: flat.cultureDescription,
-      careerBenefits: flat.careerBenefits,
-      seoTitle: flat.seoTitle,
-      seoDescription: flat.seoDescription,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getCareerPageSettings error:', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/career-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCareerPageSettings');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    heroHeading: flat.heroHeading,
+    heroSubheading: flat.heroSubheading,
+    heroImage: getMediaUrl(flat.heroImage),
+    cultureHeading: flat.cultureHeading,
+    cultureDescription: flat.cultureDescription,
+    careerBenefits: flat.careerBenefits,
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+  };
 });
 
 export const getJobDepartments = cache(async function getJobDepartments(): Promise<JobDepartment[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/job-departments`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) return [];
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => unwrap<JobDepartment>(entry));
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getJobDepartments error:', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>('/api/job-departments', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getJobDepartments');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => unwrap<JobDepartment>(entry));
 });
 
 export const getJobPositions = cache(async function getJobPositions(): Promise<JobPosition[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/job-positions?populate=*&filters[isOpen][$eq]=true`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) return [];
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      const department = flat.department ? unwrap<JobDepartment>(flat.department) : undefined;
-      return {
-        id: flat.id,
-        documentId: flat.documentId ?? String(flat.id),
-        title: flat.title,
-        slug: flat.slug,
-        department,
-        location: flat.location,
-        employmentType: flat.employmentType,
-        experienceLevel: flat.experienceLevel,
-        summary: flat.summary,
-        description: flat.description,
-        responsibilities: flat.responsibilities,
-        requirements: flat.requirements,
-        isOpen: flat.isOpen ?? true,
-        deadline: flat.deadline,
-        postedDate: flat.postedDate,
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getJobPositions error:', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>('/api/job-positions?populate=*&filters[isOpen][$eq]=true', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getJobPositions');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    const department = flat.department ? unwrap<JobDepartment>(flat.department) : undefined;
+    return {
+      id: flat.id,
+      documentId: flat.documentId ?? String(flat.id),
+      title: flat.title,
+      slug: flat.slug,
+      department,
+      location: flat.location,
+      employmentType: flat.employmentType,
+      experienceLevel: flat.experienceLevel,
+      summary: flat.summary,
+      description: flat.description,
+      responsibilities: flat.responsibilities,
+      requirements: flat.requirements,
+      isOpen: flat.isOpen ?? true,
+      deadline: flat.deadline,
+      postedDate: flat.postedDate,
+    };
+  });
 });
 
 export async function submitJobApplication(payload: {
@@ -555,48 +483,35 @@ function getMediaUrl(media: any): string | undefined {
 }
 
 export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/homepage?populate[homeVideos][populate]=*&populate=*`, {
-      cache: 'no-store',
-    });
-    if (!res.ok) {
-      console.warn(`getHomepageData: Strapi responded with ${res.status}`);
-      return null;
-    }
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      heroFirstSlideImage: getMediaUrl(flat.heroFirstSlideImage),
-      processSectionImage: getMediaUrl(flat.processSectionImage),
-      estimateGoldHeading: flat.estimateGoldHeading,
-      estimateGoldHeadingHighlight: flat.estimateGoldHeadingHighlight,
-      estimateGoldNote: flat.estimateGoldNote,
-      vanHeadingLight: flat.vanHeadingLight,
-      vanHeadingBold: flat.vanHeadingBold,
-      vanDescription: flat.vanDescription,
-      vanButtonLabel: flat.vanButtonLabel,
-      vanImage: getMediaUrl(flat.vanImage),
-      seoTitle: flat.seoTitle,
-      seoDescription: flat.seoDescription,
-      ogImage: getMediaUrl(flat.ogImage),
-      hideFooter: flat.hideFooter ?? false,
-      homeVideos: Array.isArray(flat.homeVideos)
-        ? flat.homeVideos.map((item: any) => ({
-          id: item.id,
-          code: item.code,
-          label: item.label,
-          poster: getMediaUrl(item.poster),
-          video: getMediaUrl(item.video) ?? item.videoUrl ?? null,
-          videoUrl: item.videoUrl,
-        }))
-        : undefined,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getHomepageData: failed to fetch homepage settings', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/homepage?populate[homeVideos][populate]=*&populate=*', { cache: 'no-store' }, 'getHomepageData');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    heroFirstSlideImage: getMediaUrl(flat.heroFirstSlideImage),
+    processSectionImage: getMediaUrl(flat.processSectionImage),
+    estimateGoldHeading: flat.estimateGoldHeading,
+    estimateGoldHeadingHighlight: flat.estimateGoldHeadingHighlight,
+    estimateGoldNote: flat.estimateGoldNote,
+    vanHeadingLight: flat.vanHeadingLight,
+    vanHeadingBold: flat.vanHeadingBold,
+    vanDescription: flat.vanDescription,
+    vanButtonLabel: flat.vanButtonLabel,
+    vanImage: getMediaUrl(flat.vanImage),
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+    ogImage: getMediaUrl(flat.ogImage),
+    hideFooter: flat.hideFooter ?? false,
+    homeVideos: Array.isArray(flat.homeVideos)
+      ? flat.homeVideos.map((item: any) => ({
+        id: item.id,
+        code: item.code,
+        label: item.label,
+        poster: getMediaUrl(item.poster),
+        video: getMediaUrl(item.video) ?? item.videoUrl ?? null,
+        videoUrl: item.videoUrl,
+      }))
+      : undefined,
+  };
 });
 
 export interface SharedMediaData {
@@ -604,25 +519,12 @@ export interface SharedMediaData {
 }
 
 export const getSharedMedia = cache(async function getSharedMedia(): Promise<SharedMediaData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/shared-media?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getSharedMedia: Strapi responded with ${res.status}`);
-      return null;
-    }
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      goldValueFormImage: getMediaUrl(flat.goldValueFormImage),
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getSharedMedia: failed to fetch shared media', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/shared-media?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getSharedMedia');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    goldValueFormImage: getMediaUrl(flat.goldValueFormImage),
+  };
 });
 
 export interface GlobalStatsData {
@@ -637,119 +539,67 @@ export interface GlobalStatsData {
 }
 
 export const getGlobalStats = cache(async function getGlobalStats(): Promise<GlobalStatsData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/global-stat`, {
-      cache: 'no-store',
-    });
-    if (!res.ok) {
-      console.warn(`getGlobalStats: Strapi responded with ${res.status}`);
-      return null;
-    }
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      branchesValue: flat.branchesValue,
-      branchesLabel: flat.branchesLabel,
-      legacyValue: flat.legacyValue,
-      legacyLabel: flat.legacyLabel,
-      employeesValue: flat.employeesValue,
-      employeesLabel: flat.employeesLabel,
-      customersValue: flat.customersValue,
-      customersLabel: flat.customersLabel,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getGlobalStats: failed to fetch global stats', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/global-stat', { cache: 'no-store' }, 'getGlobalStats');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    branchesValue: flat.branchesValue,
+    branchesLabel: flat.branchesLabel,
+    legacyValue: flat.legacyValue,
+    legacyLabel: flat.legacyLabel,
+    employeesValue: flat.employeesValue,
+    employeesLabel: flat.employeesLabel,
+    customersValue: flat.customersValue,
+    customersLabel: flat.customersLabel,
+  };
 });
 
 export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroSlide[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/hero-slides?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getHeroSlides: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      return {
-        id: flat.id,
-        heroText: flat.heroText,
-        heroImage: getMediaUrl(flat.heroImage),
-        slideLink: flat.slideLink,
-        button1: flat.button1,
-        button2: flat.button2,
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getHeroSlides: failed to fetch hero slides', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>('/api/hero-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getHeroSlides');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      heroText: flat.heroText,
+      heroImage: getMediaUrl(flat.heroImage),
+      slideLink: flat.slideLink,
+      button1: flat.button1,
+      button2: flat.button2,
+    };
+  });
 });
 
 export const getProcessSteps = cache(async function getProcessSteps(): Promise<ProcessStep[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/process-steps?populate=*&sort=order:asc`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getProcessSteps: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      return {
-        id: flat.id,
-        order: flat.order ?? 0,
-        stepTitle: flat.stepTitle,
-        stepDescription: flat.stepDescription,
-        leftDescription: flat.leftDescription,
-        stepImage: getMediaUrl(flat.stepImage),
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getProcessSteps: failed to fetch process steps', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>('/api/process-steps?populate=*&sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getProcessSteps');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      order: flat.order ?? 0,
+      stepTitle: flat.stepTitle,
+      stepDescription: flat.stepDescription,
+      leftDescription: flat.leftDescription,
+      stepImage: getMediaUrl(flat.stepImage),
+    };
+  });
 });
 
 export const getDifferenceBoxes = cache(async function getDifferenceBoxes(): Promise<DifferenceBox[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/difference-boxes?populate=*&sort=order:asc`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getDifferenceBoxes: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      return {
-        id: flat.id,
-        boxTitle: flat.boxTitle,
-        boxDescription: flat.boxDescription,
-        boxImage: getMediaUrl(flat.boxImage),
-        order: flat.order ?? 0,
-        iconType: flat.iconType ?? 'default',
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getDifferenceBoxes: failed to fetch difference boxes', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>('/api/difference-boxes?populate=*&sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getDifferenceBoxes');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      boxTitle: flat.boxTitle,
+      boxDescription: flat.boxDescription,
+      boxImage: getMediaUrl(flat.boxImage),
+      order: flat.order ?? 0,
+      iconType: flat.iconType ?? 'default',
+    };
+  });
 });
 
 export const getPromoSlides = cache(async function getPromoSlides(): Promise<PromoSlide[]> {
@@ -858,66 +708,38 @@ export interface DynamicPage {
 }
 
 export const getPageBySlug = cache(async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
-  try {
-    const res = await fetch(
-      `${STRAPI_URL}/api/pages?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[sections][populate]=*`,
-      { next: { revalidate: REVALIDATE_INTERVAL } }
-    );
-    if (!res.ok) {
-      console.warn(`getPageBySlug: Strapi responded with ${res.status}`);
-      return null;
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    if (data.length === 0) return null;
-    const flat = unwrap<any>(data[0]);
-    const rawSections = Array.isArray(flat.sections) ? flat.sections : [];
-    const sections = rawSections.map((sec: any) => unwrap<DynamicPageSection>(sec));
-    return {
-      id: flat.id,
-      title: flat.title,
-      slug: flat.slug,
-      seoTitle: flat.seoTitle,
-      seoDescription: flat.seoDescription,
-      ogImage: flat.ogImage ? { url: resolveMediaUrl(flat.ogImage.url) ?? flat.ogImage.url } : undefined,
-      sections,
-      hideFooter: flat.hideFooter ?? false,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getPageBySlug: failed to fetch dynamic page', err);
-    return null;
-  }
+  const data = await fetchStrapi<any[]>(`/api/pages?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[sections][populate]=*`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPageBySlug');
+  const arr = Array.isArray(data) ? data : [];
+  if (arr.length === 0) return null;
+  const flat = unwrap<any>(arr[0]);
+  const rawSections = Array.isArray(flat.sections) ? flat.sections : [];
+  const sections = rawSections.map((sec: any) => unwrap<DynamicPageSection>(sec));
+  return {
+    id: flat.id,
+    title: flat.title,
+    slug: flat.slug,
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+    ogImage: flat.ogImage ? { url: resolveMediaUrl(flat.ogImage.url) ?? flat.ogImage.url } : undefined,
+    sections,
+    hideFooter: flat.hideFooter ?? false,
+  };
 });
 
 
 export const getFaqsByPage = cache(async function getFaqsByPage(pageId: number): Promise<FAQ[]> {
-  try {
-    const res = await fetch(
-      `${STRAPI_URL}/api/faqs?filters[page][id][$eq]=${pageId}&populate=*&sort=order:asc`,
-      { next: { revalidate: REVALIDATE_INTERVAL } }
-    );
-    if (!res.ok) {
-      console.warn(`getFaqsByPage: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      return {
-        id: flat.id,
-        question: flat.question,
-        answer: flat.answer,
-        section: flat.section ?? 'home',
-        order: flat.order ?? 0,
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getFaqsByPage: failed to fetch FAQs', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>(`/api/faqs?filters[page][id][$eq]=${pageId}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqsByPage');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      question: flat.question,
+      answer: flat.answer,
+      section: flat.section ?? 'home',
+      order: flat.order ?? 0,
+    };
+  });
 });
 
 export interface AboutUsPageData {
@@ -969,64 +791,54 @@ export interface AboutUsPageData {
 }
 
 export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<AboutUsPageData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/about-us-page?populate=*`, {
-      cache: 'no-store',
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      heroEyebrow: flat.heroEyebrow,
-      heroTitle: flat.heroTitle,
-      heroDescription: flat.heroDescription,
-      heroButtonText: flat.heroButtonText,
-      heroButtonLink: flat.heroButtonLink,
-      heroChecklist: flat.heroChecklist,
-      heroStats: flat.heroStats,
-      heroImages: Array.isArray(flat.heroImages) ? flat.heroImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
-      recyclingSubtitle: flat.recyclingSubtitle,
-      recyclingTitle: flat.recyclingTitle,
-      recyclingDescription: flat.recyclingDescription,
-      recyclingSteps: flat.recyclingSteps,
-      historySubtitle: flat.historySubtitle,
-      historyTitle: flat.historyTitle,
-      historyDescription: flat.historyDescription,
-      historyMilestones: flat.historyMilestones,
-      parentEyebrow: flat.parentEyebrow,
-      parentTitle: flat.parentTitle,
-      parentDescription: flat.parentDescription,
-      parentChecklist: flat.parentChecklist,
-      parentCompareHeading: flat.parentCompareHeading,
-      parentStats: flat.parentStats,
-      parentPortraitImage: getMediaUrl(flat.parentPortraitImage),
-      philanthropySubtitle: flat.philanthropySubtitle,
-      philanthropyTitle: flat.philanthropyTitle,
-      philanthropyDescription: flat.philanthropyDescription,
-      philanthropyInitiativeTitle: flat.philanthropyInitiativeTitle,
-      philanthropyInitiativeDesc: flat.philanthropyInitiativeDesc,
-      philanthropyPillars: flat.philanthropyPillars,
-      philanthropyConclusion: flat.philanthropyConclusion,
-      presentSubtitle: flat.presentSubtitle,
-      presentTitle: flat.presentTitle,
-      presentDescription: flat.presentDescription,
-      presentSubDescription: flat.presentSubDescription,
-      presentCardTag: flat.presentCardTag,
-      presentCardTitle: flat.presentCardTitle,
-      presentCardDesc: flat.presentCardDesc,
-      presentServicesTitle: flat.presentServicesTitle,
-      presentServices: flat.presentServices,
-      seoTitle: flat.seoTitle,
-      seoDescription: flat.seoDescription,
-      ogImage: getMediaUrl(flat.ogImage),
-      hideFooter: flat.hideFooter ?? false,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getAboutUsPage: failed to fetch', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/about-us-page?populate=*', { cache: 'no-store' }, 'getAboutUsPage');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    heroEyebrow: flat.heroEyebrow,
+    heroTitle: flat.heroTitle,
+    heroDescription: flat.heroDescription,
+    heroButtonText: flat.heroButtonText,
+    heroButtonLink: flat.heroButtonLink,
+    heroChecklist: flat.heroChecklist,
+    heroStats: flat.heroStats,
+    heroImages: Array.isArray(flat.heroImages) ? flat.heroImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
+    recyclingSubtitle: flat.recyclingSubtitle,
+    recyclingTitle: flat.recyclingTitle,
+    recyclingDescription: flat.recyclingDescription,
+    recyclingSteps: flat.recyclingSteps,
+    historySubtitle: flat.historySubtitle,
+    historyTitle: flat.historyTitle,
+    historyDescription: flat.historyDescription,
+    historyMilestones: flat.historyMilestones,
+    parentEyebrow: flat.parentEyebrow,
+    parentTitle: flat.parentTitle,
+    parentDescription: flat.parentDescription,
+    parentChecklist: flat.parentChecklist,
+    parentCompareHeading: flat.parentCompareHeading,
+    parentStats: flat.parentStats,
+    parentPortraitImage: getMediaUrl(flat.parentPortraitImage),
+    philanthropySubtitle: flat.philanthropySubtitle,
+    philanthropyTitle: flat.philanthropyTitle,
+    philanthropyDescription: flat.philanthropyDescription,
+    philanthropyInitiativeTitle: flat.philanthropyInitiativeTitle,
+    philanthropyInitiativeDesc: flat.philanthropyInitiativeDesc,
+    philanthropyPillars: flat.philanthropyPillars,
+    philanthropyConclusion: flat.philanthropyConclusion,
+    presentSubtitle: flat.presentSubtitle,
+    presentTitle: flat.presentTitle,
+    presentDescription: flat.presentDescription,
+    presentSubDescription: flat.presentSubDescription,
+    presentCardTag: flat.presentCardTag,
+    presentCardTitle: flat.presentCardTitle,
+    presentCardDesc: flat.presentCardDesc,
+    presentServicesTitle: flat.presentServicesTitle,
+    presentServices: flat.presentServices,
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+    ogImage: getMediaUrl(flat.ogImage),
+    hideFooter: flat.hideFooter ?? false,
+  };
 });
 
 export interface ContactUsPageData {
@@ -1052,38 +864,28 @@ export interface ContactUsPageData {
 }
 
 export const getContactUsPage = cache(async function getContactUsPage(): Promise<ContactUsPageData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/contact-us-page?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      heroHeading: flat.heroHeading,
-      heroLead: flat.heroLead,
-      heroImage: getMediaUrl(flat.heroImage),
-      formTitle: flat.formTitle,
-      formServices: flat.formServices,
-      officeName: flat.officeName,
-      officeAddress: flat.officeAddress,
-      officePhone1: flat.officePhone1,
-      officePhone2: flat.officePhone2,
-      officeEmail: flat.officeEmail,
-      officeMapUrl: flat.officeMapUrl,
-      officeMapPopupTitle: flat.officeMapPopupTitle,
-      officeMapPopupText: flat.officeMapPopupText,
-      seoTitle: flat.seoTitle,
-      seoDescription: flat.seoDescription,
-      ogImage: getMediaUrl(flat.ogImage),
-      hideFooter: flat.hideFooter ?? false,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getContactUsPage: failed to fetch', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/contact-us-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getContactUsPage');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    heroHeading: flat.heroHeading,
+    heroLead: flat.heroLead,
+    heroImage: getMediaUrl(flat.heroImage),
+    formTitle: flat.formTitle,
+    formServices: flat.formServices,
+    officeName: flat.officeName,
+    officeAddress: flat.officeAddress,
+    officePhone1: flat.officePhone1,
+    officePhone2: flat.officePhone2,
+    officeEmail: flat.officeEmail,
+    officeMapUrl: flat.officeMapUrl,
+    officeMapPopupTitle: flat.officeMapPopupTitle,
+    officeMapPopupText: flat.officeMapPopupText,
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+    ogImage: getMediaUrl(flat.ogImage),
+    hideFooter: flat.hideFooter ?? false,
+  };
 });
 
 export interface NavItem {
@@ -1112,36 +914,23 @@ export interface FooterSetting {
 }
 
 export const getFooterSetting = cache(async function getFooterSetting(): Promise<FooterSetting | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getFooterSetting: Strapi responded with ${res.status}`);
-      return null;
-    }
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      quickLinks: Array.isArray(flat.quickLinks) ? flat.quickLinks : [],
-      legalLinks: Array.isArray(flat.legalLinks) ? flat.legalLinks : [],
-      footerDescription: flat.footerDescription,
-      facebookUrl: flat.facebookUrl,
-      instagramUrl: flat.instagramUrl,
-      youtubeUrl: flat.youtubeUrl,
-      linkedinUrl: flat.linkedinUrl,
-      twitterUrl: flat.twitterUrl,
-      officeAddress: flat.officeAddress,
-      officeHours: flat.officeHours,
-      tollFreeNumber: flat.tollFreeNumber,
-      copyrightText: flat.copyrightText,
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getFooterSetting: failed to fetch settings', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFooterSetting');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    quickLinks: Array.isArray(flat.quickLinks) ? flat.quickLinks : [],
+    legalLinks: Array.isArray(flat.legalLinks) ? flat.legalLinks : [],
+    footerDescription: flat.footerDescription,
+    facebookUrl: flat.facebookUrl,
+    instagramUrl: flat.instagramUrl,
+    youtubeUrl: flat.youtubeUrl,
+    linkedinUrl: flat.linkedinUrl,
+    twitterUrl: flat.twitterUrl,
+    officeAddress: flat.officeAddress,
+    officeHours: flat.officeHours,
+    tollFreeNumber: flat.tollFreeNumber,
+    copyrightText: flat.copyrightText,
+  };
 });
 
 export interface NavbarSetting {
@@ -1152,40 +941,28 @@ export interface NavbarSetting {
 }
 
 export async function getNavbarSetting(): Promise<NavbarSetting | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/navbar-setting?populate[navLinks][populate]=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      return null;
-    }
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<any>(json.data);
-    const rawLinks = Array.isArray(flat.navLinks) ? flat.navLinks : [];
-    const navLinks = rawLinks.map((item: any) => {
-      const flatItem = unwrap<any>(item);
-      const page = flatItem.page ? unwrap<any>(flatItem.page) : undefined;
-      return {
-        id: flatItem.id,
-        label: flatItem.label,
-        url: flatItem.url,
-        isExternal: Boolean(flatItem.isExternal),
-        isButton: Boolean(flatItem.isButton),
-        page: page ? { slug: page.slug } : undefined,
-      };
-    });
+  const data = await fetchStrapi<any>('/api/navbar-setting?populate[navLinks][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getNavbarSetting');
+  if (!data) return null;
+  const flat = unwrap<any>(data);
+  const rawLinks = Array.isArray(flat.navLinks) ? flat.navLinks : [];
+  const navLinks = rawLinks.map((item: any) => {
+    const flatItem = unwrap<any>(item);
+    const page = flatItem.page ? unwrap<any>(flatItem.page) : undefined;
     return {
-      navLinks,
-      phoneNumber: flat.phoneNumber,
-      phoneRaw: flat.phoneRaw,
-      ctaLabel: flat.ctaLabel,
+      id: flatItem.id,
+      label: flatItem.label,
+      url: flatItem.url,
+      isExternal: Boolean(flatItem.isExternal),
+      isButton: Boolean(flatItem.isButton),
+      page: page ? { slug: page.slug } : undefined,
     };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.warn('getNavbarSetting: failed to fetch navbar setting', err);
-    return null;
-  }
+  });
+  return {
+    navLinks,
+    phoneNumber: flat.phoneNumber,
+    phoneRaw: flat.phoneRaw,
+    ctaLabel: flat.ctaLabel,
+  };
 }
 
 
@@ -1204,32 +981,22 @@ export interface GoldRatePageData {
 }
 
 export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/gold-rate-page?populate=ogImage,faqs,heroImage,whyGoldRateChangesImage`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<any>(json.data);
-    const ogImageRaw = flat.ogImage ? unwrap<any>(flat.ogImage) : undefined;
-    return {
-      seoTitle: flat.seoTitle,
-      seoDescription: flat.seoDescription,
-      ogImage: ogImageRaw?.url ? (resolveMediaUrl(ogImageRaw.url) ?? ogImageRaw.url) : undefined,
-      hideFooter: Boolean(flat.hideFooter),
-      hideNavbar: Boolean(flat.hideNavbar),
-      heroTitle: flat.heroTitle,
-      heroDescription: flat.heroDescription,
-      heroImage: getMediaUrl(flat.heroImage),
-      whyGoldRateChangesImage: getMediaUrl(flat.whyGoldRateChangesImage),
-      faqs: Array.isArray(flat.faqs) ? flat.faqs.map(unwrap) : [],
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getGoldRatePage: failed to fetch', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/gold-rate-page?populate=ogImage,faqs,heroImage,whyGoldRateChangesImage', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getGoldRatePage');
+  if (!data) return null;
+  const flat = unwrap<any>(data);
+  const ogImageRaw = flat.ogImage ? unwrap<any>(flat.ogImage) : undefined;
+  return {
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+    ogImage: ogImageRaw?.url ? (resolveMediaUrl(ogImageRaw.url) ?? ogImageRaw.url) : undefined,
+    hideFooter: Boolean(flat.hideFooter),
+    hideNavbar: Boolean(flat.hideNavbar),
+    heroTitle: flat.heroTitle,
+    heroDescription: flat.heroDescription,
+    heroImage: getMediaUrl(flat.heroImage),
+    whyGoldRateChangesImage: getMediaUrl(flat.whyGoldRateChangesImage),
+    faqs: Array.isArray(flat.faqs) ? flat.faqs.map(unwrap) : [],
+  };
 });
 
 export interface MobileVanPageData {
@@ -1256,25 +1023,15 @@ export interface MobileVanPageData {
 }
 
 export const getMobileVanPageSettings = cache(async function getMobileVanPageSettings(): Promise<MobileVanPageData | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/mobile-van-page?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      ...(flat as MobileVanPageData),
-      heroImage: getMediaUrl(flat.heroImage),
-      testingMethodsImage: getMediaUrl(flat.testingMethodsImage),
-      bookVanFormImage: getMediaUrl(flat.bookVanFormImage),
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getMobileVanPageSettings error:', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/mobile-van-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    ...(flat as MobileVanPageData),
+    heroImage: getMediaUrl(flat.heroImage),
+    testingMethodsImage: getMediaUrl(flat.testingMethodsImage),
+    bookVanFormImage: getMediaUrl(flat.bookVanFormImage),
+  };
 });
 
 export interface SellGoldPageSettings {
@@ -1285,24 +1042,14 @@ export interface SellGoldPageSettings {
 }
 
 export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/sell-gold-page-setting?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (!json?.data) return null;
-    const flat = unwrap<Record<string, any>>(json.data);
-    return {
-      seoTitle: flat.seoTitle,
-      seoDescription: flat.seoDescription,
-      seoKeywords: flat.seoKeywords,
-      ogImage: getMediaUrl(flat.ogImage),
-    };
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getSellGoldPageSettings error:', err);
-    return null;
-  }
+  const data = await fetchStrapi<any>('/api/sell-gold-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getSellGoldPageSettings');
+  if (!data) return null;
+  const flat = unwrap<Record<string, any>>(data);
+  return {
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+    seoKeywords: flat.seoKeywords,
+    ogImage: getMediaUrl(flat.ogImage),
+  };
 });
 

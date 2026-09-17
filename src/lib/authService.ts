@@ -38,6 +38,18 @@ export interface AuthLoginResponse {
   };
 }
 
+function extractToken(data: AuthLoginResponse | any): string | null {
+  if (!data) return null;
+  const token =
+    data?.respData?.accessToken ||
+    data?.respData?.token ||
+    data?.respData?.access_token ||
+    data?.token ||
+    data?.access_token ||
+    (typeof data?.respData === 'string' ? data.respData : null);
+  return (token && typeof token === 'string') ? token.trim() : null;
+}
+
 let cachedAuthToken: { token: string; expiresAt: number } | null = null;
 let loginPromise: Promise<string | null> | null = null;
 
@@ -78,17 +90,11 @@ export async function loginChannelLead(
       }
 
       const data: AuthLoginResponse = await res.json();
-      const token =
-        data?.respData?.accessToken ||
-        data?.respData?.token ||
-        data?.respData?.access_token ||
-        data?.token ||
-        data?.access_token ||
-        (typeof data?.respData === 'string' ? data.respData : null);
+      const token = extractToken(data);
 
-      if (token && typeof token === 'string') {
+      if (token) {
         cachedAuthToken = {
-          token: token.trim(),
+          token: token,
           expiresAt: Date.now() + 23 * 60 * 60 * 1000,
         };
         return cachedAuthToken.token;
