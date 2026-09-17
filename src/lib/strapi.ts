@@ -603,90 +603,50 @@ export const getDifferenceBoxes = cache(async function getDifferenceBoxes(): Pro
 });
 
 export const getPromoSlides = cache(async function getPromoSlides(): Promise<PromoSlide[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/promo-slides?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getPromoSlides: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      return {
-        id: flat.id,
-        creativeImage: getMediaUrl(flat.creativeImage),
-        heading: flat.heading,
-        highlight: flat.highlight,
-        description: flat.description,
-        button: flat.button,
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getPromoSlides: failed to fetch promo slides', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>('/api/promo-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPromoSlides');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      creativeImage: getMediaUrl(flat.creativeImage),
+      heading: flat.heading,
+      highlight: flat.highlight,
+      description: flat.description,
+      button: flat.button,
+    };
+  });
 });
 
 export const getTestimonials = cache(async function getTestimonials(): Promise<Testimonial[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/testimonials?populate=*`, {
-      next: { revalidate: REVALIDATE_INTERVAL },
-    });
-    if (!res.ok) {
-      console.warn(`getTestimonials: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      return {
-        id: flat.id,
-        customerName: flat.customerName,
-        location: flat.location,
-        profilePicture: getMediaUrl(flat.profilePicture),
-        rating: flat.rating ?? 5,
-        testimonialText: flat.testimonialText,
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getTestimonials: failed to fetch testimonials', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>('/api/testimonials?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getTestimonials');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      customerName: flat.customerName,
+      location: flat.location,
+      profilePicture: getMediaUrl(flat.profilePicture),
+      rating: flat.rating ?? 5,
+      testimonialText: flat.testimonialText,
+    };
+  });
 });
 
 export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate' = 'home'): Promise<FAQ[]> {
-  try {
-    const res = await fetch(
-      `${STRAPI_URL}/api/faqs?filters[section][$eq]=${section}&populate=*&sort=order:asc`,
-      { next: { revalidate: REVALIDATE_INTERVAL } }
-    );
-    if (!res.ok) {
-      console.warn(`getFaqs: Strapi responded with ${res.status}`);
-      return [];
-    }
-    const json = await res.json();
-    const data = Array.isArray(json?.data) ? json.data : [];
-    return data.map((entry: any) => {
-      const flat = unwrap<any>(entry);
-      return {
-        id: flat.id,
-        question: flat.question,
-        answer: flat.answer,
-        section: flat.section ?? 'home',
-        order: flat.order ?? 0,
-      };
-    });
-  } catch (err) {
-    if (isDynamicServerError(err)) throw err;
-    console.error('getFaqs: failed to fetch FAQs', err);
-    return [];
-  }
+  const data = await fetchStrapi<any[]>(`/api/faqs?filters[section][$eq]=${section}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqs');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      question: flat.question,
+      answer: flat.answer,
+      section: flat.section ?? 'home',
+      order: flat.order ?? 0,
+    };
+  });
 });
 
 export interface DynamicPageSection {
