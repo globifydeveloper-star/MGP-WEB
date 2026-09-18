@@ -272,14 +272,18 @@ export async function submitJobApplication(payload: {
 
     if (payload.resumeFile) {
       const formData = new FormData();
-      formData.append('fullName', payload.fullName);
-      formData.append('email', payload.email);
-      formData.append('phone', payload.phone);
-      if (payload.experienceYears) formData.append('experienceYears', payload.experienceYears);
-      if (payload.currentCity) formData.append('currentCity', payload.currentCity);
-      if (payload.coverNote) formData.append('coverNote', payload.coverNote);
-      if (payload.jobPosition) formData.append('jobPosition', payload.jobPosition);
-      formData.append('resume', payload.resumeFile);
+      const data = {
+        fullName: payload.fullName,
+        email: payload.email,
+        phone: payload.phone,
+        experienceYears: payload.experienceYears,
+        currentCity: payload.currentCity,
+        coverNote: payload.coverNote,
+        jobPosition: payload.jobPosition,
+      };
+      
+      formData.append('data', JSON.stringify(data));
+      formData.append('files.resume', payload.resumeFile, payload.resumeFile.name);
 
       res = await fetch(`${STRAPI_URL}/api/job-applications`, {
         method: 'POST',
