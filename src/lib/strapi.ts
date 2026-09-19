@@ -606,7 +606,30 @@ export const getDifferenceBoxes = cache(async function getDifferenceBoxes(): Pro
   });
 });
 
-export const getPromoSlides = cache(async function getPromoSlides(): Promise<PromoSlide[]> {
+export interface ComparisonRow {
+  id: number;
+  order: number;
+  title?: string;
+  mgpText?: string;
+  tradText?: string;
+}
+
+export const getComparisonRows = cache(async function getComparisonRows(): Promise<ComparisonRow[]> {
+  const data = await fetchStrapi<any[]>('/api/comparison-rows?sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getComparisonRows');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      order: flat.order ?? 0,
+      title: flat.title,
+      mgpText: flat.mgpText,
+      tradText: flat.tradText,
+    };
+  });
+});
+
+export const getPromoSlides =cache(async function getPromoSlides(): Promise<PromoSlide[]> {
   const data = await fetchStrapi<any[]>('/api/promo-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPromoSlides');
   const arr = Array.isArray(data) ? data : [];
   return arr.map((entry: any) => {

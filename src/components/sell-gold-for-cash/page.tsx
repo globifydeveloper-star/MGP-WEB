@@ -11,9 +11,10 @@ import StickyWatchNow from './StickyWatchNow/StickyWatchNow';
 
 interface SellGoldForCashPageProps {
   processSteps?: any[];
+  comparisonRows?: { title?: string; mgpText?: string; tradText?: string }[];
 }
 
-export default function SellGoldForCashPage({ processSteps }: SellGoldForCashPageProps) {
+export default function SellGoldForCashPage({ processSteps, comparisonRows }: SellGoldForCashPageProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -33,7 +34,7 @@ export default function SellGoldForCashPage({ processSteps }: SellGoldForCashPag
         <GoldSellProcess steps={processSteps} />
 
         {/* How We're Different From Traditional Jewellers */}
-        <GoldSellComparison />
+        <GoldSellComparison rows={comparisonRows} />
 
         {/* Sell Your Gold, Get Cash Instantly Overview */}
         <GoldSellOverview />

@@ -5,15 +5,17 @@ import Image from 'next/image';
 import './GoldSellComparison.css';
 import logoImg from '@/assets/images/gp-logo.png';
 
-const COMPARISON_ROWS = [
+const DEFAULT_ROWS = [
   {
     title: 'Valuation of your Gold',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-        <path d="M3.27 6.96L12 12.01l8.73-5.05" />
-        <path d="M12 22.08V12" />
-        <circle cx="12" cy="12" r="3" fill="currentColor" />
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path d="M9.5 2.5l3-1 3 8.4-3 1z" />
+        <path d="M8 3.5l1.6-.6 3 8.4-1.6.6z" opacity=".7" />
+        <path d="M6 19h11v2H6z" />
+        <path d="M6 16.5h6v2H6z" />
+        <path d="M18.5 12.5a6 6 0 0 1-5 6.2l-.4-1.9a4 4 0 0 0 3.4-4.3z" />
+        <circle cx="10.5" cy="14" r="1.6" />
       </svg>
     ),
     mgpText: 'Multilevel scientific testing for exact Gold value only',
@@ -22,11 +24,12 @@ const COMPARISON_ROWS = [
   {
     title: 'Cleaning of your Gold',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 16V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10" />
-        <path d="M4 16c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2z" />
-        <path d="M8 10h8" />
-        <path d="M12 14v.01" />
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path d="M3 18l3-6h9l3 6zM12 4l3 2.5h-6z" />
+        <path d="M5 19.5h14v1.5H5z" />
+        <path d="M7 12.5l3-4.5h4l3 4.5z" opacity=".75" />
+        <path d="M12 1.5l.7 1.6 1.6.7-1.6.7L12 6l-.7-1.5-1.6-.7 1.6-.7z" />
+        <path d="M5 4l1.2 1.2M19 4l-1.2 1.2M2.5 9l1.6.4M21.5 9l-1.6.4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
       </svg>
     ),
     mgpText: 'Cleans the Gold with ultrasonic machine to get accurate weight',
@@ -35,12 +38,10 @@ const COMPARISON_ROWS = [
   {
     title: 'Weighing of your Gold',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 3v18" />
-        <path d="M5 8h14" />
-        <path d="M5 8l-3 6a3 3 0 0 0 6 0z" />
-        <path d="M19 8l-3 6a3 3 0 0 0 6 0z" />
-        <path d="M8 21h8" />
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <ellipse cx="12" cy="4.5" rx="4" ry="1.6" />
+        <path d="M8.5 6.5h7l1.5 3H7z" />
+        <path fillRule="evenodd" d="M4 11h16a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm2 2.5v4h5v-4zm7 1h5v1.5h-5zm0 2.5h3.5v1.2H13z" />
       </svg>
     ),
     mgpText: 'Takes up to 3 decimals points (per gram) that are showing on the weighing scale',
@@ -49,9 +50,9 @@ const COMPARISON_ROWS = [
   {
     title: 'Gold rate',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="8" />
-        <path d="M12 8v4l3 3" />
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path fillRule="evenodd" d="M6 2h8l5 5v6.6l-1.6 1.6-3.4 3.4-.6 3.4H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm1.5 8h7v1.3h-7zm0 3h5v1.3h-5zm0 3h3.5v1.3H7.5z" />
+        <path d="M20.6 15.4l-1-1-5.2 5.2-2.1-2.1-1 1 3.1 3.1z" />
       </svg>
     ),
     mgpText: 'Uses current market rate',
@@ -60,8 +61,12 @@ const COMPARISON_ROWS = [
   {
     title: 'Melting of your Gold',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2c1 3-3 4-3 8a3 3 0 0 0 6 0c0-1-1-2-1-3 2 1 3 3 3 6a5 5 0 0 1-10 0c0-5 3-7 5-11z" />
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path d="M12.5 2.5l3.2-1.2 6 6-1.2 3.2-3-1L11 15.2 9 13.2l6.6-6.6z" />
+        <path d="M7.7 12.3l4 4-1.6 1.6-4-4z" />
+        <rect x="3" y="15" width="3.6" height="3.6" rx=".6" />
+        <rect x="8" y="19" width="3.6" height="3.6" rx=".6" />
+        <rect x="3" y="19.5" width="3" height="3" rx=".6" opacity=".7" />
       </svg>
     ),
     mgpText: 'Multilevel scientific testing for exact Gold value only',
@@ -70,9 +75,9 @@ const COMPARISON_ROWS = [
   {
     title: 'Mode of payment / invoicing',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="5" width="20" height="14" rx="2" />
-        <line x1="2" y1="10" x2="22" y2="10" />
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path fillRule="evenodd" d="M6 2h8l5 5v6.6l-1.6 1.6-3.4 3.4-.6 3.4H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm1.5 8h7v1.3h-7zm0 3h5v1.3h-5zm0 3h3.5v1.3H7.5z" />
+        <path d="M20.6 15.4l-1-1-5.2 5.2-2.1-2.1-1 1 3.1 3.1z" />
       </svg>
     ),
     mgpText: 'Up to Rs 10,000 given as cash. Amounts higher than Rs 10,000 instantly paid to your bank account via NEFT/IMPS/RT. Invoice is always shared.',
@@ -80,21 +85,23 @@ const COMPARISON_ROWS = [
   },
 ];
 
-const ArrowLeft = () => (
-  <svg className="compare-arrow left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15 18L9 12L15 6" stroke="#D3D3D3" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M21 18L15 12L21 6" stroke="#D3D3D3" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
+interface GoldSellComparisonProps {
+  rows?: { title?: string; mgpText?: string; tradText?: string }[];
+}
 
-const ArrowRight = () => (
-  <svg className="compare-arrow right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9 18L15 12L9 6" stroke="#D3D3D3" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M3 18L9 12L3 6" stroke="#D3D3D3" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-export default function GoldSellComparison() {
+export default function GoldSellComparison({ rows }: GoldSellComparisonProps) {
+  // Text comes from Strapi when available; icons stay in code, matched by position.
+  const COMPARISON_ROWS = rows && rows.length > 0
+    ? rows.map((row, idx) => {
+        const fallback = DEFAULT_ROWS[idx % DEFAULT_ROWS.length];
+        return {
+          icon: fallback.icon,
+          title: row.title || fallback.title,
+          mgpText: row.mgpText || fallback.mgpText,
+          tradText: row.tradText || fallback.tradText,
+        };
+      })
+    : DEFAULT_ROWS;
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
 
   const toggleRow = (idx: number) => {
@@ -116,7 +123,7 @@ export default function GoldSellComparison() {
             <Image src={logoImg} alt="Muthoot Gold Point" width={220} height={60} className="gsc-logo" />
             <p className="gsc-header-text">ENTIRE PROCESS HAPPENS IN FRONT OF YOU</p>
           </div>
-          <div className="gsc-header-divider"></div>
+          <div className="gsc-header-divider"><span className="gsc-vs">Vs</span></div>
           <div className="gsc-header-col trad-col">
             <div className="gsc-jeweller-icon">
               <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +146,6 @@ export default function GoldSellComparison() {
             <div key={idx} className="gsc-row">
               <div className="gsc-cell mgp-text">
                 <p>{row.mgpText}</p>
-                <ArrowLeft />
               </div>
               
               <div className="gsc-center-step">
@@ -150,7 +156,6 @@ export default function GoldSellComparison() {
               </div>
               
               <div className="gsc-cell trad-text">
-                <ArrowRight />
                 <p>{row.tradText}</p>
               </div>
             </div>

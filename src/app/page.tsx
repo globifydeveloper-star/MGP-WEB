@@ -7,6 +7,7 @@ import MobileVan from '@/components/home/MobileVan/MobileVan';
 import NewSection from '@/components/home/NewSection/NewSection';
 import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
+import GoldSellComparison from '@/components/sell-gold-for-cash/GoldSellComparison/GoldSellComparison';
 import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
 import Footer from '@/components/layout/Footer';
@@ -22,6 +23,7 @@ import {
   getTestimonials,
   getFaqs,
   getGlobalStats,
+  getComparisonRows,
 } from '@/lib/strapi';
 
 export async function generateMetadata() {
@@ -74,6 +76,7 @@ export default async function Home() {
     testimonials,
     faqs,
     globalStats,
+    comparisonRows,
   ] = await Promise.all([
     getBlogPosts(),
     getHomepageData(),
@@ -85,6 +88,7 @@ export default async function Home() {
     getTestimonials(),
     getFaqs('home'),
     getGlobalStats(),
+    getComparisonRows(),
   ]);
 
   const recentPosts = posts.slice(0, 3);
@@ -99,14 +103,6 @@ export default async function Home() {
 
       {/* Gold Selling Process Section */}
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
-
-      {/* Estimate The Value Of Your Gold Section */}
-      <GoldValueForm
-        sectionImage={sharedMedia?.goldValueFormImage}
-        heading={homepageData?.estimateGoldHeading}
-        headingHighlight={homepageData?.estimateGoldHeadingHighlight}
-        note={homepageData?.estimateGoldNote}
-      />
 
       {/* Video Section */}
       <VideoSection videos={homepageData?.homeVideos} />
@@ -123,7 +119,13 @@ export default async function Home() {
         vanImage={homepageData?.vanImage}
       />
 
-      {/* New Section */}
+      {/* Branch Locator Section */}
+      <BranchLocator />
+
+      {/* How Muthoot Gold Point is different from traditional jewellers */}
+      <GoldSellComparison rows={comparisonRows} />
+
+      {/* New Section - Group Company Details */}
       <NewSection slides={promoSlides} />
 
       {/* 7. Feedback Testimonial Slider */}
@@ -132,11 +134,16 @@ export default async function Home() {
       {/* 8. FAQs Accordion Section */}
       <FAQ faqs={faqs} />
 
-      {/* 9. Recent Posts Section */}
-      <RecentPost posts={recentPosts} />
+      {/* Estimate The Value Of Your Gold Section - Lead Form */}
+      <GoldValueForm
+        sectionImage={sharedMedia?.goldValueFormImage}
+        heading={homepageData?.estimateGoldHeading}
+        headingHighlight={homepageData?.estimateGoldHeadingHighlight}
+        note={homepageData?.estimateGoldNote}
+      />
 
-      {/* Branch Locator Section */}
-      <BranchLocator />
+      {/* 9. Recent Posts Section - Blog */}
+      <RecentPost posts={recentPosts} />
 
       {/* 10. Footer Section */}
       { !homepageData?.hideFooter && <Footer /> }
