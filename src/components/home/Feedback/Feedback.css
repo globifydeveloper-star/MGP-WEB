@@ -1,7 +1,7 @@
 /* Feedback Testimonial Slider Styles */
 .feedback-section {
   background: #ffffff;
-  padding: 5rem 0 6rem 0;
+  padding: 5rem 0 2rem 0;
 }
 
 .feedback-header {
@@ -280,4 +280,26 @@
   .feedback-slider-wrap {
     padding: 0.5rem 1rem 1rem 1rem;
   }
+}
+
+/* Compact spacing for tablet / mobile */
+@media (max-width: 1024px) {
+  .feedback-section { padding: 3rem 0; }
+  .feedback-header { margin-bottom: 1.75rem; }
+  .feedback-card { min-height: 0; padding: 1.5rem 1.4rem 1.6rem; }
+  .feedback-text { font-size: 0.95rem; line-height: 1.5; }
+}
+
+@media (max-width: 640px) {
+  .feedback-section { padding: 2.25rem 0; }
+  .feedback-header { margin-bottom: 1.25rem; }
+  .feedback-title-sub { font-size: 1.1rem; }
+  .feedback-title-main { font-size: 1.4rem; margin-bottom: 0.6rem; }
+  .feedback-subtitle { font-size: 0.9rem; margin-bottom: 1rem; }
+  .feedback-card { padding: 1.1rem 1rem 1.25rem; }
+  .feedback-quote-mark { font-size: 3rem; }
+  .feedback-card-header { padding-bottom: 0.7rem; margin-bottom: 0.7rem; }
+  .feedback-reviewer-name { font-size: 1.1rem; }
+  .feedback-stars { margin-bottom: 0.6rem; }
+  .feedback-text { font-size: 0.9rem; }
 }

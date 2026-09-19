@@ -1,7 +1,7 @@
 /* Frequently Asked Questions — light section with dark active accordion item */
 .faq2-section {
   background: #ffffff;
-  padding: 5.5rem 0;
+  padding: 2rem 0 5.5rem;
 }
 
 .faq2-header {
@@ -175,4 +175,20 @@
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.85);
   margin-bottom: 0.25rem;
+}
+
+/* Compact spacing for tablet / mobile */
+@media (max-width: 1024px) {
+  .faq2-section { padding: 3.5rem 0; }
+  .faq2-header { margin-bottom: 1.75rem; }
+  .faq2-title { font-size: 2rem; margin-bottom: 0.6rem; }
+  .faq2-subtitle { margin-bottom: 1rem; }
+}
+
+@media (max-width: 640px) {
+  .faq2-section { padding: 2.25rem 0; }
+  .faq2-header { margin-bottom: 1.25rem; }
+  .faq2-title { font-size: 1.45rem; }
+  .faq2-subtitle { font-size: 0.88rem; line-height: 1.5; }
+  .faq2-question-btn { padding: 0.9rem 1rem; }
 }

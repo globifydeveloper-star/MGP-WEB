@@ -1026,6 +1026,9 @@ export interface SellGoldPageSettings {
   seoDescription?: string;
   seoKeywords?: string;
   ogImage?: string;
+  heroImage?: string;
+  overviewImage1?: string;
+  overviewImage2?: string;
 }
 
 export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
@@ -1037,6 +1040,9 @@ export const getSellGoldPageSettings = cache(async function getSellGoldPageSetti
     seoDescription: flat.seoDescription,
     seoKeywords: flat.seoKeywords,
     ogImage: getMediaUrl(flat.ogImage),
+    heroImage: getMediaUrl(flat.heroImage),
+    overviewImage1: getMediaUrl(flat.overviewImage1),
+    overviewImage2: getMediaUrl(flat.overviewImage2),
   };
 });
 

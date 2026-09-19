@@ -44,7 +44,11 @@ export async function generateMetadata() {
 }
 
 export default async function Page() {
-  const [processSteps, comparisonRows] = await Promise.all([getProcessSteps(), getComparisonRows()]);
+  const [processSteps, comparisonRows, pageSettings] = await Promise.all([
+    getProcessSteps(),
+    getComparisonRows(),
+    getSellGoldPageSettings(),
+  ]);
 
   return (
     <>
@@ -66,7 +70,7 @@ export default async function Page() {
           <Image src={logoImg} alt="GOLDPOINT - We Buy Gold" width={220} height={60} priority style={{ display: 'block' }} />
         </Link>
       </header>
-      <SellGoldForCashPage processSteps={processSteps} comparisonRows={comparisonRows} />
+      <SellGoldForCashPage processSteps={processSteps} comparisonRows={comparisonRows} pageSettings={pageSettings} />
       <Footer />
     </>
   );

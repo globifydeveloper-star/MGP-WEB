@@ -12,7 +12,7 @@ import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import bannerLogo from '@/assets/images/banner-logo.png';
 
-export default function SellGoldHero() {
+export default function SellGoldHero({ heroImage }: { heroImage?: string }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -158,7 +158,7 @@ export default function SellGoldHero() {
         {/* Section 1: Photo */}
         <div className="sg-hero-visual">
           <Image
-            src={coupleImg}
+            src={heroImage || coupleImg}
             alt="Muthoot Gold Point representative"
             className="sg-couple-photo"
             priority

@@ -152,3 +152,25 @@
   color: #a0aec0;
 }
 
+
+/* Compact spacing for tablet / mobile */
+@media (max-width: 1024px) {
+  .recent-post-section { padding: 3rem 0; }
+  .recent-post-title { font-size: 1.9rem; margin-bottom: 1.75rem; }
+  .recent-post-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .recent-post-image-wrap { aspect-ratio: 16 / 8; }
+  .recent-post-body { padding: 1.1rem 1.1rem 1.25rem; }
+  .recent-post-card-desc { margin-bottom: 1rem; }
+}
+
+@media (max-width: 640px) {
+  .recent-post-section { padding: 2.25rem 0; }
+  .recent-post-title { font-size: 1.4rem; margin-bottom: 1.25rem; }
+  .recent-post-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .recent-post-image-wrap { aspect-ratio: 16 / 7; }
+  .recent-post-date-badge { top: 10px; left: 10px; font-size: 0.72rem; padding: 0.3rem 0.7rem; }
+  .recent-post-body { padding: 0.9rem 1rem 1rem; }
+  .recent-post-card-title { font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .recent-post-card-desc { font-size: 0.82rem; margin-bottom: 0.75rem; }
+  .recent-post-btn { padding: 0.55rem 1rem; font-size: 0.88rem; }
+}

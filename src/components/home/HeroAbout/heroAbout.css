@@ -1,0 +1,45 @@
+/* About strip shown directly under the home hero */
+.hero-about-section {
+  background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
+  padding: 3rem 0 3.5rem;
+  border-top: 1px solid rgba(241, 185, 51, 0.2);
+}
+
+.hero-about-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.75rem;
+}
+
+.hero-about-gold {
+  color: #EBAF20;
+}
+
+.hero-about-body {
+  max-width: 1100px;
+  margin: 0 auto;
+  columns: 2;
+  column-gap: 3rem;
+}
+
+.hero-about-body p {
+  break-inside: avoid;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 1rem;
+}
+
+.hero-about-body a {
+  color: #EBAF20;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .hero-about-section { padding: 2rem 0 2.25rem; }
+  .hero-about-title { font-size: 1.5rem; margin-bottom: 1rem; }
+  .hero-about-body { columns: 1; }
+  .hero-about-body p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem; }
+}

@@ -78,7 +78,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
         </button>
 
         {/* Logo */}
-        <Link href="/" className="navbar-logo-link" onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+        <Link href="/" className="navbar-logo-link" onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
           <Image
             src={logoImg}
             alt="GOLDPOINT - We Buy Gold"

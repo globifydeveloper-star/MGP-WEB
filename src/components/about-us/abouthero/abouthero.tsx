@@ -1,19 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './abouthero.css';
 import Image from 'next/image';
-import goldImg from '@/assets/images/aboutslide1.png';
-import testImg from '@/assets/images/aboutslide2.png';
-import goldsImg from '@/assets/images/aboutslide3.png';
-import muthootLogo from '@/assets/images/muthootlogo.png';
+import aboutMgpImg from '@/assets/images/about-mgp-img.jpg';
 import { AboutUsPageData } from '@/lib/strapi';
-
-const HERO_IMAGES = [
-  { src: goldImg, alt: 'Refined gold ready for precision valuation' },
-  { src: testImg, alt: 'XRF machine precisely testing gold purity' },
-  { src: goldsImg, alt: '999.9 fine gold bars and coins' },
-];
 
 interface AboutHeroProps {
   onExploreClick: () => void;
@@ -21,22 +12,6 @@ interface AboutHeroProps {
 }
 
 export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
-  const [activeImage, setActiveImage] = useState(0);
-
-  const cmsImages = data?.heroImages?.filter(Boolean) ?? [];
-  const slides = cmsImages.length
-    ? cmsImages.map((src, idx) => ({
-        src,
-        alt: HERO_IMAGES[idx % HERO_IMAGES.length].alt,
-      }))
-    : HERO_IMAGES;
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveImage((prev) => (prev + 1) % slides.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, [slides.length]);
 
   return (
     <section className="about-hero-section">
@@ -46,17 +21,14 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
           <div className="about-hero-media">
             <div className="about-hero-img-wrapper">
               <div className="about-hero-img-clip">
-                {slides.map((image, idx) => (
-                  <Image
-                    key={`${image.alt}-${idx}`}
-                    src={image.src}
-                    alt={image.alt}
-                    width={1536}
-                    height={1024}
-                    className={`about-hero-img ${idx === activeImage ? 'about-hero-img-active' : ''}`}
-                    priority={idx === 0}
-                  />
-                ))}
+                <Image
+                  src={aboutMgpImg}
+                  alt="About Muthoot Gold Point"
+                  width={1000}
+                  height={1250}
+                  className="about-hero-img about-hero-img-active"
+                  priority
+                />
               </div>
               <div className="experience-badge">
                 <div className="badge-top-row">
@@ -87,13 +59,16 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
               {data?.heroTitle ? (
                 <span dangerouslySetInnerHTML={{ __html: data.heroTitle }} />
               ) : (
-                <>Muthoot Gold Point — Precision You Can <span className="gold-text">Trust</span></>
+                <>Muthoot Gold Point</>
               )}
             </h1>
 
-            <p className="about-hero-desc">
-              {data?.heroDescription || "Muthoot Gold Point is a unit of Muthoot Exim (P) Ltd., the precious metal vertical of the Muthoot Pappachan Group, specialising in innovative products and offerings in the precious metal space. We are India's first national-level organised sector player in gold recycling — in sync with the Government of India's vision for the Indian gold industry — giving customers access to quality products at fair, transparent, and scientifically tested prices."}
-            </p>
+            <div className="about-hero-desc-block">
+              <p className="about-hero-desc">Muthoot Gold Point is a unit of Muthoot Exim (P) Ltd., the precious metal vertical of the Muthoot Pappachan Group that specialises in innovative products and offerings in the precious metal space. The vertical gives customers access to quality products that meet the highest standards at an affordable price. Apart from Muthoot Gold Point, Muthoot Exim&apos;s flagship products include Swarnavarsham, Swethavarsham, and Corporate gifting.</p>
+              <p className="about-hero-desc">Visit the corporate website of Muthoot EXIM (P) Ltd to know more about the company: <a href="http://www.muthootexim.com" target="_blank" rel="noopener noreferrer" className="about-hero-link" style={{color: '#0070c0'}}>www.muthootexim.com</a></p>
+              <p className="about-hero-desc">Muthoot Gold Point is the first national-level organised sector player to get into the recycling of gold that is in sync with the Vision laid down by the Government of India for the Indian Gold Industry.</p>
+              <p className="about-hero-desc">We enable customers to <a href="https://www.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="about-hero-link" style={{color: '#0070c0'}}>sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is 100% fair and precise. Our customers enjoy a safe, transparent and scientifically tested way of selling gold. Mobile Muthoot Gold Point – India&apos;s First Mobile Gold Buying van buys gold at the customer&apos;s doorstep. Continuing with our Group values around trust, we take the XRF and ultrasonic machines to the customer&apos;s doorstep to ensure they are getting maximum value for their gold.</p>
+            </div>
 
             <ul className="about-hero-checklist">
               {data?.heroChecklist && data.heroChecklist.length > 0 ? (
@@ -133,12 +108,6 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
               <button onClick={onExploreClick} className="about-hero-know-more">
                 {data?.heroButtonText || 'Sell Your Gold'}
               </button>
-
-              <Image
-                src={muthootLogo}
-                alt="Muthoot Blue - Blue is Belief"
-                className="about-hero-brand-mark"
-              />
             </div>
           </div>
         </div>

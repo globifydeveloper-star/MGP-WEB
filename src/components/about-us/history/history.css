@@ -1,16 +1,16 @@
 /* History Timeline Section Styles — compact horizontal steps */
 .history-section {
   position: relative;
-  background: linear-gradient(to bottom, #081132 0%, #0c153a 100%);
-  padding: 4.5rem 0;
+  background: #ffffff;
+  padding: 0 0 3rem;
   overflow: hidden;
-  border-top: 1px solid rgba(241, 185, 51, 0.1);
+  border-top: none;
 }
 
 .history-header {
   text-align: center;
   max-width: 700px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 1.5rem;
 }
 
 .history-subtitle {
@@ -27,14 +27,14 @@
   font-size: 2.25rem;
   font-weight: 800;
   line-height: 1.25;
-  color: var(--text-white);
+  color: #0c1835;
   margin-bottom: 0.85rem;
 }
 
 .history-desc {
-  font-size: 0.98rem;
-  line-height: 1.6;
-  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #5b6072;
 }
 
 /* Timeline Layout */
@@ -84,7 +84,7 @@
   font-weight: 800;
   padding: 0.3rem 0.9rem;
   border-radius: 9999px;
-  border: 3px solid #081132;
+  border: 3px solid #ffffff;
   box-shadow: 0 0 10px rgba(241, 185, 51, 0.4);
   white-space: nowrap;
 }
@@ -98,6 +98,9 @@
   padding: 1.5rem;
   text-align: center;
   transition: var(--transition-smooth);
+  background: #0c1835;
+  border-radius: 12px;
+  border: 1px solid rgba(12, 24, 53, 0.1);
 }
 
 .timeline-content:hover {
@@ -108,15 +111,22 @@
 
 .timeline-content h3 {
   font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-white);
+  font-weight: 800;
+  color: var(--gold-primary);
   margin-bottom: 0.5rem;
 }
 
 .timeline-content p {
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: var(--text-muted);
+}
+
+.history-content {
+  background: #0c1835;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(12, 24, 53, 0.15);
+  border: 1px solid rgba(12, 24, 53, 0.1);
 }
 
 /* Responsive adjustments */

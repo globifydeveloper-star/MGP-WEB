@@ -12,9 +12,10 @@ import StickyWatchNow from './StickyWatchNow/StickyWatchNow';
 interface SellGoldForCashPageProps {
   processSteps?: any[];
   comparisonRows?: { title?: string; mgpText?: string; tradText?: string }[];
+  pageSettings?: any;
 }
 
-export default function SellGoldForCashPage({ processSteps, comparisonRows }: SellGoldForCashPageProps) {
+export default function SellGoldForCashPage({ processSteps, comparisonRows, pageSettings }: SellGoldForCashPageProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -24,11 +25,11 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows }: Se
 
   return (
     <>
-            {/* Sticky 3D Flipping Watch Now Button & Multilingual Video Modal */}
+      {/* Sticky 3D Flipping Watch Now Button & Multilingual Video Modal */}
       <StickyWatchNow />
 
       <main style={{ backgroundColor: '#0c1835' }}>
-        <SellGoldHero />
+        <SellGoldHero heroImage={pageSettings?.heroImage} />
 
         {/* Gold Selling Process Section */}
         <GoldSellProcess steps={processSteps} />
@@ -37,7 +38,7 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows }: Se
         <GoldSellComparison rows={comparisonRows} />
 
         {/* Sell Your Gold, Get Cash Instantly Overview */}
-        <GoldSellOverview />
+        <GoldSellOverview overviewImage1={pageSettings?.overviewImage1} overviewImage2={pageSettings?.overviewImage2} />
 
         {/* About Muthoot Gold Point */}
         <AboutHero onExploreClick={() => scrollToSection('sell-gold-form')} />

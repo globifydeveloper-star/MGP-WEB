@@ -5,6 +5,7 @@ import GoldValueForm from '@/components/home/GoldValueForm/GoldValueForm';
 import VideoSection from '@/components/home/VideoSection/VideoSection';
 import MobileVan from '@/components/home/MobileVan/MobileVan';
 import NewSection from '@/components/home/NewSection/NewSection';
+import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import GoldSellComparison from '@/components/sell-gold-for-cash/GoldSellComparison/GoldSellComparison';
@@ -99,13 +100,16 @@ export default async function Home() {
       {!homepageData?.hideNavbar && <Navbar />}
 
       {/* Hero Section - crossfades between the Hero and a second promo slide */}
-      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} globalStats={globalStats} />
+      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} globalStats={globalStats} showStats={false} />
 
       {/* Gold Selling Process Section */}
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
 
       {/* Video Section */}
       <VideoSection videos={homepageData?.homeVideos} />
+
+      {/* How Muthoot Gold Point is different from traditional jewellers */}
+      <GoldSellComparison rows={comparisonRows} />
 
       {/* 3. The Gold Point Difference */}
       <TheGpDiff cards={differenceBoxes} />
@@ -119,14 +123,11 @@ export default async function Home() {
         vanImage={homepageData?.vanImage}
       />
 
-      {/* Branch Locator Section */}
-      <BranchLocator />
-
-      {/* How Muthoot Gold Point is different from traditional jewellers */}
-      <GoldSellComparison rows={comparisonRows} />
-
       {/* New Section - Group Company Details */}
       <NewSection slides={promoSlides} />
+
+      {/* Stats ribbon */}
+      <HeroStats globalStats={globalStats} />
 
       {/* 7. Feedback Testimonial Slider */}
       <Feedback reviews={testimonials} />
@@ -144,6 +145,9 @@ export default async function Home() {
 
       {/* 9. Recent Posts Section - Blog */}
       <RecentPost posts={recentPosts} />
+
+      {/* Branch Locator Section */}
+      <BranchLocator />
 
       {/* 10. Footer Section */}
       { !homepageData?.hideFooter && <Footer /> }
