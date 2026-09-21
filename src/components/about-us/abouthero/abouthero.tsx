@@ -22,7 +22,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
             <div className="about-hero-img-wrapper">
               <div className="about-hero-img-clip">
                 <Image
-                  src={aboutMgpImg}
+                  src={data?.heroImages?.[0] || aboutMgpImg}
                   alt="About Muthoot Gold Point"
                   width={1000}
                   height={1250}

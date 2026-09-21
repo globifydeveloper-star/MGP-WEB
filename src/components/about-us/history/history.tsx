@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { AboutUsPageData } from '@/lib/strapi';
 import './history.css';
 import portraitImg from '@/assets/images/hm6-img01.png';
+import muthootLogo from '@/assets/images/muthootlogo.png';
 
 interface HistoryProps { data?: AboutUsPageData | null; }
 
@@ -51,10 +52,10 @@ export default function History({ data }: HistoryProps) {
 
         <div className="history-content glass-panel" style={{ textAlign: 'left', padding: '2.5rem', maxWidth: '900px', margin: '0 auto', lineHeight: '1.7' }}>
           <Image
-            src={portraitImg}
-            alt="Representative of the Muthoot Pappachan Group"
-            width={1978}
-            height={3215}
+            src={data?.parentPortraitImage || muthootLogo}
+            alt="Muthoot Gold Point Logo"
+            width={1000}
+            height={1000}
             style={{ float: 'right', marginLeft: '2rem', marginBottom: '1rem', marginTop: '0.4rem', borderRadius: '12px', width: '28%', maxWidth: '240px', height: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.1)' }}
           />
           <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.35rem', marginBottom: '0.85rem', fontWeight: 800 }}>History</h3>
