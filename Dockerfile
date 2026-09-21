@@ -46,7 +46,6 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --chown=nextjs:nodejs dns-override.js ./dns-override.js
 
 USER nextjs
 
@@ -55,6 +54,4 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
-# TEMPORARY: -r dns-override.js patches DNS resolution for the backend host until
-# CodeBuild/ECS have real VPC/DNS access to it. See dns-override.js for details.
-CMD ["node", "-r", "./dns-override.js", "server.js"]
+CMD ["node", "server.js"]

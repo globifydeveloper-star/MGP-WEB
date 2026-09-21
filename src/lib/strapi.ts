@@ -1,7 +1,9 @@
 import { cache } from 'react';
 
 const STRAPI_URL = (() => {
-  const url = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url =
+    (typeof window === 'undefined' && process.env.STRAPI_INTERNAL_URL) ||
+    process.env.NEXT_PUBLIC_STRAPI_URL;
   if (url) return url.replace(/\/+$/, '');
   if (process.env.NODE_ENV === 'production') {
     console.warn(
