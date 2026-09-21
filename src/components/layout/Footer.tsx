@@ -71,9 +71,18 @@ export default async function Footer() {
         <div className="footer-col">
           <h4 className="footer-col-title">Quick Links</h4>
           <ul className="footer-links-list">
-            {quickLinks.map((link) => (
-              <li key={link.id}><Link href={link.url || '#'} className="footer-link">{link.label}</Link></li>
-            ))}
+            {quickLinks.map((link) => {
+              // Resolve URL: prioritize page slug if relation exists, otherwise fallback to typed URL
+              const resolvedUrl = link.page?.slug ? `/${link.page.slug}` : (link.url || '#');
+              
+              return (
+                <li key={link.id}>
+                  <Link href={resolvedUrl} className="footer-link">
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -82,9 +91,18 @@ export default async function Footer() {
           <div className="footer-col">
             <h4 className="footer-col-title">Legal Links</h4>
             <ul className="footer-links-list">
-              {legalLinks.map((link) => (
-                <li key={link.id}><Link href={link.url || '#'} className="footer-link">{link.label}</Link></li>
-              ))}
+              {legalLinks.map((link) => {
+                // Resolve URL for legal links as well
+                const resolvedUrl = link.page?.slug ? `/${link.page.slug}` : (link.url || '#');
+                
+                return (
+                  <li key={link.id}>
+                    <Link href={resolvedUrl} className="footer-link">
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ) : (
