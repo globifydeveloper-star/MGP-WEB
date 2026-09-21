@@ -15,6 +15,7 @@ const STRAPI_URL = (() => {
   }
   return 'http://localhost:1337';
 })();
+const PUBLIC_STRAPI_URL = (process.env.NEXT_PUBLIC_STRAPI_URL ?? STRAPI_URL).replace(/\/+$/, '');
 const REVALIDATE_INTERVAL = 60; // 60s ISR background refresh
 
 export interface Category {
@@ -58,7 +59,7 @@ function unwrap<T>(entry: unknown): T {
 
 function resolveMediaUrl(url: string | undefined): string | undefined {
   if (!url) return undefined;
-  return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
+  return url.startsWith('http') ? url : `${PUBLIC_STRAPI_URL}${url}`;
 }
 
 function normalizeBlogPost(raw: unknown): BlogPost {
@@ -96,6 +97,7 @@ async function fetchStrapi<T>(
   options?: RequestInit,
   errorMessage: string = 'fetch error'
 ): Promise<T | null> {
+  if (process.env.NEXT_PHASE === 'phase-production-build') return null;
   try {
     const res = await fetch(`${STRAPI_URL}${endpoint}`, options);
     if (!res.ok) {
