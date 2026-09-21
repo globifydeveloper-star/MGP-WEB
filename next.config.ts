@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 
-const strapiUrlString = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+const publicStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
+const strapiUrl = new URL(
+  publicStrapiUrl && /^https?:\/\//.test(publicStrapiUrl) ? publicStrapiUrl : "http://localhost:1337"
+);
 
-if (!process.env.NEXT_PUBLIC_STRAPI_URL) {
-  console.warn("WARNING: NEXT_PUBLIC_STRAPI_URL is missing in environment variables. Falling back to http://localhost:1337.");
-}
-
-const strapiUrl = new URL(strapiUrlString);
+// Resolved at build time; the default matches the ECS Service Connect name for the backend.
+const strapiInternalUrl = (process.env.STRAPI_INTERNAL_URL || "http://strapi:1337").replace(/\/+$/, "");
 
 const isLocalStrapi = ["localhost", "127.0.0.1", "::1"].includes(strapiUrl.hostname);
 
@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
   output: "standalone",
+  async rewrites() {
+    return [{ source: "/strapi/:path*", destination: `${strapiInternalUrl}/:path*` }];
+  },
   async headers() {
     return [
       {
@@ -21,7 +24,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: `frame-ancestors 'self' ${process.env.NEXT_PUBLIC_STRAPI_URL}`,
+            value: `frame-ancestors 'self' ${publicStrapiUrl ?? ""}`,
           },
           {
             key: "X-Frame-Options",

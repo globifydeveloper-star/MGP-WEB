@@ -1,15 +1,10 @@
 const STRAPI_URL = (() => {
-  const url = process.env.NEXT_PUBLIC_STRAPI_URL;
-  if (url) return url.replace(/\/+$/, '');
-  if (process.env.NODE_ENV === 'production') {
-    console.warn(
-      'WARNING: NEXT_PUBLIC_STRAPI_URL is not set. This value is compiled into the ' +
-      'client bundle at build time and cannot be set at runtime. Pass it ' +
-      'as a --build-arg (see buildspec.yml) or set it in .env.local for ' +
-      'local development.'
-    );
-  }
-  return 'http://localhost:1337';
+  const isServer = typeof window === 'undefined';
+  const url =
+    (isServer && process.env.STRAPI_INTERNAL_URL) ||
+    process.env.NEXT_PUBLIC_STRAPI_URL ||
+    (isServer ? 'http://localhost:1337' : '/strapi');
+  return url.replace(/\/+$/, '');
 })();
 
 export interface OtpResponse {
