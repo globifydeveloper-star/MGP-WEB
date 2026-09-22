@@ -6,7 +6,6 @@ import VideoSection from '@/components/home/VideoSection/VideoSection';
 import MobileVan from '@/components/home/MobileVan/MobileVan';
 import NewSection from '@/components/home/NewSection/NewSection';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
-import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import GoldSellComparison from '@/components/sell-gold-for-cash/GoldSellComparison/GoldSellComparison';
 import RecentPost from '@/components/home/RecentPost/RecentPost';
@@ -110,9 +109,6 @@ export default async function Home() {
 
       {/* How Muthoot Gold Point is different from traditional jewellers */}
       <GoldSellComparison rows={comparisonRows} />
-
-      {/* 3. The Gold Point Difference */}
-      <TheGpDiff cards={differenceBoxes} />
 
       {/* 2. Mobile Van Banner */}
       <MobileVan
