@@ -2,7 +2,6 @@
 
 import React from 'react';
 import AboutHero from './abouthero/abouthero';
-import GoldRecycling from './goldrecycling/goldrecycling';
 import MuthootBlue from './muthootblue/muthootblue';
 import History from './history/history';
 import StandToday from './standtoday/standtoday';
@@ -31,7 +30,6 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
           onExploreClick={() => window.location.href = '/sell-gold-for-cash'}
         />
 
-        <GoldRecycling data={data} />
         <MuthootBlue data={data} />
         <History data={data} />
         <StandToday data={data} />

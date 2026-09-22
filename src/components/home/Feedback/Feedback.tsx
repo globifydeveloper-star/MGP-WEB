@@ -147,7 +147,7 @@ export default function Feedback({ reviews }: FeedbackProps) {
           <h2 className="feedback-title-sub">What&apos;s our satisfied customers</h2>
           <h2 className="feedback-title-main">Feedback about Gold Point</h2>
           <p className="feedback-subtitle">
-            We&apos;re not a jewellery shop or an unorganised buyer. We are a dedicated, ISO-certified gold buying company — built on science, not guesswork.
+            We&apos;re not an unorganised buyer. We are a dedicated gold buying company &ndash; Built on science, not guesswork.
           </p>
           <div className="feedback-divider" />
         </div>
