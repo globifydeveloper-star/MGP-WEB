@@ -1,18 +1,16 @@
 import { cache } from 'react';
 
+// Server: call Strapi directly (STRAPI_INTERNAL_URL). Browser: use the same-origin
+// '/strapi' proxy route unless NEXT_PUBLIC_STRAPI_URL is set at build time.
 const STRAPI_URL = (() => {
-  const url = process.env.NEXT_PUBLIC_STRAPI_URL;
-  if (url) return url.replace(/\/+$/, '');
-  if (process.env.NODE_ENV === 'production') {
-    console.warn(
-      'WARNING: NEXT_PUBLIC_STRAPI_URL is not set. This value is compiled into the ' +
-      'client bundle at build time and cannot be set at runtime. Pass it ' +
-      'as a --build-arg (see buildspec.yml) or set it in .env.local for ' +
-      'local development.'
-    );
-  }
-  return 'http://localhost:1337';
+  const isServer = typeof window === 'undefined';
+  const url =
+    (isServer && process.env.STRAPI_INTERNAL_URL) ||
+    process.env.NEXT_PUBLIC_STRAPI_URL ||
+    (isServer ? 'http://localhost:1337' : '/strapi');
+  return url.replace(/\/+$/, '');
 })();
+const PUBLIC_STRAPI_URL = (process.env.NEXT_PUBLIC_STRAPI_URL || '/strapi').replace(/\/+$/, '');
 const REVALIDATE_INTERVAL = 60; // 60s ISR background refresh
 
 export interface Category {
@@ -56,7 +54,7 @@ function unwrap<T>(entry: unknown): T {
 
 function resolveMediaUrl(url: string | undefined): string | undefined {
   if (!url) return undefined;
-  return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
+  return url.startsWith('http') ? url : `${PUBLIC_STRAPI_URL}${url}`;
 }
 
 function normalizeBlogPost(raw: unknown): BlogPost {
@@ -94,6 +92,7 @@ async function fetchStrapi<T>(
   options?: RequestInit,
   errorMessage: string = 'fetch error'
 ): Promise<T | null> {
+  if (process.env.NEXT_PHASE === 'phase-production-build') return null;
   try {
     const res = await fetch(`${STRAPI_URL}${endpoint}`, options);
     if (!res.ok) {

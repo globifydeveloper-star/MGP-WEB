@@ -16,6 +16,8 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.muthootgoldpoint.com'),
   title: {
