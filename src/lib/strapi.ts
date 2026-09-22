@@ -486,7 +486,11 @@ function getMediaUrl(media: any): string | undefined {
 }
 
 export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {
-  const data = await fetchStrapi<any>('/api/homepage?populate[homeVideos][populate]=*&populate=*', { cache: 'no-store' }, 'getHomepageData');
+  const data = await fetchStrapi<any>(
+    '/api/homepage?populate[heroFirstSlideImage]=true&populate[processSectionImage]=true&populate[vanImage]=true&populate[ogImage]=true&populate[homeVideos][populate]=*',
+    { cache: 'no-store' },
+    'getHomepageData'
+  );
   if (!data) return null;
   const flat = unwrap<Record<string, any>>(data);
   return {
