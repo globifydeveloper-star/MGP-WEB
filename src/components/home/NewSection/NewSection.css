@@ -253,3 +253,18 @@
     right: -2px;
   }
 }
+
+/* Compact spacing for tablet / mobile */
+@media (max-width: 900px) {
+  .ns-slide-inner { gap: 1.25rem; padding: 1.75rem 0.5rem 0.75rem; }
+  .ns-heading { font-size: 1.6rem; margin-bottom: 0.6rem; }
+  .ns-desc { line-height: 1.55; }
+  .ns-dots-container { padding-bottom: 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .ns-slide-inner { gap: 1rem; padding: 1.25rem 0 0.5rem; }
+  .ns-heading { font-size: 1.3rem; margin-bottom: 0.4rem; }
+  .ns-desc { font-size: 0.85rem; line-height: 1.5; }
+  .ns-dots-container { padding-bottom: 1rem; }
+}

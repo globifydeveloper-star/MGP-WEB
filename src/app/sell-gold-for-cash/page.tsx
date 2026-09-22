@@ -1,6 +1,6 @@
 import SellGoldForCashPage from '@/components/sell-gold-for-cash/page';
 import Footer from '@/components/layout/Footer';
-import { getProcessSteps, getSellGoldPageSettings } from '@/lib/strapi';
+import { getProcessSteps, getSellGoldPageSettings, getComparisonRows } from '@/lib/strapi';
 import Image from 'next/image';
 import Link from 'next/link';
 import logoImg from '@/assets/images/gp-logo.png';
@@ -44,7 +44,11 @@ export async function generateMetadata() {
 }
 
 export default async function Page() {
-  const processSteps = await getProcessSteps();
+  const [processSteps, comparisonRows, pageSettings] = await Promise.all([
+    getProcessSteps(),
+    getComparisonRows(),
+    getSellGoldPageSettings(),
+  ]);
 
   return (
     <>
@@ -66,7 +70,7 @@ export default async function Page() {
           <Image src={logoImg} alt="GOLDPOINT - We Buy Gold" width={220} height={60} priority style={{ display: 'block' }} />
         </Link>
       </header>
-      <SellGoldForCashPage processSteps={processSteps} />
+      <SellGoldForCashPage processSteps={processSteps} comparisonRows={comparisonRows} pageSettings={pageSettings} />
       <Footer />
     </>
   );

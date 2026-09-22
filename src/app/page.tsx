@@ -5,8 +5,10 @@ import GoldValueForm from '@/components/home/GoldValueForm/GoldValueForm';
 import VideoSection from '@/components/home/VideoSection/VideoSection';
 import MobileVan from '@/components/home/MobileVan/MobileVan';
 import NewSection from '@/components/home/NewSection/NewSection';
+import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
+import GoldSellComparison from '@/components/sell-gold-for-cash/GoldSellComparison/GoldSellComparison';
 import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
 import Footer from '@/components/layout/Footer';
@@ -22,6 +24,7 @@ import {
   getTestimonials,
   getFaqs,
   getGlobalStats,
+  getComparisonRows,
 } from '@/lib/strapi';
 
 export async function generateMetadata() {
@@ -74,6 +77,7 @@ export default async function Home() {
     testimonials,
     faqs,
     globalStats,
+    comparisonRows,
   ] = await Promise.all([
     getBlogPosts(),
     getHomepageData(),
@@ -85,6 +89,7 @@ export default async function Home() {
     getTestimonials(),
     getFaqs('home'),
     getGlobalStats(),
+    getComparisonRows(),
   ]);
 
   const recentPosts = posts.slice(0, 3);
@@ -95,21 +100,16 @@ export default async function Home() {
       {!homepageData?.hideNavbar && <Navbar />}
 
       {/* Hero Section - crossfades between the Hero and a second promo slide */}
-      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} globalStats={globalStats} />
+      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} globalStats={globalStats} showStats={false} />
 
       {/* Gold Selling Process Section */}
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
 
-      {/* Estimate The Value Of Your Gold Section */}
-      <GoldValueForm
-        sectionImage={sharedMedia?.goldValueFormImage}
-        heading={homepageData?.estimateGoldHeading}
-        headingHighlight={homepageData?.estimateGoldHeadingHighlight}
-        note={homepageData?.estimateGoldNote}
-      />
-
       {/* Video Section */}
       <VideoSection videos={homepageData?.homeVideos} />
+
+      {/* How Muthoot Gold Point is different from traditional jewellers */}
+      <GoldSellComparison rows={comparisonRows} />
 
       {/* 3. The Gold Point Difference */}
       <TheGpDiff cards={differenceBoxes} />
@@ -123,8 +123,11 @@ export default async function Home() {
         vanImage={homepageData?.vanImage}
       />
 
-      {/* New Section */}
+      {/* New Section - Group Company Details */}
       <NewSection slides={promoSlides} />
+
+      {/* Stats ribbon */}
+      <HeroStats globalStats={globalStats} />
 
       {/* 7. Feedback Testimonial Slider */}
       <Feedback reviews={testimonials} />
@@ -132,7 +135,15 @@ export default async function Home() {
       {/* 8. FAQs Accordion Section */}
       <FAQ faqs={faqs} />
 
-      {/* 9. Recent Posts Section */}
+      {/* Estimate The Value Of Your Gold Section - Lead Form */}
+      <GoldValueForm
+        sectionImage={sharedMedia?.goldValueFormImage}
+        heading={homepageData?.estimateGoldHeading}
+        headingHighlight={homepageData?.estimateGoldHeadingHighlight}
+        note={homepageData?.estimateGoldNote}
+      />
+
+      {/* 9. Recent Posts Section - Blog */}
       <RecentPost posts={recentPosts} />
 
       {/* Branch Locator Section */}

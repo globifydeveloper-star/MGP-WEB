@@ -32,8 +32,8 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
         />
 
         <GoldRecycling data={data} />
-        <History data={data} />
         <MuthootBlue data={data} />
+        <History data={data} />
         <StandToday data={data} />
         <Philanthropy data={data} />
         <FAQ />

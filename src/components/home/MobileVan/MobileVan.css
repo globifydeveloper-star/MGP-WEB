@@ -305,3 +305,20 @@
     font-size: 0.75rem;
   }
 }
+/* Compact spacing for tablet / mobile */
+@media (max-width: 1024px) {
+  .mobile-van-container { padding: 2rem 1.25rem; gap: 1.25rem; }
+  .mobile-van-title { margin-bottom: 0.9rem; }
+  .mobile-van-title .title-line-light,
+  .mobile-van-title .title-line-bold { font-size: 2.1rem; }
+  .mobile-van-desc { margin-bottom: 1.25rem; }
+}
+
+@media (max-width: 640px) {
+  .mobile-van-container { padding: 1.5rem 1rem; gap: 1rem; }
+  .mobile-van-title { margin-bottom: 0.6rem; }
+  .mobile-van-title .title-line-light,
+  .mobile-van-title .title-line-bold { font-size: 1.5rem; }
+  .mobile-van-desc { margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.5; }
+  .mobile-van-btn { padding: 0.75rem 1.75rem; }
+}

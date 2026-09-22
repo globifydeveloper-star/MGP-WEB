@@ -6,13 +6,16 @@ interface StandTodayProps { data?: AboutUsPageData | null; }
 
 export default function StandToday({ data }: StandTodayProps) {
   const defaultServices = [
-    { title: "Gold Loans & Precious Metals", icon: "💰" },
+    { title: "Gold Loans", icon: "💰" },
     { title: "Small Business Loans", icon: "💼" },
     { title: "Affordable Housing Loans", icon: "🏠" },
-    { title: "Two-Wheeler & Used-Car Loans", icon: "🏍️" },
+    { title: "Two Wheeler Loans", icon: "🏍️" },
+    { title: "Used-car Loans", icon: "🚗" },
     { title: "Domestic Money Transfer", icon: "💸" },
-    { title: "International Remittance & Forex", icon: "🌐" },
-    { title: "Insurance & Wealth Management", icon: "🛡️" },
+    { title: "International Remittance", icon: "🌐" },
+    { title: "Foreign Exchange", icon: "💱" },
+    { title: "Insurance Products & Services", icon: "🛡️" },
+    { title: "Wealth Management Services", icon: "📈" },
     { title: "Affordable Gold Jewellery", icon: "✨" }
   ];
   

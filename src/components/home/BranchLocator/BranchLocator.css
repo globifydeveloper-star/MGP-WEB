@@ -563,3 +563,23 @@
     gap: 0.5rem;
   }
 }
+/* Compact spacing for tablet / mobile */
+@media (max-width: 1024px) {
+  .branch-locator-section { padding: 3.5rem 0; }
+  .branch-locator-header { margin-bottom: 1.75rem; }
+  .branch-locator-title { font-size: 2rem; margin-bottom: 0.6rem; }
+  .branch-locator-grid { gap: 1.25rem; }
+  .branch-locator-map-col,
+  .branch-map-container,
+  .branch-locator-map-loading { min-height: 340px; }
+}
+
+@media (max-width: 640px) {
+  .branch-locator-section { padding: 2.25rem 0; }
+  .branch-locator-header { margin-bottom: 1.25rem; }
+  .branch-locator-title { font-size: 1.45rem; }
+  .branch-locator-grid { gap: 1rem; }
+  .branch-locator-map-col,
+  .branch-map-container,
+  .branch-locator-map-loading { min-height: 260px; }
+}

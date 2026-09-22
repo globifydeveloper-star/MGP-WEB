@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { AboutUsPageData } from '@/lib/strapi';
 import './muthootblue.css';
-import portraitImg from '@/assets/images/hm6-img01.png';
 
 const DEFAULT_STATS = [
   { label: 'Years of Legacy', number: '133+' },
@@ -37,13 +36,14 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
               )}
             </h2>
 
-            <p className="blue-desc">
-              {data?.parentDescription ? (
-                <span dangerouslySetInnerHTML={{ __html: data.parentDescription }} />
-              ) : (
-                <>Popularly known as <strong>Muthoot Blue</strong>, the group is built on the bedrock of Trust and shaped by the core values of Integrity, Collaboration, and Excellence. With its genesis in founder Shri Muthoot Pappachan&apos;s unwavering faith in love, respect, and duty towards humanity, it has evolved into a massive business conglomerate that places the well-being of the underserved masses of India at the very center of its purpose.</>
-              )}
-            </p>
+            <>
+              <p className="blue-desc">
+                The Muthoot Pappachan Group, also popularly known as the Muthoot Blue Group, is built on the bedrock of Trust and is shaped by core values of Integrity, Collaboration and Excellence. With the genesis in its Founder, Shri Muthoot Pappachan&apos;s unwavering faith in God&apos;s teachings of love, respect and duty towards humanity and resolute adherence to basic human values &amp; principles, the Group have evolved over the decades, into a business conglomerate that has the well-being of the people at the lower levels of socio-economic strata, at the very centre towards empowering the human ambition of these under-served masses in India.
+              </p>
+              <p className="blue-desc">
+                We are the part of Muthoot Pappachan Group (also known as Muthoot Blue). We have inherited values &amp; principles and taken over +133 years&apos; legacy forward to empower millions of Indians in their grit &amp; determination to rise above their ordinariness towards an aureate tomorrow. With around 4200 branches across India, we endeavor to serve over 1,00,000 customers a day. Including our other Group-companies products, we offer our target customer an extensive array of financial products &amp; services, like <a href="https://www.muthootfincorp.com/product-service/gold-loan/" target="_blank" rel="noopener noreferrer" className="blue-link" style={{color: '#0070c0'}}>Gold Loans</a>, Small Business Loans, Affordable Housing Loans, <a href="https://www.muthootfincorp.com/two-wheeler-loan/" target="_blank" rel="noopener noreferrer" className="blue-link" style={{color: '#0070c0'}}>Two wheeler Loans</a>, <a href="https://www.muthootfincorp.com/used-car-loan/" target="_blank" rel="noopener noreferrer" className="blue-link" style={{color: '#0070c0'}}>Used-car Loans</a>, Domestic Money Transfer, International Remittance, Foreign Exchange, Insurance Products &amp; Services, Wealth Management Services for the common, Affordable Gold Jewellery and more. Each of these 4200 or so branches is like a financial super-market helping our customer in fulfilling most of their requirements under one roof.
+              </p>
+            </>
 
             <ul className="blue-checklist">
               {data?.parentChecklist && data.parentChecklist.length > 0 ? (
@@ -93,17 +93,6 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
             </a>
           </div>
 
-          {/* Center: Portrait */}
-          <div className="blue-media-side">
-            <div className="blue-media-pattern" aria-hidden="true" />
-            <Image
-              src={data?.parentPortraitImage || portraitImg}
-              alt="Representative of the Muthoot Pappachan Group"
-              width={1978}
-              height={3215}
-              className="blue-portrait-img"
-            />
-          </div>
 
           {/* Right: Group Highlights */}
           <div className="blue-compare-side">

@@ -7,7 +7,7 @@ import './GoldSellOverview.css';
 import purityImg from '@/assets/images/purity.png';
 import counterImg from '@/assets/images/gold_rate_component_photos/valuation_counter_customer.png';
 
-export default function GoldSellOverview() {
+export default function GoldSellOverview({ overviewImage1, overviewImage2 }: { overviewImage1?: string, overviewImage2?: string }) {
   return (
     <section className="gso-section">
       <div className="container gso-container">
@@ -56,7 +56,7 @@ export default function GoldSellOverview() {
 
             <div className="gso-quad gso-quad--photo">
               <Image
-                src={purityImg}
+                src={overviewImage1 || purityImg}
                 alt="Technician using an XRF gold purity testing device"
                 className="gso-quad-img"
                 fill
@@ -68,7 +68,7 @@ export default function GoldSellOverview() {
 
             <div className="gso-quad gso-quad--photo">
               <Image
-                src={counterImg}
+                src={overviewImage2 || counterImg}
                 alt="Muthoot Gold Point staff precisely weighing a customer's gold jewellery"
                 className="gso-quad-img"
                 fill

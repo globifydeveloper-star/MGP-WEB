@@ -350,3 +350,29 @@
     border-radius: 12px;
   }
 }
+/* Compact spacing for tablet / mobile */
+@media (max-width: 1024px) {
+  .gvf-section { padding: 3.5rem 0 4rem; }
+  .gvf-heading { font-size: 2rem; margin-bottom: 2rem; }
+  .gvf-grid { gap: 2rem; }
+  .gvf-image-wrap { aspect-ratio: 16 / 8; }
+  .gvf-form { padding: 1.25rem 1.5rem; }
+  .gvf-field { margin-bottom: 0.7rem; }
+}
+
+@media (max-width: 640px) {
+  .gvf-section { padding: 2.25rem 0 2.75rem; }
+  .gvf-heading { font-size: 1.5rem; margin-bottom: 1.25rem; }
+  .gvf-grid { gap: 1.25rem; }
+  .gvf-image-col { padding-bottom: 2.25rem; }
+  .gvf-image-col--no-badge { padding-bottom: 0; }
+  .gvf-image-wrap { aspect-ratio: 16 / 7; border-radius: 14px; }
+  .gvf-form { padding: 1.1rem 1rem; border-radius: 14px; }
+  .gvf-field { margin-bottom: 0.55rem; }
+  .gvf-input { padding: 0.5rem 0.8rem; }
+  .gvf-submit-btn { padding: 0.65rem; }
+}
+
+@media (max-width: 480px) {
+  .gvf-image-col { padding-bottom: 0; }
+}

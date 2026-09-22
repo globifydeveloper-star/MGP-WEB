@@ -167,3 +167,28 @@
     font-size: 1.05rem;
   }
 }
+
+/* Compact spacing for tablet / mobile */
+@media (max-width: 1024px) {
+  .gp-diff-section { padding: 3.5rem 0; }
+  .gp-diff-header { margin-bottom: 2rem; }
+  .gp-diff-title { font-size: 2rem; margin-bottom: 0.6rem; }
+  .gp-diff-subtitle { margin-bottom: 1rem; }
+  .gp-diff-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .gp-diff-card { padding: 0 1.1rem 1.25rem 1.1rem; }
+  .gp-diff-card-image-wrap { margin-top: 1.1rem; aspect-ratio: 16 / 8; }
+  .gp-diff-card-icon { margin-bottom: 0.6rem; }
+  .gp-diff-card-desc { font-size: 0.85rem; line-height: 1.5; }
+}
+
+@media (max-width: 640px) {
+  .gp-diff-section { padding: 2.25rem 0; }
+  .gp-diff-header { margin-bottom: 1.25rem; }
+  .gp-diff-title { font-size: 1.5rem; }
+  .gp-diff-subtitle { font-size: 0.9rem; line-height: 1.5; }
+  .gp-diff-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .gp-diff-card { padding: 0 0.9rem 1rem 0.9rem; }
+  .gp-diff-card-image-wrap { margin-top: 0.9rem; aspect-ratio: 16 / 7; }
+  .gp-diff-card-title { font-size: 1rem; margin-bottom: 0.3rem; }
+  .gp-diff-card-desc { font-size: 0.82rem; }
+}

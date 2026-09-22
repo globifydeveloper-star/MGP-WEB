@@ -1,8 +1,7 @@
 import { cache } from 'react';
 
-// Server: talk to Strapi directly (STRAPI_INTERNAL_URL). Browser: use the
-// same-origin '/strapi' proxy (see rewrites in next.config.ts) unless
-// NEXT_PUBLIC_STRAPI_URL points somewhere reachable.
+// Server: call Strapi directly (STRAPI_INTERNAL_URL). Browser: use the same-origin
+// '/strapi' proxy route unless NEXT_PUBLIC_STRAPI_URL is set at build time.
 const STRAPI_URL = (() => {
   const isServer = typeof window === 'undefined';
   const url =
@@ -606,7 +605,30 @@ export const getDifferenceBoxes = cache(async function getDifferenceBoxes(): Pro
   });
 });
 
-export const getPromoSlides = cache(async function getPromoSlides(): Promise<PromoSlide[]> {
+export interface ComparisonRow {
+  id: number;
+  order: number;
+  title?: string;
+  mgpText?: string;
+  tradText?: string;
+}
+
+export const getComparisonRows = cache(async function getComparisonRows(): Promise<ComparisonRow[]> {
+  const data = await fetchStrapi<any[]>('/api/comparison-rows?sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getComparisonRows');
+  const arr = Array.isArray(data) ? data : [];
+  return arr.map((entry: any) => {
+    const flat = unwrap<any>(entry);
+    return {
+      id: flat.id,
+      order: flat.order ?? 0,
+      title: flat.title,
+      mgpText: flat.mgpText,
+      tradText: flat.tradText,
+    };
+  });
+});
+
+export const getPromoSlides =cache(async function getPromoSlides(): Promise<PromoSlide[]> {
   const data = await fetchStrapi<any[]>('/api/promo-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPromoSlides');
   const arr = Array.isArray(data) ? data : [];
   return arr.map((entry: any) => {
@@ -1003,6 +1025,9 @@ export interface SellGoldPageSettings {
   seoDescription?: string;
   seoKeywords?: string;
   ogImage?: string;
+  heroImage?: string;
+  overviewImage1?: string;
+  overviewImage2?: string;
 }
 
 export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
@@ -1014,6 +1039,9 @@ export const getSellGoldPageSettings = cache(async function getSellGoldPageSetti
     seoDescription: flat.seoDescription,
     seoKeywords: flat.seoKeywords,
     ogImage: getMediaUrl(flat.ogImage),
+    heroImage: getMediaUrl(flat.heroImage),
+    overviewImage1: getMediaUrl(flat.overviewImage1),
+    overviewImage2: getMediaUrl(flat.overviewImage2),
   };
 });
 

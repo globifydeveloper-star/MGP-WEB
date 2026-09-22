@@ -2,22 +2,22 @@
 .muthoot-blue-section {
   position: relative;
   background: #ffffff;
-  padding: 3rem 0 0;
+  padding: 3rem 0 1rem;
   overflow: hidden;
   border-top: 1px solid rgba(241, 185, 51, 0.1);
 }
 
 .blue-grid {
   display: grid;
-  grid-template-columns: 1.05fr 0.75fr 1.1fr;
+  grid-template-columns: 1.5fr 1.1fr;
   align-items: start;
-  gap: 2.5rem;
+  gap: 4.5rem;
 }
 
 /* Left: Copy */
 .blue-text-side {
   text-align: left;
-  padding-bottom: 3rem;
+  padding-bottom: 1rem;
 }
 
 .blue-eyebrow {
@@ -53,8 +53,8 @@
 }
 
 .blue-desc {
-  font-size: 0.95rem;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  line-height: 1.8;
   color: #5b6072;
   margin-bottom: 1.5rem;
 }
@@ -149,7 +149,7 @@
 /* Right: Group Highlights */
 .blue-compare-side {
   margin-top: 70px;
-  padding-bottom: 3rem;
+  padding-bottom: 1rem;
   text-align: left;
 }
 
