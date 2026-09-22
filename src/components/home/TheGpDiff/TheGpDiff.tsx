@@ -80,7 +80,7 @@ export default function TheGpDiff({ cards }: TheGpDiffProps) {
             The <span className="gp-diff-highlight">Gold Point</span> Difference
           </h2>
           <p className="gp-diff-subtitle">
-            We&apos;re not a jewellery shop or an unorganised buyer. We are a dedicated, ISO-certified gold buying company — built on science, not guesswork.
+            We&apos;re not an unorganised buyer. We are a dedicated gold buying company &ndash; Built on science, not guesswork.
           </p>
           <div className="gp-diff-divider" />
         </div>

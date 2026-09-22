@@ -19,7 +19,7 @@ const FAQ_DATA: FAQItem[] = [
     id: 1,
     category: 'General',
     question: 'Why Should I Choose Muthoot Gold Point to Sell my Gold?',
-    answer: 'We are not a jewellery shop or an unorganised buyer. We are a dedicated, ISO-certified gold buying company — built on science, not guesswork. With a legacy of over 133+ years, Muthoot Gold Point offers complete transparency, 100% accurate XRF scientific purity evaluation in front of you, and instant spot payment.'
+    answer: "We're not an unorganised buyer. We are a dedicated gold buying company – Built on science, not guesswork. With a legacy of over 133+ years, Muthoot Gold Point offers complete transparency, 100% accurate XRF scientific purity evaluation in front of you, and instant spot payment."
   },
   {
     id: 2,
