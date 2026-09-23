@@ -29,7 +29,7 @@ export default function History({ data }: HistoryProps) {
       },
       {
         year: "Today",
-        title: "133 Years of Legacy",
+        title: "138+ Years of Legacy",
         desc: "Empowering Indians across Financial Services, Hospitality, Automotive, Realty, IT Services, Healthcare, Precious Metals, Global Services and Alternate Energy."
       }
     ];

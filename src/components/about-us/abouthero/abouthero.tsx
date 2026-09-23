@@ -71,55 +71,60 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
             <div className="about-hero-who-we-are">
               <h3 className="about-hero-subheading">Who We Are</h3>
               <p className="about-hero-desc">Muthoot Gold Point is a unit of Muthoot Exim (P) Ltd., the precious metal vertical of the Muthoot Pappachan Group that specialises in innovative products and offerings in the precious metal space. The vertical gives customers access to quality products that meet the highest standards at an affordable price. Apart from Muthoot Gold Point, Muthoot Exim&apos;s flagship products include Swarnavarsham, Swethavarsham, and Corporate gifting.</p>
+
+              <ul className="about-hero-checklist">
+                {data?.heroChecklist && data.heroChecklist.length > 0 ? (
+                  data.heroChecklist.map((item) => (
+                    <li key={item.id}>
+                      <span className="check-icon" aria-hidden="true">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      {item.text}
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li>
+                      <span className="check-icon" aria-hidden="true">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      138+ years of Muthoot Pappachan Group legacy
+                    </li>
+                    <li>
+                      <span className="check-icon" aria-hidden="true">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      India&apos;s first organised-sector gold recycler
+                    </li>
+                  </>
+                )}
+              </ul>
             </div>
           </div>
 
-          {/* Bottom Content: Rest of descriptions full width */}
-          <div className="about-hero-bottom-content">
-              
+          {/* Bottom Content: Key facts as cards */}
+          <div className="about-hero-info-grid">
+            <div className="about-hero-info-card">
               <h3 className="about-hero-subheading">Corporate Information</h3>
-              <p className="about-hero-desc">Visit the corporate website of Muthoot EXIM (P) Ltd to know more about the company: <a href="http://www.muthootexim.com" target="_blank" rel="noopener noreferrer" className="about-hero-link" style={{color: '#0070c0'}}>www.muthootexim.com</a></p>
-              
-              <h3 className="about-hero-subheading">Industry Pioneer</h3>
-              <p className="about-hero-desc">Muthoot Gold Point is the first national-level organised sector player to get into the recycling of gold that is in sync with the Vision laid down by the Government of India for the Indian Gold Industry.</p>
-              
-              <h3 className="about-hero-subheading">Transparent Process</h3>
-              <p className="about-hero-desc">We enable customers to <a href="https://www.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="about-hero-link" style={{color: '#0070c0'}}>sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is 100% fair and precise. Our customers enjoy a safe, transparent and scientifically tested way of selling gold. Mobile Muthoot Gold Point – India&apos;s First Mobile Gold Buying van buys gold at the customer&apos;s doorstep. Continuing with our Group values around trust, we take the XRF and ultrasonic machines to the customer&apos;s doorstep to ensure they are getting maximum value for their gold.</p>
+              <p className="about-hero-desc">Visit the corporate website of Muthoot EXIM (P) Ltd to know more about the company: <a href="http://www.muthootexim.com" target="_blank" rel="noopener noreferrer" className="about-hero-link">www.muthootexim.com</a></p>
             </div>
 
-            <ul className="about-hero-checklist">
-              {data?.heroChecklist && data.heroChecklist.length > 0 ? (
-                data.heroChecklist.map((item) => (
-                  <li key={item.id}>
-                    <span className="check-icon" aria-hidden="true">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                    {item.text}
-                  </li>
-                ))
-              ) : (
-                <>
-                  <li>
-                    <span className="check-icon" aria-hidden="true">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                    138+ years of Muthoot Pappachan Group legacy
-                  </li>
-                  <li>
-                    <span className="check-icon" aria-hidden="true">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                    India&apos;s first organised-sector gold recycler
-                  </li>
-                </>
-              )}
-            </ul>
+            <div className="about-hero-info-card">
+              <h3 className="about-hero-subheading">Industry Pioneer</h3>
+              <p className="about-hero-desc">Muthoot Gold Point is the first national-level organised sector player to get into the recycling of gold that is in sync with the Vision laid down by the Government of India for the Indian Gold Industry.</p>
+            </div>
+
+            <div className="about-hero-info-card">
+              <h3 className="about-hero-subheading">Transparent Process</h3>
+              <p className="about-hero-desc">We enable customers to <a href="https://www.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is 100% fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point – India&apos;s first mobile gold buying van – brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
+            </div>
+          </div>
 
             <div className="about-hero-footer-row">
               <button onClick={onExploreClick} className="about-hero-know-more">
