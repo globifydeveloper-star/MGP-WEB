@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import './MobileVan.css';
+import vanImgDefault from '@/assets/images/MobileVan.png';
 
 interface MobileVanProps {
   headingLight?: string;
@@ -38,15 +39,11 @@ export default function MobileVan({ headingLight, headingBold, description, butt
 
             <div className="van-photo-crop">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={vanImage || "/components/van.png"} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
+              <img src={vanImage || vanImgDefault.src} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
             </div>
           </div>
 
-          <div className="van-road-full">
-            <div className="van-road-bar">
-              <div className="van-road-dashes" />
-            </div>
-          </div>
+
 
           <div className="van-features-row">
             <div className="van-feature-item">
