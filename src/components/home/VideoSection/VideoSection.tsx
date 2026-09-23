@@ -5,14 +5,14 @@ import type { HomeVideoItem } from '@/lib/strapi';
 import './VideoSection.css';
 
 const DEFAULT_LANGUAGES = [
-  { code: 'hi', label: 'हिंदी', poster: '/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
-  { code: 'ml', label: 'മലയാളം', poster: '/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
-  { code: 'ta', label: 'தமிழ்', poster: '/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
-  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
-  { code: 'en', label: 'EN', poster: '/video_thumb.png', video: null },
-  { code: 'te', label: 'తెలుగు', poster: '/video_thumb.png', video: null },
-  { code: 'mr', label: 'मराठी', poster: '/video_thumb.png', video: null },
-  { code: 'bn', label: 'বাংলা', poster: '/video_thumb.png', video: null },
+  { code: 'hi', label: 'हिंदी', poster: '/components/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
+  { code: 'ml', label: 'മലയാളം', poster: '/components/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
+  { code: 'ta', label: 'தமிழ்', poster: '/components/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
+  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/components/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
+  { code: 'en', label: 'EN', poster: '/components/video_thumb.png', video: null },
+  { code: 'te', label: 'తెలుగు', poster: '/components/video_thumb.png', video: null },
+  { code: 'mr', label: 'मराठी', poster: '/components/video_thumb.png', video: null },
+  { code: 'bn', label: 'বাংলা', poster: '/components/video_thumb.png', video: null },
 ];
 
 const VISIBLE_COUNT = 4;
@@ -27,7 +27,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
       return videos.map((item) => ({
         code: item.code,
         label: item.label,
-        poster: item.poster || '/video_thumb.png',
+        poster: item.poster || '/components/video_thumb.png',
         video: item.video || item.videoUrl || null,
       }));
     }
@@ -160,7 +160,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
           <div className="vs-brand-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo_image.png"
+              src="/components/logo_image.png"
               alt="GOLDPOINT - We Buy Gold"
               className="vs-brand-logo"
             />

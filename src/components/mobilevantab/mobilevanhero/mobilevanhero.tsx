@@ -77,7 +77,7 @@ export default function MobileVanHero({ data }: MobileVanHeroProps) {
           <div className="mvh-van-container">
             {/* 1. Base image (always rendered to establish layout size, invisible when animating default frames) */}
             <img
-              src={data?.heroImage || '/van.png'}
+              src={data?.heroImage || '/components/van.png'}
               alt="Muthoot Gold Point mobile van"
               className="mvh-van-img"
               style={{ opacity: (isMounted && isAnimationStarted && !data?.heroImage) ? 0 : 1 }}

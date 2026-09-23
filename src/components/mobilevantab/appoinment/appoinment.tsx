@@ -193,7 +193,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
             <div className="apt-van-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={data?.bookVanFormImage || '/van.png'} alt="Muthoot Gold Point mobile van" className="apt-van-img" />
+              <img src={data?.bookVanFormImage || '/components/van.png'} alt="Muthoot Gold Point mobile van" className="apt-van-img" />
             </div>
           </div>
 

@@ -11,14 +11,14 @@ export interface LanguageOption {
 }
 
 export const VIDEO_LANGUAGES: LanguageOption[] = [
-  { code: 'hi', label: 'हिंदी', poster: '/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
-  { code: 'ml', label: 'മലയാളം', poster: '/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
-  { code: 'ta', label: 'தமிழ்', poster: '/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
-  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
-  { code: 'en', label: 'EN', poster: '/video_thumb.png', video: null },
-  { code: 'te', label: 'తెలుగు', poster: '/video_thumb.png', video: null },
-  { code: 'mr', label: 'मराठी', poster: '/video_thumb.png', video: null },
-  { code: 'bn', label: 'বাংলা', poster: '/video_thumb.png', video: null },
+  { code: 'hi', label: 'हिंदी', poster: '/components/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
+  { code: 'ml', label: 'മലയാളം', poster: '/components/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
+  { code: 'ta', label: 'தமிழ்', poster: '/components/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
+  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/components/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
+  { code: 'en', label: 'EN', poster: '/components/video_thumb.png', video: null },
+  { code: 'te', label: 'తెలుగు', poster: '/components/video_thumb.png', video: null },
+  { code: 'mr', label: 'मराठी', poster: '/components/video_thumb.png', video: null },
+  { code: 'bn', label: 'বাংলা', poster: '/components/video_thumb.png', video: null },
 ];
 
 const VISIBLE_COUNT = 4;
@@ -95,7 +95,7 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
         <div className="vm-header">
           <div className="vm-header-title-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo_image.png" alt="Muthoot Gold Point" className="vm-header-logo" />
+            <img src="/components/logo_image.png" alt="Muthoot Gold Point" className="vm-header-logo" />
             <h3 className="vm-header-title">{title}</h3>
           </div>
           <button type="button" className="vm-close-btn" onClick={onClose} aria-label="Close modal">

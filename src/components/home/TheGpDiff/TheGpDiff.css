@@ -60,8 +60,8 @@
   width: 170px;
   height: 150px;
   background-color: #E8B84B;
-  -webkit-mask-image: url('/gcard_bg_pattern.png');
-  mask-image: url('/gcard_bg_pattern.png');
+  -webkit-mask-image: url('/components/gcard_bg_pattern.png');
+  mask-image: url('/components/gcard_bg_pattern.png');
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 420px 420px;

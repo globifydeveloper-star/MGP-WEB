@@ -173,7 +173,7 @@ export default function Feedback({ reviews }: FeedbackProps) {
                   <div className="feedback-card" key={`${review.name}-${idx}`}>
                     <div className="feedback-card-swirl">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/feedback_bg.png" alt="" className="feedback-card-swirl-img" />
+                      <img src="/components/feedback_bg.png" alt="" className="feedback-card-swirl-img" />
                     </div>
 
                     <span className="feedback-quote-mark">&ldquo;</span>

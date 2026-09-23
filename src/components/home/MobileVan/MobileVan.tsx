@@ -38,7 +38,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
 
             <div className="van-photo-crop">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={vanImage || "/van.png"} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
+              <img src={vanImage || "/components/van.png"} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
             </div>
           </div>
 

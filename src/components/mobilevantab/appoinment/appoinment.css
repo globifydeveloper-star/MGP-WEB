@@ -26,8 +26,8 @@
   position: absolute;
   inset: 0;
   background-color: #E8B84B;
-  -webkit-mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
-  mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
+  -webkit-mask-image: url('/components/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
+  mask-image: url('/components/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
   -webkit-mask-repeat: repeat, no-repeat;
   mask-repeat: repeat, no-repeat;
   -webkit-mask-size: 220px 220px, 100% 100%;

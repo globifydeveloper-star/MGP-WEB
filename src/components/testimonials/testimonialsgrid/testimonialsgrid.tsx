@@ -57,7 +57,7 @@ export default function TestimonialsGrid() {
               <div className="testimonials-card" key={review.name}>
                 <div className="testimonials-card-swirl">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/feedback_bg.png" alt="" className="testimonials-card-swirl-img" />
+                  <img src="/components/feedback_bg.png" alt="" className="testimonials-card-swirl-img" />
                 </div>
 
                 <span className="testimonials-quote-mark">&ldquo;</span>

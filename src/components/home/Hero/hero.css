@@ -88,7 +88,7 @@
   height: 309.4px;
   background:
     linear-gradient(180deg, #161E45 0%, rgba(22, 30, 69, 0) 0%, #161E45 100%),
-    url('/hero_bg_pattern_square.png');
+    url('/components/hero_bg_pattern_square.png');
   background-size: cover;
   opacity: 0.10;
   pointer-events: none;
@@ -171,7 +171,7 @@
   top: 180px;
   width: 580px;
   height: 580px;
-  background-image: url('/gcard_bg_pattern.png');
+  background-image: url('/components/gcard_bg_pattern.png');
   background-repeat: repeat;
   background-size: 540px auto;
   opacity: 0.16;
@@ -189,7 +189,7 @@
   transform: translate(-50%, -50%);
   width: 320px;
   height: 320px;
-  background-image: url('/gcard_bg_pattern.png');
+  background-image: url('/components/gcard_bg_pattern.png');
   background-repeat: repeat;
   background-size: 380px auto;
   opacity: 0.16;

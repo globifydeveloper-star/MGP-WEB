@@ -76,7 +76,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
           <div className={`gvf-image-col${SHOW_GOLD_RATE_CARD ? '' : ' gvf-image-col--no-badge'}`}>
             <div className="gvf-image-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={sectionImage || "/bangle.png"} alt="Gold bangles" className="gvf-image" />
+              <img src={sectionImage || "/components/bangle.png"} alt="Gold bangles" className="gvf-image" />
             </div>
 
             {SHOW_GOLD_RATE_CARD && (

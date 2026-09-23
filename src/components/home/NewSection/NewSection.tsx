@@ -9,7 +9,7 @@ interface NewSectionProps {
 
 const DEFAULT_SLIDES = [
   {
-    image: '/van.png',
+    image: '/components/van.png',
     heading: 'A Legacy Of',
     highlight: 'Trust, Truth & Tradition',
     text: 'The Muthoot Pappachan Group, with a reputation shaped over decades of high quality practices, total customer satisfaction and steady growth, has become one of the most trusted names in the business.',
@@ -41,7 +41,7 @@ export default function NewSection({ slides }: NewSectionProps) {
 
   const activeSlides = slides && slides.length > 0
     ? slides.map((s) => ({
-        image: s.creativeImage || '/van.png',
+        image: s.creativeImage || '/components/van.png',
         heading: s.heading || '',
         highlight: s.highlight || '',
         text: s.description || '',
