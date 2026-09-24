@@ -263,7 +263,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   </div>
                 </div>
 
-                <div className="apt-form-row">
+                <div className="apt-form-row" style={{ gridTemplateColumns: '1fr' }}>
                   <div className="apt-field">
                     <label htmlFor="apt-otp" className="apt-label">OTP<span className="apt-required">*</span></label>
                     <input
@@ -321,7 +321,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   </div>
                 </div>
 
-                <div className="apt-form-row">
+                <div className="apt-form-row" style={{ gridTemplateColumns: '1fr' }}>
                   <div className="apt-field">
                     <label htmlFor="apt-branchCode" className="apt-label">Branch<span className="apt-required">*</span></label>
                     <select
@@ -342,8 +342,8 @@ export default function Appoinment({ data }: AppoinmentProps) {
                 </div>
 
                 
-                <div className="apt-form-row">
-                  <div className="apt-field" style={{ width: '100%' }}>
+                <div className="apt-form-row" style={{ gridTemplateColumns: '1fr' }}>
+                  <div className="apt-field">
                     <label htmlFor="apt-address" className="apt-label">Address<span className="apt-required">*</span></label>
                     <textarea
                       id="apt-address"

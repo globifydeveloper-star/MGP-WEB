@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { HomeVideoItem } from '@/lib/strapi';
 import './VideoSection.css';
+import GoldValueForm from '../GoldValueForm/GoldValueForm';
 
 const DEFAULT_LANGUAGES = [
   { code: 'hi', label: 'हिंदी', poster: '/components/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
@@ -156,13 +157,13 @@ export default function VideoSection({ videos }: VideoSectionProps) {
             </div>
           </div>
 
-          {/* Right: Brand card */}
-          <div className="vs-brand-card">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/components/logo_image.png"
-              alt="GOLDPOINT - We Buy Gold"
-              className="vs-brand-logo"
+          {/* Right: Brand card -> Replaced with GoldValueForm */}
+          <div className="vs-brand-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <GoldValueForm 
+              isSideForm={true} 
+              heading="Contact us today" 
+              headingHighlight="" 
+              buttonLabel="Enquiry" 
             />
           </div>
         </div>

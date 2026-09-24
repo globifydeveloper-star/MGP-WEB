@@ -48,10 +48,11 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .apt-left-text {
-  flex-shrink: 0;
+  flex-shrink: 1;
 }
 
 .apt-heading {
@@ -60,7 +61,6 @@
   color: #ffffff;
   line-height: 1.2;
   margin-bottom: 0.85rem;
-  white-space: nowrap;
 }
 
 .apt-heading-highlight {
@@ -79,7 +79,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  flex-shrink: 0;
+  flex-shrink: 1;
   padding-top: 3rem;
 }
 

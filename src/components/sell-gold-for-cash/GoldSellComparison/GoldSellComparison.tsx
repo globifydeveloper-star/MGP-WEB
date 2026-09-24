@@ -87,9 +87,10 @@ const DEFAULT_ROWS = [
 
 interface GoldSellComparisonProps {
   rows?: { title?: string; mgpText?: string; tradText?: string }[];
+  ctaHref?: string;
 }
 
-export default function GoldSellComparison({ rows }: GoldSellComparisonProps) {
+export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' }: GoldSellComparisonProps) {
   // Text comes from Strapi when available; icons stay in code, matched by position.
   const COMPARISON_ROWS = rows && rows.length > 0
     ? rows.map((row, idx) => {
@@ -103,13 +104,55 @@ export default function GoldSellComparison({ rows }: GoldSellComparisonProps) {
       })
     : DEFAULT_ROWS;
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+  const [desktopInView, setDesktopInView] = React.useState(false);
+  const [mobileInView, setMobileInView] = React.useState(false);
+  const desktopListRef = React.useRef<HTMLDivElement>(null);
+  const mobileListRef = React.useRef<HTMLDivElement>(null);
 
   const toggleRow = (idx: number) => {
     setOpenIndex(prev => prev === idx ? null : idx);
   };
 
+  React.useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') {
+      // Fallback for browsers without support: reveal shortly after mount instead of
+      // staying hidden forever. Deferred (not synchronous) to avoid cascading renders.
+      const timer = setTimeout(() => {
+        setDesktopInView(true);
+        setMobileInView(true);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+
+    const makeObserver = (setVisible: (v: boolean) => void) =>
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisible(true);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+    const desktopObserver = makeObserver(setDesktopInView);
+    const mobileObserver = makeObserver(setMobileInView);
+
+    if (desktopListRef.current) desktopObserver.observe(desktopListRef.current);
+    if (mobileListRef.current) mobileObserver.observe(mobileListRef.current);
+
+    return () => {
+      desktopObserver.disconnect();
+      mobileObserver.disconnect();
+    };
+  }, []);
+
   return (
     <section className="gsc-section" id="comparison-section">
+      <noscript>
+        <style>{`.gsc-row, .gsc-acc-item { opacity: 1 !important; transform: none !important; animation: none !important; }`}</style>
+      </noscript>
       <div className="container">
         {/* Header Title */}
         <h2 className="gsc-title">
@@ -117,56 +160,77 @@ export default function GoldSellComparison({ rows }: GoldSellComparisonProps) {
           is different from traditional jewellers
         </h2>
 
-        {/* Column Headers */}
-        <div className="gsc-headers-row">
-          <div className="gsc-header-col mgp-col">
-            <Image src={logoImg} alt="Muthoot Gold Point" width={220} height={60} className="gsc-logo" />
-            <p className="gsc-header-text">ENTIRE PROCESS HAPPENS IN FRONT OF YOU</p>
+        {/* Desktop Comparison Table */}
+        <div className="gsc-table-container desktop-only">
+          <div className="gsc-table-wrapper">
+            <table className="gsc-table">
+            <thead>
+              <tr>
+                <th className="gsc-th-feature">Process</th>
+                <th className="gsc-th-mgp">
+                  <div className="gsc-th-mgp-content">
+                    <span className="gsc-th-ribbon">Recommended Choice</span>
+                    <Image src={logoImg} alt="Muthoot Gold Point" width={160} height={44} className="gsc-th-logo" />
+                  </div>
+                </th>
+                <th className="gsc-th-trad">
+                  <div className="gsc-th-trad-content">
+                    <div className="gsc-jeweller-icon-small">
+                      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="20" y="30" width="60" height="50" fill="#E8D1A7"/>
+                        <rect x="15" y="20" width="70" height="10" fill="#EAB64D"/>
+                        <text x="50" y="27.5" fill="#333" fontSize="6" fontWeight="bold" textAnchor="middle">JEWELLER</text>
+                        <rect x="40" y="50" width="20" height="30" fill="#8B5A2B"/>
+                        <circle cx="55" cy="65" r="2" fill="#EAB64D"/>
+                        <rect x="25" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
+                        <rect x="65" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
+                      </svg>
+                    </div>
+                    <span>Traditional Jewellers</span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARISON_ROWS.map((row, idx) => (
+                <tr key={idx} className="gsc-table-row">
+                  <td className="gsc-td-feature">
+                    <div className="gsc-feature-wrap">
+                      <div className="gsc-feature-icon">{row.icon}</div>
+                      <span className="gsc-feature-title">{row.title}</span>
+                    </div>
+                  </td>
+                  <td className="gsc-td-mgp">
+                    <div className="gsc-td-content">
+                      <span className="td-icon check">✓</span>
+                      <p>{row.mgpText}</p>
+                    </div>
+                  </td>
+                  <td className="gsc-td-trad">
+                    <div className="gsc-td-content">
+                      <span className="td-icon cross">✕</span>
+                      <p>{row.tradText}</p>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           </div>
-          <div className="gsc-header-divider"><span className="gsc-vs">Vs</span></div>
-          <div className="gsc-header-col trad-col">
-            <div className="gsc-jeweller-icon">
-              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="20" y="30" width="60" height="50" fill="#E8D1A7"/>
-                <rect x="15" y="20" width="70" height="10" fill="#EAB64D"/>
-                <text x="50" y="27.5" fill="#333" fontSize="6" fontWeight="bold" textAnchor="middle">JEWELLER</text>
-                <rect x="40" y="50" width="20" height="30" fill="#8B5A2B"/>
-                <circle cx="55" cy="65" r="2" fill="#EAB64D"/>
-                <rect x="25" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
-                <rect x="65" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
-              </svg>
-            </div>
-            <p className="gsc-header-text">HOW TRADITIONAL UNORGANIZED PLAYERS WORK</p>
-          </div>
-        </div>
-
-        {/* Desktop Comparison List */}
-        <div className="gsc-list desktop-only">
-          {COMPARISON_ROWS.map((row, idx) => (
-            <div key={idx} className="gsc-row">
-              <div className="gsc-cell mgp-text">
-                <p>{row.mgpText}</p>
-              </div>
-              
-              <div className="gsc-center-step">
-                <div className="gsc-step-icon-wrap">
-                  <div className="gsc-step-icon">{row.icon}</div>
-                </div>
-                <span className="gsc-step-title">{row.title}</span>
-              </div>
-              
-              <div className="gsc-cell trad-text">
-                <p>{row.tradText}</p>
-              </div>
-            </div>
-          ))}
         </div>
 
         {/* Mobile Accordion List */}
         <div className="gsc-list mobile-only">
-          <div className="gsc-acc-wrapper">
+          <div
+            ref={mobileListRef}
+            className={`gsc-acc-wrapper ${mobileInView ? 'in-view' : ''}`}
+          >
             {COMPARISON_ROWS.map((row, idx) => (
-              <div key={idx} className={`gsc-acc-item ${openIndex === idx ? 'open' : ''}`}>
+              <div
+                key={idx}
+                className={`gsc-acc-item ${openIndex === idx ? 'open' : ''}`}
+                style={{ animationDelay: `${idx * 90}ms` }}
+              >
                 <button type="button" className="gsc-acc-header" onClick={() => toggleRow(idx)}>
                   <div className="gsc-acc-header-left">
                     <div className="gsc-step-icon-wrap small">
@@ -197,6 +261,21 @@ export default function GoldSellComparison({ rows }: GoldSellComparisonProps) {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="gsc-cta">
+          <div className="gsc-cta-text">
+            <h3>Ready for the real value of your gold?</h3>
+            <p>Get a transparent, scientifically-tested valuation at your nearest Gold Point.</p>
+          </div>
+          <a href={ctaHref} className="gsc-cta-btn">
+            Check Your Gold Value
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
         </div>
       </div>
     </section>

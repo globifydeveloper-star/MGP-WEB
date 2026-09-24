@@ -290,6 +290,35 @@
   margin-top: 0.6rem;
 }
 
+/* Compact rules for side form */
+.gvf-side-form {
+  padding: 1.1rem 1.4rem !important;
+  background: transparent !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.gvf-side-form .gvf-field {
+  margin-bottom: 0.5rem;
+}
+
+.gvf-side-form .gvf-input {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.gvf-side-form .gvf-submit-btn {
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+.gvf-side-form .gvf-heading {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .gvf-grid {

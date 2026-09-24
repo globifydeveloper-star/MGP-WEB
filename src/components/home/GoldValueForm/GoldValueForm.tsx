@@ -12,9 +12,11 @@ interface GoldValueFormProps {
   heading?: string;
   headingHighlight?: string;
   note?: string;
+  isSideForm?: boolean;
+  buttonLabel?: string;
 }
 
-export default function GoldValueForm({ sectionImage, heading, headingHighlight, note }: GoldValueFormProps) {
+export default function GoldValueForm({ sectionImage, heading, headingHighlight, note, isSideForm, buttonLabel }: GoldValueFormProps) {
   const { rates } = useLiveGoldRates();
   const rate24k = rates['24K']?.perGram || 7502;
   const [displayRate, setDisplayRate] = useState(rate24k);
@@ -61,19 +63,18 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
     setIsLocationModalOpen(true);
   };
 
-  return (
-    <section className="gvf-section" id="gold-value-form">
-      <div className="gvf-pattern-band gvf-pattern-top" aria-hidden="true" />
-      <div className="gvf-pattern-band gvf-pattern-bottom" aria-hidden="true" />
-      <div className="container">
-        <h2 className="gvf-heading">
+  const formContent = (
+    <>
+      <div className="container" style={isSideForm ? { padding: 0 } : {}}>
+        <h2 className={isSideForm ? "gvf-heading-side" : "gvf-heading"} style={isSideForm ? { fontSize: '1.8rem', textAlign: 'left', marginBottom: '1rem', color: 'white' } : {}}>
           {heading || "Estimate The Value Of"}{' '}
-          <span className="gvf-heading-highlight">{headingHighlight || "Your Gold"}</span>
+          {headingHighlight && <span className="gvf-heading-highlight">{headingHighlight}</span>}
         </h2>
 
-        <div className="gvf-grid">
+        <div className={`gvf-grid ${isSideForm ? 'gvf-grid-side' : ''}`} style={isSideForm ? { gridTemplateColumns: '1fr', gap: 0 } : {}}>
           {/* Left: Gold image with live rate badge */}
-          <div className={`gvf-image-col${SHOW_GOLD_RATE_CARD ? '' : ' gvf-image-col--no-badge'}`}>
+          {!isSideForm && (
+            <div className={`gvf-image-col${SHOW_GOLD_RATE_CARD ? '' : ' gvf-image-col--no-badge'}`}>
             <div className="gvf-image-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={sectionImage || "/components/bangle.png"} alt="Gold bangles" className="gvf-image" />
@@ -95,52 +96,56 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 </div>
               </div>
             )}
-          </div>
+            </div>
+          )}
 
           {/* Right: Estimate form */}
-          <div className="gvf-form-col">
-            <form className="gvf-form" onSubmit={handleSubmit}>
+          <div className="gvf-form-col" style={isSideForm ? { padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' } : {}}>
+            <form className={`gvf-form ${isSideForm ? 'gvf-side-form' : ''}`} onSubmit={handleSubmit}>
               {/* Animated Glowing border beam */}
-              <svg
-                className="gvf-gold-beam-svg"
-                viewBox="0 0 430 520"
-                preserveAspectRatio="none"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <linearGradient id="gvf-shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
-                    <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
-                    <animate attributeName="y1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
-                    <animate attributeName="x2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
-                    <animate attributeName="y2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
-
-                    <stop offset="0%" stopColor="#EBAF20" stopOpacity="0" />
-                    <stop offset="40%" stopColor="#EBAF20" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#FFD778" stopOpacity="1" />
-                    <stop offset="60%" stopColor="#EBAF20" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#EBAF20" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <rect
-                  x="1"
-                  y="1"
-                  width="428"
-                  height="518"
-                  rx="20"
+              {!isSideForm && (
+                <svg
+                  className="gvf-gold-beam-svg"
+                  viewBox="0 0 430 520"
+                  preserveAspectRatio="none"
                   fill="none"
-                  stroke="url(#gvf-shine-gradient)"
-                  className="gvf-gold-beam-rect"
-                />
-              </svg>
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="gvf-shine-gradient" x1="-100%" y1="-100%" x2="0%" y2="0%">
+                      <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="y1" from="-100%" to="200%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="x2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="y2" from="0%" to="300%" dur="4s" repeatCount="indefinite" />
+
+                      <stop offset="0%" stopColor="#EBAF20" stopOpacity="0" />
+                      <stop offset="40%" stopColor="#EBAF20" stopOpacity="0" />
+                      <stop offset="50%" stopColor="#FFD778" stopOpacity="1" />
+                      <stop offset="60%" stopColor="#EBAF20" stopOpacity="0" />
+                      <stop offset="100%" stopColor="#EBAF20" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <rect
+                    x="1"
+                    y="1"
+                    width="428"
+                    height="518"
+                    rx="20"
+                    fill="none"
+                    stroke="url(#gvf-shine-gradient)"
+                    className="gvf-gold-beam-rect"
+                  />
+                </svg>
+              )}
 
               <div className="gvf-field">
-                <label htmlFor="gvf-name" className="gvf-label">Name<span className="gvf-required">*</span></label>
+                <label htmlFor="gvf-name" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Name<span className="gvf-required">*</span></label>
                 <input
                   id="gvf-name"
                   name="name"
                   type="text"
                   className="gvf-input"
+                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
                   placeholder="Full Name"
                   value={formData.name}
                   onChange={handleChange}
@@ -148,12 +153,13 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               </div>
 
               <div className="gvf-field">
-                <label htmlFor="gvf-phone" className="gvf-label">Phone Number</label>
+                <label htmlFor="gvf-phone" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Phone Number</label>
                 <input
                   id="gvf-phone"
                   name="phone"
                   type="tel"
                   className="gvf-input"
+                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
                   placeholder="Enter your Number"
                   value={formData.phone}
                   onChange={handleChange}
@@ -161,12 +167,13 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               </div>
 
               <div className="gvf-field">
-                <label htmlFor="gvf-purity" className="gvf-label">Enter Purity</label>
+                <label htmlFor="gvf-purity" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Enter Purity</label>
                 <input
                   id="gvf-purity"
                   name="purity"
                   type="text"
                   className="gvf-input"
+                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
                   placeholder="Enter Purity"
                   value={formData.purity}
                   onChange={handleChange}
@@ -174,7 +181,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               </div>
 
               <div className="gvf-field">
-                <label htmlFor="gvf-weight" className="gvf-label">Weight In Grams</label>
+                <label htmlFor="gvf-weight" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Weight In Grams</label>
                 <input
                   id="gvf-weight"
                   name="weight"
@@ -182,6 +189,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   min="0"
                   step="0.01"
                   className="gvf-input"
+                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
                   placeholder="Quantity (in grams)"
                   value={formData.weight}
                   onChange={handleChange}
@@ -193,14 +201,15 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 />
               </div>
 
-              <button type="submit" className="gvf-submit-btn">Check Rate</button>
+              <button type="submit" className="gvf-submit-btn">{buttonLabel || "Check Rate"}</button>
 
-              <p className="gvf-form-note">{note || "Final Value may vary based on physical verification"}</p>
+              <p className="gvf-form-note" style={isSideForm ? { color: 'rgba(255,255,255,0.7)' } : {}}>{note || "Final Value may vary based on physical verification"}</p>
             </form>
           </div>
         </div>
       </div>
       <LocationPopup
+
         isOpen={isLocationModalOpen}
         onClose={() => setIsLocationModalOpen(false)}
         clientData={formData}
@@ -213,6 +222,18 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
           });
         }}
       />
+    </>
+  );
+
+  if (isSideForm) {
+    return formContent;
+  }
+
+  return (
+    <section className="gvf-section" id="gold-value-form">
+      <div className="gvf-pattern-band gvf-pattern-top" aria-hidden="true" />
+      <div className="gvf-pattern-band gvf-pattern-bottom" aria-hidden="true" />
+      {formContent}
     </section>
   );
 }
