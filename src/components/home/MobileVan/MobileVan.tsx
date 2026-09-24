@@ -65,7 +65,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
                   <line x1="11" y1="9" x2="11" y2="12" />
                   <line x1="15" y1="9" x2="15" y2="12" />
                   <line x1="19" y1="9" x2="19" y2="12" />
-                </svg>
+                </svg>``
               </span>
               <span className="van-feature-text">Precision weighing</span>
             </div>
