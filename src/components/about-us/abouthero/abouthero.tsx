@@ -3,7 +3,7 @@
 import React from 'react';
 import './abouthero.css';
 import Image from 'next/image';
-import aboutMgpImg from '@/assets/images/about-mgp-img.jpg';
+import aboutUs1Img from '@/assets/images/ABOUTUS1.png';
 import { AboutUsPageData } from '@/lib/strapi';
 
 interface AboutHeroProps {
@@ -41,7 +41,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
             <div className="about-hero-media">
               <div className="about-hero-img-wrapper">
                 <div className={`about-hero-img-grid ${data?.heroImages?.length && data.heroImages.length > 1 ? 'multi-image' : ''}`}>
-                  {(data?.heroImages?.length ? data.heroImages : [aboutMgpImg]).map((img, idx) => (
+                  {(data?.heroImages?.length ? data.heroImages : [aboutUs1Img]).map((img, idx) => (
                     <div key={idx} className="about-hero-img-clip">
                       <Image
                         src={img}

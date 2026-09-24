@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import './MobileVan.css';
+import vanImgDefault from '@/assets/images/MobileVan.png';
 
 interface MobileVanProps {
   headingLight?: string;
@@ -11,8 +14,42 @@ interface MobileVanProps {
 }
 
 export default function MobileVan({ headingLight, headingBold, description, buttonLabel, vanImage }: MobileVanProps) {
+  const [vanInView, setVanInView] = React.useState(false);
+  // Observed target must stay untransformed: the van itself is animated off-canvas
+  // via CSS transform, and IntersectionObserver measures post-transform geometry,
+  // so observing the transformed element directly can make it appear to never
+  // enter the viewport. Observe the stable wrapper around it instead.
+  const vanTriggerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') {
+      // Fallback for browsers without support: reveal shortly after mount instead of
+      // staying hidden forever. Deferred (not synchronous) to avoid cascading renders.
+      const timer = setTimeout(() => setVanInView(true), 0);
+      return () => clearTimeout(timer);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVanInView(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (vanTriggerRef.current) observer.observe(vanTriggerRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="mobile-van-section">
+      <noscript>
+        <style>{`.van-illustration-wrapper { opacity: 1 !important; transform: none !important; animation: none !important; }`}</style>
+      </noscript>
       <div className="mobile-van-container">
 
         <div className="mobile-van-left">
@@ -28,25 +65,17 @@ export default function MobileVan({ headingLight, headingBold, description, butt
           </Link>
         </div>
 
-        <div className="mobile-van-right">
-          <div className="van-illustration-wrapper">
-            <div className="van-motion-lines">
-              <span className="van-motion-line" />
-              <span className="van-motion-line" />
-              <span className="van-motion-line" />
-            </div>
-
+        <div className="mobile-van-right" ref={vanTriggerRef}>
+          <div
+            className={`van-illustration-wrapper ${vanInView ? 'van-in-view' : ''}`}
+          >
             <div className="van-photo-crop">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={vanImage || "/van.png"} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
+              <img src={vanImage || vanImgDefault.src} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
             </div>
           </div>
 
-          <div className="van-road-full">
-            <div className="van-road-bar">
-              <div className="van-road-dashes" />
-            </div>
-          </div>
+
 
           <div className="van-features-row">
             <div className="van-feature-item">

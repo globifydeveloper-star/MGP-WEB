@@ -131,14 +131,6 @@ export default async function Home() {
       {/* 8. FAQs Accordion Section */}
       <FAQ faqs={faqs} />
 
-      {/* Estimate The Value Of Your Gold Section - Lead Form */}
-      <GoldValueForm
-        sectionImage={sharedMedia?.goldValueFormImage}
-        heading={homepageData?.estimateGoldHeading}
-        headingHighlight={homepageData?.estimateGoldHeadingHighlight}
-        note={homepageData?.estimateGoldNote}
-      />
-
       {/* 9. Recent Posts Section - Blog */}
       <RecentPost posts={recentPosts} />
 

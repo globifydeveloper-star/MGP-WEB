@@ -136,6 +136,42 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+.footer-gold-rate-btn {
+  background: var(--gold-gradient);
+  color: #0c1835;
+  font-weight: 700;
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.footer-gold-rate-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.footer-gold-rate-btn-inline {
+  display: inline-block;
+  background: var(--gold-gradient);
+  color: #0c1835;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  margin-top: 0.15rem;
+  margin-bottom: 0.15rem;
+}
+
+.footer-gold-rate-btn-inline:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
 .website-dropdown {
   background: #0c1835;
   color: rgba(255, 255, 255, 0.8);

@@ -33,11 +33,17 @@ const DEFAULT_FAQS = [
 
 export default function FAQ({ faqs }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [showAll, setShowAll] = useState(false);
 
   const activeFaqs = faqs && faqs.length > 0 ? faqs : DEFAULT_FAQS;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const handleMouseEnter = (index: number) => {
+    if (!showAll && index === 5) return; // don't open the 6th one if it's masked
+    setOpenIndex(index);
   };
 
   return (
@@ -55,13 +61,23 @@ export default function FAQ({ faqs }: FAQProps) {
 
         <div className="faq2-list">
           {activeFaqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
+            if (!showAll && idx > 5) return null;
+            const isSixth = !showAll && idx === 5;
+            const isOpen = openIndex === idx && !isSixth;
+
             return (
-              <div key={idx} className={`faq2-item ${isOpen ? 'faq2-item-open' : ''}`}>
+              <div 
+                key={idx} 
+                className={`faq2-item ${isOpen ? 'faq2-item-open' : ''} ${isSixth ? 'faq2-item-masked' : ''}`} 
+                onMouseEnter={() => handleMouseEnter(idx)}
+              >
                 <button
                   type="button"
                   className="faq2-question-btn"
-                  onClick={() => toggleFAQ(idx)}
+                  onClick={() => {
+                    if (isSixth) setShowAll(true);
+                    else toggleFAQ(idx);
+                  }}
                   aria-expanded={isOpen}
                 >
                   <span className="faq2-question-text">{faq.question}</span>
@@ -81,14 +97,39 @@ export default function FAQ({ faqs }: FAQProps) {
                 </button>
 
                 <div className={`faq2-answer-wrapper ${isOpen ? 'faq2-expanded' : ''}`}>
-                  <div className="faq2-answer-content prose" style={{ color: 'inherit' }}>
-                    <ReactMarkdown>{faq.answer}</ReactMarkdown>
+                  <div className="faq2-answer-inner">
+                    <div className="faq2-answer-content prose" style={{ color: 'inherit' }}>
+                      <ReactMarkdown>{faq.answer}</ReactMarkdown>
+                    </div>
                   </div>
                 </div>
+
+                {isSixth && (
+                  <div className="faq2-show-more-overlay">
+                    <button className="faq2-show-more-btn" onClick={() => setShowAll(true)}>
+                      Read More FAQs
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
+
+        {showAll && activeFaqs.length > 5 && (
+          <div className="faq2-view-less-container">
+            <button className="faq2-show-more-btn" onClick={() => {
+              setShowAll(false);
+              setOpenIndex(null); // Optional: close open FAQ
+              
+              // Scroll back up to the FAQ section so the user doesn't lose their place
+              const faqEl = document.getElementById('faq');
+              if (faqEl) faqEl.scrollIntoView({ behavior: 'smooth' });
+            }}>
+              View Less FAQs
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

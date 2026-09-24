@@ -8,10 +8,12 @@
 
 .mobile-van-container {
   display: grid;
-  grid-template-columns: 0.85fr 1.35fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 2rem;
-  padding: 3.5rem 2rem;
+  gap: 4rem;
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .mobile-van-left {
@@ -25,7 +27,7 @@
 .mobile-van-title .title-line-light,
 .mobile-van-title .title-line-bold {
   display: block;
-  font-size: 2.6rem;
+  font-size: 3.4rem;
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: #16225C;
@@ -71,77 +73,60 @@
   align-items: stretch;
 }
 
-.van-motion-lines {
-  position: absolute;
-  left: -227865%;
-  top: 80%;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.van-motion-line {
-  display: block;
-  width: 18px;
-  height: 2.5px;
-  border-radius: 2px;
-  background: rgba(90, 95, 100, 0.7);
-  animation: van-motion-line-move 0.5s ease-in-out infinite;
-}
-
-.van-motion-line:nth-child(1) {
-  width: 14px;
-  animation-delay: 0s;
-}
-
-.van-motion-line:nth-child(2) {
-  width: 18px;
-  animation-delay: 0.08s;
-}
-
-.van-motion-line:nth-child(3) {
-  width: 18px;
-  animation-delay: 0.16s;
-}
-
-@keyframes van-motion-line-move {
-  0% {
-    transform: translateX(8px);
-    opacity: 0;
-  }
-
-  35% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(-14px);
-    opacity: 0;
-  }
-}
-
 .van-illustration-wrapper {
   position: relative;
   z-index: 2;
   width: 100%;
   max-width: 560px;
-  margin-left: auto;
-  margin-bottom: -20px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateX(120%) translateY(10px);
+}
+
+.van-illustration-wrapper.van-in-view {
+  animation: van-drive-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes van-drive-in {
+  0% {
+    opacity: 0;
+    transform: translateX(120%) translateY(10px);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateX(-3%) translateY(-4px);
+  }
+
+  75% {
+    transform: translateX(1.5%) translateY(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* Never let the van stay invisible if JS is unavailable or motion is reduced */
+@media (prefers-reduced-motion: reduce) {
+  .van-illustration-wrapper {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
 }
 
 .van-photo-crop {
   position: relative;
   width: 100%;
-  aspect-ratio: 380 / 180;
-  overflow: visible;
 }
 
 .van-photo-img {
-  position: absolute;
-  top: 0%;
-  left: -40%;
-  width: 120%;
+  position: relative;
+  width: 110%;
+  left: -5%;
   height: auto;
   display: block;
   filter: drop-shadow(0 14px 16px rgba(20, 25, 60, 0.25));
@@ -189,12 +174,11 @@
 
 .van-features-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1.25rem;
-  margin-top: 1.5rem;
+  margin: 1.5rem auto 0;
   max-width: 560px;
-  margin-left: auto;
-  transform: translateX(-210px);
+  width: 100%;
 }
 
 .van-feature-item {
@@ -252,9 +236,8 @@
   }
 
   .van-photo-img {
-    left: 0% !important;
     width: 100% !important;
-    top: 18%;
+    left: 0;
   }
 }
 
@@ -262,7 +245,7 @@
 
   .mobile-van-title .title-line-light,
   .mobile-van-title .title-line-bold {
-    font-size: 2rem;
+    font-size: 2.3rem;
   }
 
   .van-features-row {
@@ -285,7 +268,7 @@
 
   .mobile-van-title .title-line-light,
   .mobile-van-title .title-line-bold {
-    font-size: 1.65rem;
+    font-size: 1.9rem;
   }
 
   .mobile-van-desc {
@@ -310,7 +293,7 @@
   .mobile-van-container { padding: 2rem 1.25rem; gap: 1.25rem; }
   .mobile-van-title { margin-bottom: 0.9rem; }
   .mobile-van-title .title-line-light,
-  .mobile-van-title .title-line-bold { font-size: 2.1rem; }
+  .mobile-van-title .title-line-bold { font-size: 2.8rem; }
   .mobile-van-desc { margin-bottom: 1.25rem; }
 }
 
@@ -318,7 +301,7 @@
   .mobile-van-container { padding: 1.5rem 1rem; gap: 1rem; }
   .mobile-van-title { margin-bottom: 0.6rem; }
   .mobile-van-title .title-line-light,
-  .mobile-van-title .title-line-bold { font-size: 1.5rem; }
+  .mobile-van-title .title-line-bold { font-size: 2rem; }
   .mobile-van-desc { margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.5; }
   .mobile-van-btn { padding: 0.75rem 1.75rem; }
 }

@@ -121,7 +121,7 @@ export default function GoldSellContact() {
   };
 
   return (
-    <section className="grct-section">
+    <section className="grct-section" id="sell-gold-contact">
       <div className="grct-bg">
         <Image
           src={handHoldingGoldImg}

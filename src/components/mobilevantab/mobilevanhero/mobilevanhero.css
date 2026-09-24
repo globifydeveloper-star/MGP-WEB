@@ -13,8 +13,8 @@
   inset: 0;
   margin-top: -250px;
   background-color: #b38e3a;
-  -webkit-mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to bottom, #000 0%, #000 35%, transparent 75%);
-  mask-image: url('/gcard_bg_pattern.png'), linear-gradient(to bottom, #000 0%, #000 35%, transparent 75%);
+  -webkit-mask-image: url('/components/gcard_bg_pattern.png'), linear-gradient(to bottom, #000 0%, #000 35%, transparent 75%);
+  mask-image: url('/components/gcard_bg_pattern.png'), linear-gradient(to bottom, #000 0%, #000 35%, transparent 75%);
   -webkit-mask-repeat: repeat, no-repeat;
   mask-repeat: repeat, no-repeat;
   -webkit-mask-size: 320px 320px, 100% 100%;
@@ -96,9 +96,9 @@
   width: 100%;
   max-width: 800px;
   height: auto;
-  aspect-ratio: 800 / 350;
+  aspect-ratio: 800 / 500;
   z-index: 2;
-  margin-left: -65px;
+  margin-left: 0;
   margin-top: 150px;
   display: block;
 }
@@ -106,6 +106,7 @@
 .mvh-van-img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
   display: block;
   filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.45));
 }
@@ -175,7 +176,7 @@
     width: 92%;
     max-width: 550px;
     height: auto;
-    aspect-ratio: 1900 / 828;
+    aspect-ratio: 1900 / 1200;
     margin: 0 auto;
     display: block;
   }
