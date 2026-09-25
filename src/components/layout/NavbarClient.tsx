@@ -134,7 +134,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
         {/* Right Side: Phone Contact & CTA */}
         <div className="navbar-right-group">
           <div className="navbar-social-group" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '15px', fontFamily: "'Gilroy', var(--font-outfit), sans-serif", fontWeight: 500 }}>
-            <span style={{ whiteSpace: 'nowrap' }}>Follow us on :</span>
+            <span className="navbar-social-text" style={{ whiteSpace: 'nowrap' }}>Follow us on :</span>
             <div style={{ display: 'flex', gap: '10px' }}>
               <a href="#" aria-label="Instagram" style={{ transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
                 <svg width="24" height="24" viewBox="0 0 24 24">

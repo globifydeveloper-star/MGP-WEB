@@ -603,6 +603,11 @@
   .navbar-right-group {
     gap: 16px;
   }
+
+  .navbar-social-text,
+  .navbar-social-group {
+    display: none !important;
+  }
 }
 
 /* ── Compact Laptop: 1025px–1279px (Small 13" laptops) ── */
@@ -659,10 +664,18 @@
   }
 }
 
+.navbar-social-text {
+  display: inline-block;
+}
 
 @media (max-width: 768px) {
   .navbar-header {
     height: 80px;
+  }
+
+  .navbar-social-text,
+  .navbar-social-group {
+    display: none !important;
   }
 
   .navbar-nav {

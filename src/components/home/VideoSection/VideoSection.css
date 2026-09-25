@@ -437,7 +437,10 @@
   }
 
   .vs-brand-card {
-    display: none;
+    display: flex;
+    max-width: 100%;
+    aspect-ratio: auto;
+    padding: 2rem 1.5rem;
   }
 }
 
