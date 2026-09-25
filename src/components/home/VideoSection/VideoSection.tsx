@@ -10,10 +10,10 @@ const DEFAULT_LANGUAGES = [
   { code: 'ml', label: 'മലയാളം', poster: '/components/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
   { code: 'ta', label: 'தமிழ்', poster: '/components/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
   { code: 'kn', label: 'ಕನ್ನಡ', poster: '/components/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
-  { code: 'en', label: 'EN', poster: '/components/video_thumb.png', video: null },
-  { code: 'te', label: 'తెలుగు', poster: '/components/video_thumb.png', video: null },
-  { code: 'mr', label: 'मराठी', poster: '/components/video_thumb.png', video: null },
-  { code: 'bn', label: 'বাংলা', poster: '/components/video_thumb.png', video: null },
+  // { code: 'en', label: 'EN', poster: '/components/video_thumb.png', video: null },
+  // { code: 'te', label: 'తెలుగు', poster: '/components/video_thumb.png', video: null },
+  // { code: 'mr', label: 'मराठी', poster: '/components/video_thumb.png', video: null },
+  // { code: 'bn', label: 'বাংলা', poster: '/components/video_thumb.png', video: null },
 ];
 
 const VISIBLE_COUNT = 4;

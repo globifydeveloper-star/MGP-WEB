@@ -317,6 +317,12 @@
   animation: gsp-slide-in 0.35s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
+.gsp-carousel-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+}
+
 @keyframes gsp-slide-in {
   from {
     opacity: 0;
@@ -480,6 +486,10 @@
   .gsp-carousel-dot {
     width: 12px;
     height: 12px;
+  }
+
+  .gsp-carousel-content {
+    min-height: 220px;
   }
 }
 
