@@ -12,6 +12,7 @@ import RecentPost from '@/components/home/RecentPost/RecentPost';
 import Feedback from '@/components/home/Feedback/Feedback';
 import Footer from '@/components/layout/Footer';
 import FAQ from '@/components/home/FAQ/FAQ';
+import TheGpDiff from '@/components/home/TheGpDiff/TheGpDiff';
 import {
   getBlogPosts,
   getHomepageData,
@@ -95,22 +96,25 @@ export default async function Home() {
 
   return (
     <main>
-      {/* 1. Navbar Navigation */}
+      {/* Navbar Navigation */}
       {!homepageData?.hideNavbar && <Navbar />}
 
-      {/* Hero Section - crossfades between the Hero and a second promo slide */}
+      {/* 1. Hero Section */}
       <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} globalStats={globalStats} showStats={false} />
 
-      {/* Gold Selling Process Section */}
+      {/* 2. Gold Selling Process Section */}
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
 
-      {/* Video Section */}
+      {/* 3. Video Section || form */}
       <VideoSection videos={homepageData?.homeVideos} />
 
-      {/* How Muthoot Gold Point is different from traditional jewellers */}
+      {/* 4. Comparison Table */}
       <GoldSellComparison rows={comparisonRows} />
 
-      {/* 2. Mobile Van Banner */}
+      {/* 5. The MGP Difference */}
+      <TheGpDiff cards={differenceBoxes} />
+
+      {/* 6. Mobile Van Banner */}
       <MobileVan
         headingLight={homepageData?.vanHeadingLight}
         headingBold={homepageData?.vanHeadingBold}
@@ -119,25 +123,25 @@ export default async function Home() {
         vanImage={homepageData?.vanImage}
       />
 
-      {/* New Section - Group Company Details */}
+      {/* 7. Hero Slide (Promo Slides) */}
       <NewSection slides={promoSlides} />
 
-      {/* Stats ribbon */}
+      {/* 8. Hero Stats */}
       <HeroStats globalStats={globalStats} />
 
-      {/* 7. Feedback Testimonial Slider */}
+      {/* 9. Testimonials */}
       <Feedback reviews={testimonials} />
 
-      {/* 8. FAQs Accordion Section */}
-      <FAQ faqs={faqs} />
-
-      {/* 9. Recent Posts Section - Blog */}
-      <RecentPost posts={recentPosts} />
-
-      {/* Branch Locator Section */}
+      {/* 10. Branch Locator */}
       <BranchLocator />
 
-      {/* 10. Footer Section */}
+      {/* 11. FAQ */}
+      <FAQ faqs={faqs} />
+
+      {/* 12. Blog Post */}
+      <RecentPost posts={recentPosts} />
+
+      {/* 13. Footer Section */}
       { !homepageData?.hideFooter && <Footer /> }
     </main>
   );
