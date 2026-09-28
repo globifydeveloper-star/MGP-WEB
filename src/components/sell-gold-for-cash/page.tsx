@@ -29,7 +29,12 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows, page
       <StickyWatchNow />
 
       <main style={{ backgroundColor: '#0c1835' }}>
-        <SellGoldHero heroImage={pageSettings?.heroImage} />
+        <SellGoldHero
+          heroImage={pageSettings?.heroImage}
+          trustBadgePrefix={pageSettings?.trustBadgePrefix}
+          trustBadgeHighlight={pageSettings?.trustBadgeHighlight}
+          trustBadgeSuffix={pageSettings?.trustBadgeSuffix}
+        />
 
         {/* Gold Selling Process Section */}
         <GoldSellProcess steps={processSteps} />

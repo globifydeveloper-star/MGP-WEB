@@ -12,7 +12,14 @@ import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import bannerLogo from '@/assets/images/banner-logo.png';
 
-export default function SellGoldHero({ heroImage }: { heroImage?: string }) {
+interface SellGoldHeroProps {
+  heroImage?: string;
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
+}
+
+export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: SellGoldHeroProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -179,7 +186,7 @@ export default function SellGoldHero({ heroImage }: { heroImage?: string }) {
                 priority
               />
               <span className="sg-trust-badge-text">
-                Trusted by <span className="sg-gold-highlight">5 Lakh+ Customers</span> Across India
+                {trustBadgePrefix || 'Trusted by'} <span className="sg-gold-highlight">{trustBadgeHighlight || 'Customers'}</span> {trustBadgeSuffix || 'Across India'}
               </span>
             </div>
             <div className="sg-trust-badge-line-wrap">

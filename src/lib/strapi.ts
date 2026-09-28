@@ -404,6 +404,9 @@ export interface HomepageData {
   hideFooter?: boolean;
   hideNavbar?: boolean;
   homeVideos?: HomeVideoItem[];
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
 }
 
 export interface HeroSlide {
@@ -508,6 +511,9 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
     seoDescription: flat.seoDescription,
     ogImage: getMediaUrl(flat.ogImage),
     hideFooter: flat.hideFooter ?? false,
+    trustBadgePrefix: flat.trustBadgePrefix,
+    trustBadgeHighlight: flat.trustBadgeHighlight,
+    trustBadgeSuffix: flat.trustBadgeSuffix,
     homeVideos: Array.isArray(flat.homeVideos)
       ? flat.homeVideos.map((item: any) => ({
         id: item.id,
@@ -1032,6 +1038,9 @@ export interface SellGoldPageSettings {
   heroImage?: string;
   overviewImage1?: string;
   overviewImage2?: string;
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
 }
 
 export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
@@ -1046,6 +1055,9 @@ export const getSellGoldPageSettings = cache(async function getSellGoldPageSetti
     heroImage: getMediaUrl(flat.heroImage),
     overviewImage1: getMediaUrl(flat.overviewImage1),
     overviewImage2: getMediaUrl(flat.overviewImage2),
+    trustBadgePrefix: flat.trustBadgePrefix,
+    trustBadgeHighlight: flat.trustBadgeHighlight,
+    trustBadgeSuffix: flat.trustBadgeSuffix,
   };
 });
 

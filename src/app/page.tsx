@@ -100,7 +100,15 @@ export default async function Home() {
       {!homepageData?.hideNavbar && <Navbar />}
 
       {/* 1. Hero Section */}
-      <HeroSlider slides={heroSlides} firstSlideImage={homepageData?.heroFirstSlideImage} globalStats={globalStats} showStats={false} />
+      <HeroSlider
+        slides={heroSlides}
+        firstSlideImage={homepageData?.heroFirstSlideImage}
+        globalStats={globalStats}
+        showStats={false}
+        trustBadgePrefix={homepageData?.trustBadgePrefix}
+        trustBadgeHighlight={homepageData?.trustBadgeHighlight}
+        trustBadgeSuffix={homepageData?.trustBadgeSuffix}
+      />
 
       {/* 2. Gold Selling Process Section */}
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />

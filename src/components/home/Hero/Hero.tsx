@@ -30,9 +30,12 @@ interface HeroProps {
   imageSrc?: string;
   mediaType?: 'image' | 'video';
   layout?: 'full' | 'half';
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
 }
 
-export default function Hero({ slide, imageSrc, mediaType, layout = 'full' }: HeroProps) {
+export default function Hero({ slide, imageSrc, mediaType, layout = 'full', trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroProps) {
   // Below the design width/height, uniformly scale the pixel-pinned canvas down so
   // it still fits the viewport instead of overflowing/clipping (e.g. the
   // gold rate card running off-screen or vertically below the page).
@@ -76,6 +79,9 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full' }: He
           heroText={slide?.heroText}
           button1={slide?.button1}
           button2={slide?.button2}
+          trustBadgePrefix={trustBadgePrefix}
+          trustBadgeHighlight={trustBadgeHighlight}
+          trustBadgeSuffix={trustBadgeSuffix}
         />
 
         {/* Right Column - holds mobile visual content under 1024px */}

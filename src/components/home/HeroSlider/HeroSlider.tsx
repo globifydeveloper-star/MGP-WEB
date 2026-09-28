@@ -17,9 +17,12 @@ interface HeroSliderProps {
   layout?: 'full' | 'half';
   globalStats?: any;
   showStats?: boolean;
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
 }
 
-export default function HeroSlider({ slides, firstSlideImage, layout = 'full', globalStats, showStats = true }: HeroSliderProps) {
+export default function HeroSlider({ slides, firstSlideImage, layout = 'full', globalStats, showStats = true, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroSliderProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
@@ -53,7 +56,7 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full', g
     const imageSrc = firstSlideImage || firstSlide?.heroImage || firstSlide?.media?.url;
     return (
       <>
-        <Hero slide={firstSlide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} />
+        <Hero slide={firstSlide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} trustBadgePrefix={trustBadgePrefix} trustBadgeHighlight={trustBadgeHighlight} trustBadgeSuffix={trustBadgeSuffix} />
         {showStats && <HeroStats globalStats={globalStats} />}
       </>
     );
@@ -69,7 +72,7 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full', g
           return (
             <div key={idx} className={`hero-slider-slide${isActive ? ' is-active' : ''}`} aria-hidden={!isActive}>
               {idx === 0 ? (
-                <Hero slide={slide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} />
+                <Hero slide={slide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} trustBadgePrefix={trustBadgePrefix} trustBadgeHighlight={trustBadgeHighlight} trustBadgeSuffix={trustBadgeSuffix} />
               ) : (
                 <HeroSlideTwo slide={slide} imageSrc={imageSrc} />
               )}

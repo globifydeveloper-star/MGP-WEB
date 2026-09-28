@@ -19,9 +19,12 @@ interface HeroLeftColumnProps {
     label?: string;
     link?: string;
   };
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
 }
 
-export default function HeroLeftColumn({ heroText, button1, button2 }: HeroLeftColumnProps) {
+export default function HeroLeftColumn({ heroText, button1, button2, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroLeftColumnProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -114,7 +117,7 @@ export default function HeroLeftColumn({ heroText, button1, button2 }: HeroLeftC
             priority
           />
           <span className="trust-badge-text-v2">
-            Trusted by <span className="gold-highlight">5 Lakh+ Customers</span> Across India
+            {trustBadgePrefix || 'Trusted by'} <span className="gold-highlight">{trustBadgeHighlight || 'Customers'}</span> {trustBadgeSuffix || 'Across India'}
           </span>
         </div>
         <div className="trust-badge-line-wrapper">
