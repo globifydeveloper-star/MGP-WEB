@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+
+const isProductionBuild = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
 
 const publicStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
 if (!publicStrapiUrl && process.env.NODE_ENV === "production") {
@@ -8,7 +11,7 @@ const strapiUrl = new URL(
   publicStrapiUrl && /^https?:\/\//.test(publicStrapiUrl) ? publicStrapiUrl : "http://localhost:1337"
 );
 
-if (!process.env.STRAPI_INTERNAL_URL && process.env.NODE_ENV === "production") {
+if (!process.env.STRAPI_INTERNAL_URL && process.env.NODE_ENV === "production" && !isProductionBuild) {
   throw new Error("STRAPI_INTERNAL_URL is not set");
 }
 const strapiInternalUrl = (process.env.STRAPI_INTERNAL_URL || "http://localhost:1337").replace(/\/+$/, "");
