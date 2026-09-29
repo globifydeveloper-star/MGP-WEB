@@ -73,6 +73,9 @@ export async function loginChannelLead(
   const p = password || PASSWORD;
 
   loginPromise = (async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
     try {
       const res = await fetch(AUTH_URL, {
         method: 'POST',
@@ -82,6 +85,7 @@ export async function loginChannelLead(
         },
         body: JSON.stringify({ username: u, password: p }),
         cache: 'no-store',
+        signal: controller.signal,
       });
 
       if (!res.ok) {
@@ -101,10 +105,15 @@ export async function loginChannelLead(
       }
 
       return null;
-    } catch (err) {
-      console.error('[Auth/Login] Error fetching auth token:', err);
+    } catch (err: any) {
+      if (err?.name === 'AbortError') {
+        console.error('[Auth/Login] Request timed out (10s)');
+      } else {
+        console.error('[Auth/Login] Error fetching auth token:', err);
+      }
       return null;
     } finally {
+      clearTimeout(timeoutId);
       loginPromise = null;
     }
   })();

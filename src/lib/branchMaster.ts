@@ -43,11 +43,20 @@ export async function fetchAllBranchDetails(): Promise<BranchMasterDetail[]> {
     }
 
     const url = `${BRANCH_MASTER_BASE_URL}/Branch/FetchBranchDetails`;
-    const res = await fetch(url, {
-      method: 'GET',
-      headers,
-      next: { revalidate: 86400 },
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        method: 'GET',
+        headers,
+        next: { revalidate: 86400 },
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!res.ok) {
       console.warn(`fetchAllBranchDetails failed with HTTP ${res.status}`);
