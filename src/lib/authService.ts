@@ -99,7 +99,7 @@ export async function loginChannelLead(
       if (token) {
         cachedAuthToken = {
           token: token,
-          expiresAt: Date.now() + 23 * 60 * 60 * 1000,
+          expiresAt: Date.now() + 10 * 60 * 60 * 1000,
         };
         return cachedAuthToken.token;
       }
