@@ -5,8 +5,7 @@ const strapiUrl = new URL(
   publicStrapiUrl && /^https?:\/\//.test(publicStrapiUrl) ? publicStrapiUrl : "http://localhost:1337"
 );
 
-// Resolved at build time; the default matches the ECS Service Connect name for the backend.
-const strapiInternalUrl = (process.env.STRAPI_INTERNAL_URL || "http://strapi:1337").replace(/\/+$/, "");
+const strapiInternalUrl = (process.env.STRAPI_INTERNAL_URL || "http://localhost:1337").replace(/\/+$/, "");
 
 const isLocalStrapi = ["localhost", "127.0.0.1", "::1"].includes(strapiUrl.hostname);
 
