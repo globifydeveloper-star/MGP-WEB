@@ -7,8 +7,13 @@ const STRAPI_URL = (() => {
   const url =
     (isServer && process.env.STRAPI_INTERNAL_URL) ||
     process.env.NEXT_PUBLIC_STRAPI_URL ||
-    (isServer ? 'http://localhost:1337' : '/strapi');
-  return url.replace(/\/+$/, '');
+    null;
+  if (url) return url.replace(/\/+$/, '');
+  if (!isServer) return '/strapi';
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('STRAPI_INTERNAL_URL is not set');
+  }
+  return 'http://localhost:1337';
 })();
 const PUBLIC_STRAPI_URL = (process.env.NEXT_PUBLIC_STRAPI_URL || '/strapi').replace(/\/+$/, '');
 const REVALIDATE_INTERVAL = 60; // 60s ISR background refresh
