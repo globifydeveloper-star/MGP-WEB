@@ -6,6 +6,7 @@ import { validateName, validatePhone, validateRequired, validateOtp } from '@/li
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { MobileVanPageData } from '@/lib/strapi';
 import './appoinment.css';
+import vanImgDefault from '@/assets/images/MobileVan.png';
 
 const GaugeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -43,7 +44,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
   const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
 
-  const MOBILE_VAN_CITIES = ['mumbai', 'kalyan', 'bengaluru'];
+  const MOBILE_VAN_CITIES = ['mumbai', 'kalyan', 'bengaluru', 'bangalore'];
 
   const availableStates = useMemo(() => {
     return statesList.filter(state => {
@@ -203,7 +204,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
             <div className="apt-van-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/mobile_van.png" alt="Muthoot Gold Point mobile van" className="apt-van-img" />
+              <img src={vanImgDefault.src} alt="Muthoot Gold Point mobile van" className="apt-van-img" />
             </div>
           </div>
 

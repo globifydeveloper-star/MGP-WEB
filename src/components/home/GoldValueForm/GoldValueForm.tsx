@@ -6,6 +6,7 @@ import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import { animate } from 'animejs';
+import LocationPopup from './LocationPopup';
 
 interface GoldValueFormProps {
   sectionImage?: string;
@@ -259,7 +260,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 />
               </div>
 
-              <div className="gvf-field" style={{ flexDirection: 'row', alignItems: 'flex-start', gap: '0.5rem', margin: '0.5rem 0' }}>
+              <div className="gvf-field" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '0.5rem', margin: '0.5rem 0' }}>
                 <input
                   type="checkbox"
                   id="gvf-authorize"

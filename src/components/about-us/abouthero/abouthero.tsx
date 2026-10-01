@@ -27,11 +27,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
           </span>
 
           <h1 className="about-hero-title">
-            {data?.heroTitle ? (
-              <span dangerouslySetInnerHTML={{ __html: data.heroTitle }} />
-            ) : (
-              <>Muthoot Gold Point — Trusted gold Buyer</>
-            )}
+            Muthoot Gold Point — Trusted gold Buyer
           </h1>
         </div>
 

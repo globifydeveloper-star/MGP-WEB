@@ -86,7 +86,8 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
         city: '',
         branchCode: '',
         purity: '',
-        weight: ''
+        weight: '',
+        consent: true
       });
       setIsSubmitted(false);
       resetOtpState();

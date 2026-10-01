@@ -18,7 +18,7 @@ interface HeroSlideTwoProps {
 }
 
 export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
-  const text = slide?.heroText || "Sell Your Gold. Get Cash Instantly";
+  const text = slide?.heroText || "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying";
   const parts = text.split('. ');
   const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '.' : '') : '';
   const goldText = parts[1] ? parts[1] : '';
@@ -88,10 +88,6 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
 
           <div className="hero-slide-two-subcopy" style={{ textAlign: 'left' }}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EBAF20" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                100% Fair & Precise Gold Buying
-              </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EBAF20" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 Free purity testing of your gold

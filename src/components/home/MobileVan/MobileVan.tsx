@@ -71,7 +71,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
           >
             <div className="van-photo-crop">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={vanImage || "/mobile_van.png"} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
+              <img src={vanImage || vanImgDefault.src} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
             </div>
           </div>
 
@@ -86,7 +86,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
                   <path d="M6.5 10l2.2 2.2L13.5 7" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="van-feature-text">XRF at your door</span>
+              <span className="van-feature-text">XRF Testing at Your Door</span>
             </div>
 
             <div className="van-feature-item">
@@ -99,7 +99,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
                   <line x1="19" y1="9" x2="19" y2="12" />
                 </svg>
               </span>
-              <span className="van-feature-text">Precision weighing</span>
+              <span className="van-feature-text">Precise Weighing</span>
             </div>
 
             <div className="van-feature-item">
@@ -111,7 +111,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
                   <path d="M13.5 11.5 16 9l2.5 2.5" />
                 </svg>
               </span>
-              <span className="van-feature-text">Instant bank transfer</span>
+              <span className="van-feature-text">Transparent Valuation</span>
             </div>
 
             <div className="van-feature-item">
@@ -123,7 +123,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
                   <path d="M15 12h-5" />
                 </svg>
               </span>
-              <span className="van-feature-text">Invoice on the spot</span>
+              <span className="van-feature-text">Instant Bank Transfer</span>
             </div>
           </div>
         </div>

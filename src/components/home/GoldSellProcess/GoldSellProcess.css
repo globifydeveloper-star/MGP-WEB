@@ -8,13 +8,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3.5rem;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* Left column */
 .gsp-left {
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 120px;
 }
 
 .gsp-heading {
@@ -48,7 +50,8 @@
   font-size: 0.98rem;
   color: #41444f;
   line-height: 1.7;
-  margin-bottom: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
   max-width: 460px;
 }
 

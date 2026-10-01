@@ -64,14 +64,7 @@ interface FourStepProps {
 }
 
 export default function FourStep({ data }: FourStepProps) {
-  const steps = data?.howItWorksSteps && data.howItWorksSteps.length > 0 
-    ? data.howItWorksSteps.map((s, i) => ({
-        num: `0${i + 1}`.slice(-2),
-        title: s.title,
-        desc: s.desc,
-        icon: DEFAULT_STEPS[i % DEFAULT_STEPS.length].icon // Fallback to default icons
-      }))
-    : DEFAULT_STEPS;
+  const steps = DEFAULT_STEPS;
 
   return (
     <section className="fs-section">

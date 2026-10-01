@@ -141,13 +141,13 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
           Gold Selling <span className="gsp-heading-highlight">Process</span>
         </h2>
         <div key={activeIndex} className="gsp-left-content">
-          <p className="gsp-desc">{activeStep?.leftDesc}</p>
           <div className="gsp-image-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {(activeStep?.image) && (
               <img src={activeStep?.image} alt={activeStep?.title} className="gsp-image" />
             )}
           </div>
+          <p className="gsp-desc">{activeStep?.leftDesc}</p>
         </div>
       </div>
 
@@ -390,7 +390,7 @@ export default function GoldSellProcess({ steps, sectionImage }: GoldSellProcess
           num: (idx + 1).toString(),
           title: s.stepTitle || s.title || `Step ${idx + 1}`,
           desc: s.stepDescription || s.desc || '',
-          leftDesc: s.leftDescription || s.leftDesc || '',
+          leftDesc: s.leftDescription || s.leftDesc || s.stepDescription || s.desc || '',
           image: s.stepImage || s.image
         }))
     : DEFAULT_STEPS;
