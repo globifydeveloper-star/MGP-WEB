@@ -39,7 +39,7 @@ export default function GoldRecycling({ data }: GoldRecyclingProps) {
             <span className="recycling-subtitle">{data?.recyclingSubtitle || 'Closed-Loop Ecosystem'}</span>
             <h2 className="recycling-title">
               {data?.recyclingTitle ? (
-                <span dangerouslySetInnerHTML={{ __html: data.recyclingTitle }} />
+                <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.recyclingTitle) }} />
               ) : (
                 <>What Do We Do With <br /> <span className="gold-text">The Gold We Buy?</span></>
               )}
@@ -68,7 +68,7 @@ export default function GoldRecycling({ data }: GoldRecyclingProps) {
                   <div className="flow-badge">{idx + 1}</div>
                   <div className="flow-icon-container">
                     {(step.iconSvg || defaultSteps[idx]?.iconSvg) && (
-                      <div dangerouslySetInnerHTML={{ __html: step.iconSvg || defaultSteps[idx].iconSvg }} />
+                      <div dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(step.iconSvg || defaultSteps[idx].iconSvg) }} />
                     )}
                   </div>
                   <div className="flow-details">

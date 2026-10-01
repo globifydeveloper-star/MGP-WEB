@@ -43,7 +43,7 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
           <span className="philanthropy-subtitle">{data?.philanthropySubtitle || 'Social Commitment'}</span>
           <h2 className="philanthropy-title">
             {data?.philanthropyTitle ? (
-              <span dangerouslySetInnerHTML={{ __html: data.philanthropyTitle }} />
+              <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.philanthropyTitle) }} />
             ) : (
               <>Our Unwavering Focus on <span className="gold-text">Philanthropy</span></>
             )}
@@ -58,7 +58,7 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
             <h3>{data?.philanthropyInitiativeTitle || 'HEEL Initiative'}</h3>
             <p>
               {data?.philanthropyInitiativeDesc ? (
-                <span dangerouslySetInnerHTML={{ __html: data.philanthropyInitiativeDesc }} />
+                <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.philanthropyInitiativeDesc) }} />
               ) : (
                 <>The corporate social responsibility (CSR) programs of Muthoot Blue revolve around the signature theme <strong>HEEL</strong>, touching thousands of lives by enhancing capabilities, providing health relief, and establishing self-reliant livelihoods.</>
               )}
@@ -75,7 +75,7 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
                 <div className="heel-card-header">
                   <div className="heel-icon-box">
                     {(pillar.iconSvg || defaultPillars[idx]?.iconSvg) && (
-                      <div dangerouslySetInnerHTML={{ __html: pillar.iconSvg || defaultPillars[idx].iconSvg }} />
+                      <div dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(pillar.iconSvg || defaultPillars[idx].iconSvg) }} />
                     )}
                   </div>
                   <h3>{pillar.title}</h3>
@@ -89,7 +89,7 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
         <div className="philanthropy-conclusion">
           <p>
             {data?.philanthropyConclusion ? (
-              <span dangerouslySetInnerHTML={{ __html: data.philanthropyConclusion }} />
+              <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.philanthropyConclusion) }} />
             ) : (
               <>We believe in building a <strong>&ldquo;Business Without Boundaries&rdquo;</strong>, where obstacles are treated as stepping stones to growth. We strive to take the world forward with perseverance, commitment, and sincerity. Indeed, the possibilities are infinite!</>
             )}

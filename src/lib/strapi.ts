@@ -1,4 +1,9 @@
+import 'server-only';
 import { cache } from 'react';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type StrapiAny = any;
+
 
 // Server: call Strapi directly (STRAPI_INTERNAL_URL). Browser: use the same-origin
 // '/strapi' proxy route unless NEXT_PUBLIC_STRAPI_URL is set at build time.
@@ -84,7 +89,7 @@ function normalizeBlogPost(raw: unknown): BlogPost {
   };
 }
 
-function isDynamicServerError(err: any): boolean {
+function isDynamicServerError(err: StrapiAny): boolean {
   return (
     err &&
     typeof err === 'object' &&
@@ -114,19 +119,19 @@ async function fetchStrapi<T>(
 }
 
 export const getBlogPosts = cache(async function getBlogPosts(): Promise<BlogPost[]> {
-  const data = await fetchStrapi<any[]>('/api/blog-posts?populate=*&sort=publishedAt:desc', { cache: 'no-store' }, 'getBlogPosts');
+  const data = await fetchStrapi<StrapiAny[]>('/api/blog-posts?populate=*&sort=publishedAt:desc', { cache: 'no-store' }, 'getBlogPosts');
   const arr = Array.isArray(data) ? data : [];
   return arr.map(normalizeBlogPost);
 });
 
 export const getCategories = cache(async function getCategories(): Promise<Category[]> {
-  const data = await fetchStrapi<any[]>('/api/categories', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCategories');
+  const data = await fetchStrapi<StrapiAny[]>('/api/categories', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCategories');
   const arr = Array.isArray(data) ? data : [];
   return arr.map((entry: unknown) => unwrap<Category>(entry));
 });
 
 export const getBlogPostBySlug = cache(async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  const data = await fetchStrapi<any[]>(`/api/blog-posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getBlogPostBySlug');
+  const data = await fetchStrapi<StrapiAny[]>(`/api/blog-posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getBlogPostBySlug');
   const arr = Array.isArray(data) ? data : [];
   if (arr.length === 0) return null;
   return normalizeBlogPost(arr[0]);
@@ -152,7 +157,7 @@ export interface BlogPageSettings {
 }
 
 export const getBlogPageSettings = cache(async function getBlogPageSettings(): Promise<BlogPageSettings | null> {
-  const data = await fetchStrapi<any>('/api/blog-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getBlogPageSettings');
+  const data = await fetchStrapi<StrapiAny>('/api/blog-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getBlogPageSettings');
   if (!data) return null;
   const flat = unwrap<Record<string, unknown>>(data);
   const heroImageRaw = flat.heroImage ? unwrap<{ url: string; mime: string }>(flat.heroImage) : undefined;
@@ -214,9 +219,9 @@ export interface CareerPageSettingsData {
 }
 
 export const getCareerPageSettings = cache(async function getCareerPageSettings(): Promise<CareerPageSettingsData | null> {
-  const data = await fetchStrapi<any>('/api/career-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCareerPageSettings');
+  const data = await fetchStrapi<StrapiAny>('/api/career-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCareerPageSettings');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     heroHeading: flat.heroHeading,
     heroSubheading: flat.heroSubheading,
@@ -230,16 +235,16 @@ export const getCareerPageSettings = cache(async function getCareerPageSettings(
 });
 
 export const getJobDepartments = cache(async function getJobDepartments(): Promise<JobDepartment[]> {
-  const data = await fetchStrapi<any[]>('/api/job-departments', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getJobDepartments');
+  const data = await fetchStrapi<StrapiAny[]>('/api/job-departments', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getJobDepartments');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => unwrap<JobDepartment>(entry));
+  return arr.map((entry: StrapiAny) => unwrap<JobDepartment>(entry));
 });
 
 export const getJobPositions = cache(async function getJobPositions(): Promise<JobPosition[]> {
-  const data = await fetchStrapi<any[]>('/api/job-positions?populate=*&filters[isOpen][$eq]=true', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getJobPositions');
+  const data = await fetchStrapi<StrapiAny[]>('/api/job-positions?populate=*&filters[isOpen][$eq]=true', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getJobPositions');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     const department = flat.department ? unwrap<JobDepartment>(flat.department) : undefined;
     return {
       id: flat.id,
@@ -324,7 +329,7 @@ export async function submitFormSubmission(payload: {
   sourceForm?: string;
   purity?: string;
   weight?: string;
-  details?: Record<string, any>;
+  details?: StrapiAny;
 }): Promise<{ success: boolean; error?: string }> {
   try {
     // 1. Submit to Gold Valuation Submissions
@@ -370,7 +375,7 @@ export async function submitFormSubmission(payload: {
 
     // We don't fail the primary submission if mirroring fails, but we can log it
     if (!leadRes.ok) {
-      console.error('Failed to mirror to all-leads:', await leadRes.text());
+      console.error('Failed to mirror to all-leads:', leadRes.statusText);
     }
 
     return { success: true };
@@ -487,20 +492,20 @@ export interface Branch {
   state?: { id: number; name: string };
 }
 
-function getMediaUrl(media: any): string | undefined {
+function getMediaUrl(media: StrapiAny): string | undefined {
   if (!media) return undefined;
   const flat = unwrap<{ url: string }>(media);
   return flat?.url ? (resolveMediaUrl(flat.url) ?? flat.url) : undefined;
 }
 
 export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {
-  const data = await fetchStrapi<any>(
+  const data = await fetchStrapi<StrapiAny>(
     '/api/homepage?populate[heroFirstSlideImage]=true&populate[processSectionImage]=true&populate[vanImage]=true&populate[ogImage]=true&populate[homeVideos][populate]=*',
     { cache: 'no-store' },
     'getHomepageData'
   );
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     heroFirstSlideImage: getMediaUrl(flat.heroFirstSlideImage),
     processSectionImage: getMediaUrl(flat.processSectionImage),
@@ -520,7 +525,7 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
     trustBadgeHighlight: flat.trustBadgeHighlight,
     trustBadgeSuffix: flat.trustBadgeSuffix,
     homeVideos: Array.isArray(flat.homeVideos)
-      ? flat.homeVideos.map((item: any) => ({
+      ? flat.homeVideos.map((item: StrapiAny) => ({
         id: item.id,
         code: item.code,
         label: item.label,
@@ -537,9 +542,9 @@ export interface SharedMediaData {
 }
 
 export const getSharedMedia = cache(async function getSharedMedia(): Promise<SharedMediaData | null> {
-  const data = await fetchStrapi<any>('/api/shared-media?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getSharedMedia');
+  const data = await fetchStrapi<StrapiAny>('/api/shared-media?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getSharedMedia');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     goldValueFormImage: getMediaUrl(flat.goldValueFormImage),
   };
@@ -557,9 +562,9 @@ export interface GlobalStatsData {
 }
 
 export const getGlobalStats = cache(async function getGlobalStats(): Promise<GlobalStatsData | null> {
-  const data = await fetchStrapi<any>('/api/global-stat', { cache: 'no-store' }, 'getGlobalStats');
+  const data = await fetchStrapi<StrapiAny>('/api/global-stat', { cache: 'no-store' }, 'getGlobalStats');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     branchesValue: flat.branchesValue,
     branchesLabel: flat.branchesLabel,
@@ -573,10 +578,10 @@ export const getGlobalStats = cache(async function getGlobalStats(): Promise<Glo
 });
 
 export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroSlide[]> {
-  const data = await fetchStrapi<any[]>('/api/hero-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getHeroSlides');
+  const data = await fetchStrapi<StrapiAny[]>('/api/hero-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getHeroSlides');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       heroText: flat.heroText,
@@ -589,10 +594,10 @@ export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroS
 });
 
 export const getProcessSteps = cache(async function getProcessSteps(): Promise<ProcessStep[]> {
-  const data = await fetchStrapi<any[]>('/api/process-steps?populate=*&sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getProcessSteps');
+  const data = await fetchStrapi<StrapiAny[]>('/api/process-steps?populate=*&sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getProcessSteps');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       order: flat.order ?? 0,
@@ -605,10 +610,10 @@ export const getProcessSteps = cache(async function getProcessSteps(): Promise<P
 });
 
 export const getDifferenceBoxes = cache(async function getDifferenceBoxes(): Promise<DifferenceBox[]> {
-  const data = await fetchStrapi<any[]>('/api/difference-boxes?populate=*&sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getDifferenceBoxes');
+  const data = await fetchStrapi<StrapiAny[]>('/api/difference-boxes?populate=*&sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getDifferenceBoxes');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       boxTitle: flat.boxTitle,
@@ -629,10 +634,10 @@ export interface ComparisonRow {
 }
 
 export const getComparisonRows = cache(async function getComparisonRows(): Promise<ComparisonRow[]> {
-  const data = await fetchStrapi<any[]>('/api/comparison-rows?sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getComparisonRows');
+  const data = await fetchStrapi<StrapiAny[]>('/api/comparison-rows?sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getComparisonRows');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       order: flat.order ?? 0,
@@ -644,10 +649,10 @@ export const getComparisonRows = cache(async function getComparisonRows(): Promi
 });
 
 export const getPromoSlides =cache(async function getPromoSlides(): Promise<PromoSlide[]> {
-  const data = await fetchStrapi<any[]>('/api/promo-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPromoSlides');
+  const data = await fetchStrapi<StrapiAny[]>('/api/promo-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPromoSlides');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       creativeImage: getMediaUrl(flat.creativeImage),
@@ -660,10 +665,10 @@ export const getPromoSlides =cache(async function getPromoSlides(): Promise<Prom
 });
 
 export const getTestimonials = cache(async function getTestimonials(): Promise<Testimonial[]> {
-  const data = await fetchStrapi<any[]>('/api/testimonials?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getTestimonials');
+  const data = await fetchStrapi<StrapiAny[]>('/api/testimonials?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getTestimonials');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       customerName: flat.customerName,
@@ -676,10 +681,10 @@ export const getTestimonials = cache(async function getTestimonials(): Promise<T
 });
 
 export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate' = 'home'): Promise<FAQ[]> {
-  const data = await fetchStrapi<any[]>(`/api/faqs?filters[section][$eq]=${section}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqs');
+  const data = await fetchStrapi<StrapiAny[]>(`/api/faqs?filters[section][$eq]=${section}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqs');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       question: flat.question,
@@ -693,7 +698,7 @@ export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate
 export interface DynamicPageSection {
   id: number;
   __component: string;
-  [key: string]: any;
+  [key: string]: StrapiAny;
 }
 
 export interface DynamicPage {
@@ -709,12 +714,12 @@ export interface DynamicPage {
 }
 
 export const getPageBySlug = cache(async function getPageBySlug(slug: string): Promise<DynamicPage | null> {
-  const data = await fetchStrapi<any[]>(`/api/pages?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[sections][populate]=*`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPageBySlug');
+  const data = await fetchStrapi<StrapiAny[]>(`/api/pages?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[sections][populate]=*`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPageBySlug');
   const arr = Array.isArray(data) ? data : [];
   if (arr.length === 0) return null;
-  const flat = unwrap<any>(arr[0]);
+  const flat = unwrap<StrapiAny>(arr[0]);
   const rawSections = Array.isArray(flat.sections) ? flat.sections : [];
-  const sections = rawSections.map((sec: any) => unwrap<DynamicPageSection>(sec));
+  const sections = rawSections.map((sec: StrapiAny) => unwrap<DynamicPageSection>(sec));
   return {
     id: flat.id,
     title: flat.title,
@@ -729,10 +734,10 @@ export const getPageBySlug = cache(async function getPageBySlug(slug: string): P
 
 
 export const getFaqsByPage = cache(async function getFaqsByPage(pageId: number): Promise<FAQ[]> {
-  const data = await fetchStrapi<any[]>(`/api/faqs?filters[page][id][$eq]=${pageId}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqsByPage');
+  const data = await fetchStrapi<StrapiAny[]>(`/api/faqs?filters[page][id][$eq]=${pageId}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqsByPage');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: any) => {
-    const flat = unwrap<any>(entry);
+  return arr.map((entry: StrapiAny) => {
+    const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
       question: flat.question,
@@ -792,9 +797,9 @@ export interface AboutUsPageData {
 }
 
 export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<AboutUsPageData | null> {
-  const data = await fetchStrapi<any>('/api/about-us-page?populate=*', { cache: 'no-store' }, 'getAboutUsPage');
+  const data = await fetchStrapi<StrapiAny>('/api/about-us-page?populate=*', { cache: 'no-store' }, 'getAboutUsPage');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     heroEyebrow: flat.heroEyebrow,
     heroTitle: flat.heroTitle,
@@ -865,9 +870,9 @@ export interface ContactUsPageData {
 }
 
 export const getContactUsPage = cache(async function getContactUsPage(): Promise<ContactUsPageData | null> {
-  const data = await fetchStrapi<any>('/api/contact-us-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getContactUsPage');
+  const data = await fetchStrapi<StrapiAny>('/api/contact-us-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getContactUsPage');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     heroHeading: flat.heroHeading,
     heroLead: flat.heroLead,
@@ -915,9 +920,9 @@ export interface FooterSetting {
 }
 
 export const getFooterSetting = cache(async function getFooterSetting(): Promise<FooterSetting | null> {
-  const data = await fetchStrapi<any>('/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFooterSetting');
+  const data = await fetchStrapi<StrapiAny>('/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFooterSetting');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     quickLinks: Array.isArray(flat.quickLinks) ? flat.quickLinks : [],
     legalLinks: Array.isArray(flat.legalLinks) ? flat.legalLinks : [],
@@ -942,13 +947,13 @@ export interface NavbarSetting {
 }
 
 export async function getNavbarSetting(): Promise<NavbarSetting | null> {
-  const data = await fetchStrapi<any>('/api/navbar-setting?populate[navLinks][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getNavbarSetting');
+  const data = await fetchStrapi<StrapiAny>('/api/navbar-setting?populate[navLinks][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getNavbarSetting');
   if (!data) return null;
-  const flat = unwrap<any>(data);
+  const flat = unwrap<StrapiAny>(data);
   const rawLinks = Array.isArray(flat.navLinks) ? flat.navLinks : [];
-  const navLinks = rawLinks.map((item: any) => {
-    const flatItem = unwrap<any>(item);
-    const page = flatItem.page ? unwrap<any>(flatItem.page) : undefined;
+  const navLinks = rawLinks.map((item: StrapiAny) => {
+    const flatItem = unwrap<StrapiAny>(item);
+    const page = flatItem.page ? unwrap<StrapiAny>(flatItem.page) : undefined;
     return {
       id: flatItem.id,
       label: flatItem.label,
@@ -982,10 +987,10 @@ export interface GoldRatePageData {
 }
 
 export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
-  const data = await fetchStrapi<any>('/api/gold-rate-page?populate=ogImage,faqs,heroImage,whyGoldRateChangesImage', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getGoldRatePage');
+  const data = await fetchStrapi<StrapiAny>('/api/gold-rate-page?populate=ogImage,faqs,heroImage,whyGoldRateChangesImage', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getGoldRatePage');
   if (!data) return null;
-  const flat = unwrap<any>(data);
-  const ogImageRaw = flat.ogImage ? unwrap<any>(flat.ogImage) : undefined;
+  const flat = unwrap<StrapiAny>(data);
+  const ogImageRaw = flat.ogImage ? unwrap<StrapiAny>(flat.ogImage) : undefined;
   return {
     seoTitle: flat.seoTitle,
     seoDescription: flat.seoDescription,
@@ -1024,9 +1029,9 @@ export interface MobileVanPageData {
 }
 
 export const getMobileVanPageSettings = cache(async function getMobileVanPageSettings(): Promise<MobileVanPageData | null> {
-  const data = await fetchStrapi<any>('/api/mobile-van-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings');
+  const data = await fetchStrapi<StrapiAny>('/api/mobile-van-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     ...(flat as MobileVanPageData),
     heroImage: getMediaUrl(flat.heroImage),
@@ -1049,9 +1054,9 @@ export interface SellGoldPageSettings {
 }
 
 export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
-  const data = await fetchStrapi<any>('/api/sell-gold-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getSellGoldPageSettings');
+  const data = await fetchStrapi<StrapiAny>('/api/sell-gold-page-setting?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getSellGoldPageSettings');
   if (!data) return null;
-  const flat = unwrap<Record<string, any>>(data);
+  const flat = unwrap<StrapiAny>(data);
   return {
     seoTitle: flat.seoTitle,
     seoDescription: flat.seoDescription,

@@ -30,7 +30,7 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
 
             <h2 className="blue-title">
               {data?.parentTitle ? (
-                <span dangerouslySetInnerHTML={{ __html: data.parentTitle }} />
+                <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.parentTitle) }} />
               ) : (
                 <>About The <span className="gold-text">Muthoot Pappachan Group</span></>
               )}

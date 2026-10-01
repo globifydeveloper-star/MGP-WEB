@@ -31,14 +31,14 @@ export default function StandToday({ data }: StandTodayProps) {
             <span className="stand-today-subtitle">{data?.presentSubtitle || 'Present Day'}</span>
             <h2 className="stand-today-title">
               {data?.presentTitle ? (
-                <span dangerouslySetInnerHTML={{ __html: data.presentTitle }} />
+                <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.presentTitle) }} />
               ) : (
                 <>Where We Stand <br /> <span className="gold-text">Today</span></>
               )}
             </h2>
             <p className="stand-today-desc">
               {data?.presentDescription ? (
-                <span dangerouslySetInnerHTML={{ __html: data.presentDescription }} />
+                <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.presentDescription) }} />
               ) : (
                 <>Currently serving over <strong>5 million customers</strong> through a nation-wide workforce of <strong>24,000 employees</strong>.</>
               )}

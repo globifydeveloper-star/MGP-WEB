@@ -4,7 +4,7 @@ import React from 'react';
 import './abouthero.css';
 import Image from 'next/image';
 import aboutUs1Img from '@/assets/images/ABOUTUS1.png';
-import { AboutUsPageData } from '@/lib/strapi';
+import type { AboutUsPageData } from '@/lib/strapi';
 
 interface AboutHeroProps {
   onExploreClick: () => void;
