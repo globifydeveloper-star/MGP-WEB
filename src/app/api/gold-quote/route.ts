@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchGoldQuote, fetchAllGoldRates, checkRateLimit } from '@/lib/goldQuoteService';
+import { getClientIp } from '@/lib/getClientIp';
 
 export async function POST(request: NextRequest) {
   try {

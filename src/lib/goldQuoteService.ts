@@ -1,3 +1,4 @@
+import 'server-only';
 import { resolveAuthToken, loginChannelLead, invalidateAuthToken } from './authService';
 
 export const GOLD_QUOTE_BASE_URL = (
@@ -216,11 +217,11 @@ export async function fetchGoldQuote({
       message: data.message || 'Rate temporarily unavailable — please try again',
       errorCode: data.errorCode,
     };
-  } catch (err: any) {
-    if (err?.name === 'AbortError') {
+  } catch (err: unknown) {
+    if ((err as Error)?.name === 'AbortError') {
       console.error('[GoldQuote] Upstream request timed out (10s)');
     } else {
-      console.error('[GoldQuote] Fetch error:', err?.message || err);
+      console.error('[GoldQuote] Fetch error:', (err as Error)?.message || err);
     }
     return {
       success: false,
@@ -286,8 +287,8 @@ export async function fetchAllGoldRates(): Promise<AllGoldRatesResponse> {
         '18K': results.find((r) => r.key === '18K')!.item,
       },
     };
-  } catch (err: any) {
-    console.error('[fetchAllGoldRates] Error fetching gold rates:', err?.message || err, err?.stack || '');
+  } catch (err: unknown) {
+    console.error('[fetchAllGoldRates] Error fetching gold rates:', (err as Error)?.message || err, (err as Error)?.stack || '');
     return {
       success: true,
       isLive: false,
