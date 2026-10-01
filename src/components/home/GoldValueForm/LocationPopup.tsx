@@ -143,7 +143,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
             </div>
             <h3 className="lp-success-title">Thank You, {submittedData?.name}!</h3>
             <p className="lp-success-message">
-              Your valuation request for {submittedData?.weight}g of gold has been received. Our team in {selectedCity}, {selectedState} will contact you at +91 {submittedData?.phone} shortly.
+              Thank you for contacting us, we have received your enquiry. Our team in {selectedCity}, {selectedState} will contact you shortly.
             </p>
             <button type="button" className="lp-success-close-btn" onClick={onClose}>
               Close

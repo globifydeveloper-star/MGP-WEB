@@ -32,7 +32,8 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     city: '',
     branchCode: '',
     purity: '',
-    weight: ''
+    weight: '',
+    consent: true
   });
 
   const { states: availableStates, locationsByState, branchesByState } = useBranchMaster();
@@ -93,10 +94,11 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
   }, [isOpen, resetOtpState]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    if (e.target.type === 'number' && Number(value) < 0) return;
+    const target = e.target as HTMLInputElement;
+    const { name, value, type, checked } = target;
+    if (type === 'number' && Number(value) < 0) return;
     setFormData(prev => {
-      const updates: any = { [name]: value };
+      const updates: any = { [name]: type === 'checkbox' ? checked : value };
       if (name === 'state') {
         updates.city = '';
         updates.branchCode = '';
@@ -164,7 +166,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       branchName: availableBranches.find(b => b.branchCode === formData.branchCode)?.branchName,
       purity: formData.purity,
       weight: formData.weight,
-      consent: true,
+      consent: formData.consent,
       sourceForm: 'Sell Gold Modal',
       enquiryType: 'Gold Valuation',
     });
@@ -204,7 +206,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
             </div>
             <h3 className="sg-success-title">Thank You!</h3>
             <p className="sg-success-message">
-              Your details have been successfully submitted. We will reach out to you shortly.
+              Thank you for contacting us, we have received your enquiry. We will reach out to you shortly.
             </p>
             <button type="button" className="sg-success-close-btn" onClick={onClose}>
               Close Window
@@ -387,6 +389,22 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
               </div>
             )}
 
+            {/* Consent Checkbox */}
+            <div className="sg-form-group">
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.75rem', color: '#41444f', lineHeight: 1.4, cursor: 'pointer', textAlign: 'left' }}>
+                <input
+                  type="checkbox"
+                  name="consent"
+                  checked={formData.consent}
+                  onChange={handleChange}
+                  style={{ marginTop: '0.2rem' }}
+                />
+                <span>
+                  I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                </span>
+              </label>
+            </div>
+
             {/* Submit Button */}
             <button
               type="submit"
@@ -403,7 +421,8 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 !formData.city ||
                 !formData.branchCode ||
                 !formData.purity ||
-                !formData.weight
+                !formData.weight ||
+                !formData.consent
               }
             >
               {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> VERIFYING... </>) : ('GET MY OFFER')}

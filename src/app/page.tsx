@@ -104,7 +104,7 @@ export default async function Home() {
         slides={heroSlides}
         firstSlideImage={homepageData?.heroFirstSlideImage}
         globalStats={globalStats}
-        showStats={false}
+        showStats={true}
         trustBadgePrefix={homepageData?.trustBadgePrefix}
         trustBadgeHighlight={homepageData?.trustBadgeHighlight}
         trustBadgeSuffix={homepageData?.trustBadgeSuffix}
@@ -122,7 +122,17 @@ export default async function Home() {
       {/* 5. The MGP Difference */}
       <TheGpDiff cards={differenceBoxes} />
 
-      {/* 6. Mobile Van Banner */}
+
+
+      {/* 8. Hero Stats */}
+
+      {/* 9. Testimonials */}
+      <Feedback reviews={testimonials} />
+
+      {/* 10. Branch Locator */}
+      <BranchLocator />
+
+      {/* Mobile Van Banner */}
       <MobileVan
         headingLight={homepageData?.vanHeadingLight}
         headingBold={homepageData?.vanHeadingBold}
@@ -130,18 +140,6 @@ export default async function Home() {
         buttonLabel={homepageData?.vanButtonLabel}
         vanImage={homepageData?.vanImage}
       />
-
-      {/* 7. Hero Slide (Promo Slides) */}
-      <NewSection slides={promoSlides} />
-
-      {/* 8. Hero Stats */}
-      <HeroStats globalStats={globalStats} />
-
-      {/* 9. Testimonials */}
-      <Feedback reviews={testimonials} />
-
-      {/* 10. Branch Locator */}
-      <BranchLocator />
 
       {/* 11. FAQ */}
       <FAQ faqs={faqs} />

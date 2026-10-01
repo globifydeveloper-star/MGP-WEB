@@ -5,7 +5,7 @@ import { MobileVanPageData } from '@/lib/strapi';
 const DEFAULT_STEPS = [
   {
     num: '01',
-    title: 'Book a Visit',
+    title: 'XRF Testing at Your Door',
     desc: 'Schedule your doorstep appointment online or call us directly. We will confirm a time slot that suits your schedule.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -20,7 +20,7 @@ const DEFAULT_STEPS = [
   },
   {
     num: '02',
-    title: 'Secure Arrival',
+    title: 'Precise Weighing',
     desc: 'Our state-of-the-art mobile gold buying van arrives at your home or office, fully equipped with high-tech security.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,7 +32,7 @@ const DEFAULT_STEPS = [
   },
   {
     num: '03',
-    title: 'Purity Check',
+    title: 'Transparent Valuation',
     desc: 'Witness the live, scientific XRF non-destructive purity testing and precision weighing inside our secure van.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -47,7 +47,7 @@ const DEFAULT_STEPS = [
   },
   {
     num: '04',
-    title: 'Instant Cash',
+    title: 'Instant Bank Transfer',
     desc: 'Receive instant bank transfer to your account directly on the spot, backed by a digital receipt and invoice.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -79,10 +79,10 @@ export default function FourStep({ data }: FourStepProps) {
       <div className="container">
         <div className="fs-header">
           <h2 className="fs-title">
-            {data?.howItWorksTitle || <>A Seamless <span className="fs-title-highlight">4-Step Journey</span></>}
+            {data?.howItWorksTitle || <>Enjoy a safe, transparent & scientifically tested way of <span className="fs-title-highlight">selling Gold.</span></>}
           </h2>
           <p className="fs-subtitle">
-            {data?.howItWorksSubtitle || 'Our transparent process ensures you get the true value of your gold using scientific methods right in front of your eyes.'}
+            {data?.howItWorksSubtitle || 'We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the maximum value for your Gold.'}
           </p>
         </div>
 

@@ -58,7 +58,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
             <span className="title-line-bold">{headingBold || "Branch to You"}</span>
           </h2>
           <p className="mobile-van-desc">
-            {description || "Can't visit us? Our Mobile Van carries the full GoldPoint setup — XRF machines, precision balances, real-time rates — directly to your home or office."}
+            {description || "Enjoy a safe, transparent & scientifically tested way of selling Gold. We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the maximum value for your Gold."}
           </p>
           <Link href="/mobilevantab">
             <button className="btn mobile-van-btn">{buttonLabel || "Book a Van Visit"}</button>
@@ -71,7 +71,7 @@ export default function MobileVan({ headingLight, headingBold, description, butt
           >
             <div className="van-photo-crop">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={vanImage || vanImgDefault.src} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
+              <img src={vanImage || "/mobile_van.png"} alt="Muthoot Gold Point mobile van" className="van-photo-img" />
             </div>
           </div>
 

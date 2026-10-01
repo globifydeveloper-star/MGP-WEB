@@ -166,7 +166,7 @@ export default function GoldSellContact() {
           {isSubmitted ? (
             <div className="grct-success">
               <h3>Thank You!</h3>
-              <p>Your enquiry has been received. Our team will get back to you shortly.</p>
+              <p>Thank you for contacting us, we have received your enquiry. Our team will get back to you shortly.</p>
               <button type="button" className="grct-submit-btn" onClick={() => setIsSubmitted(false)}>
                 Submit Another Enquiry
               </button>
@@ -310,7 +310,7 @@ export default function GoldSellContact() {
                   onChange={handleChange}
                 />
                 <span>
-                  Authorize Muthoot Exim Pvt Ltd. & other Muthoot Pappachan Group companies (including its Agents/representatives) to call/communicate with me on their product offerings/ promotions through Telephone/Mobile/SMS/email ID.
+                  I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
                 </span>
               </label>
 

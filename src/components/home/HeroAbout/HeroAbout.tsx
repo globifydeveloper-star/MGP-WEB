@@ -5,7 +5,7 @@ export default function HeroAbout() {
     <section className="hero-about-section" aria-labelledby="hero-about-title">
       <div className="container">
         <h2 id="hero-about-title" className="hero-about-title">
-          Muthoot <span className="hero-about-gold">Gold Point</span>
+          Muthoot <span className="hero-about-gold">Gold Point</span> — Trusted gold Buyer
         </h2>
 
         <div className="hero-about-body">

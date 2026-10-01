@@ -43,9 +43,19 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
   const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
 
+  const MOBILE_VAN_CITIES = ['mumbai', 'kalyan', 'bengaluru'];
+
+  const availableStates = useMemo(() => {
+    return statesList.filter(state => {
+      const cities = locationsByState[state] || [];
+      return cities.some(city => MOBILE_VAN_CITIES.includes(city.toLowerCase()));
+    });
+  }, [statesList, locationsByState]);
+
   const availableCities = useMemo(() => {
     if (!formData.state) return [];
-    return locationsByState[formData.state] || [];
+    const cities = locationsByState[formData.state] || [];
+    return cities.filter(city => MOBILE_VAN_CITIES.includes(city.toLowerCase()));
   }, [formData.state, locationsByState]);
 
   const availableBranches = useMemo(() => {
@@ -175,7 +185,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   )}
                 </h2>
                 <p className="apt-desc">
-                  {data?.appointmentDescription || 'Fill in the details and our representative will contact you to confirm the appointment slot.'}
+                  Enjoy a safe, transparent &amp; scientifically tested way of selling Gold. We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight &amp; purity. Not just that, the process is transparent and you get the maximum value for your Gold.
                 </p>
               </div>
 
@@ -193,7 +203,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
             <div className="apt-van-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={data?.bookVanFormImage || '/components/van.png'} alt="Muthoot Gold Point mobile van" className="apt-van-img" />
+              <img src="/mobile_van.png" alt="Muthoot Gold Point mobile van" className="apt-van-img" />
             </div>
           </div>
 
@@ -207,9 +217,9 @@ export default function Appoinment({ data }: AppoinmentProps) {
                     <path className="sg-success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                   </svg>
                 </div>
-                <h3 className="sg-success-title" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0c1f6c', marginBottom: '0.5rem' }}>Appointment Booked!</h3>
+                <h3 className="sg-success-title" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0c1f6c', marginBottom: '0.5rem' }}>Thank You!</h3>
                 <p className="sg-success-desc" style={{ color: '#4B5563', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-                  We will contact you shortly to confirm your booking.
+                  Thank you for contacting us, we have received your enquiry. We will contact you shortly to confirm your booking.
                 </p>
                 <button
                   type="button"
@@ -295,7 +305,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                       onChange={handleChange}
                     >
                       <option value="" disabled>Select State</option>
-                      {statesList.map((state) => (
+                      {availableStates.map((state) => (
                         <option key={state} value={state}>{state}</option>
                       ))}
                     </select>
@@ -368,7 +378,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                     onChange={handleChange}
                   />
                   <span>
-                    I authorize Muthoot Exim Pvt. Ltd. &amp; other Muthoot Pappachan Group companies to communicate with me on their product offerings/promotions through Telephone/Mobile/SMS/Email.
+                    I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
                   </span>
                 </label>
                 {errors.consent && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block', marginBottom: '1rem'}}>{errors.consent}</span>}

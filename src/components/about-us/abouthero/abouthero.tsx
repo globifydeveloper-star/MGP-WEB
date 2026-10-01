@@ -30,7 +30,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
             {data?.heroTitle ? (
               <span dangerouslySetInnerHTML={{ __html: data.heroTitle }} />
             ) : (
-              <>Muthoot Gold Point</>
+              <>Muthoot Gold Point — Trusted gold Buyer</>
             )}
           </h1>
         </div>

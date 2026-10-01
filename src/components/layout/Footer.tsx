@@ -5,12 +5,7 @@ import { getFooterSetting } from '@/lib/strapi';
 import WebsiteDropdown from './WebsiteDropdown';
 
 export default async function Footer() {
-  const cities = [
-    'Bangalore', 'Coimbatore', 'Kolkata', 'Delhi',
-    'Vijayawada', 'Mumbai', 'Pune', 'Noida',
-    'Indore', 'Vizag', 'Hyderabad', 'Chennai',
-    'Ernakulam', 'Gurugram', 'Madurai', 'Mysore'
-  ];
+
 
   const footerSettings = await getFooterSetting();
   
@@ -112,10 +107,7 @@ export default async function Footer() {
 
         {/* Col 5: Presence */}
         <div className="footer-col">
-          <h4 className="footer-col-title">Our Presence - Cities</h4>
-          <div className="presence-cities-box">
-            {cities.join(', ')}
-          </div>
+
           <h4 className="footer-col-title">Our Presence - States</h4>
           <div className="presence-states">
             Madhya Pradesh, Andhra Pradesh, Kerala, Telangana, Maharashtra, Tamil Nadu, Karnataka Uttarpradesh, Delhi NCR, West Bengal, Haryana, Rajasthan, Odisha, Punjab, Uttarakhand, Gujarat, Chhattisgarh, Assam

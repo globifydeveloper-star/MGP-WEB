@@ -282,9 +282,7 @@ export default function BranchLocator() {
                             <h3 className="branch-locator-branch-name">{branch.name}</h3>
                             <span className="branch-locator-state-tag">{branch.state}</span>
                           </div>
-                          {branch.branchCode && (
-                            <div style={{ fontSize: '0.75rem', color: '#7a899e', marginTop: '0.25rem', fontWeight: 600 }}>Code: {branch.branchCode}</div>
-                          )}
+
                         </div>
                         <p className="branch-locator-branch-address">
                           <MapPinIcon /> {branch.address}, {branch.city} - {branch.pincode}
@@ -352,9 +350,7 @@ export default function BranchLocator() {
                           <h4 className="branch-locator-branch-name">{branch.name}</h4>
                           <span className="branch-locator-state-tag">{branch.state}</span>
                         </div>
-                        {branch.branchCode && (
-                          <div style={{ fontSize: '0.75rem', color: '#7a899e', marginTop: '0.25rem', fontWeight: 600 }}>Code: {branch.branchCode}</div>
-                        )}
+
                       </div>
                       <p className="branch-locator-branch-address">
                         <MapPinIcon /> {branch.address}, {branch.city} - {branch.pincode}

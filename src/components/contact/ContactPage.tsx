@@ -96,6 +96,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     city: '',
     branchCode: '',
     message: '',
+    consent: true,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -126,9 +127,10 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const target = e.target as HTMLInputElement;
+    const { name, value, type, checked } = target;
     setFormData((prev) => {
-      const updates: any = { [name]: value };
+      const updates: any = { [name]: type === 'checkbox' ? checked : value };
       if (name === 'state') {
         updates.city = '';
         updates.branchCode = '';
@@ -150,8 +152,11 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.consent) {
+      alert('You must authorize communication to submit.');
+      return;
+    }
     setIsSubmitting(true);
     try {
       const success = await verifyOtp(formData.phone, formData.otp, {
@@ -360,7 +365,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                     </div>
                     <h3 className="cp-success-head">Thank You!</h3>
                     <p className="cp-success-text">
-                      Your message has been received. Our team will get back to you shortly.
+                      Thank you for contacting us, we have received your enquiry. Our team will get back to you shortly.
                     </p>
                     <button
                       type="button"
@@ -540,10 +545,24 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                       <span className="cp-char-counter">{formData.message.length}/500</span>
                     </div>
 
+                    {/* Row 6.5: Consent Checkbox */}
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', margin: '0.5rem 0 1rem', fontSize: '0.75rem', color: '#41444f', lineHeight: 1.4, cursor: 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consent"
+                        checked={formData.consent}
+                        onChange={handleChange}
+                        style={{ marginTop: '0.2rem' }}
+                      />
+                      <span>
+                        I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                      </span>
+                    </label>
+
                     {/* Row 7: Submit CTA Button */}
                     <button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || otpState === 'sending' || otpState === 'verifying' || !formData.consent}
                       className="cp-submit-btn"
                     >
                       <span>{isSubmitting ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Sending... </>) : ('Send Message')}</span>

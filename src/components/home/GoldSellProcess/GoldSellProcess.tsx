@@ -230,6 +230,15 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
     return () => window.removeEventListener('keydown', onKey);
   }, [current, goTo]);
 
+  // Auto-cycle Mobile steps
+  useEffect(() => {
+    if (!steps || steps.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % steps.length);
+    }, 3500); // Changes every 3.5 seconds
+    return () => clearInterval(timer);
+  }, [steps.length]);
+
   // Touch handlers
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -300,10 +309,21 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
       >
         {/* Slide */}
         <div
+          key={current}
           className="gsp-carousel-slide"
           aria-label={`Slide ${current + 1} of ${steps.length}: ${step?.title}`}
           aria-roledescription="slide"
         >
+          {/* Step content */}
+          <div className="gsp-carousel-content">
+            <div className="gsp-carousel-step-badge">
+              <span className="gsp-carousel-step-label">Step</span>
+              <span className="gsp-carousel-step-num">{step?.num}</span>
+            </div>
+            <h3 className="gsp-carousel-step-title">{step?.title}</h3>
+            <p className="gsp-carousel-step-desc">{step?.desc}</p>
+          </div>
+
           {/* Step image */}
           <div className="gsp-carousel-img-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -315,16 +335,6 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
                 draggable={false}
               />
             )}
-          </div>
-
-          {/* Step content */}
-          <div className="gsp-carousel-content">
-            <div className="gsp-carousel-step-badge">
-              <span className="gsp-carousel-step-label">Step</span>
-              <span className="gsp-carousel-step-num">{step?.num}</span>
-            </div>
-            <h3 className="gsp-carousel-step-title">{step?.title}</h3>
-            <p className="gsp-carousel-step-desc">{step?.desc}</p>
           </div>
         </div>
       </div>

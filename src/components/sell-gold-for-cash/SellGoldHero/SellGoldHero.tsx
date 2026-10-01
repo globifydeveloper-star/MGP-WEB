@@ -242,7 +242,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
                 </div>
                 <h3 className="sg-success-title">Thank You!</h3>
                 <p className="sg-success-desc">
-                  Your request has been received. Our team will get in touch with you shortly.
+                  Thank you for contacting us, we have received your enquiry. Our team will get in touch with you shortly.
                 </p>
                 <button
                   type="button"
@@ -409,7 +409,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
                       className="sg-consent-checkbox"
                     />
                     <span className="sg-consent-text">
-                      Authorize Muthoot Exim Pvt Ltd. & other Muthoot Pappachan Group companies (including its Agents/representatives) to call/communicate with me on their product offerings/ promotions through Telephone/Mobile/SMS/email ID.
+                      I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
                     </span>
                   </label>
                   {errors.consent && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.consent}</span>}

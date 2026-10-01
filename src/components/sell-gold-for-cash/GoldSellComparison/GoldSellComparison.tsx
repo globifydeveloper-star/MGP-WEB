@@ -219,64 +219,71 @@ export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' 
           </div>
         </div>
 
-        {/* Mobile Accordion List */}
-        <div className="gsc-list mobile-only">
-          <div
-            ref={mobileListRef}
-            className={`gsc-acc-wrapper ${mobileInView ? 'in-view' : ''}`}
-          >
+        {/* Mobile Vertical Cards List */}
+        <div className="gsc-list mobile-only" ref={mobileListRef}>
+          <div className="gsc-mobile-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', padding: '1rem', background: '#fff', border: '1px solid #eaeaea', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
+            <div style={{ flex: 1, textAlign: 'center', borderRight: '1px solid #eaeaea', paddingRight: '0.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <span className="gsc-th-ribbon" style={{ marginBottom: '8px', fontSize: '0.55rem' }}>Recommended</span>
+              <Image src={logoImg} alt="Muthoot Gold Point" width={100} height={28} className="gsc-th-logo" />
+            </div>
+            <div style={{ padding: '0 10px', fontSize: '0.9rem', fontWeight: 'bold', color: '#999' }}>VS</div>
+            <div style={{ flex: 1, textAlign: 'center', paddingLeft: '0.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div className="gsc-jeweller-icon-small" style={{ margin: '0 auto 4px' }}>
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="20" y="30" width="60" height="50" fill="#E8D1A7"/>
+                  <rect x="15" y="20" width="70" height="10" fill="#EAB64D"/>
+                  <text x="50" y="27.5" fill="#333" fontSize="6" fontWeight="bold" textAnchor="middle">JEWELLER</text>
+                  <rect x="40" y="50" width="20" height="30" fill="#8B5A2B"/>
+                  <circle cx="55" cy="65" r="2" fill="#EAB64D"/>
+                  <rect x="25" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
+                  <rect x="65" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
+                </svg>
+              </div>
+              <span style={{ fontSize: '0.8rem', color: '#666', fontWeight: 600 }}>Traditional</span>
+            </div>
+          </div>
+          <div className={`gsc-acc-wrapper ${mobileInView ? 'in-view' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {COMPARISON_ROWS.map((row, idx) => (
               <div
                 key={idx}
-                className={`gsc-acc-item ${openIndex === idx ? 'open' : ''}`}
-                style={{ animationDelay: `${idx * 90}ms` }}
+                className="gsc-mobile-card"
+                style={{ 
+                  animationDelay: `${idx * 90}ms`,
+                  background: '#fff',
+                  borderRadius: '12px',
+                  border: '1px solid #eaeaea',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+                  overflow: 'hidden',
+                  opacity: 0,
+                  transform: 'translateY(20px)',
+                  animation: mobileInView ? 'gscRowIn 0.5s forwards' : 'none'
+                }}
               >
-                <button type="button" className="gsc-acc-header" onClick={() => toggleRow(idx)}>
-                  <div className="gsc-acc-header-left">
-                    <div className="gsc-step-icon-wrap small">
-                      <div className="gsc-step-icon">{row.icon}</div>
+                <div style={{ padding: '1rem', background: '#fdfdfe', borderBottom: '1px solid #eaeaea', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div className="gsc-feature-icon" style={{ width: '30px', height: '30px' }}>{row.icon}</div>
+                  <h3 style={{ margin: 0, fontSize: '0.95rem', color: '#14162E', fontWeight: 700 }}>{row.title}</h3>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flex: 1, padding: '1rem', borderRight: '1px solid #eaeaea', background: 'rgba(235, 175, 32, 0.03)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                      <span className="td-icon check" style={{ width: '16px', height: '16px', fontSize: '0.65rem' }}>✓</span>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#b8860b', textTransform: 'uppercase' }}>Muthoot</span>
                     </div>
-                    <span className="gsc-step-title">{row.title}</span>
+                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#14162E', fontWeight: 600, lineHeight: 1.4 }}>{row.mgpText}</p>
                   </div>
-                  <div className="gsc-acc-chevron">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                  </div>
-                </button>
-                
-                {openIndex === idx && (
-                  <div className="gsc-acc-content">
-                    <div className="gsc-acc-content-inner">
-                      <div className="gsc-acc-col mgp">
-                        <p>{row.mgpText}</p>
-                      </div>
-                      <div className="gsc-acc-divider"></div>
-                      <div className="gsc-acc-col trad">
-                        <p>{row.tradText}</p>
-                      </div>
+                  <div style={{ flex: 1, padding: '1rem', background: '#fafafa' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                      <span className="td-icon cross" style={{ width: '16px', height: '16px', fontSize: '0.65rem' }}>✕</span>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#888', textTransform: 'uppercase' }}>Traditional</span>
                     </div>
+                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#777', lineHeight: 1.4 }}>{row.tradText}</p>
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Bottom CTA */}
-        <div className="gsc-cta">
-          <div className="gsc-cta-text">
-            <h3>Ready for the real value of your gold?</h3>
-            <p>Get a transparent, scientifically-tested valuation at your nearest Gold Point.</p>
-          </div>
-          <a href={ctaHref} className="gsc-cta-btn">
-            Check Your Gold Value
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-        </div>
       </div>
     </section>
   );

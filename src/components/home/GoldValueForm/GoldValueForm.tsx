@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import './GoldValueForm.css';
-import LocationPopup from './LocationPopup';
 import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
+import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import { animate } from 'animejs';
 
@@ -28,6 +28,9 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
     purity: '',
     weight: ''
   });
+  const [otp, setOtp] = useState('');
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const { state: otpState, countdown, errorMessage: otpErrorMessage, sendOtp, verifyOtp, resetOtpState } = useOtpVerification({ cooldownSeconds: 60 });
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   useEffect(() => {
@@ -50,17 +53,47 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const val = value.replace(/\D/g, '').slice(0, 10);
+      setFormData((prev) => ({ ...prev, phone: val }));
+      return;
+    }
     if (e.target.type === 'number' && Number(value) < 0) return;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.purity || !formData.weight) {
-      alert('Please fill in all required fields.');
+  const handleGetOtp = async () => {
+    if (!formData.phone || formData.phone.length < 10) {
+      alert('Please enter a valid 10-digit phone number');
       return;
     }
-    setIsLocationModalOpen(true);
+    await sendOtp(formData.phone);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.phone || !formData.weight || !otp) {
+      alert('Please fill in all required fields including OTP.');
+      return;
+    }
+    if (!isAuthorized) {
+      alert('Please agree to the authorization terms to submit the form.');
+      return;
+    }
+
+    const success = await verifyOtp(formData.phone, otp, {
+      name: formData.name,
+      enquiryType: 'Check Value',
+      sourceForm: 'Gold Value Form',
+      consent: isAuthorized,
+      message: `Weight: ${formData.weight}g`
+    });
+
+    if (success) {
+      setIsLocationModalOpen(true);
+    } else {
+      alert(otpErrorMessage || 'Incorrect or expired OTP. Please try again.');
+    }
   };
 
   const formContent = (
@@ -152,36 +185,61 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 />
               </div>
 
-              <div className="gvf-field">
-                <label htmlFor="gvf-phone" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Phone Number</label>
-                <input
-                  id="gvf-phone"
-                  name="phone"
-                  type="tel"
-                  className="gvf-input"
-                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
-                  placeholder="Enter your Number"
-                  value={formData.phone}
-                  onChange={handleChange}
-                />
+              <div className="gvf-field" style={{ position: 'relative' }}>
+                <label htmlFor="gvf-phone" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Phone Number<span className="gvf-required">*</span></label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input
+                    id="gvf-phone"
+                    name="phone"
+                    type="tel"
+                    className="gvf-input"
+                    style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', flex: 1 } : { flex: 1 }}
+                    placeholder="Mobile Number"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    pattern="[0-9]{10}"
+                    maxLength={10}
+                    disabled={otpState === 'sending' || otpState === 'verifying'}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleGetOtp}
+                    disabled={otpState === 'sending' || otpState === 'verifying' || countdown > 0 || !/^\d{10}$/.test(formData.phone)}
+                    style={{
+                      padding: '0 1rem',
+                      background: '#0F1A4D',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      fontSize: '0.85rem'
+                    }}
+                  >
+                    {otpState === 'sending' ? '...' : countdown > 0 ? `${countdown}s` : 'GET OTP'}
+                  </button>
+                </div>
               </div>
 
               <div className="gvf-field">
-                <label htmlFor="gvf-purity" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Enter Purity</label>
+                <label htmlFor="gvf-otp" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>OTP<span className="gvf-required">*</span></label>
                 <input
-                  id="gvf-purity"
-                  name="purity"
+                  id="gvf-otp"
+                  name="otp"
                   type="text"
                   className="gvf-input"
                   style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
-                  placeholder="Enter Purity"
-                  value={formData.purity}
-                  onChange={handleChange}
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                 />
               </div>
 
+
+
               <div className="gvf-field">
-                <label htmlFor="gvf-weight" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Weight In Grams</label>
+                <label htmlFor="gvf-weight" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Weight In Grams<span className="gvf-required">*</span></label>
                 <input
                   id="gvf-weight"
                   name="weight"
@@ -201,9 +259,24 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 />
               </div>
 
-              <button type="submit" className="gvf-submit-btn">{buttonLabel || "Check Rate"}</button>
+              <div className="gvf-field" style={{ flexDirection: 'row', alignItems: 'flex-start', gap: '0.5rem', margin: '0.5rem 0' }}>
+                <input
+                  type="checkbox"
+                  id="gvf-authorize"
+                  checked={isAuthorized}
+                  onChange={(e) => setIsAuthorized(e.target.checked)}
+                  style={{ marginTop: '0.2rem' }}
+                />
+                <label htmlFor="gvf-authorize" style={{ fontSize: '0.75rem', color: isSideForm ? '#fff' : '#41444f', lineHeight: 1.4, textAlign: 'left' }}>
+                  I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                </label>
+              </div>
 
-              <p className="gvf-form-note" style={isSideForm ? { color: 'rgba(255,255,255,0.7)' } : {}}>{note || "Final Value may vary based on physical verification"}</p>
+              <button type="submit" className="gvf-submit-btn" disabled={otpState === 'verifying'}>
+                {otpState === 'verifying' ? 'VERIFYING...' : (buttonLabel || "Check Rate")}
+              </button>
+
+
             </form>
           </div>
         </div>
@@ -220,6 +293,9 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
             purity: '',
             weight: ''
           });
+          setOtp('');
+          setIsAuthorized(false);
+          resetOtpState();
         }}
       />
     </>

@@ -5,17 +5,17 @@ import { MobileVanPageData } from '@/lib/strapi';
 const LOCATIONS = [
   {
     city: 'Mumbai',
-    desc: 'Serving the entire metropolitan area including Kalyan and surrounding suburbs.',
+    desc: 'Serving the entire metropolitan area and surrounding suburbs.',
     phones: ['7356534111', '70344 31122'],
   },
   {
     city: 'Kalyan',
-    desc: 'Dedicated units for quick response times in the Kalyan region.',
+    desc: 'Serving the entire Thane area and surrounding suburbs.',
     phones: ['90379 81588'],
   },
   {
     city: 'Bengaluru',
-    desc: 'Premium doorstep gold valuation now available across Bengaluru city.',
+    desc: 'Serving the entire Bengaluru area and surrounding suburbs.',
     phones: ['9072031234'],
   },
 ];

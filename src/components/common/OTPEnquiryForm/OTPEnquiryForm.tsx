@@ -107,7 +107,7 @@ export default function OTPEnquiryForm({
           </div>
           <h3 className="otp-success-title">Thank You!</h3>
           <p className="otp-success-desc">
-            We will be in touch shortly.
+            Thank you for contacting us, we have received your enquiry. We will be in touch shortly.
           </p>
           <button
             type="button"
@@ -279,7 +279,7 @@ export default function OTPEnquiryForm({
                 className="otp-consent-checkbox"
               />
               <span className="otp-consent-text">
-                I authorize Muthoot Exim Pvt. Ltd. & other Muthoot Pappachan Group companies (including its Agents/representatives) to call/communicate with me on their product offerings/promotions through Telephone/Mobile/SMS/email ID.
+                I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
               </span>
             </label>
           </div>

@@ -40,7 +40,7 @@ export default function MobileVanHero({ data }: MobileVanHeroProps) {
             <span className="mvh-heading-bold">{data?.heroHeadingBold || 'At Your Doorstep'}</span>
           </h1>
           <p className="mvh-desc">
-            {data?.heroDescription || 'Experience the luxury of professional gold valuation without leaving your home. Our secure mobile vans bring high-tech XRF testing and instant bank transfers directly to you.'}
+            {data?.heroDescription || 'We bring our gold valuation process directly to your doorstep—safe, secure, and fully transparent. Our Doorstep Service is available in Mumbai, Kalyan, and Bengaluru.'}
           </p>
         </div>
       </div>
