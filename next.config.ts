@@ -22,23 +22,47 @@ export default function nextConfig(phase: string): NextConfig {
   return {
     reactStrictMode: true,
     compress: true,
+    poweredByHeader: false,
     output: "standalone",
     async rewrites() {
       return [{ source: "/strapi/:path*", destination: `${strapiInternalUrl}/:path*` }];
     },
     async headers() {
+      const isDev = process.env.NODE_ENV !== "production";
+      const csp = `
+        default-src 'self';
+        script-src 'self' ${isDev ? "'unsafe-inline' 'unsafe-eval'" : ""};
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' blob: data: https:;
+        font-src 'self' data: https:;
+        connect-src 'self' https:;
+        frame-ancestors 'self' ${publicStrapiUrl ?? ""};
+      `.replace(/\s{2,}/g, ' ').trim();
+
       return [
         {
           source: "/:path*",
           headers: [
             {
               key: "Content-Security-Policy",
-              value: `frame-ancestors 'self' ${publicStrapiUrl ?? ""}`,
+              value: csp,
             },
             {
               key: "X-Frame-Options",
-              value: "ALLOWALL",
+              value: "DENY",
             },
+            {
+              key: "X-Content-Type-Options",
+              value: "nosniff",
+            },
+            {
+              key: "Referrer-Policy",
+              value: "strict-origin-when-cross-origin",
+            },
+            {
+              key: "Strict-Transport-Security",
+              value: "max-age=31536000; includeSubDomains",
+            }
           ],
         },
       ];
@@ -59,17 +83,12 @@ export default function nextConfig(phase: string): NextConfig {
         },
         {
           protocol: "https",
-          hostname: "*.r2.dev",
-          pathname: "/**",
-        },
-        {
-          protocol: "https",
           hostname: "mgpwebsiteuat.s3.amazonaws.com",
           pathname: "/**",
         },
         {
           protocol: "https",
-          hostname: "mgpwebsiteuat.s3.*.amazonaws.com",
+          hostname: "mgpwebsiteuat.s3.ap-south-1.amazonaws.com",
           pathname: "/**",
         },
       ],
