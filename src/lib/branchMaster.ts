@@ -64,7 +64,7 @@ export async function fetchAllBranchDetails(): Promise<BranchMasterDetail[]> {
     }
 
     const data = await res.json();
-    let rawBranches: any[] = [];
+    let rawBranches: Record<string, any>[] = [];
     if (Array.isArray(data)) {
         rawBranches = data;
     } else if (data?.success && Array.isArray(data?.respData)) {
@@ -73,7 +73,7 @@ export async function fetchAllBranchDetails(): Promise<BranchMasterDetail[]> {
         rawBranches = data.respData.branches;
     }
 
-    return rawBranches.map((d: any) => ({
+    return rawBranches.map((d: Record<string, any>) => ({
       branchCode: d.branchCode || '',
       branchName: d.branchName || '',
       contactPersonMobile: d.contactPersonMobile || '',

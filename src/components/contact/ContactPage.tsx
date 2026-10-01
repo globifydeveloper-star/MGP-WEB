@@ -8,7 +8,7 @@ import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
-import { ContactUsPageData } from '@/lib/strapi';
+import type { ContactUsPageData } from '@/lib/strapi';
 
 
 
@@ -152,6 +152,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.consent) {
       alert('You must authorize communication to submit.');
@@ -183,6 +184,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
           city: '',
           branchCode: '',
           message: '',
+          consent: true,
         });
         resetOtpState();
       } else {
@@ -299,6 +301,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                     title="Muthoot Gold Point Registered Office Location"
                     className="cp-map-iframe"
                     src={data?.officeMapUrl || REGISTERED_OFFICE.mapEmbedUrl}
+                    sandbox="allow-scripts allow-same-origin"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />

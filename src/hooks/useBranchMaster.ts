@@ -82,6 +82,7 @@ export function useBranchMaster(options: UseBranchMasterOptions = {}) {
 
   useEffect(() => {
     if (autoFetch) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchBranches(false);
     }
   }, [autoFetch, fetchBranches]);
