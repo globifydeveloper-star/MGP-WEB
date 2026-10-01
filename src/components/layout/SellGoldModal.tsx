@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
-import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/otp';
+import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
 import './SellGoldModal.css';
 
 interface SellGoldModalProps {

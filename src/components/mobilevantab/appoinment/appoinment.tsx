@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
-import { validateName, validatePhone, validateRequired, validateOtp } from '@/lib/otp';
+import { validateName, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { MobileVanPageData } from '@/lib/strapi';
 import './appoinment.css';

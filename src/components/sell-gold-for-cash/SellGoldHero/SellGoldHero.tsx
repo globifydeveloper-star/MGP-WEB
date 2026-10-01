@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
-import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/otp';
+import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 
 import './SellGoldHero.css';
