@@ -10,7 +10,13 @@ export async function GET(
     const searchParams = request.nextUrl.searchParams;
     const queryString = searchParams.toString();
 
-    const targetUrl = `${BRANCH_MASTER_BASE_URL}/Branch/${action}${queryString ? `?${queryString}` : ''}`;
+    const ACTION_MAP: Record<string, string> = {
+      FetchBranchDetails: 'FetchBranchDetails'
+    };
+    const upstream = ACTION_MAP[action];
+    if (!upstream) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+
+    const targetUrl = `${BRANCH_MASTER_BASE_URL}/Branch/${upstream}${queryString ? `?${queryString}` : ''}`;
 
     const authHeader =
       request.headers.get('authorization') ||
