@@ -8,7 +8,8 @@ import { usePathname } from 'next/navigation';
 import logoImg from '@/assets/images/logo.png';
 import SellGoldModal from './SellGoldModal';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-import { getNavbarSetting, NavItem } from '@/lib/strapi';
+import { getNavbarSettingAction as getNavbarSetting } from '@/actions/strapiActions';
+import type { NavItem } from '@/lib/strapi';
 const DEFAULT_NAV_LINKS: NavItem[] = [
   { label: 'Home', url: '/' },
   { label: 'About Us', url: '/about-us' },

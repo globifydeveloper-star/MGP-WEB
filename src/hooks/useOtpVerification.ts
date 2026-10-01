@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { sendOtp, verifyOtp, EnquiryDetails } from '@/lib/otp';
+import { sendOtpAction as sendOtp, verifyOtpAction as verifyOtp } from '@/actions/otpActions';
+import type { EnquiryDetails } from '@/lib/otp';
 
 export type OtpState = 'idle' | 'sending' | 'otpSent' | 'verifying' | 'verified' | 'expired' | 'error';
 

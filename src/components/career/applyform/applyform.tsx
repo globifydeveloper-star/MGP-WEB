@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getJobPositions, JobPosition } from '@/lib/strapi';
+import type { CareerPageSettingsData, JobPosition } from '@/lib/strapi';
+import { getJobPositionsAction as getJobPositions } from '@/actions/strapiActions';
 import './applyform.css';
 
 interface ApplyFormProps {

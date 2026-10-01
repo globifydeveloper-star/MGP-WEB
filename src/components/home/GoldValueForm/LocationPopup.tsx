@@ -16,7 +16,7 @@ interface LocationPopupProps {
 }
 
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { submitFormSubmission } from '@/lib/strapi';
+import { submitFormSubmissionAction as submitFormSubmission } from '@/actions/strapiActions';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {

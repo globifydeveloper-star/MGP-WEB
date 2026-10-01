@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getJobPositions, getJobDepartments, JobPosition, JobDepartment } from '@/lib/strapi';
+import { getJobPositionsAction as getJobPositions, getJobDepartmentsAction as getJobDepartments } from '@/actions/strapiActions';
+import type { JobPosition, JobDepartment } from '@/lib/strapi';
 import './openpositions.css';
 
 interface OpenPositionsProps {

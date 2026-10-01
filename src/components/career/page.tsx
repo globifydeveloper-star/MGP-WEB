@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { CareerPageSettingsData } from '@/lib/strapi';
+import type { CareerPageSettingsData } from '@/lib/strapi';
 import CareerHero from './careerhero/careerhero';
 import CareerBenefits from './careerbenefits/careerbenefits';
 import OpenPositions from './openpositions/openpositions';
 import ApplyForm from './applyform/applyform';
-import { submitJobApplication } from '@/lib/strapi';
+import { submitJobAction } from '@/actions/submitJob';
 
 interface CareerPageProps { data?: CareerPageSettingsData | null; }
 
@@ -78,16 +78,18 @@ export default function CareerPage({ data }: CareerPageProps) {
     setSubmitError('');
     
     try {
-      const result = await submitJobApplication({
-        fullName: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        coverNote: formData.message,
-        jobPosition: formData.position,
-        experienceYears: '',
-        currentCity: '',
-        resumeFile: formData.resumeFile,
-      });
+      const result = await (async () => {
+      const fd = new FormData();
+      fd.append('fullName', formData.name);
+      fd.append('email', formData.email);
+      fd.append('phone', formData.phone);
+      fd.append('coverNote', formData.message);
+      fd.append('jobPosition', formData.position);
+      fd.append('experienceYears', '');
+      fd.append('currentCity', '');
+      if (formData.resumeFile) fd.append('resumeFile', formData.resumeFile);
+      return submitJobAction(fd);
+    })();
 
       if (result.success) {
         setSubmitSuccess(true);
