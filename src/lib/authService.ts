@@ -5,23 +5,8 @@
 
 import 'server-only';
 
-const AUTH_URL = (
-  process.env.CRM_AUTH_URL ||
-  process.env.CHANNEL_AUTH_URL ||
-  ''
-).trim();
+import { requireEnv } from './env.server';
 
-const USERNAME =
-  process.env.CHANNEL_LEAD_USERNAME ||
-  process.env.BRANCH_MASTER_USERNAME ||
-  process.env.CRM_USERNAME ||
-  '';
- 
-const PASSWORD =
-  process.env.CHANNEL_LEAD_PASSWORD ||
-  process.env.BRANCH_MASTER_PASSWORD ||
-  process.env.CRM_PASSWORD ||
-  '';
 
 export interface AuthLoginResponse {
   success?: boolean;
@@ -38,7 +23,7 @@ export interface AuthLoginResponse {
   };
 }
 
-function extractToken(data: AuthLoginResponse | any): string | null {
+function extractToken(data: AuthLoginResponse): string | null {
   if (!data) return null;
   const token =
     data?.respData?.accessToken ||
@@ -46,7 +31,7 @@ function extractToken(data: AuthLoginResponse | any): string | null {
     data?.respData?.access_token ||
     data?.token ||
     data?.access_token ||
-    (typeof data?.respData === 'string' ? data.respData : null);
+    (typeof data?.respData === 'string' ? (((data as AuthLoginResponse).respData as any) as string) : null);
   return (token && typeof token === 'string') ? token.trim() : null;
 }
 
@@ -69,15 +54,15 @@ export async function loginChannelLead(
     return loginPromise;
   }
 
-  const u = username || USERNAME;
-  const p = password || PASSWORD;
+  const u = username || process.env.CHANNEL_LEAD_USERNAME || process.env.BRANCH_MASTER_USERNAME || requireEnv('CRM_USERNAME');
+  const p = password || process.env.CHANNEL_LEAD_PASSWORD || process.env.BRANCH_MASTER_PASSWORD || requireEnv('CRM_PASSWORD');
 
   loginPromise = (async () => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
     try {
-      const res = await fetch(AUTH_URL, {
+      const res = await fetch(process.env.CRM_AUTH_URL || requireEnv('CHANNEL_AUTH_URL'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,11 +74,11 @@ export async function loginChannelLead(
       });
 
       if (!res.ok) {
-        console.warn(`[Auth/Login] HTTP ${res.status} from ${AUTH_URL}`);
+        console.warn(`[Auth/Login] HTTP ${res.status}`);
         return null;
       }
 
-      const data: AuthLoginResponse = await res.json();
+      const data = (await res.json()) as AuthLoginResponse;
       const token = extractToken(data);
 
       if (token) {
@@ -105,8 +90,8 @@ export async function loginChannelLead(
       }
 
       return null;
-    } catch (err: any) {
-      if (err?.name === 'AbortError') {
+    } catch (err: unknown) {
+      if ((err as Error)?.name === 'AbortError') {
         console.error('[Auth/Login] Request timed out (10s)');
       } else {
         console.error('[Auth/Login] Error fetching auth token:', err);
