@@ -297,14 +297,18 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
                 </div>
 
                 <div className="cp-map-box">
-                  <iframe
-                    title="Muthoot Gold Point Registered Office Location"
-                    className="cp-map-iframe"
-                    src={data?.officeMapUrl || REGISTERED_OFFICE.mapEmbedUrl}
-                    sandbox="allow-scripts allow-same-origin"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
+                  {(() => {
+                    const mapUrl = data?.officeMapUrl || REGISTERED_OFFICE.mapEmbedUrl;
+                    return mapUrl.startsWith('https://www.google.com/maps/embed') ? (
+                      <iframe
+                        title="Muthoot Gold Point Registered Office Location"
+                        className="cp-map-iframe"
+                        src={mapUrl}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                      />
+                    ) : null;
+                  })()}
                   {/* Floating Marker Card on Map */}
                   <div className="cp-map-popup">
                     <div className="cp-map-popup-body">
