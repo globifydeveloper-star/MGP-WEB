@@ -4,9 +4,9 @@ import { PHASE_PRODUCTION_BUILD } from "next/constants";
 export default function nextConfig(phase: string): NextConfig {
   const isProductionBuild = phase === PHASE_PRODUCTION_BUILD;
 
-  const publicStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const publicStrapiUrl = process.env.STRAPI_PUBLIC_URL || process.env.NEXT_PUBLIC_STRAPI_URL;
   if (!publicStrapiUrl && process.env.NODE_ENV === "production") {
-    throw new Error("NEXT_PUBLIC_STRAPI_URL is not set");
+    throw new Error("STRAPI_PUBLIC_URL or NEXT_PUBLIC_STRAPI_URL is not set");
   }
   const strapiUrl = new URL(
     publicStrapiUrl && /^https?:\/\//.test(publicStrapiUrl) ? publicStrapiUrl : "http://localhost:1337"
