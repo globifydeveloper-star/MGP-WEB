@@ -1,5 +1,7 @@
 import 'server-only';
 import { cache } from 'react';
+import crypto from 'crypto';
+import { cookies } from 'next/headers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StrapiAny = any;
@@ -260,6 +262,29 @@ export const getJobPositions = cache(async function getJobPositions(): Promise<J
   });
 });
 
+function assertPhoneVerified(phone: string) {
+  const token = cookies().get('mgp_verified_phone')?.value;
+  if (!token) throw new Error('Phone number not verified. Please verify OTP first.');
+  const [tPhone, tExpires, tSig] = token.split(':');
+  if (tPhone !== phone) throw new Error('Verified phone number mismatch.');
+  if (Date.now() > parseInt(tExpires, 10)) throw new Error('Verification expired. Please verify OTP again.');
+  
+  const secret = process.env.INTERNAL_API_SECRET || process.env.API_TOKEN || 'default-secret';
+  const expectedSig = crypto.createHmac('sha256', secret).update(`${tPhone}:${tExpires}`).digest('hex');
+  if (tSig !== expectedSig) throw new Error('Invalid verification token.');
+}
+
+function getSubmissionHeaders() {
+  const headers: Record<string, string> = {};
+  if (process.env.INTERNAL_API_SECRET) {
+    headers['x-internal-secret'] = process.env.INTERNAL_API_SECRET;
+  }
+  if (process.env.API_TOKEN) {
+    headers['Authorization'] = `Bearer ${process.env.API_TOKEN}`;
+  }
+  return headers;
+}
+
 export async function submitJobApplication(payload: {
   fullName: string;
   email: string;
@@ -271,7 +296,9 @@ export async function submitJobApplication(payload: {
   resumeFile?: File | null;
 }): Promise<{ success: boolean; error?: string }> {
   try {
+    assertPhoneVerified(payload.phone);
     let res: Response;
+    const baseHeaders = getSubmissionHeaders();
 
     if (payload.resumeFile) {
       const formData = new FormData();
@@ -290,6 +317,7 @@ export async function submitJobApplication(payload: {
 
       res = await fetch(`${STRAPI_URL}/api/job-applications`, {
         method: 'POST',
+        headers: baseHeaders,
         body: formData,
       });
     } else {
@@ -297,6 +325,7 @@ export async function submitJobApplication(payload: {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...baseHeaders,
         },
         body: JSON.stringify(payload),
       });
@@ -326,10 +355,12 @@ export async function submitFormSubmission(payload: {
   details?: StrapiAny;
 }): Promise<{ success: boolean; error?: string }> {
   try {
+    assertPhoneVerified(payload.phone);
+    const baseHeaders = getSubmissionHeaders();
     // 1. Submit to Gold Valuation Submissions
     const valuationRes = await fetch(`${STRAPI_URL}/api/gold-valuation-submissions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...baseHeaders },
       body: JSON.stringify({
         data: {
           name: payload.name,
@@ -352,7 +383,7 @@ export async function submitFormSubmission(payload: {
     // 2. Mirror to All Leads
     const leadRes = await fetch(`${STRAPI_URL}/api/all-leads`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...baseHeaders },
       body: JSON.stringify({
         data: {
           name: payload.name,
