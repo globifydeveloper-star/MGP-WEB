@@ -262,8 +262,9 @@ export const getJobPositions = cache(async function getJobPositions(): Promise<J
   });
 });
 
-function assertPhoneVerified(phone: string) {
-  const token = cookies().get('mgp_verified_phone')?.value;
+async function assertPhoneVerified(phone: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('mgp_verified_phone')?.value;
   if (!token) throw new Error('Phone number not verified. Please verify OTP first.');
   const [tPhone, tExpires, tSig] = token.split(':');
   if (tPhone !== phone) throw new Error('Verified phone number mismatch.');
