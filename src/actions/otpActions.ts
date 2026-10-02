@@ -14,8 +14,8 @@ export async function verifyOtpAction(phone: string, otp: string, details?: Enqu
   if (result.success && result.verified) {
     const expires = Date.now() + 1000 * 60 * 15; // 15 minutes validity
     const secret = process.env.INTERNAL_API_SECRET || process.env.API_TOKEN || 'default-secret';
-    const sig = crypto.createHmac('sha256', secret).update(${phone}:).digest('hex');
-    const token = ${phone}::;
+    const sig = crypto.createHmac('sha256', secret).update(`${phone}:${expires}`).digest('hex');
+    const token = `${phone}:${expires}:${sig}`;
     
     cookies().set('mgp_verified_phone', token, {
       httpOnly: true,
