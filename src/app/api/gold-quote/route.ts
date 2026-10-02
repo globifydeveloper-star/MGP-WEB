@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const forwarded = request.headers.get('x-forwarded-for');
     const clientIp = forwarded ? forwarded.split(',')[0].trim() : '127.0.0.1';
 
-    const rateLimit = checkRateLimit(clientIp);
+    const rateLimit = await checkRateLimit(clientIp);
     if (!rateLimit.allowed) {
       return NextResponse.json(
         {
@@ -99,7 +99,7 @@ export async function GET(request: NextRequest) {
     const forwarded = request.headers.get('x-forwarded-for');
     const clientIp = forwarded ? forwarded.split(',')[0].trim() : '127.0.0.1';
 
-    const rateLimit = checkRateLimit(clientIp);
+    const rateLimit = await checkRateLimit(clientIp);
     if (!rateLimit.allowed) {
       return NextResponse.json(
         {
