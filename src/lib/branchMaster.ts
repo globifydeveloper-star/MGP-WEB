@@ -2,7 +2,6 @@ import 'server-only';
 import { resolveAuthToken } from './authService';
 
 export const BRANCH_MASTER_BASE_URL = (
-  process.env.NEXT_PUBLIC_BRANCH_MASTER_BASE_URL ||
   process.env.BRANCH_MASTER_BASE_URL ||
   ''
 ).replace(/\/$/, '');

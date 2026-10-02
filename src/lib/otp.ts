@@ -1,12 +1,7 @@
 import 'server-only';
 const STRAPI_URL = (() => {
-  const isServer = typeof window === 'undefined';
-  const url =
-    (isServer && process.env.STRAPI_INTERNAL_URL) ||
-    process.env.NEXT_PUBLIC_STRAPI_URL ||
-    null;
+  const url = process.env.STRAPI_INTERNAL_URL || process.env.STRAPI_URL || null;
   if (url) return url.replace(/\/+$/, '');
-  if (!isServer) return '/strapi';
   if (process.env.NODE_ENV === 'production') {
     throw new Error('STRAPI_INTERNAL_URL is not set');
   }
