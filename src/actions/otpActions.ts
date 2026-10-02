@@ -17,7 +17,8 @@ export async function verifyOtpAction(phone: string, otp: string, details?: Enqu
     const sig = crypto.createHmac('sha256', secret).update(`${phone}:${expires}`).digest('hex');
     const token = `${phone}:${expires}:${sig}`;
     
-    cookies().set('mgp_verified_phone', token, {
+    const cookieStore = await cookies();
+    cookieStore.set('mgp_verified_phone', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',

@@ -296,7 +296,7 @@ export async function submitJobApplication(payload: {
   resumeFile?: File | null;
 }): Promise<{ success: boolean; error?: string }> {
   try {
-    assertPhoneVerified(payload.phone);
+    await assertPhoneVerified(payload.phone);
     let res: Response;
     const baseHeaders = getSubmissionHeaders();
 
@@ -355,7 +355,7 @@ export async function submitFormSubmission(payload: {
   details?: StrapiAny;
 }): Promise<{ success: boolean; error?: string }> {
   try {
-    assertPhoneVerified(payload.phone);
+    await assertPhoneVerified(payload.phone);
     const baseHeaders = getSubmissionHeaders();
     // 1. Submit to Gold Valuation Submissions
     const valuationRes = await fetch(`${STRAPI_URL}/api/gold-valuation-submissions`, {
