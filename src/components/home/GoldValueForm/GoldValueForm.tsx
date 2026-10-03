@@ -283,7 +283,6 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
         </div>
       </div>
       <LocationPopup
-
         isOpen={isLocationModalOpen}
         onClose={() => setIsLocationModalOpen(false)}
         clientData={formData}
@@ -297,6 +296,11 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
           setOtp('');
           setIsAuthorized(false);
           resetOtpState();
+        }}
+        onOtpRequired={(msg) => {
+          setIsLocationModalOpen(false);
+          resetOtpState();
+          alert(msg);
         }}
       />
     </>

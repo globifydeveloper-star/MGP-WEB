@@ -1,7 +1,7 @@
 import 'server-only';
 import { cache } from 'react';
 import { cookies } from 'next/headers';
-import { assertVerifiedToken } from '@/lib/otpToken';
+import { assertVerifiedToken, VerificationError } from '@/lib/otpToken';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StrapiAny = any;
@@ -288,7 +288,7 @@ export async function submitJobApplication(payload: {
   coverNote?: string;
   jobPosition?: string;
   resumeFile?: File | null;
-}): Promise<{ success: boolean; error?: string }> {
+}): Promise<{ success: boolean; error?: string; code?: string }> {
   try {
     await assertPhoneVerified(payload.phone);
     let res: Response;
@@ -331,7 +331,11 @@ export async function submitJobApplication(payload: {
     }
     return { success: true };
   } catch (err) {
-    console.error('submitJobApplication error:', err);
+    if (err instanceof VerificationError) {
+      console.warn('[submit] verification failed:', err.code);
+      return { success: false, code: 'OTP_REQUIRED', error: 'Please verify your phone number again.' };
+    }
+    console.error('submitJobApplication error:', err instanceof Error ? err.message : 'Unknown error');
     return { success: false, error: 'Network error submitting application.' };
   }
 }
@@ -347,7 +351,7 @@ export async function submitFormSubmission(payload: {
   purity?: string;
   weight?: string;
   details?: StrapiAny;
-}): Promise<{ success: boolean; error?: string }> {
+}): Promise<{ success: boolean; error?: string; code?: string }> {
   try {
     await assertPhoneVerified(payload.phone);
     const baseHeaders = getSubmissionHeaders();
@@ -399,7 +403,11 @@ export async function submitFormSubmission(payload: {
 
     return { success: true };
   } catch (err) {
-    console.error('submitFormSubmission error:', err);
+    if (err instanceof VerificationError) {
+      console.warn('[submit] verification failed:', err.code);
+      return { success: false, code: 'OTP_REQUIRED', error: 'Please verify your phone number again.' };
+    }
+    console.error('submitFormSubmission error:', err instanceof Error ? err.message : 'Unknown error');
     return { success: false, error: 'Network error submitting form.' };
   }
 }

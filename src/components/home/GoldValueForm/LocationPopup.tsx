@@ -13,13 +13,14 @@ interface LocationPopupProps {
     weight: string;
   };
   onSuccess?: () => void;
+  onOtpRequired?: (msg: string) => void;
 }
 
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { submitFormSubmissionAction as submitFormSubmission } from '@/actions/strapiActions';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
-export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }: LocationPopupProps) {
+export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, onOtpRequired }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedBranchCode, setSelectedBranchCode] = useState('');
@@ -90,7 +91,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
 
     setIsSubmitting(true);
     try {
-      await submitFormSubmission({
+      const res = await submitFormSubmission({
         name: clientData.name,
         phone: clientData.phone,
         branch: `${selectedCity}, ${selectedState}`,
@@ -107,6 +108,13 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess }
           branchCode: selectedBranchCode,
         },
       });
+
+      if (res && !res.success && (res as any).code === 'OTP_REQUIRED') {
+        if (onOtpRequired) {
+          onOtpRequired(res.error || 'Please verify your phone number again.');
+        }
+        return;
+      }
     } catch (err) {
       console.error('Gold value estimate submission error:', err);
     } finally {
