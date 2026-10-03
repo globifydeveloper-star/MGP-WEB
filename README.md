@@ -27,7 +27,7 @@ You must provide the following required environment variable for Next.js to star
 - `NEXT_PUBLIC_STRAPI_URL`: The URL of your Strapi backend.
 
 Optional environment variables:
-- `NEXT_PUBLIC_BRANCH_MASTER_BASE_URL`: API Base URL for branch details.
+- `BRANCH_MASTER_BASE_URL`: API Base URL for branch details.
 - `GOLD_QUOTE_BASE_URL`: API Base URL for fetching live gold quotes.
 *(See `.env.example` for all required server-side secrets)*
 

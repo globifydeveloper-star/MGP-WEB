@@ -1,11 +1,11 @@
 import 'server-only';
 import { resolveAuthToken } from './authService';
 
-export const BRANCH_MASTER_BASE_URL = (
-  process.env.BRANCH_MASTER_BASE_URL ||
-  process.env.NEXT_PUBLIC_BRANCH_MASTER_BASE_URL ||
-  ''
-).replace(/\/$/, '');
+export const BRANCH_MASTER_BASE_URL = (() => {
+  const url = process.env.BRANCH_MASTER_BASE_URL;
+  if (!url) throw new Error('BRANCH_MASTER_BASE_URL environment variable is missing.');
+  return url.replace(/\/$/, '');
+})();
 
 export interface BranchMasterDetail {
   branchCode: string;

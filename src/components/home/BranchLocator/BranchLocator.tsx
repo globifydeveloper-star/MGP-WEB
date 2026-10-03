@@ -240,13 +240,12 @@ export default function BranchLocator() {
                 )}
                 <span className="branch-locator-locate-text" style={{ marginLeft: '4px' }}>Near Me</span>
               </button>
-              <style dangerouslySetInnerHTML={{
-                __html: `
+              <style>{`
                 @keyframes spin { 100% { transform: rotate(360deg); } }
                 @media (max-width: 640px) {
                   .branch-locator-locate-btn { order: 4; width: 100%; margin-left: 0; margin-top: 0.5rem; }
                 }
-              `}} />
+              `}</style>
             </form>
 
             {/* CASE 1: SEARCH QUERY ACTIVE */}

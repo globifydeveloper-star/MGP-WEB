@@ -63,7 +63,7 @@ export default async function GoldRateRoute() {
       {!data?.hideNavbar && <Navbar />}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
       />
       <GoldRatePage data={data} goldValueFormImage={sharedMedia?.goldValueFormImage} />
       {!data?.hideFooter && <Footer />}
