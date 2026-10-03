@@ -2,7 +2,7 @@
 
 import { sendOtp as internalSendOtp, verifyOtp as internalVerifyOtp, EnquiryDetails } from '@/lib/otp';
 import { cookies } from 'next/headers';
-import crypto from 'crypto';
+import { createVerifiedToken } from '@/lib/otpToken';
 
 export async function sendOtpAction(phone: string) {
   return await internalSendOtp(phone);
@@ -12,10 +12,7 @@ export async function verifyOtpAction(phone: string, otp: string, details?: Enqu
   const result = await internalVerifyOtp(phone, otp, details);
   
   if (result.success && result.verified) {
-    const expires = Date.now() + 1000 * 60 * 15; // 15 minutes validity
-    const secret = process.env.INTERNAL_API_SECRET || process.env.API_TOKEN || 'default-secret';
-    const sig = crypto.createHmac('sha256', secret).update(`${phone}:${expires}`).digest('hex');
-    const token = `${phone}:${expires}:${sig}`;
+    const token = createVerifiedToken(phone);
     
     const cookieStore = await cookies();
     cookieStore.set('mgp_verified_phone', token, {

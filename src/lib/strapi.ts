@@ -1,7 +1,7 @@
 import 'server-only';
 import { cache } from 'react';
-import crypto from 'crypto';
 import { cookies } from 'next/headers';
+import { assertVerifiedToken } from '@/lib/otpToken';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StrapiAny = any;
@@ -265,14 +265,7 @@ export const getJobPositions = cache(async function getJobPositions(): Promise<J
 async function assertPhoneVerified(phone: string) {
   const cookieStore = await cookies();
   const token = cookieStore.get('mgp_verified_phone')?.value;
-  if (!token) throw new Error('Phone number not verified. Please verify OTP first.');
-  const [tPhone, tExpires, tSig] = token.split(':');
-  if (tPhone !== phone) throw new Error('Verified phone number mismatch.');
-  if (Date.now() > parseInt(tExpires, 10)) throw new Error('Verification expired. Please verify OTP again.');
-  
-  const secret = process.env.INTERNAL_API_SECRET || process.env.API_TOKEN || 'default-secret';
-  const expectedSig = crypto.createHmac('sha256', secret).update(`${tPhone}:${tExpires}`).digest('hex');
-  if (tSig !== expectedSig) throw new Error('Invalid verification token.');
+  assertVerifiedToken(token, phone);
 }
 
 function getSubmissionHeaders() {
