@@ -1,12 +1,12 @@
 import 'server-only';
-const STRAPI_URL = (() => {
+function getStrapiUrl(): string {
   const url = process.env.STRAPI_INTERNAL_URL || process.env.STRAPI_URL || null;
   if (url) return url.replace(/\/+$/, '');
   if (process.env.NODE_ENV === 'production') {
     throw new Error('STRAPI_INTERNAL_URL is not set');
   }
   return 'http://localhost:1337';
-})();
+}
 
 export interface OtpResponse {
   success: boolean;
@@ -20,7 +20,7 @@ export interface OtpResponse {
  */
 export async function sendOtp(phone: string): Promise<OtpResponse> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/otp/send`, {
+    const res = await fetch(`${getStrapiUrl()}/api/otp/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export async function verifyOtp(
   details?: EnquiryDetails
 ): Promise<OtpResponse> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/otp/verify`, {
+    const res = await fetch(`${getStrapiUrl()}/api/otp/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -8,14 +8,14 @@ export type StrapiAny = any;
 
 
 // Server: call Strapi directly (STRAPI_INTERNAL_URL).
-const STRAPI_URL = (() => {
+function getStrapiUrl(): string {
   const url = process.env.STRAPI_INTERNAL_URL || process.env.STRAPI_URL || null;
   if (url) return url.replace(/\/+$/, '');
   if (process.env.NODE_ENV === 'production') {
     throw new Error('STRAPI_INTERNAL_URL is not set');
   }
   return 'http://localhost:1337';
-})();
+}
 const PUBLIC_STRAPI_URL = (process.env.STRAPI_PUBLIC_URL || process.env.STRAPI_URL || '/strapi').replace(/\/+$/, '');
 const REVALIDATE_INTERVAL = 60; // 60s ISR background refresh
 
@@ -100,7 +100,7 @@ async function fetchStrapi<T>(
 ): Promise<T | null> {
   if (process.env.NEXT_PHASE === 'phase-production-build') return null;
   try {
-    const res = await fetch(`${STRAPI_URL}${endpoint}`, options);
+    const res = await fetch(`${getStrapiUrl()}${endpoint}`, options);
     if (!res.ok) {
       console.warn(`${errorMessage}: Strapi responded with ${res.status}`);
       return null;
@@ -309,13 +309,13 @@ export async function submitJobApplication(payload: {
       formData.append('data', JSON.stringify(data));
       formData.append('files.resume', payload.resumeFile, payload.resumeFile.name);
 
-      res = await fetch(`${STRAPI_URL}/api/job-applications`, {
+      res = await fetch(`${getStrapiUrl()}/api/job-applications`, {
         method: 'POST',
         headers: baseHeaders,
         body: formData,
       });
     } else {
-      res = await fetch(`${STRAPI_URL}/api/job-applications`, {
+      res = await fetch(`${getStrapiUrl()}/api/job-applications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -356,7 +356,7 @@ export async function submitFormSubmission(payload: {
     await assertPhoneVerified(payload.phone);
     const baseHeaders = getSubmissionHeaders();
     // 1. Submit to Gold Valuation Submissions
-    const valuationRes = await fetch(`${STRAPI_URL}/api/gold-valuation-submissions`, {
+    const valuationRes = await fetch(`${getStrapiUrl()}/api/gold-valuation-submissions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...baseHeaders },
       body: JSON.stringify({
@@ -379,7 +379,7 @@ export async function submitFormSubmission(payload: {
     }
 
     // 2. Mirror to All Leads
-    const leadRes = await fetch(`${STRAPI_URL}/api/all-leads`, {
+    const leadRes = await fetch(`${getStrapiUrl()}/api/all-leads`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...baseHeaders },
       body: JSON.stringify({
