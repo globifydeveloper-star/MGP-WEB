@@ -1,11 +1,10 @@
 import 'server-only';
 import { resolveAuthToken } from './authService';
+import { requireEnv } from './env.server';
 
-export const BRANCH_MASTER_BASE_URL = (() => {
-  const url = process.env.BRANCH_MASTER_BASE_URL;
-  if (!url) throw new Error('BRANCH_MASTER_BASE_URL environment variable is missing.');
-  return url.replace(/\/$/, '');
-})();
+export function getBranchMasterBaseUrl(): string {
+  return requireEnv('BRANCH_MASTER_BASE_URL').replace(/\/$/, '');
+}
 
 export interface BranchMasterDetail {
   branchCode: string;
@@ -42,7 +41,7 @@ export async function fetchAllBranchDetails(): Promise<BranchMasterDetail[]> {
       headers['Authorization'] = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
     }
 
-    const url = `${BRANCH_MASTER_BASE_URL}/Branch/FetchBranchDetails`;
+    const url = `${getBranchMasterBaseUrl()}/Branch/FetchBranchDetails`;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 

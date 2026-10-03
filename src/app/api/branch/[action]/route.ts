@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BRANCH_MASTER_BASE_URL } from '@/lib/branchMaster';
+import { getBranchMasterBaseUrl } from '@/lib/branchMaster';
 
 export async function GET(
   request: NextRequest,
@@ -16,7 +16,7 @@ export async function GET(
     const upstream = ACTION_MAP[action];
     if (!upstream) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-    const targetUrl = `${BRANCH_MASTER_BASE_URL}/Branch/${upstream}${queryString ? `?${queryString}` : ''}`;
+    const targetUrl = `${getBranchMasterBaseUrl()}/Branch/${upstream}${queryString ? `?${queryString}` : ''}`;
 
     const authHeader =
       request.headers.get('authorization') ||
