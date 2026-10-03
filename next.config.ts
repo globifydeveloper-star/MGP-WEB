@@ -92,6 +92,11 @@ export default function nextConfig(phase: string): NextConfig {
           hostname: "mgpwebsiteuat.s3.ap-south-1.amazonaws.com",
           pathname: "/**",
         },
+        {
+          protocol: "https",
+          hostname: "pub-bd272ef986bf4b208d871d215567b407.r2.dev",
+          pathname: "/**",
+        },
       ],
       // Strapi runs on localhost in dev; Next 16 blocks image URLs that resolve
       // to a private/loopback IP unless explicitly opted in.
