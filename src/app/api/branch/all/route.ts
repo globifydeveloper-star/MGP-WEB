@@ -38,18 +38,13 @@ export async function GET() {
         },
       }
     );
-  } catch (err: any) {
-    console.error('[API/Branch/All Route Error]:', err);
+  } catch (err: unknown) {
+    console.error('[API/Branch/All Route Error]:', (err as Error)?.message || 'unknown');
     return NextResponse.json(
       {
         success: false,
-        error: err?.message || 'Failed to load Branch Master data',
-        data: {
-          states: [],
-          locationsByState: {},
-          branchesByState: {},
-          allBranches: [],
-        },
+        message: 'Failed to load Branch Master data',
+        data: { states: [], locationsByState: {}, branchesByState: {}, allBranches: [] },
       },
       { status: 200 }
     );
