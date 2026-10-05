@@ -290,7 +290,6 @@ export async function submitJobApplication(payload: {
   resumeFile?: File | null;
 }): Promise<{ success: boolean; error?: string; code?: string }> {
   try {
-    await assertPhoneVerified(payload.phone);
     let res: Response;
     const baseHeaders = getSubmissionHeaders();
 
@@ -331,10 +330,6 @@ export async function submitJobApplication(payload: {
     }
     return { success: true };
   } catch (err) {
-    if (err instanceof VerificationError) {
-      console.warn('[submit] verification failed:', err.code);
-      return { success: false, code: 'OTP_REQUIRED', error: 'Please verify your phone number again.' };
-    }
     console.error('submitJobApplication error:', err instanceof Error ? err.message : 'Unknown error');
     return { success: false, error: 'Network error submitting application.' };
   }
