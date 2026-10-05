@@ -65,7 +65,11 @@ export default async function GoldRateRoute() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
       />
-      <GoldRatePage data={data} goldValueFormImage={sharedMedia?.goldValueFormImage} />
+      <GoldRatePage
+        data={data}
+        goldValueFormImage={sharedMedia?.goldValueFormImage}
+        showCalculator={process.env.GOLD_QUOTE_ENABLED === 'true'}
+      />
       {!data?.hideFooter && <Footer />}
     </>
   );

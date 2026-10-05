@@ -21,6 +21,7 @@ export default function GoldSellContact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [companyWebsite, setCompanyWebsite] = useState('');
 
   const {
     state: otpState,
@@ -66,7 +67,7 @@ export default function GoldSellContact() {
       alert('Please enter a valid 10-digit phone number');
       return;
     }
-    const res = await sendOtp(formData.phone);
+    const res = await sendOtp(formData.phone, companyWebsite);
     if (!res) {
       alert('Failed to send OTP. Please try again.');
     }
@@ -206,6 +207,16 @@ export default function GoldSellContact() {
 
               {/* Mobile Number & OTP */}
               <div className="grct-form-row grct-phone-otp-row">
+                <input
+                  type="text"
+                  name="company_website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={companyWebsite}
+                  onChange={(e) => setCompanyWebsite(e.target.value)}
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+                />
                 <div className="grct-form-group grct-phone-wrapper">
                   <input
                     type="tel"

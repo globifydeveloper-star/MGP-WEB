@@ -22,6 +22,7 @@ interface GoldRateHeroProps {
   heroTitle?: string;
   heroDescription?: string;
   heroImage?: string;
+  showCalculator?: boolean;
 }
 
 function scrollToId(id: string) {
@@ -29,7 +30,7 @@ function scrollToId(id: string) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescription, heroImage }: GoldRateHeroProps) {
+export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescription, heroImage, showCalculator = false }: GoldRateHeroProps) {
   const today = new Date().toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -88,10 +89,12 @@ export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescripti
             </div>
 
             <div className="grh-cta-row">
-              <button type="button" className="btn btn-primary" onClick={() => scrollToId('gold-calculator')}>
-                Calculate Gold Value
-              </button>
-              <button type="button" className="btn btn-outline" onClick={onSellGoldClick}>
+              {showCalculator && (
+                <button type="button" className="btn btn-primary" onClick={() => scrollToId('gold-calculator')}>
+                  Calculate Gold Value
+                </button>
+              )}
+              <button type="button" className={`btn ${showCalculator ? 'btn-outline' : 'btn-primary'}`} onClick={onSellGoldClick}>
                 Sell Your Gold
               </button>
             </div>

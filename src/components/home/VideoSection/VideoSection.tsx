@@ -20,9 +20,10 @@ const VISIBLE_COUNT = 4;
 
 interface VideoSectionProps {
   videos?: HomeVideoItem[];
+  showCalculator?: boolean;
 }
 
-export default function VideoSection({ videos }: VideoSectionProps) {
+export default function VideoSection({ videos, showCalculator = false }: VideoSectionProps) {
   const languages = React.useMemo(() => {
     if (videos && videos.length > 0) {
       return videos.map((item) => ({
@@ -157,14 +158,23 @@ export default function VideoSection({ videos }: VideoSectionProps) {
             </div>
           </div>
 
-          {/* Right: Brand card -> Replaced with GoldValueForm */}
+          {/* Right: Brand card / GoldValueForm */}
           <div className="vs-brand-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <GoldValueForm 
-              isSideForm={true} 
-              heading="Contact us today" 
-              headingHighlight="" 
-              buttonLabel="Enquiry" 
-            />
+            {showCalculator ? (
+              <GoldValueForm 
+                isSideForm={true} 
+                heading="Contact us today" 
+                headingHighlight="" 
+                buttonLabel="Enquiry" 
+              />
+            ) : (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src="/components/logo_image.png"
+                alt="Muthoot Gold Point"
+                className="vs-brand-logo"
+              />
+            )}
           </div>
         </div>
       </div>

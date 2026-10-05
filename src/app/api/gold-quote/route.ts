@@ -3,6 +3,13 @@ import { fetchGoldQuote, fetchAllGoldRates, checkRateLimit } from '@/lib/goldQuo
 import { getClientIp } from '@/lib/getClientIp';
 
 export async function POST(request: NextRequest) {
+  if (process.env.GOLD_QUOTE_ENABLED !== 'true') {
+    return NextResponse.json(
+      { success: false, message: 'Not found' },
+      { status: 404 }
+    );
+  }
+
   try {
     const forwarded = request.headers.get('x-forwarded-for');
     const clientIp = forwarded ? forwarded.split(',')[0].trim() : '127.0.0.1';
@@ -84,6 +91,13 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  if (process.env.GOLD_QUOTE_ENABLED !== 'true') {
+    return NextResponse.json(
+      { success: false, message: 'Not found' },
+      { status: 404 }
+    );
+  }
+
   try {
     const { searchParams } = new URL(request.url);
 

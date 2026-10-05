@@ -39,6 +39,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
   });
 
   const [otp, setOtp] = useState('');
+  const [companyWebsite, setCompanyWebsite] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -107,7 +108,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
       setErrors((prev) => ({ ...prev, mobile: phoneError }));
       return;
     }
-    await sendOtp(formData.mobile);
+    await sendOtp(formData.mobile, companyWebsite);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -249,6 +250,16 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   </div>
 
                   <div className="apt-field">
+                    <input
+                      type="text"
+                      name="company_website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      value={companyWebsite}
+                      onChange={(e) => setCompanyWebsite(e.target.value)}
+                      style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+                    />
                     <label htmlFor="apt-mobile" className="apt-label">Mobile Number<span className="apt-required">*</span></label>
                     <div className="apt-otp-wrap">
                       <input

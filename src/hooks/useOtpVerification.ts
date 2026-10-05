@@ -67,7 +67,7 @@ export function useOtpVerification(options: UseOtpVerificationOptions = {}) {
     return 0;
   }, [getStorageKey]);
 
-  const triggerSendOtp = useCallback(async (phone: string) => {
+  const triggerSendOtp = useCallback(async (phone: string, honeypot?: string) => {
     setErrorMessage(null);
 
     if (!phone || !phoneRegex.test(phone)) {
@@ -84,7 +84,7 @@ export function useOtpVerification(options: UseOtpVerificationOptions = {}) {
     }
 
     setState('sending');
-    const res = await sendOtp(phone);
+    const res = await sendOtp(phone, honeypot);
     if (res.success) {
       const expiryTime = Date.now() + cooldownSeconds * 1000;
       if (typeof window !== 'undefined') {

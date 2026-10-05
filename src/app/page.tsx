@@ -114,7 +114,10 @@ export default async function Home() {
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
 
       {/* 3. Video Section || form */}
-      <VideoSection videos={homepageData?.homeVideos} />
+      <VideoSection
+        videos={homepageData?.homeVideos}
+        showCalculator={process.env.GOLD_QUOTE_ENABLED === 'true'}
+      />
 
       {/* 4. Comparison Table */}
       <GoldSellComparison rows={comparisonRows} />

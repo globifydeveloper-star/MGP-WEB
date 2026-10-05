@@ -13,9 +13,11 @@ import TrustStrip from './trust-strip/TrustStrip';
 export default function GoldRatePage({
   data,
   goldValueFormImage,
+  showCalculator = false,
 }: {
   data?: any;
   goldValueFormImage?: string;
+  showCalculator?: boolean;
 }) {
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
 
@@ -27,9 +29,10 @@ export default function GoldRatePage({
           heroTitle={data?.heroTitle}
           heroDescription={data?.heroDescription}
           heroImage={data?.heroImage}
+          showCalculator={showCalculator}
         />
 
-        <GoldValueForm sectionImage={goldValueFormImage} />
+        {showCalculator && <GoldValueForm sectionImage={goldValueFormImage} />}
 
         <WhyRatesChange sectionImage={data?.whyGoldRateChangesImage} />
 

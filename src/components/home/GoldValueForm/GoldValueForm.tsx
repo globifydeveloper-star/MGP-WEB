@@ -30,6 +30,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
     weight: ''
   });
   const [otp, setOtp] = useState('');
+  const [companyWebsite, setCompanyWebsite] = useState('');
   const [isAuthorized, setIsAuthorized] = useState(false);
   const { state: otpState, countdown, errorMessage: otpErrorMessage, sendOtp, verifyOtp, resetOtpState } = useOtpVerification({ cooldownSeconds: 60 });
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -68,7 +69,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
       alert('Please enter a valid 10-digit phone number');
       return;
     }
-    await sendOtp(formData.phone);
+    await sendOtp(formData.phone, companyWebsite);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -187,6 +188,16 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               </div>
 
               <div className="gvf-field" style={{ position: 'relative' }}>
+                <input
+                  type="text"
+                  name="company_website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={companyWebsite}
+                  onChange={(e) => setCompanyWebsite(e.target.value)}
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+                />
                 <label htmlFor="gvf-phone" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Phone Number<span className="gvf-required">*</span></label>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <input

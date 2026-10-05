@@ -53,6 +53,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [companyWebsite, setCompanyWebsite] = useState('');
 
   const {
     state: otpState,
@@ -88,7 +89,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
       setErrors(prev => ({ ...prev, phone: phoneErr }));
       return;
     }
-    await sendOtp(formData.phone);
+    await sendOtp(formData.phone, companyWebsite);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -291,6 +292,16 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
 
                 {/* Mobile Number, OTP button & OTP input in one row */}
                 <div className="sg-form-row sg-phone-otp-row">
+                  <input
+                    type="text"
+                    name="company_website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    value={companyWebsite}
+                    onChange={(e) => setCompanyWebsite(e.target.value)}
+                    style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+                  />
                   <div className="sg-form-group sg-phone-input-wrapper">
                     <input
                       type="tel"

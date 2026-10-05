@@ -101,6 +101,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [companyWebsite, setCompanyWebsite] = useState('');
 
   const {
     state: otpState,
@@ -146,7 +147,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
       alert('Please enter a valid 10-digit mobile number');
       return;
     }
-    const res = await sendOtp(formData.phone);
+    const res = await sendOtp(formData.phone, companyWebsite);
     if (!res) {
       alert('Failed to send OTP. Please try again.');
     }
@@ -427,6 +428,16 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
 
                     {/* Row 2: Mobile Number & OTP */}
                     <div className="cp-form-row-otp">
+                      <input
+                        type="text"
+                        name="company_website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        value={companyWebsite}
+                        onChange={(e) => setCompanyWebsite(e.target.value)}
+                        style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+                      />
                       <div className="cp-field-wrap cp-phone-field">
                         <PhoneIcon />
                         <input

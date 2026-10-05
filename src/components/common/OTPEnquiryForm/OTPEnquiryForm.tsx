@@ -15,6 +15,7 @@ export default function OTPEnquiryForm({
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
+  const [companyWebsite, setCompanyWebsite] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedBranchCode, setSelectedBranchCode] = useState('');
@@ -49,7 +50,7 @@ export default function OTPEnquiryForm({
       alert("Please enter a valid phone number");
       return;
     }
-    await sendOtp(phone);
+    await sendOtp(phone, companyWebsite);
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,6 +151,16 @@ export default function OTPEnquiryForm({
 
           {/* Phone Field + Get OTP */}
           <div className="otp-form-group otp-phone-wrapper">
+            <input
+              type="text"
+              name="company_website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={companyWebsite}
+              onChange={(e) => setCompanyWebsite(e.target.value)}
+              style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+            />
             <input
               type="tel"
               id="enquiry-phone"

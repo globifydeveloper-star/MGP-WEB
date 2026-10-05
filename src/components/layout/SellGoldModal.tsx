@@ -46,6 +46,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [companyWebsite, setCompanyWebsite] = useState('');
 
   const {
     state: otpState,
@@ -89,6 +90,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
         weight: '',
         consent: true
       });
+      setCompanyWebsite('');
       setIsSubmitted(false);
       resetOtpState();
     }
@@ -119,7 +121,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       setErrors(prev => ({ ...prev, phone: phoneErr }));
       return;
     }
-    await sendOtp(formData.phone);
+    await sendOtp(formData.phone, companyWebsite);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -245,6 +247,16 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
 
             {/* Phone with GET OTP */}
             <div className="sg-form-row sg-phone-row">
+              <input
+                type="text"
+                name="company_website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                value={companyWebsite}
+                onChange={(e) => setCompanyWebsite(e.target.value)}
+                style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+              />
               <input
                 type="tel"
                 name="phone"
