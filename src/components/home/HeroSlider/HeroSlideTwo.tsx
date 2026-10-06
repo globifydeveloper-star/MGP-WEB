@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import goldsImg from '@/assets/images/golds.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
@@ -18,6 +21,7 @@ interface HeroSlideTwoProps {
 }
 
 export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
+  const [hasError, setHasError] = useState(false);
   const text = slide?.heroText || "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying";
   const parts = text.split('. ');
   const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '.' : '') : '';
@@ -52,16 +56,19 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
     }
   };
 
+  const finalImage = !hasError && imageSrc ? imageSrc : goldsImg;
+
   return (
     <section className="hero-slide-two-section">
       <div className="hero-slide-two-bg" aria-hidden="true">
         <Image
-          src={imageSrc || goldsImg}
+          src={finalImage}
           alt=""
           fill
           priority
           sizes="100vw"
           className="hero-slide-two-bg-img"
+          onError={() => setHasError(true)}
         />
         <div className="hero-slide-two-overlay" />
       </div>

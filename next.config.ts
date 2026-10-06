@@ -75,7 +75,7 @@ export default function nextConfig(phase: string): NextConfig {
           protocol: strapiUrl.protocol.replace(":", "") as "http" | "https",
           hostname: strapiUrl.hostname,
           port: strapiUrl.port,
-          pathname: "/uploads/**",
+          pathname: "/**",
         },
         {
           protocol: "https",
@@ -85,6 +85,21 @@ export default function nextConfig(phase: string): NextConfig {
         {
           protocol: "https",
           hostname: "*.amazonaws.com",
+          pathname: "/**",
+        },
+        {
+          protocol: "https",
+          hostname: "*.r2.dev",
+          pathname: "/**",
+        },
+        {
+          protocol: "https",
+          hostname: "pub-*.r2.dev",
+          pathname: "/**",
+        },
+        {
+          protocol: "https",
+          hostname: "*.r2.cloudflarestorage.com",
           pathname: "/**",
         },
       ],

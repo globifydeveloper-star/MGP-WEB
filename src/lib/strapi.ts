@@ -60,6 +60,10 @@ function unwrap<T>(entry: unknown): T {
 
 function resolveMediaUrl(url: string | undefined): string | undefined {
   if (!url) return undefined;
+  // Disregard R2 storage URLs so components fallback to local assets or S3
+  if (url.includes('r2.dev') || url.includes('r2.cloudflarestorage.com')) {
+    return undefined;
+  }
   return url.startsWith('http') ? url : `${PUBLIC_STRAPI_URL}${url}`;
 }
 
