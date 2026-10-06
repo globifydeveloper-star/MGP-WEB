@@ -10,35 +10,35 @@ const DEFAULT_STEPS = [
     title: 'Visit Your Nearest White Gold Branch',
     desc: 'Customers give their Gold to Muthoot Gold Point for valuation, Gold to Muthoot Gold Point for valuation.',
     leftDesc: 'Walk into any of our branches with your gold jewellery. Our team will greet you and guide you through the entire selling process step by step.',
-    image: '/g_selling.png'
+    image: '/images/g_selling.png'
   },
   {
     num: '2',
     title: 'Submit ID & Address Proof',
     desc: 'Share a valid photo ID (Aadhaar, PAN, Passport or Voter ID) along with address proof for quick, hassle-free verification.',
     leftDesc: 'Keep your Aadhaar, PAN, Passport or Voter ID handy along with address proof so our team can verify your identity quickly.',
-    image: '/gcard1.png'
+    image: '/images/gcard1.png'
   },
   {
     num: '3',
     title: 'Professional Gold Purity Assessment',
     desc: 'Our experts assess the purity of your gold using advanced XRF technology, right in front of you, for complete transparency.',
     leftDesc: 'Our experts use advanced XRF technology to test the purity of your gold right in front of you, ensuring complete transparency.',
-    image: '/gcard2.png'
+    image: '/images/gcard2.png'
   },
   {
     num: '4',
     title: 'Get the Latest Live Gold Rate',
     desc: 'Your gold is valued against the current live market rate, ensuring you always get the fairest, most accurate price.',
     leftDesc: "We value your gold against today's live market rate, so you always get the fairest and most accurate price.",
-    image: '/gcard3.png'
+    image: '/images/gcard3.png'
   },
   {
     num: '5',
     title: 'Instant Payment',
     desc: 'Receive your payment instantly via bank transfer or cash, immediately after the valuation is complete.',
     leftDesc: 'Once the valuation is complete, receive your payment instantly via bank transfer or cash — no waiting around.',
-    image: '/rp_card1.png'
+    image: '/images/rp_card1.png'
   }
 ];
 

@@ -7,21 +7,21 @@ interface TheGpDiffProps {
 
 const DEFAULT_CARDS = [
   {
-    image: '/gcard1.png',
+    image: '/images/gcard1.png',
     alt: 'XRF gold analyzer being used on jewellery',
     title: 'XRF over touchstone',
     desc: "Spectroscopic analysis gives the exact elemental composition of your gold. A touchstone gives a rough estimate. We don't do rough estimates.",
     iconType: 'flask',
   },
   {
-    image: '/gcard2.png',
+    image: '/images/gcard2.png',
     alt: 'Precision scale weighing gold jewellery',
     title: 'Three-decimal weight',
     desc: 'Weighed to 0.001g on precision balances. Most buyers round down to the nearest gram. That difference is real money leaving your pocket.',
     iconType: 'scale',
   },
   {
-    image: '/gcard3.png',
+    image: '/images/gcard3.png',
     alt: 'Digital bank transfer on a tablet',
     title: 'Bank transfer, not cash-only',
     desc: 'Every transaction above ₹10,000 reaches your account digitally. A full itemised invoice issued. No undocumented exchanges.',
@@ -64,7 +64,7 @@ export default function TheGpDiff({ cards }: TheGpDiffProps) {
     ? [...cards]
         .sort((a, b) => (a.order || 0) - (b.order || 0))
         .map((c) => ({
-          image: c.boxImage || '/gcard1.png',
+          image: c.boxImage || '/images/gcard1.png',
           alt: c.boxTitle,
           title: c.boxTitle,
           desc: c.boxDescription,

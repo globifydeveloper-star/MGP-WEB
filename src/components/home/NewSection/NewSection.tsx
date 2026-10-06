@@ -9,21 +9,21 @@ interface NewSectionProps {
 
 const DEFAULT_SLIDES = [
   {
-    image: '/components/van.png',
+    image: '/images/van.png',
     heading: 'A Legacy Of',
     highlight: 'Trust, Truth & Tradition',
     text: 'The Muthoot Pappachan Group, with a reputation shaped over decades of high quality practices, total customer satisfaction and steady growth, has become one of the most trusted names in the business.',
     button: { enabled: false }
   },
   {
-    image: '/woman-saree.png',
+    image: '/images/woman-saree.png',
     heading: 'Built On',
     highlight: 'Transparency & Fairness',
     text: 'Every transaction is backed by science-driven valuation and complete honesty, so customers always know exactly what their gold is worth.',
     button: { enabled: false }
   },
   {
-    image: '/g_selling.png',
+    image: '/images/g_selling.png',
     heading: 'Driven By',
     highlight: 'Customer First Values',
     text: 'From the first visit to the final payment, every step is designed around convenience, speed and putting the customer’s interest ahead of everything else.',
@@ -41,7 +41,7 @@ export default function NewSection({ slides }: NewSectionProps) {
 
   const activeSlides = slides && slides.length > 0
     ? slides.map((s) => ({
-        image: s.creativeImage || '/components/van.png',
+        image: s.creativeImage || '/images/van.png',
         heading: s.heading || '',
         highlight: s.highlight || '',
         text: s.description || '',

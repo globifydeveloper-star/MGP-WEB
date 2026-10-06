@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import defaultHeroModel from '@/assets/images/hm6-img01.png';
 
@@ -7,7 +10,10 @@ interface HeroModelPhotoProps {
 }
 
 export default function HeroModelPhoto({ imageSrc, mediaType }: HeroModelPhotoProps) {
+  const [hasError, setHasError] = useState(false);
   const isVideo = mediaType === 'video' && Boolean(imageSrc);
+
+  const finalSrc = !hasError && imageSrc ? imageSrc : defaultHeroModel;
 
   return (
     <div className="hero-model-photo-wrapper">
@@ -23,12 +29,13 @@ export default function HeroModelPhoto({ imageSrc, mediaType }: HeroModelPhotoPr
         />
       ) : (
         <Image
-          src={imageSrc || defaultHeroModel}
+          src={finalSrc}
           alt="Muthoot Goldpoint Premium Customer Service"
           className="hero-model-img"
           fill
           priority
           sizes="(max-width: 1024px) 320px, 521px"
+          onError={() => setHasError(true)}
         />
       )}
     </div>

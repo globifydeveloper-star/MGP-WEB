@@ -15,7 +15,7 @@ export default function MobileVanHero({ data }: MobileVanHeroProps) {
       <div className="mvh-bg-pattern" aria-hidden="true" />
 
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/pattern2.png" alt="" className="mvh-swirl" aria-hidden="true" />
+      <img src="/images/pattern2.png" alt="" className="mvh-swirl" aria-hidden="true" />
 
       <div className="mvh-container">
         <div className="mvh-image-col">
@@ -29,7 +29,7 @@ export default function MobileVanHero({ data }: MobileVanHeroProps) {
           <div className="mvh-glow" aria-hidden="true" />
           <div className="mvh-pattern-row" aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/pattern4.png" alt="" className="mvh-pattern-tile" />
+            <img src="/images/pattern4.png" alt="" className="mvh-pattern-tile" />
           </div>
         </div>
 

@@ -34,7 +34,7 @@ export default async function Footer() {
         <div className="footer-col brand-col">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/components/logo_image.png"
+            src="/images/logo_image.png"
             alt="Muthoot Gold Point"
             className="footer-logo"
             width={180}
@@ -198,7 +198,7 @@ export default async function Footer() {
           <a href="/bureau-of-indian-standards-licence-muthoot-gold-point.pdf" target="_blank" rel="noopener noreferrer" className="bis-logo-link">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/components/bis_logo.png"
+              src="/images/bis_logo.png"
               alt="Bureau of Indian Standards - The National Standards Body of India"
               className="bis-logo-img"
               width={220}
