@@ -60,10 +60,6 @@ function unwrap<T>(entry: unknown): T {
 
 function resolveMediaUrl(url: string | undefined): string | undefined {
   if (!url) return undefined;
-  // Disregard R2 storage URLs so components fallback to local assets or S3
-  if (url.includes('r2.dev') || url.includes('r2.cloudflarestorage.com')) {
-    return undefined;
-  }
   return url.startsWith('http') ? url : `${PUBLIC_STRAPI_URL}${url}`;
 }
 
@@ -633,7 +629,7 @@ export const getGlobalStats = cache(async function getGlobalStats(): Promise<Glo
 });
 
 export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroSlide[]> {
-  const data = await fetchStrapi<StrapiAny[]>('/api/hero-slides?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getHeroSlides');
+  const data = await fetchStrapi<StrapiAny[]>('/api/hero-slides?populate=*', { cache: 'no-store' }, 'getHeroSlides');
   const arr = Array.isArray(data) ? data : [];
   return arr.map((entry: StrapiAny) => {
     const flat = unwrap<StrapiAny>(entry);

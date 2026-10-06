@@ -9,11 +9,10 @@ import './heroSlider.css';
 
 // Set to true to enable second slide auto-rotation
 const ENABLE_SECOND_SLIDE = true;
-const SLIDE_INTERVAL_MS = 8000;
+const SLIDE_INTERVAL_MS = 10000; // 10 seconds per slide
 
 interface HeroSliderProps {
   slides?: any[];
-  firstSlideImage?: string;
   layout?: 'full' | 'half';
   globalStats?: any;
   showStats?: boolean;
@@ -22,20 +21,21 @@ interface HeroSliderProps {
   trustBadgeSuffix?: string;
 }
 
-export default function HeroSlider({ slides, firstSlideImage, layout = 'full', globalStats, showStats = true, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroSliderProps) {
+export default function HeroSlider({ slides, layout = 'full', globalStats, showStats = true, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroSliderProps) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   const slideList: (any | undefined)[] = slides && slides.length > 0 ? slides : [undefined, undefined];
   const slideCount = slideList.length;
 
   useEffect(() => {
-    if (!ENABLE_SECOND_SLIDE || slideCount <= 1) return;
-    const id = setInterval(() => {
+    if (!ENABLE_SECOND_SLIDE || slideCount <= 1 || isPaused) return;
+    const id = setTimeout(() => {
       setActiveSlide((prev) => (prev + 1) % slideCount);
     }, SLIDE_INTERVAL_MS);
-    return () => clearInterval(id);
-  }, [slideCount]);
+    return () => clearTimeout(id);
+  }, [slideCount, isPaused, activeSlide]);
 
   const goToSlide = (index: number) => setActiveSlide((index + slideCount) % slideCount);
 
@@ -53,7 +53,7 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full', g
   if (!ENABLE_SECOND_SLIDE || slideCount <= 1) {
     const firstSlide = slideList[0];
     const mediaType = firstSlide?.mediaType || (firstSlide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
-    const imageSrc = firstSlideImage || firstSlide?.heroImage || firstSlide?.media?.url;
+    const imageSrc = firstSlide?.heroImage || firstSlide?.media?.url;
     return (
       <>
         <Hero slide={firstSlide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} trustBadgePrefix={trustBadgePrefix} trustBadgeHighlight={trustBadgeHighlight} trustBadgeSuffix={trustBadgeSuffix} />
@@ -64,11 +64,19 @@ export default function HeroSlider({ slides, firstSlideImage, layout = 'full', g
 
   return (
     <>
-      <div className="hero-slider-stack" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-roledescription="carousel" aria-label="Promotional slides">
+      <div
+        className="hero-slider-stack"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        aria-roledescription="carousel"
+        aria-label="Promotional slides"
+      >
         {slideList.map((slide, idx) => {
           const isActive = activeSlide === idx;
           const mediaType = slide?.mediaType || (slide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
-          const imageSrc = idx === 0 ? (firstSlideImage || slide?.heroImage || slide?.media?.url) : (slide?.heroImage || slide?.media?.url);
+          const imageSrc = slide?.heroImage || slide?.media?.url;
           return (
             <div key={idx} className={`hero-slider-slide${isActive ? ' is-active' : ''}`} aria-hidden={!isActive}>
               {idx === 0 ? (

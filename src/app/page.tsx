@@ -102,7 +102,6 @@ export default async function Home() {
       {/* 1. Hero Section */}
       <HeroSlider
         slides={heroSlides}
-        firstSlideImage={homepageData?.heroFirstSlideImage}
         globalStats={globalStats}
         showStats={true}
         trustBadgePrefix={homepageData?.trustBadgePrefix}
