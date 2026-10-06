@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { animate, createTimeline, stagger, set } from 'animejs';
+import { createTimeline, stagger, set } from 'animejs';
 import './ValuationProcess.css';
-import valuationCounterImg from '@/assets/images/gold_rate_component_photos/valuation_counter_customer.png';
+
+const DEFAULT_VALUE_GOLD_IMAGE = '/ImageSet/Gold Rate Page/Value gold image 1600x1050px-04.jpg';
 
 const STEPS = [
   {
@@ -61,7 +62,12 @@ const STEPS = [
   },
 ];
 
-export default function ValuationProcess() {
+interface ValuationProcessProps {
+  sectionImage?: string;
+}
+
+export default function ValuationProcess({ sectionImage }: ValuationProcessProps) {
+  const imageSrc = sectionImage || DEFAULT_VALUE_GOLD_IMAGE;
   const sectionRef = useRef<HTMLDivElement>(null);
   const animatedRef = useRef(false);
 
@@ -178,11 +184,11 @@ export default function ValuationProcess() {
         <div className="vp-image-wrap">
           <div className="vp-image-fade" aria-hidden="true" />
           <Image
-            src={valuationCounterImg}
-            alt="A Goldpoint staff member weighing a customer's gold jewellery on a digital scale at the branch counter"
+            src={imageSrc}
+            alt="How we value your gold at Muthoot Gold Point"
             className="vp-image"
             fill
-            sizes="(max-width: 1023px) 0px, 420px"
+            sizes="(max-width: 1023px) 0px, 750px"
           />
         </div>
       </div>

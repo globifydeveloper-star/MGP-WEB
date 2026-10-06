@@ -62,7 +62,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('/images/bg-pattern.svg');
+  background-image: url('/images/common/bg-pattern.svg');
   background-repeat: repeat;
   opacity: 0.8;
   pointer-events: none;

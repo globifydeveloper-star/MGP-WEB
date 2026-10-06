@@ -10,6 +10,11 @@ interface BlogCardProps {
   readMoreLabel?: string;
 }
 
+const DEFAULT_BLOG_IMAGES = [
+  '/ImageSet/Homepage/Blog1.jpg',
+  '/ImageSet/Homepage/Blog2.jpg',
+];
+
 function formatDate(dateStr: string): string {
   return new Intl.DateTimeFormat('en-IN', {
     day: 'numeric',
@@ -20,6 +25,8 @@ function formatDate(dateStr: string): string {
 
 export default function BlogCard({ post, readMoreLabel }: BlogCardProps) {
   const isVideo = post.coverMedia?.mime?.startsWith('video/');
+  const fallbackSrc = DEFAULT_BLOG_IMAGES[(post.id || 0) % DEFAULT_BLOG_IMAGES.length];
+  const imageSrc = post.coverMedia?.url || fallbackSrc;
 
   return (
     <motion.article
@@ -30,36 +37,25 @@ export default function BlogCard({ post, readMoreLabel }: BlogCardProps) {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       <div className="blog-card-media">
-        {post.coverMedia ? (
-          isVideo ? (
-            <video
-              src={post.coverMedia.url}
-              className="blog-card-media-el"
-              muted
-              playsInline
-              preload="metadata"
-            />
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={post.coverMedia.url}
-              alt={post.title}
-              className="blog-card-media-el"
-              loading="lazy"
-            />
-          )
+        {isVideo && post.coverMedia?.url ? (
+          <video
+            src={post.coverMedia.url}
+            className="blog-card-media-el"
+            muted
+            playsInline
+            preload="metadata"
+          />
         ) : (
-          <div className="blog-card-media-placeholder" aria-hidden="true">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-              <path d="m4 16 4.5-4.5a2 2 0 0 1 2.8 0L18 18" stroke="currentColor" strokeWidth="1.5" />
-              <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-          </div>
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={imageSrc}
+            alt={post.title}
+            className="blog-card-media-el"
+            loading="lazy"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = fallbackSrc;
+            }}
+          />
         )}
       </div>
 

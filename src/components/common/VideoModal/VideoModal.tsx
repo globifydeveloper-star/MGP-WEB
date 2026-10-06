@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import './VideoModal.css';
 
 export interface LanguageOption {
@@ -94,8 +95,10 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
         {/* Header */}
         <div className="vm-header">
           <div className="vm-header-title-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/components/logo_image.png" alt="Muthoot Gold Point" className="vm-header-logo" />
+            <Link href="/" onClick={onClose} title="Muthoot Gold Point" style={{ display: 'flex', alignItems: 'center' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/common/logo_image.png" alt="Muthoot Gold Point" className="vm-header-logo" />
+            </Link>
             <h3 className="vm-header-title">{title}</h3>
           </div>
           <button type="button" className="vm-close-btn" onClick={onClose} aria-label="Close modal">

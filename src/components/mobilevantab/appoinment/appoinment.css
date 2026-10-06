@@ -26,8 +26,8 @@
   position: absolute;
   inset: 0;
   background-color: #E8B84B;
-  -webkit-mask-image: url('/images/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
-  mask-image: url('/images/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
+  -webkit-mask-image: url('/images/mobile-van/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
+  mask-image: url('/images/mobile-van/gcard_bg_pattern.png'), linear-gradient(to top, #000 0%, #000 32%, transparent 38%);
   -webkit-mask-repeat: repeat, no-repeat;
   mask-repeat: repeat, no-repeat;
   -webkit-mask-size: 220px 220px, 100% 100%;
@@ -110,16 +110,15 @@
   margin-top: auto;
   display: flex;
   justify-content: center;
+  padding-top: 1rem;
 }
 
 .apt-van-img {
   width: 100%;
-  max-width: 619px;
-  margin-left: -150px;
+  max-width: 500px;
   height: auto;
-  aspect-ratio: 619 / 299;
   display: block;
-  filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.45));
 }
 
 /* Right panel: form */

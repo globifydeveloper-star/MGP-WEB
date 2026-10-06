@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { AboutUsPageData } from '@/lib/strapi';
 import './history.css';
-import portraitImg from '@/assets/images/hm6-img01.png';
 import muthootLogo from '@/assets/images/muthootlogo.png';
 
 interface HistoryProps { data?: AboutUsPageData | null; }
@@ -51,13 +51,15 @@ export default function History({ data }: HistoryProps) {
         </div>
 
         <div className="history-content glass-panel" style={{ textAlign: 'left', padding: '2.5rem', maxWidth: '900px', margin: '0 auto', lineHeight: '1.7' }}>
-          <Image
-            src={data?.parentPortraitImage || muthootLogo}
-            alt="Muthoot Gold Point Logo"
-            width={1000}
-            height={1000}
-            style={{ float: 'right', marginLeft: '2rem', marginBottom: '1rem', marginTop: '0.4rem', borderRadius: '12px', width: '28%', maxWidth: '240px', height: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.1)' }}
-          />
+          <Link href="/" title="Muthoot Gold Point">
+            <Image
+              src={data?.parentPortraitImage || muthootLogo}
+              alt="Muthoot Gold Point Logo"
+              width={1000}
+              height={1000}
+              style={{ float: 'right', marginLeft: '2rem', marginBottom: '1rem', marginTop: '0.4rem', borderRadius: '12px', width: '28%', maxWidth: '240px', height: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+            />
+          </Link>
           <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.35rem', marginBottom: '0.85rem', fontWeight: 800 }}>History</h3>
           <p style={{ marginBottom: '1.75rem', color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: '1.8' }}>
             Muthoot Pappachan Group, more popularly known as Muthoot Blue, takes its name from its family, which is a branch of a traditional Orthodox Christian family, based in Kozhencherry, a small town in the erstwhile primary state of Travancore. (Kerala).

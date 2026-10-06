@@ -7,27 +7,28 @@ interface TheGpDiffProps {
 
 const DEFAULT_CARDS = [
   {
-    image: '/images/gcard1.png',
+    image: '/ImageSet/Homepage/GDP1.jpg',
     alt: 'XRF gold analyzer being used on jewellery',
     title: 'XRF over touchstone',
     desc: "Spectroscopic analysis gives the exact elemental composition of your gold. A touchstone gives a rough estimate. We don't do rough estimates.",
     iconType: 'flask',
   },
   {
-    image: '/images/gcard2.png',
+    image: '/ImageSet/Homepage/GDP2.jpg',
     alt: 'Precision scale weighing gold jewellery',
     title: 'Three-decimal weight',
     desc: 'Weighed to 0.001g on precision balances. Most buyers round down to the nearest gram. That difference is real money leaving your pocket.',
     iconType: 'scale',
   },
   {
-    image: '/images/gcard3.png',
+    image: '/ImageSet/Homepage/GDP3.jpg',
     alt: 'Digital bank transfer on a tablet',
     title: 'Bank transfer, not cash-only',
     desc: 'Every transaction above ₹10,000 reaches your account digitally. A full itemised invoice issued. No undocumented exchanges.',
     iconType: 'rupee',
   },
 ];
+
 
 function getIcon(type: string) {
   switch (type) {
@@ -63,8 +64,8 @@ export default function TheGpDiff({ cards }: TheGpDiffProps) {
   const activeCards = cards && cards.length > 0
     ? [...cards]
         .sort((a, b) => (a.order || 0) - (b.order || 0))
-        .map((c) => ({
-          image: c.boxImage || '/images/gcard1.png',
+        .map((c, idx) => ({
+          image: c.boxImage || DEFAULT_CARDS[idx % DEFAULT_CARDS.length].image,
           alt: c.boxTitle,
           title: c.boxTitle,
           desc: c.boxDescription,

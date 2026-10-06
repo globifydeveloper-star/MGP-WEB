@@ -4,8 +4,9 @@ import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
-import faqHeroBg from '@/assets/images/faqimg.png';
 import './FAQPage.css';
+
+const DEFAULT_FAQ_HERO = '/ImageSet/Faq Page/Faq Hero 1536 x 1024 px-01.jpg';
 
 interface FAQItem {
   id: number;
@@ -94,7 +95,7 @@ export default function FAQPage() {
         <section className="faq-hero-banner">
           <div className="faq-hero-bg-wrapper">
             <Image
-              src={faqHeroBg}
+              src={DEFAULT_FAQ_HERO}
               alt="Muthoot Gold Point Frequently Asked Questions"
               fill
               priority

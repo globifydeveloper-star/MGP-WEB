@@ -73,7 +73,10 @@ function normalizeBlogPost(raw: unknown): BlogPost {
     title: flat.title as string,
     slug: flat.slug as string,
     coverMedia: coverMediaRaw
-      ? { url: resolveMediaUrl(coverMediaRaw.url) ?? coverMediaRaw.url, mime: coverMediaRaw.mime }
+      ? (() => {
+          const resolved = resolveMediaUrl(coverMediaRaw.url);
+          return resolved ? { url: resolved, mime: coverMediaRaw.mime } : undefined;
+        })()
       : undefined,
     category: category as Category,
     excerpt: flat.excerpt as string | undefined,
@@ -161,7 +164,10 @@ export const getBlogPageSettings = cache(async function getBlogPageSettings(): P
     heroHeading: flat.heroHeading as string | undefined,
     heroSubheading: flat.heroSubheading as string | undefined,
     heroImage: heroImageRaw
-      ? { url: resolveMediaUrl(heroImageRaw.url) ?? heroImageRaw.url, mime: heroImageRaw.mime }
+      ? (() => {
+          const resolved = resolveMediaUrl(heroImageRaw.url);
+          return resolved ? { url: resolved, mime: heroImageRaw.mime } : undefined;
+        })()
       : undefined,
     seoTitle: flat.seoTitle as string | undefined,
     seoDescription: flat.seoDescription as string | undefined,
@@ -517,7 +523,7 @@ export interface Branch {
 function getMediaUrl(media: StrapiAny): string | undefined {
   if (!media) return undefined;
   const flat = unwrap<{ url: string }>(media);
-  return flat?.url ? (resolveMediaUrl(flat.url) ?? flat.url) : undefined;
+  return flat?.url ? resolveMediaUrl(flat.url) : undefined;
 }
 
 export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {

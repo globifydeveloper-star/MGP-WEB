@@ -36,7 +36,7 @@ export default function GoldRatePage({
 
         <WhyRatesChange sectionImage={data?.whyGoldRateChangesImage} />
 
-        <ValuationProcess />
+        <ValuationProcess sectionImage={data?.valuationProcessImage} />
 
         <GoldRateCTA onSellGoldClick={() => setIsSellGoldOpen(true)} />
 

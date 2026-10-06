@@ -10,37 +10,45 @@ const DEFAULT_STEPS = [
     title: 'Visit Your Nearest White Gold Branch',
     desc: 'Customers give their Gold to Muthoot Gold Point for valuation, Gold to Muthoot Gold Point for valuation.',
     leftDesc: 'Walk into any of our branches with your gold jewellery. Our team will greet you and guide you through the entire selling process step by step.',
-    image: '/images/g_selling.png'
+    image: '/ImageSet/Homepage/ProcessStep1.jpg'
   },
   {
     num: '2',
     title: 'Submit ID & Address Proof',
     desc: 'Share a valid photo ID (Aadhaar, PAN, Passport or Voter ID) along with address proof for quick, hassle-free verification.',
     leftDesc: 'Keep your Aadhaar, PAN, Passport or Voter ID handy along with address proof so our team can verify your identity quickly.',
-    image: '/images/gcard1.png'
+    image: '/ImageSet/Homepage/ProcessStep2.jpg'
   },
   {
     num: '3',
     title: 'Professional Gold Purity Assessment',
     desc: 'Our experts assess the purity of your gold using advanced XRF technology, right in front of you, for complete transparency.',
     leftDesc: 'Our experts use advanced XRF technology to test the purity of your gold right in front of you, ensuring complete transparency.',
-    image: '/images/gcard2.png'
+    image: '/ImageSet/Homepage/ProcessStep3.jpg'
   },
   {
     num: '4',
     title: 'Get the Latest Live Gold Rate',
     desc: 'Your gold is valued against the current live market rate, ensuring you always get the fairest, most accurate price.',
     leftDesc: "We value your gold against today's live market rate, so you always get the fairest and most accurate price.",
-    image: '/images/gcard3.png'
+    image: '/ImageSet/Homepage/ProcessStep4.jpg'
   },
   {
     num: '5',
     title: 'Instant Payment',
     desc: 'Receive your payment instantly via bank transfer or cash, immediately after the valuation is complete.',
     leftDesc: 'Once the valuation is complete, receive your payment instantly via bank transfer or cash — no waiting around.',
-    image: '/images/rp_card1.png'
+    image: '/ImageSet/Homepage/ProcessStep5.jpg'
+  },
+  {
+    num: '6',
+    title: 'Get Your Gold Valued',
+    desc: 'Your gold is carefully weighed and assessed for its true market value using the latest technology.',
+    leftDesc: 'Our certified experts weigh your gold precisely and provide you with an accurate valuation based on current market rates.',
+    image: '/ImageSet/Homepage/ProcessStep6.jpg'
   }
 ];
+
 
 interface GoldSellProcessProps {
   steps?: any[];
@@ -391,7 +399,7 @@ export default function GoldSellProcess({ steps, sectionImage }: GoldSellProcess
           title: s.stepTitle || s.title || `Step ${idx + 1}`,
           desc: s.stepDescription || s.desc || '',
           leftDesc: s.leftDescription || s.leftDesc || s.stepDescription || s.desc || '',
-          image: s.stepImage || s.image
+          image: s.stepImage || s.image || DEFAULT_STEPS[idx % DEFAULT_STEPS.length].image
         }))
     : DEFAULT_STEPS;
 

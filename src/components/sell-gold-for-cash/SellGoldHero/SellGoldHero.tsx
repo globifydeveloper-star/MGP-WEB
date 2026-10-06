@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
@@ -467,9 +468,9 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
       </section>
 
       {/* Banner Logo overlapping bottom */}
-      <div className="sg-banner-logo-container">
+      <Link href="/" className="sg-banner-logo-container" title="Muthoot Gold Point">
         <Image src={bannerLogo} alt="We Buy Gold" className="sg-banner-logo-img" />
-      </div>
+      </Link>
     </div>
   );
 }

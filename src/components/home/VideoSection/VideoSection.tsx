@@ -6,14 +6,14 @@ import './VideoSection.css';
 import GoldValueForm from '../GoldValueForm/GoldValueForm';
 
 const DEFAULT_LANGUAGES = [
-  { code: 'hi', label: 'हिंदी', poster: '/images/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
-  { code: 'ml', label: 'മലയാളം', poster: '/images/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
-  { code: 'ta', label: 'தமிழ்', poster: '/images/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
-  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/images/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
-  // { code: 'en', label: 'EN', poster: '/images/video_thumb.png', video: null },
-  // { code: 'te', label: 'తెలుగు', poster: '/images/video_thumb.png', video: null },
-  // { code: 'mr', label: 'मराठी', poster: '/images/video_thumb.png', video: null },
-  // { code: 'bn', label: 'বাংলা', poster: '/images/video_thumb.png', video: null },
+  { code: 'hi', label: 'हिंदी', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-hindi.mp4' },
+  { code: 'ml', label: 'മലയാളം', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
+  { code: 'ta', label: 'தமிழ்', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
+  { code: 'kn', label: 'ಕನ್ನಡ', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
+  // { code: 'en', label: 'EN', poster: '/images/home/video_thumb.png', video: null },
+  // { code: 'te', label: 'తెలుగు', poster: '/images/home/video_thumb.png', video: null },
+  // { code: 'mr', label: 'मराठी', poster: '/images/home/video_thumb.png', video: null },
+  // { code: 'bn', label: 'বাংলা', poster: '/images/home/video_thumb.png', video: null },
 ];
 
 const VISIBLE_COUNT = 4;
@@ -29,7 +29,7 @@ export default function VideoSection({ videos, showCalculator = false }: VideoSe
       return videos.map((item) => ({
         code: item.code,
         label: item.label,
-        poster: item.poster || '/images/video_thumb.png',
+        poster: item.poster || '/images/home/video_thumb.png',
         video: item.video || item.videoUrl || null,
       }));
     }
@@ -158,23 +158,14 @@ export default function VideoSection({ videos, showCalculator = false }: VideoSe
             </div>
           </div>
 
-          {/* Right: Brand card / GoldValueForm */}
+          {/* Right: GoldValueForm Enquiry */}
           <div className="vs-brand-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            {showCalculator ? (
-              <GoldValueForm 
-                isSideForm={true} 
-                heading="Contact us today" 
-                headingHighlight="" 
-                buttonLabel="Enquiry" 
-              />
-            ) : (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                src="/images/logo_image.png"
-                alt="Muthoot Gold Point"
-                className="vs-brand-logo"
-              />
-            )}
+            <GoldValueForm 
+              isSideForm={true} 
+              heading="Contact us today" 
+              headingHighlight="" 
+              buttonLabel="Enquiry" 
+            />
           </div>
         </div>
       </div>

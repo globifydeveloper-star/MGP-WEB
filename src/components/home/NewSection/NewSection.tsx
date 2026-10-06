@@ -9,21 +9,21 @@ interface NewSectionProps {
 
 const DEFAULT_SLIDES = [
   {
-    image: '/images/van.png',
+    image: '/images/home/promo-slide-1.jpg',
     heading: 'A Legacy Of',
     highlight: 'Trust, Truth & Tradition',
     text: 'The Muthoot Pappachan Group, with a reputation shaped over decades of high quality practices, total customer satisfaction and steady growth, has become one of the most trusted names in the business.',
     button: { enabled: false }
   },
   {
-    image: '/images/woman-saree.png',
+    image: '/images/home/promo-slide-2.jpg',
     heading: 'Built On',
     highlight: 'Transparency & Fairness',
     text: 'Every transaction is backed by science-driven valuation and complete honesty, so customers always know exactly what their gold is worth.',
     button: { enabled: false }
   },
   {
-    image: '/images/g_selling.png',
+    image: '/images/home/promo-slide-3.jpg',
     heading: 'Driven By',
     highlight: 'Customer First Values',
     text: 'From the first visit to the final payment, every step is designed around convenience, speed and putting the customer’s interest ahead of everything else.',
@@ -40,11 +40,11 @@ export default function NewSection({ slides }: NewSectionProps) {
   const isDragging = useRef(false);
 
   const activeSlides = slides && slides.length > 0
-    ? slides.map((s) => ({
-        image: s.creativeImage || '/images/van.png',
-        heading: s.heading || '',
-        highlight: s.highlight || '',
-        text: s.description || '',
+    ? slides.map((s, idx) => ({
+        image: s.creativeImage || DEFAULT_SLIDES[idx % DEFAULT_SLIDES.length].image,
+        heading: s.heading || DEFAULT_SLIDES[idx % DEFAULT_SLIDES.length].heading,
+        highlight: s.highlight || DEFAULT_SLIDES[idx % DEFAULT_SLIDES.length].highlight,
+        text: s.description || DEFAULT_SLIDES[idx % DEFAULT_SLIDES.length].text,
         button: s.button
       }))
     : DEFAULT_SLIDES;

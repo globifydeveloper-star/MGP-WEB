@@ -32,14 +32,16 @@ export default async function Footer() {
         
         {/* Col 1: Brand */}
         <div className="footer-col brand-col">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/logo_image.png"
-            alt="Muthoot Gold Point"
-            className="footer-logo"
-            width={180}
-            height={53}
-          />
+          <Link href="/" title="Muthoot Gold Point" style={{ display: 'inline-block' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/common/logo_image.png"
+              alt="Muthoot Gold Point"
+              className="footer-logo"
+              width={180}
+              height={53}
+            />
+          </Link>
           <p className="footer-desc">
             Muthoot Gold Point, a unit of Muthoot Exim (P) Ltd. (Precious Metals Division) is a venture of the Muthoot Pappachan Group. It is the first National level organised sector venture to get into recycling of Gold.
           </p>
@@ -198,7 +200,7 @@ export default async function Footer() {
           <a href="/bureau-of-indian-standards-licence-muthoot-gold-point.pdf" target="_blank" rel="noopener noreferrer" className="bis-logo-link">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/bis_logo.png"
+              src="/images/common/bis_logo.png"
               alt="Bureau of Indian Standards - The National Standards Body of India"
               className="bis-logo-img"
               width={220}

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import './GoldSellComparison.css';
 import logoImg from '@/assets/images/gp-logo.png';
 
@@ -169,8 +170,9 @@ export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' 
                 <th className="gsc-th-feature">Process</th>
                 <th className="gsc-th-mgp">
                   <div className="gsc-th-mgp-content">
-                    <span className="gsc-th-ribbon">Recommended Choice</span>
-                    <Image src={logoImg} alt="Muthoot Gold Point" width={160} height={44} className="gsc-th-logo" />
+                    <Link href="/" title="Muthoot Gold Point">
+                      <Image src={logoImg} alt="Muthoot Gold Point" width={160} height={44} className="gsc-th-logo" />
+                    </Link>
                   </div>
                 </th>
                 <th className="gsc-th-trad">
@@ -223,8 +225,9 @@ export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' 
         <div className="gsc-list mobile-only" ref={mobileListRef}>
           <div className="gsc-mobile-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', padding: '1rem', background: '#fff', border: '1px solid #eaeaea', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <div style={{ flex: 1, textAlign: 'center', borderRight: '1px solid #eaeaea', paddingRight: '0.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <span className="gsc-th-ribbon" style={{ marginBottom: '8px', fontSize: '0.55rem' }}>Recommended</span>
-              <Image src={logoImg} alt="Muthoot Gold Point" width={100} height={28} className="gsc-th-logo" />
+              <Link href="/" title="Muthoot Gold Point">
+                <Image src={logoImg} alt="Muthoot Gold Point" width={100} height={28} className="gsc-th-logo" />
+              </Link>
             </div>
             <div style={{ padding: '0 10px', fontSize: '0.9rem', fontWeight: 'bold', color: '#999' }}>VS</div>
             <div style={{ flex: 1, textAlign: 'center', paddingLeft: '0.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

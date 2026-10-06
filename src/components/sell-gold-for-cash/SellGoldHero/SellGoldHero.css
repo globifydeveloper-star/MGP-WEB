@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('/images/bg-pattern.svg');
+  background-image: url('/images/common/bg-pattern.svg');
   background-repeat: repeat;
   opacity: 0.15;
   pointer-events: none;
@@ -802,7 +802,7 @@
 @media (min-width: 1025px) {
   .sg-hero-root {
     background-color: #f1b933;
-    background-image: linear-gradient(135deg, rgba(241, 185, 51, 0.95), rgba(220, 160, 30, 0.95)), url('/images/bg-pattern.svg');
+    background-image: linear-gradient(135deg, rgba(241, 185, 51, 0.95), rgba(220, 160, 30, 0.95)), url('/images/common/bg-pattern.svg');
     padding: 0;
   }
   

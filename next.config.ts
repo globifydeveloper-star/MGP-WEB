@@ -82,6 +82,11 @@ export default function nextConfig(phase: string): NextConfig {
           hostname: "res.cloudinary.com",
           pathname: "/**",
         },
+        {
+          protocol: "https",
+          hostname: "*.amazonaws.com",
+          pathname: "/**",
+        },
       ],
       // Strapi runs on localhost in dev; Next 16 blocks image URLs that resolve
       // to a private/loopback IP unless explicitly opted in.

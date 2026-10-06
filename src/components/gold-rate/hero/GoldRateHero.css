@@ -22,22 +22,22 @@
   right: 0;
   bottom: 0;
   z-index: 0;
+  background-color: #060F2E;
 }
 
 .grh-bg-image {
-  object-fit: cover;
-  object-position: center right;
+  object-fit: contain !important;
+  object-position: right center !important;
 }
 
 .grh-bg-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg,
-      rgba(6, 15, 46, 0.96) 0%,
-      rgba(6, 15, 46, 0.9) 32%,
-      rgba(6, 15, 46, 0.6) 55%,
-      rgba(6, 15, 46, 0.22) 78%,
-      rgba(6, 15, 46, 0.05) 100%);
+      #060F2E 0%,
+      rgba(6, 15, 46, 0.94) 35%,
+      rgba(6, 15, 46, 0.4) 65%,
+      transparent 100%);
 }
 
 .grh-top-grid {

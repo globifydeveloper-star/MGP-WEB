@@ -113,11 +113,8 @@ export default async function Home() {
       {/* 2. Gold Selling Process Section */}
       <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
 
-      {/* 3. Video Section || form */}
-      <VideoSection
-        videos={homepageData?.homeVideos}
-        showCalculator={process.env.GOLD_QUOTE_ENABLED === 'true'}
-      />
+      {/* 3. Video Section with Contact Enquiry Form */}
+      <VideoSection videos={homepageData?.homeVideos} />
 
       {/* 4. Comparison Table */}
       <GoldSellComparison rows={comparisonRows} />
@@ -141,7 +138,6 @@ export default async function Home() {
         headingBold={homepageData?.vanHeadingBold}
         description={homepageData?.vanDescription}
         buttonLabel={homepageData?.vanButtonLabel}
-        vanImage={homepageData?.vanImage}
       />
 
       {/* 11. FAQ */}

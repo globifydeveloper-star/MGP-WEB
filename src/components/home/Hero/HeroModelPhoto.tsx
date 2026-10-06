@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import defaultHeroModel from '@/assets/images/hm6-img01.png';
+import defaultHeroModel from '@/assets/images/hero-model.png';
 
 interface HeroModelPhotoProps {
   imageSrc?: string;

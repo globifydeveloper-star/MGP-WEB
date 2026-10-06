@@ -6,9 +6,10 @@ import Image from 'next/image';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import contactHeroBg from '@/assets/images/conbg2.png';
 import './ContactPage.css';
 import type { ContactUsPageData } from '@/lib/strapi';
+
+const DEFAULT_CONTACT_HERO = '/ImageSet/Contact Us page/Hero Section 1774x887 px-01.jpg';
 
 
 
@@ -207,7 +208,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
         <section className="cp-hero-banner">
           <div className="cp-hero-bg-wrapper">
             <Image
-              src={data?.heroImage || contactHeroBg}
+              src={data?.heroImage || DEFAULT_CONTACT_HERO}
               alt="Muthoot Gold Point Contact Us"
               fill
               priority

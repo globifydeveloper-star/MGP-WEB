@@ -5,8 +5,9 @@ import Image from 'next/image';
 import DOMPurify from 'isomorphic-dompurify';
 
 import './GoldRateHero.css';
-import heroBgImg from '@/assets/images/gold_rate_component_photos/09-hero-background-gold-bars-jewellery.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
+
+const DEFAULT_GOLD_RATE_HERO = '/ImageSet/Gold Rate Page/Gold rate hero section 1920×1080 px-01.jpg';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import {
   GOLD_RATES,
@@ -42,7 +43,7 @@ export default function GoldRateHero({ onSellGoldClick, heroTitle, heroDescripti
       <div className="grh-hero-top">
         <div className="grh-bg" aria-hidden="true">
           <Image
-            src={heroImage || heroBgImg}
+            src={heroImage || DEFAULT_GOLD_RATE_HERO}
             alt=""
             fill
             priority

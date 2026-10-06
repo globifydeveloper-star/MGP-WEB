@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './abouthero.css';
 import Image from 'next/image';
-import aboutUs1Img from '@/assets/images/ABOUTUS1.png';
 import type { AboutUsPageData } from '@/lib/strapi';
 
 interface AboutHeroProps {
@@ -11,7 +10,41 @@ interface AboutHeroProps {
   data?: AboutUsPageData | null;
 }
 
+const DEFAULT_HERO_IMAGES = [
+  '/ImageSet/About us page/About us Hero 1536×1024 px-01.jpg',
+  '/ImageSet/About us page/About us Hero 1536×1024 px-02.jpg',
+  '/ImageSet/About us page/About us Hero 1536×1024 px-03.jpg',
+];
+
 export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
+  const images = (data?.heroImages && data.heroImages.length > 0) ? data.heroImages : DEFAULT_HERO_IMAGES;
+  const [activeSlide, setActiveSlide] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % images.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  const goToSlide = (idx: number) => {
+    setActiveSlide((idx + images.length) % images.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null || images.length <= 1) return;
+    const distance = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(distance) >= 35) {
+      goToSlide(activeSlide + (distance < 0 ? 1 : -1));
+    }
+  };
 
   return (
     <section className="about-hero-section">
@@ -32,24 +65,81 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
         </div>
 
         <div className="about-hero-main">
-          {/* Top Grid: Image + Who We Are */}
+          {/* Top Grid: All Images in a Single Box + Who We Are */}
           <div className="about-hero-top-grid">
             <div className="about-hero-media">
-              <div className="about-hero-img-wrapper">
-                <div className={`about-hero-img-grid ${data?.heroImages?.length && data.heroImages.length > 1 ? 'multi-image' : ''}`}>
-                  {(data?.heroImages?.length ? data.heroImages : [aboutUs1Img]).map((img, idx) => (
-                    <div key={idx} className="about-hero-img-clip">
-                      <Image
-                        src={img}
-                        alt={`About Muthoot Gold Point ${idx + 1}`}
-                        fill
-                        className="about-hero-img about-hero-img-active"
-                        style={{ objectFit: 'cover' }}
-                        priority={idx === 0}
-                      />
-                    </div>
-                  ))}
+              <div
+                className="about-hero-img-wrapper"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                aria-roledescription="carousel"
+                aria-label="About Muthoot Gold Point images"
+              >
+                {/* Single Image Box with Original 16:9 Dimension */}
+                <div className="about-hero-single-box">
+                  {images.map((img, idx) => {
+                    const isActive = activeSlide === idx;
+                    return (
+                      <div
+                        key={idx}
+                        className={`about-hero-slide-item ${isActive ? 'is-active' : ''}`}
+                        aria-hidden={!isActive}
+                      >
+                        <Image
+                          src={img}
+                          alt={`About Muthoot Gold Point ${idx + 1}`}
+                          fill
+                          className="about-hero-img"
+                          style={{ objectFit: 'cover' }}
+                          priority={idx === 0}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                        />
+                      </div>
+                    );
+                  })}
+
+                  {/* Navigation Arrows for switching */}
+                  {images.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        className="about-hero-slide-nav prev"
+                        onClick={() => goToSlide(activeSlide - 1)}
+                        aria-label="Previous image"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        className="about-hero-slide-nav next"
+                        onClick={() => goToSlide(activeSlide + 1)}
+                        aria-label="Next image"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                      </button>
+
+                      {/* Dots */}
+                      <div className="about-hero-slide-dots" role="tablist" aria-label="Slide indicators">
+                        {images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            className={`about-hero-dot ${idx === activeSlide ? 'is-active' : ''}`}
+                            onClick={() => goToSlide(idx)}
+                            aria-label={`Go to image ${idx + 1}`}
+                            aria-selected={idx === activeSlide}
+                            role="tab"
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
+
                 <div className="experience-badge">
                   <div className="badge-top-row">
                     <span className="badge-num">1M+</span>
@@ -122,11 +212,11 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
             </div>
           </div>
 
-            <div className="about-hero-footer-row">
-              <button onClick={onExploreClick} className="about-hero-know-more">
-                {data?.heroButtonText || 'Sell Your Gold'}
-              </button>
-            </div>
+          <div className="about-hero-footer-row">
+            <button onClick={onExploreClick} className="about-hero-know-more">
+              {data?.heroButtonText || 'Sell Your Gold'}
+            </button>
+          </div>
         </div>
       </div>
     </section>

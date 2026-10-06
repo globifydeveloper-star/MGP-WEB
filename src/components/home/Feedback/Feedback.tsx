@@ -28,21 +28,21 @@ const DEFAULT_REVIEWS = [
     name: 'SACHIN JONEJA',
     location: 'Mumbai',
     rating: 5,
-    photo: '/images/sachin-joneja.png',
+    photo: '/images/testimonials/sachin-joneja.png',
     text: 'My mother and I have sold some very old gold over the past few months to three different organizations. One was a branch of an old established famous Jeweller in Mumbai while two were only buyers of gold. Of these, our experience with Muthoot Gold Point has been by far the best. We were impressed with both the completely transparent and speedy procedure as well as the courteous and knowledgeable staff.',
   },
   {
     name: 'Basvaraju',
     location: 'Bengaluru, Karnataka',
     rating: 5,
-    photo: '/images/Basvaraju.png',
+    photo: '/images/testimonials/Basvaraju.png',
     text: 'I wanted to sell some gold jewellery to pay for the construction of my house – my contractor had cheated us. I saw the MGP advertisement on a government bus and decided to meet them as I was in great need. My earlier experience of selling the gold had not been good. But, the salesperson at MGP sat and explained each process of how they value the gold. I was totally impressed by their transparency and detailing.',
   },
   {
     name: 'Srinarayan',
     location: 'Chennai, Tamil Nadu',
     rating: 5,
-    photo: '/images/Srinarayan.png',
+    photo: '/images/testimonials/Srinarayan.png',
     text: 'I can never forget Muthoot Gold Point. If I had not come to know about MGP at the right time, I could have lost everything. In family and business, money is tight, when you need it the most. At these times, if there is a provision to sell your gold, plot of land, house and silver, then you can meet your difficulties easily. In my experience, MGP is the best solution for all those people looking to sell their gold and silver.',
   },
   {
@@ -55,7 +55,7 @@ const DEFAULT_REVIEWS = [
     name: 'AMAR SINGH',
     location: 'Delhi',
     rating: 5,
-    photo: '/images/AMAR_SINGH.png',
+    photo: '/images/testimonials/AMAR_SINGH.png',
     text: "When my father needed an emergency by-pass, I took all the jewellery and sold gold for cash, I had to MGP, straight away. I had dealt with them earlier also. The first time I took a loan was from them to set up my parlor four years ago. Luckily, i was able to repay the money and get my gold back. I went to them as soon as the doctor told me and within minutes, they had assessed the true value of the gold. They gave me a receipt and transferred the money to my account. Thanks to their operation!",
   },
 ];
@@ -173,7 +173,7 @@ export default function Feedback({ reviews }: FeedbackProps) {
                   <div className="feedback-card" key={`${review.name}-${idx}`}>
                     <div className="feedback-card-swirl">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/images/feedback_bg.png" alt="" className="feedback-card-swirl-img" />
+                      <img src="/images/home/feedback_bg.png" alt="" className="feedback-card-swirl-img" />
                     </div>
 
                     <span className="feedback-quote-mark">&ldquo;</span>

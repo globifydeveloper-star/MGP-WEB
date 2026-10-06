@@ -4,7 +4,6 @@ import Footer from '@/components/layout/Footer';
 import BlogListing from '@/components/blog/BlogListing/BlogListing';
 import BlogHero from '@/components/blog/BlogHero/BlogHero';
 import { getBlogPosts, getCategories, getBlogPageSettings } from '@/lib/strapi';
-import fallbackHeroBg from '@/assets/images/conbg.png';
 import './blog-page.css';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,13 +38,12 @@ export default async function BlogRoute() {
             heading={settings?.heroHeading}
             subheading={settings?.heroSubheading}
             imageUrl={settings?.heroImage?.url}
-            fallbackImage={fallbackHeroBg}
           />
           <BlogListing 
             initialPosts={posts} 
             categories={categories} 
             settings={settings ?? undefined} 
-          />
+            />
         </div>
       </main>
       <Footer />

@@ -4,9 +4,9 @@ import React, { useState, useMemo } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { MobileVanPageData } from '@/lib/strapi';
 import './appoinment.css';
-import vanImgDefault from '@/assets/images/MobileVan.png';
+
+const DEFAULT_VAN_IMAGE = '/images/home/mobile-van-hero.png';
 
 const GaugeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -205,7 +205,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
 
             <div className="apt-van-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={vanImgDefault.src} alt="Muthoot Gold Point mobile van" className="apt-van-img" />
+              <img src={DEFAULT_VAN_IMAGE} alt="Muthoot Gold Point mobile van" className="apt-van-img" />
             </div>
           </div>
 

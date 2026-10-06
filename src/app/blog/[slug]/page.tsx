@@ -86,16 +86,18 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
             <h1 className="blog-post-title">{post.title}</h1>
             <p className="blog-post-date">{formatDate(post.publishedAt)}</p>
 
-            {post.coverMedia && (
-              <div className="blog-post-media">
-                {isVideo ? (
-                  <video src={post.coverMedia.url} controls className="blog-post-media-el" />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={post.coverMedia.url} alt={post.title} className="blog-post-media-el" />
-                )}
-              </div>
-            )}
+            <div className="blog-post-media">
+              {isVideo && post.coverMedia?.url ? (
+                <video src={post.coverMedia.url} controls className="blog-post-media-el" />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={post.coverMedia?.url || (post.id % 2 === 0 ? '/ImageSet/Homepage/Blog2.jpg' : '/ImageSet/Homepage/Blog1.jpg')}
+                  alt={post.title}
+                  className="blog-post-media-el"
+                />
+              )}
+            </div>
 
             <div className="blog-post-body">{post.body}</div>
 

@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import './MobileVan.css';
-import vanImgDefault from '@/assets/images/MobileVan.png';
+const vanImgDefault = { src: '/images/home/mobile-van-hero.png' };
 
 interface MobileVanProps {
   headingLight?: string;
