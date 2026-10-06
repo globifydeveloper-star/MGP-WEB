@@ -100,13 +100,13 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
 
   const formContent = (
     <>
-      <div className="container" style={isSideForm ? { padding: 0 } : {}}>
-        <h2 className={isSideForm ? "gvf-heading-side" : "gvf-heading"} style={isSideForm ? { fontSize: '1.8rem', textAlign: 'left', marginBottom: '1rem', color: 'white' } : {}}>
+      <div className={isSideForm ? "gvf-side-container" : "container"}>
+        <h2 className={isSideForm ? "gvf-heading-side" : "gvf-heading"}>
           {heading || "Estimate The Value Of"}{' '}
           {headingHighlight && <span className="gvf-heading-highlight">{headingHighlight}</span>}
         </h2>
 
-        <div className={`gvf-grid ${isSideForm ? 'gvf-grid-side' : ''}`} style={isSideForm ? { gridTemplateColumns: '1fr', gap: 0 } : {}}>
+        <div className={`gvf-grid ${isSideForm ? 'gvf-grid-side' : ''}`}>
           {/* Left: Gold image with live rate badge */}
           {!isSideForm && (
             <div className={`gvf-image-col${SHOW_GOLD_RATE_CARD ? '' : ' gvf-image-col--no-badge'}`}>
@@ -135,7 +135,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
           )}
 
           {/* Right: Estimate form */}
-          <div className="gvf-form-col" style={isSideForm ? { padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' } : {}}>
+          <div className={`gvf-form-col ${isSideForm ? 'gvf-side-form-col' : ''}`}>
             <form className={`gvf-form ${isSideForm ? 'gvf-side-form' : ''}`} onSubmit={handleSubmit}>
               {/* Animated Glowing border beam */}
               {!isSideForm && (
@@ -174,20 +174,19 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               )}
 
               <div className="gvf-field">
-                <label htmlFor="gvf-name" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Name<span className="gvf-required">*</span></label>
+                <label htmlFor="gvf-name" className="gvf-label">Name<span className="gvf-required">*</span></label>
                 <input
                   id="gvf-name"
                   name="name"
                   type="text"
                   className="gvf-input"
-                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
                   placeholder="Full Name"
                   value={formData.name}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="gvf-field" style={{ position: 'relative' }}>
+              <div className="gvf-field gvf-honeypot-field">
                 <input
                   type="text"
                   name="company_website"
@@ -196,16 +195,15 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   aria-hidden="true"
                   value={companyWebsite}
                   onChange={(e) => setCompanyWebsite(e.target.value)}
-                  style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+                  className="gvf-honeypot-input"
                 />
-                <label htmlFor="gvf-phone" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Phone Number<span className="gvf-required">*</span></label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <label htmlFor="gvf-phone" className="gvf-label">Phone Number<span className="gvf-required">*</span></label>
+                <div className="gvf-phone-row">
                   <input
                     id="gvf-phone"
                     name="phone"
                     type="tel"
-                    className="gvf-input"
-                    style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', flex: 1 } : { flex: 1 }}
+                    className="gvf-input gvf-phone-input"
                     placeholder="Mobile Number"
                     value={formData.phone}
                     onChange={handleChange}
@@ -215,18 +213,9 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   />
                   <button
                     type="button"
+                    className="gvf-otp-btn"
                     onClick={handleGetOtp}
                     disabled={otpState === 'sending' || otpState === 'verifying' || countdown > 0 || !/^\d{10}$/.test(formData.phone)}
-                    style={{
-                      padding: '0 1rem',
-                      background: '#0F1A4D',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      fontSize: '0.85rem'
-                    }}
                   >
                     {otpState === 'sending' ? '...' : countdown > 0 ? `${countdown}s` : 'GET OTP'}
                   </button>
@@ -234,13 +223,12 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               </div>
 
               <div className="gvf-field">
-                <label htmlFor="gvf-otp" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>OTP<span className="gvf-required">*</span></label>
+                <label htmlFor="gvf-otp" className="gvf-label">OTP<span className="gvf-required">*</span></label>
                 <input
                   id="gvf-otp"
                   name="otp"
                   type="text"
                   className="gvf-input"
-                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
                   placeholder="Enter OTP"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
@@ -248,10 +236,8 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 />
               </div>
 
-
-
               <div className="gvf-field">
-                <label htmlFor="gvf-weight" className="gvf-label" style={isSideForm ? { color: '#fff' } : {}}>Weight In Grams<span className="gvf-required">*</span></label>
+                <label htmlFor="gvf-weight" className="gvf-label">Weight In Grams<span className="gvf-required">*</span></label>
                 <input
                   id="gvf-weight"
                   name="weight"
@@ -259,7 +245,6 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   min="0"
                   step="0.01"
                   className="gvf-input"
-                  style={isSideForm ? { background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' } : {}}
                   placeholder="Quantity (in grams)"
                   value={formData.weight}
                   onChange={handleChange}
@@ -271,15 +256,15 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 />
               </div>
 
-              <div className="gvf-field" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '0.5rem', margin: '0.5rem 0' }}>
+              <div className="gvf-field gvf-consent-field">
                 <input
                   type="checkbox"
                   id="gvf-authorize"
                   checked={isAuthorized}
                   onChange={(e) => setIsAuthorized(e.target.checked)}
-                  style={{ marginTop: '0.2rem' }}
+                  className="gvf-checkbox"
                 />
-                <label htmlFor="gvf-authorize" style={{ fontSize: '0.75rem', color: isSideForm ? '#fff' : '#41444f', lineHeight: 1.4, textAlign: 'left' }}>
+                <label htmlFor="gvf-authorize" className="gvf-consent-label">
                   I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
                 </label>
               </div>
@@ -287,8 +272,6 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               <button type="submit" className="gvf-submit-btn" disabled={otpState === 'verifying'}>
                 {otpState === 'verifying' ? 'VERIFYING...' : (buttonLabel || "Check Rate")}
               </button>
-
-
             </form>
           </div>
         </div>

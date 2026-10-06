@@ -218,15 +218,15 @@
 .gvf-field {
   position: relative;
   z-index: 1;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.85rem;
 }
 
 .gvf-label {
   display: block;
   font-size: 0.85rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.3rem;
 }
 
 .gvf-required {
@@ -236,12 +236,13 @@
 
 .gvf-input {
   width: 100%;
+  box-sizing: border-box;
   background: rgba(15, 28, 65, 0.4);
   border: 1px solid rgba(241, 185, 51, 0.45);
   border-radius: 8px;
-  padding: 0.6rem 1rem;
+  padding: 0.55rem 0.9rem;
   color: #ffffff;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-family: inherit;
   outline: none;
   transition: var(--transition-smooth);
@@ -253,32 +254,118 @@
 
 .gvf-input:focus {
   border-color: var(--gold-primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 0 3px rgba(241, 185, 51, 0.15);
+}
+
+/* Phone input with OTP button row */
+.gvf-phone-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+.gvf-phone-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.gvf-otp-btn {
+  flex-shrink: 0;
+  padding: 0 0.9rem;
+  background: var(--gold-gradient, linear-gradient(135deg, #f5c042, #e5a720));
+  color: #0c1835;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(235, 175, 32, 0.25);
+}
+
+.gvf-otp-btn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.gvf-otp-btn:disabled {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Honeypot */
+.gvf-honeypot-input {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Consent Checkbox */
+.gvf-consent-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.6rem 0 0.85rem;
+}
+
+.gvf-checkbox {
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  accent-color: #EBAF20;
+  cursor: pointer;
+}
+
+.gvf-consent-label {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
 }
 
 .gvf-submit-btn {
   position: relative;
   z-index: 1;
   width: 100%;
-  margin-top: 0.4rem;
-  background: var(--gold-gradient);
+  margin-top: 0.25rem;
+  background: var(--gold-gradient, linear-gradient(135deg, #f5c042, #e5a720));
   color: #0c1835;
   border: none;
-  border-radius: 10px;
-  padding: 0.75rem;
-  font-size: 1rem;
+  border-radius: 9px;
+  padding: 0.7rem;
+  font-size: 0.95rem;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(218, 161, 46, 0.3);
-  transition: var(--transition-smooth);
+  transition: all 0.2s ease;
 }
 
-.gvf-submit-btn:hover {
+.gvf-submit-btn:hover:not(:disabled) {
   background: var(--gold-gradient-hover);
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(218, 161, 46, 0.4);
+}
+
+.gvf-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .gvf-form-note {
@@ -290,118 +377,184 @@
   margin-top: 0.6rem;
 }
 
-/* Compact rules for side form */
+/* Side Form variant rules (used in VideoSection) */
+.gvf-side-container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.gvf-heading-side {
+  font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: left;
+  line-height: 1.25;
+  margin: 0 0 0.85rem 0;
+}
+
+.gvf-grid-side {
+  grid-template-columns: 1fr;
+  gap: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+.gvf-side-form-col {
+  width: 100%;
+  display: flex;
+}
+
 .gvf-side-form {
-  padding: 1.1rem 1.4rem !important;
+  padding: 0 !important;
   background: transparent !important;
   border: none !important;
+  border-radius: 0 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .gvf-side-form .gvf-field {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.55rem;
 }
 
 .gvf-side-form .gvf-input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   padding: 0.5rem 0.8rem;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
+}
+
+.gvf-side-form .gvf-input:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #EBAF20;
 }
 
 .gvf-side-form .gvf-submit-btn {
-  padding: 0.6rem;
+  padding: 0.65rem;
   font-size: 0.9rem;
   margin-top: 0.2rem;
 }
 
-.gvf-side-form .gvf-heading {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
 /* Responsive */
 @media (max-width: 1024px) {
-  .gvf-grid {
-    grid-template-columns: 1fr;
-    gap: 4rem;
-  }
-
-  .gvf-image-col {
-    padding-bottom: 3rem;
-  }
-
-  /* The padding above only exists to clear the floating rate badge, which
-     overhangs the image. With the badge hidden there is nothing to clear. */
-  .gvf-image-col--no-badge {
-    padding-bottom: 0;
-  }
-}
-
-@media (max-width: 640px) {
   .gvf-section {
-    padding: 4rem 0 5rem;
+    padding: 3.5rem 0 4rem;
   }
 
   .gvf-heading {
     font-size: 2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
-  .gvf-rate-badge {
-    right: 0.75rem;
-    width: 210px;
-    padding: 0.9rem 1.1rem 1.1rem;
+  .gvf-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .gvf-rupee {
-    font-size: 1.5rem;
+  .gvf-image-col {
+    padding-bottom: 2.5rem;
+  }
+
+  .gvf-image-col--no-badge {
+    padding-bottom: 0;
+  }
+
+  .gvf-image-wrap {
+    aspect-ratio: 16 / 8;
   }
 
   .gvf-form {
-    padding: 1.75rem 1.5rem;
+    padding: 1.5rem 1.5rem;
   }
-}
 
-@media (max-width: 480px) {
-  .gvf-section {
-    padding: 3rem 0 4rem;
+  .gvf-field {
+    margin-bottom: 0.75rem;
   }
-  .gvf-heading {
-    font-size: 1.75rem;
-  }
-  .gvf-rate-badge {
-    width: 100%;
-    position: relative;
-    right: 0;
-    bottom: 0;
-    margin-top: -20px;
-    z-index: 3;
-    border-radius: 12px;
-  }
-}
-/* Compact spacing for tablet / mobile */
-@media (max-width: 1024px) {
-  .gvf-section { padding: 3.5rem 0 4rem; }
-  .gvf-heading { font-size: 2rem; margin-bottom: 2rem; }
-  .gvf-grid { gap: 2rem; }
-  .gvf-image-wrap { aspect-ratio: 16 / 8; }
-  .gvf-form { padding: 1.25rem 1.5rem; }
-  .gvf-field { margin-bottom: 0.7rem; }
 }
 
 @media (max-width: 640px) {
-  .gvf-section { padding: 2.25rem 0 2.75rem; }
-  .gvf-heading { font-size: 1.5rem; margin-bottom: 1.25rem; }
-  .gvf-grid { gap: 1.25rem; }
-  .gvf-image-col { padding-bottom: 2.25rem; }
-  .gvf-image-col--no-badge { padding-bottom: 0; }
-  .gvf-image-wrap { aspect-ratio: 16 / 7; border-radius: 14px; }
-  .gvf-form { padding: 1.1rem 1rem; border-radius: 14px; }
-  .gvf-field { margin-bottom: 0.55rem; }
-  .gvf-input { padding: 0.5rem 0.8rem; }
-  .gvf-submit-btn { padding: 0.65rem; }
+  .gvf-section {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .gvf-heading {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .gvf-grid {
+    gap: 1.25rem;
+  }
+
+  .gvf-image-col {
+    padding-bottom: 1.5rem;
+  }
+
+  .gvf-image-col--no-badge {
+    padding-bottom: 0;
+  }
+
+  .gvf-image-wrap {
+    aspect-ratio: 16 / 7.5;
+    border-radius: 14px;
+  }
+
+  .gvf-rate-badge {
+    right: 0.5rem;
+    bottom: 1.5rem;
+    width: 200px;
+    padding: 0.8rem 1rem;
+  }
+
+  .gvf-rupee {
+    font-size: 1.4rem;
+  }
+
+  .gvf-form {
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+  }
+
+  .gvf-field {
+    margin-bottom: 0.6rem;
+  }
+
+  .gvf-input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .gvf-otp-btn {
+    padding: 0 0.75rem;
+    font-size: 0.76rem;
+  }
+
+  .gvf-submit-btn {
+    padding: 0.65rem;
+    font-size: 0.88rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .gvf-image-col { padding-bottom: 0; }
+  .gvf-rate-badge {
+    position: relative;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    margin-top: -16px;
+    z-index: 3;
+    border-radius: 12px;
+  }
+
+  .gvf-image-col {
+    padding-bottom: 0;
+  }
+
+  .gvf-consent-label {
+    font-size: 0.68rem;
+  }
 }

@@ -7,7 +7,7 @@ import { getPageBySlug } from '@/lib/strapi';
 
 // Reserved slugs that should not be intercepted by the dynamic page route
 const RESERVED_SLUGS = [
-  'about-us', 'blog', 'career', 'contact-us', 'faq', 'gold-rate', 'mobilevantab', 'sell-gold-for-cash', 'testimonials'
+  'about-us', 'blog', 'career', 'contact-us', 'faq', 'gold-rate', 'mobilevantab', 'privacy-policy', 'sell-gold-for-cash', 'testimonials'
 ];
 
 interface PageProps {

@@ -104,7 +104,7 @@
 
 .cp-content-grid {
   display: grid;
-  grid-template-columns: 1fr 480px;
+  grid-template-columns: 1fr minmax(360px, 460px);
   gap: 2.5rem;
   align-items: start;
 }
@@ -294,7 +294,6 @@
 /* Right Column: Floating Form Card (Overlaps Hero into Content) */
 .cp-right-col {
   margin-top: -150px;
-  /* Pulls form up into the dark hero section! */
   position: relative;
   z-index: 20;
 }
@@ -310,6 +309,7 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Animated Golden Beam overlay traversing the border */
@@ -398,6 +398,7 @@
   font-size: 0.88rem;
   outline: none;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .cp-field-wrap:has(.cp-input-icon) .cp-input-field {
@@ -601,16 +602,36 @@
 }
 
 /* ==========================================================================
-   3. GOLDEN STATS RIBBON BANNER (Uses HeroStats from Home page)
+   4. RESPONSIVE BREAKPOINTS (Ensures clean layout across all dimensions)
    ========================================================================== */
 
-/* ==========================================================================
-   4. RESPONSIVE BREAKPOINTS
-   ========================================================================== */
+/* Medium Desktops & Laptops (1025px - 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .cp-content-grid {
+    grid-template-columns: 1fr 420px;
+    gap: 1.75rem;
+  }
+
+  .cp-right-col {
+    margin-top: -100px;
+  }
+
+  .cp-office-row-flex {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .cp-form-card {
+    padding: 1.5rem 1.4rem;
+  }
+}
+
+/* Tablets & Small Screens (<= 1024px) */
 @media (max-width: 1024px) {
   .cp-hero-banner {
+    min-height: auto;
     height: auto;
-    padding-bottom: 4rem;
+    padding: 100px 0 3rem;
   }
 
   .cp-content-grid {
@@ -620,10 +641,18 @@
 
   .cp-right-col {
     margin-top: 0;
+    width: 100%;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .cp-office-row-flex {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cp-left-col {
+    padding-top: 1rem;
   }
 
   .cp-hero-heading {
@@ -631,21 +660,46 @@
   }
 }
 
-@media (max-width: 640px) {
+/* Mobile Devices (<= 768px) */
+@media (max-width: 768px) {
+  .cp-hero-banner {
+    padding: 90px 0 2rem;
+  }
+
   .cp-hero-heading {
-    font-size: 2rem;
+    font-size: 2.1rem;
   }
 
   .cp-hero-lead {
     font-size: 0.95rem;
   }
 
+  .cp-office-row-flex {
+    grid-template-columns: 1fr;
+  }
+
   .cp-form-card {
-    padding: 1.25rem 1.15rem;
+    padding: 1.35rem 1.2rem;
   }
 
   .cp-form-row-2,
   .cp-form-row-otp {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Small Mobile (<= 480px) */
+@media (max-width: 480px) {
+  .cp-hero-heading {
+    font-size: 1.8rem;
+  }
+
+  .cp-form-card {
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+  }
+
+  .cp-submit-btn {
+    font-size: 0.925rem;
   }
 }

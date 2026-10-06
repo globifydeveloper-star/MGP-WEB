@@ -122,9 +122,32 @@ async function fetchStrapi<T>(
 }
 
 export const getBlogPosts = cache(async function getBlogPosts(): Promise<BlogPost[]> {
-  const data = await fetchStrapi<StrapiAny[]>('/api/blog-posts?populate=*&sort=publishedAt:desc', { cache: 'no-store' }, 'getBlogPosts');
-  const arr = Array.isArray(data) ? data : [];
-  return arr.map(normalizeBlogPost);
+  if (process.env.NEXT_PHASE === 'phase-production-build') return [];
+  const pageSize = 100; // matches Strapi's config/api.ts maxLimit
+  const all: StrapiAny[] = [];
+  let page = 1;
+  try {
+    while (true) {
+      const res = await fetch(
+        `${getStrapiUrl()}/api/blog-posts?populate=*&sort=publishedAt:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+        { cache: 'no-store' }
+      );
+      if (!res.ok) {
+        console.warn(`getBlogPosts: Strapi responded with ${res.status}`);
+        break;
+      }
+      const json = await res.json();
+      const batch = Array.isArray(json?.data) ? json.data : [];
+      all.push(...batch);
+      const pageCount = json?.meta?.pagination?.pageCount ?? 1;
+      if (batch.length === 0 || page >= pageCount) break;
+      page++;
+    }
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error('getBlogPosts', err);
+  }
+  return all.map(normalizeBlogPost);
 });
 
 export const getCategories = cache(async function getCategories(): Promise<Category[]> {

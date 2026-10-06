@@ -272,6 +272,16 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+.footer-privacy-link {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.footer-privacy-link:hover {
+  color: #EBAF20;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .footer-top-container {
