@@ -141,11 +141,24 @@
 }
 
 .service-icon {
-  font-size: 1.75rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(241, 185, 51, 0.1);
+  border: 1px solid rgba(241, 185, 51, 0.2);
+  color: var(--gold-primary, #EBAF20);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  background: var(--gold-gradient);
+  color: #0c1835;
+  border-color: transparent;
+  transform: scale(1.08);
 }
 
 .service-card h4 {
