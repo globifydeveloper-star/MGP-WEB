@@ -13,6 +13,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 1.5rem;
+  min-height: 56px;
   width: fit-content;
 }
 
@@ -87,6 +88,7 @@
 .hero-subcopy-wrapper-v2 {
   position: relative;
   margin-bottom: 1.5rem;
+  min-height: 90px;
 }
 
 .hero-subcopy-text-v2 {
@@ -199,6 +201,7 @@
     justify-content: center;
     width: 100%;
     margin-bottom: 2.5rem;
+    min-height: 100px;
   }
 
   .hero-subcopy-text-v2 {
@@ -220,7 +223,7 @@
     justify-content: center;
     gap: 1.5rem;
     width: 100%;
-    margin-bottom: 4rem;
+    margin-bottom: 1.5rem;
     flex-wrap: nowrap;
   }
 
@@ -252,6 +255,7 @@
     padding: 0;
     border-radius: 0;
     margin: 0.5rem auto 1.25rem auto;
+    min-height: 48px;
     position: relative;
     z-index: 10;
     width: fit-content;
@@ -292,7 +296,7 @@
   }
 
   .hero-main-title-v2 {
-    font-size: clamp(1.85rem, 4.5vw, 1.75rem) !important;
+    font-size: clamp(1.75rem, 5vw, 2.2rem) !important;
     text-align: center;
     line-height: 1.2;
     margin-bottom: 1rem;
@@ -304,6 +308,7 @@
     justify-content: center;
     width: 100%;
     margin-bottom: 2.25rem;
+    min-height: 80px;
   }
 
   .hero-subcopy-text-v2 {
@@ -325,7 +330,7 @@
     justify-content: center;
     gap: 1rem;
     width: 100%;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
   }
 
   .hero-cta-group-v2 button {

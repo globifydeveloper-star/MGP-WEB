@@ -20,7 +20,7 @@ const FAQ_DATA: FAQItem[] = [
     id: 1,
     category: 'General',
     question: 'Why Should I Choose Muthoot Gold Point to Sell my Gold?',
-    answer: "We're not an unorganised buyer. We are a dedicated gold buying company – Built on science, not guesswork. With a legacy of over 133+ years, Muthoot Gold Point offers complete transparency, 100% accurate XRF scientific purity evaluation in front of you, and instant spot payment."
+    answer: "We are a dedicated gold buying company – Built on science, not guesswork. With a legacy of over 133+ years, Muthoot Gold Point offers complete transparency, 100% accurate XRF scientific purity evaluation in front of you, and instant spot payment."
   },
   {
     id: 2,
@@ -89,7 +89,7 @@ export default function FAQPage() {
 
   return (
     <>
-      
+
       <main className="faq-page">
         {/* HERO BANNER - Exact size and style matching Contact Page */}
         <section className="faq-hero-banner">
@@ -242,6 +242,6 @@ export default function FAQPage() {
         <BranchLocator />
       </main>
 
-          </>
+    </>
   );
 }

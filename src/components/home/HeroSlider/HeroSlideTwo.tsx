@@ -65,6 +65,7 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
 
   return (
     <section className="hero-slide-two-section">
+      {/* Desktop Background (hidden on mobile/tablet) */}
       <div className="hero-slide-two-bg" aria-hidden="true">
         <Image
           src={finalImage}
@@ -78,39 +79,44 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
         <div className="hero-slide-two-overlay" />
       </div>
 
+      {/* Mobile-only Visual Header (matching Hero.tsx mobile top visual) */}
+      <div className="hero-slide-two-mobile-top-wrapper">
+        <div className="hero-slide-two-mobile-visual-container">
+          <div className="hero-mobile-bg-pattern" aria-hidden="true" />
+          <div className="hero-mobile-golden-aura" aria-hidden="true" />
+          <div className="hero-slide-two-mobile-img-box">
+            <Image
+              src={finalImage}
+              alt="Muthoot Gold Point"
+              fill
+              className="hero-slide-two-mobile-img"
+              onError={() => setHasError(true)}
+              priority
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="hero-slide-two-container">
         <div className="hero-slide-two-content">
-          <div className="hero-slide-two-badge">
-            <span className="hero-slide-two-badge-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                <path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1Z" />
-                <path d="M15 8a4 4 0 0 1 0 8" />
-                <path d="M18 5a8 8 0 0 1 0 14" />
-              </svg>
-            </span>
-            <span className="hero-slide-two-badge-text">
-              <span className="hero-slide-two-badge-highlight">Muthoot Gold Point:</span> India&apos;s First National Level Organised Gold Buyer
-            </span>
-          </div>
-
           <h2 className="hero-slide-two-title">
             <span className="hero-slide-two-title-white">{whiteText}</span>
             {goldText && <span className="hero-slide-two-title-gold">{goldText}</span>}
           </h2>
 
-          <div className="hero-slide-two-subcopy" style={{ textAlign: 'left' }}>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="hero-slide-two-subcopy">
+            <ul className="hero-slide-two-features-list">
+              <li>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EBAF20" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                Free purity testing of your gold
+                <span>Free purity testing of your gold</span>
               </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <li>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EBAF20" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                100% transparent process
+                <span>100% transparent process</span>
               </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <li>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EBAF20" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                Free Ultrasonic cleaning of ornaments
+                <span>Free Ultrasonic cleaning of ornaments</span>
               </li>
             </ul>
           </div>
@@ -119,6 +125,11 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
             {btn1Enabled && (
               <button className="btn-gold-gradient hero-slide-two-btn" onClick={() => handleCta(btn1Link)}>
                 {btn1Label}
+              </button>
+            )}
+            {btn2Enabled && (
+              <button className="btn-white-outline-v2 hero-slide-two-btn" onClick={() => handleCta(btn2Link)}>
+                {btn2Label}
               </button>
             )}
           </div>
