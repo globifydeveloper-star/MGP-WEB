@@ -7,7 +7,7 @@ import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import './ContactPage.css';
-import type { ContactUsPageData } from '@/lib/strapi';
+import type { ContactUsPageData, GlobalStatsData } from '@/lib/strapi';
 
 const DEFAULT_CONTACT_HERO = '/ImageSet/Contact Us page/Hero Section 1774x887 px-01.jpg';
 
@@ -86,7 +86,7 @@ const MailIconGold = () => (
   </svg>
 );
 
-export default function ContactPage({ data }: { data?: ContactUsPageData | null }) {
+export default function ContactPage({ data, globalStats }: { data?: ContactUsPageData | null; globalStats?: GlobalStatsData | null }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -97,7 +97,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
     city: '',
     branchCode: '',
     message: '',
-    consent: true,
+    consent: false,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -187,7 +187,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
           city: '',
           branchCode: '',
           message: '',
-          consent: true,
+          consent: false,
         });
         resetOtpState();
       } else {
@@ -601,7 +601,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
         </section>
 
         {/* GOLDEN STATS RIBBON BANNER */}
-        <HeroStats />
+        <HeroStats globalStats={globalStats} />
 
         {/* BRANCH LOCATOR SECTION */}
         <BranchLocator />

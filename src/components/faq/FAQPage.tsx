@@ -1,12 +1,9 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import './FAQPage.css';
-
-const DEFAULT_FAQ_HERO = '/ImageSet/Faq Page/Faq Hero 1536 x 1024 px-01.jpg';
 
 interface FAQItem {
   id: number;
@@ -93,16 +90,7 @@ export default function FAQPage() {
       <main className="faq-page">
         {/* HERO BANNER - Exact size and style matching Contact Page */}
         <section className="faq-hero-banner">
-          <div className="faq-hero-bg-wrapper">
-            <Image
-              src={DEFAULT_FAQ_HERO}
-              alt="Muthoot Gold Point Frequently Asked Questions"
-              fill
-              priority
-              className="faq-hero-img"
-            />
-            <div className="faq-hero-overlay" />
-          </div>
+          <div className="faq-hero-bg-pattern" aria-hidden="true" />
 
           <div className="container faq-hero-text-container">
             <h1 className="faq-hero-heading">

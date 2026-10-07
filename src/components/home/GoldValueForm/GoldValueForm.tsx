@@ -270,7 +270,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                 </label>
               </div>
 
-              <button type="submit" className="gvf-submit-btn" disabled={otpState === 'verifying'}>
+              <button type="submit" className="gvf-submit-btn" disabled={otpState === 'verifying' || !isAuthorized}>
                 {otpState === 'verifying' ? 'VERIFYING...' : (buttonLabel || "Check Rate")}
               </button>
             </form>

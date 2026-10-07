@@ -53,9 +53,6 @@ export default function FAQ({ faqs }: FAQProps) {
           <h2 className="faq2-title">
             <span className="faq2-title-highlight">Frequently</span> Asked Questions
           </h2>
-          <p className="faq2-subtitle">
-            We&apos;re not an unorganised buyer. We are a dedicated gold buying company &ndash; Built on science, not guesswork.
-          </p>
           <div className="faq2-divider" />
         </div>
 

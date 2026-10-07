@@ -33,7 +33,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     branchCode: '',
     purity: '',
     weight: '',
-    consent: true
+    consent: false
   });
 
   const { states: availableStates, locationsByState, branchesByState } = useBranchMaster();
@@ -88,7 +88,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
         branchCode: '',
         purity: '',
         weight: '',
-        consent: true
+        consent: false
       });
       setCompanyWebsite('');
       setIsSubmitted(false);

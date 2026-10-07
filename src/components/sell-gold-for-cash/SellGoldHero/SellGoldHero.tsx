@@ -29,7 +29,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
     state: '',
     city: '',
     branchCode: '',
-    consent: true
+    consent: false
   });
 
   const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
@@ -150,7 +150,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
         state: '',
         city: '',
         branchCode: '',
-        consent: true
+        consent: false
       });
       resetOtpState();
     }

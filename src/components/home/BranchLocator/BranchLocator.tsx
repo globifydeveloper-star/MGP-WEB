@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import './BranchLocator.css';
 
@@ -65,15 +66,34 @@ const LocateIcon = () => (
   </svg>
 );
 
-export default function BranchLocator() {
+function BranchLocatorInner() {
+  const searchParams = useSearchParams();
+  const sectionRef = useRef<HTMLElement>(null);
   const [query, setQuery] = useState('');
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [showAllStates, setShowAllStates] = useState(false);
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [nearCoords, setNearCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const appliedStateParam = useRef<string | null>(null);
 
   const { states: apiStates, branchesByState } = useBranchMaster();
+
+  // Deep-link from the footer's "Our Presence - States" links: ?state=<name>#branches
+  // selects that state's branch list as soon as the Branch Master data loads.
+  useEffect(() => {
+    const stateParam = searchParams.get('state');
+    if (!stateParam || apiStates.length === 0) return;
+    if (appliedStateParam.current === stateParam) return;
+    appliedStateParam.current = stateParam;
+
+    const match = apiStates.find((s) => s.toLowerCase() === stateParam.toLowerCase());
+    if (match) {
+      setQuery('');
+      setSelectedState(match);
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [searchParams, apiStates]);
 
   // Clear the pinned branch whenever the user changes search/state context;
   // a search or state pick also replaces the "Near Me" map view
@@ -170,7 +190,7 @@ export default function BranchLocator() {
   }, [selectedBranchId, allBranches]);
 
   return (
-    <section className="branch-locator-section" id="branches">
+    <section className="branch-locator-section" id="branches" ref={sectionRef}>
       <div className="container">
         <div className="branch-locator-header">
           <h2 className="branch-locator-title">
@@ -442,5 +462,13 @@ export default function BranchLocator() {
         </div>
       </div>
     </section>
+  );
+}
+
+export default function BranchLocator() {
+  return (
+    <Suspense fallback={null}>
+      <BranchLocatorInner />
+    </Suspense>
   );
 }

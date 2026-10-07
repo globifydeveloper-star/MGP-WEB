@@ -155,7 +155,12 @@ export default async function Footer() {
           <h4 className="footer-col-title">{footerSettings?.presenceHeading || 'Our Presence - States'}</h4>
           <div className="presence-states">
             {presenceStatesList.map((stateItem, index, arr) => {
-              const resolvedUrl = stateItem.page?.slug ? `/${stateItem.page.slug}` : (stateItem.url || '/#branches');
+              const baseUrl = stateItem.page?.slug ? `/${stateItem.page.slug}` : (stateItem.url || '/#branches');
+              // Deep-link into the matching state inside the Branch Locator
+              // section instead of just landing on the generic "all states" view.
+              const resolvedUrl = baseUrl.includes('#branches')
+                ? baseUrl.replace('#branches', `?state=${encodeURIComponent(stateItem.label)}#branches`)
+                : baseUrl;
               return (
                 <React.Fragment key={stateItem.id || stateItem.label || index}>
                   <Link href={resolvedUrl} className="presence-state-link">
