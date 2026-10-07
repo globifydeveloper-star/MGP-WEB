@@ -137,6 +137,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
       consent: formData.consent,
       sourceForm: 'Sell Gold Hero Form',
       enquiryType: 'Enquire Now',
+      formType: 'sell-gold-page',
     });
 
     if (success) {

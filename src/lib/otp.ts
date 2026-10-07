@@ -62,6 +62,16 @@ export async function sendOtp(phone: string, clientIp?: string): Promise<OtpResp
   }
 }
 
+export type FormType =
+  | 'contact'
+  | 'sell-gold-modal'
+  | 'mobile-van'
+  | 'blog'
+  | 'sell-gold-page'
+  | 'page-builder'
+  | 'gold-value'
+  | 'gold-value-precheck';
+
 export interface EnquiryDetails {
   name: string;
   email?: string;
@@ -75,6 +85,8 @@ export interface EnquiryDetails {
   consent?: boolean;
   sourceForm?: string;
   enquiryType?: string;
+  formType?: FormType;
+  branchValidated?: boolean;
 }
 
 /**

@@ -391,6 +391,7 @@ export async function submitFormSubmission(payload: {
           purity: payload.purity,
           weight: payload.weight,
           branch: payload.branch,
+          branchCode: payload.branchCode,
           sourceForm: payload.sourceForm,
           details: payload.details,
         }
@@ -400,29 +401,6 @@ export async function submitFormSubmission(payload: {
     if (!valuationRes.ok) {
       const errJson = await valuationRes.json().catch(() => ({}));
       return { success: false, error: errJson?.error?.message ?? `Server responded with ${valuationRes.status}` };
-    }
-
-    // 2. Mirror to All Leads
-    const leadRes = await fetch(`${getStrapiUrl()}/api/all-leads`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...baseHeaders },
-      body: JSON.stringify({
-        data: {
-          name: payload.name,
-          phone: payload.phone,
-          email: payload.email,
-          formSource: 'Gold Rate Check',
-          sourceFormDetail: payload.sourceForm,
-          branch: payload.branch,
-          branchCode: payload.branchCode,
-          extraData: payload.details,
-        }
-      }),
-    });
-
-    // We don't fail the primary submission if mirroring fails, but we can log it
-    if (!leadRes.ok) {
-      console.error('Failed to mirror to all-leads:', leadRes.statusText);
     }
 
     return { success: true };

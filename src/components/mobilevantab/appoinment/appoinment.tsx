@@ -155,6 +155,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
       consent: formData.consent,
       sourceForm: 'Mobile Van Appointment',
       enquiryType: 'Mobile Van',
+      formType: 'mobile-van',
     });
 
     if (success) {

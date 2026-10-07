@@ -18,7 +18,7 @@ interface GoldValueFormProps {
 }
 
 export default function GoldValueForm({ sectionImage, heading, headingHighlight, note, isSideForm, buttonLabel }: GoldValueFormProps) {
-  const { rates } = useLiveGoldRates();
+  const { rates } = useLiveGoldRates({ enabled: SHOW_GOLD_RATE_CARD });
   const rate24k = rates['24K']?.perGram || 7502;
   const [displayRate, setDisplayRate] = useState(rate24k);
   const prevRateRef = useRef(rate24k);
@@ -87,6 +87,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
       name: formData.name,
       enquiryType: 'Check Value',
       sourceForm: 'Gold Value Form',
+      formType: 'gold-value-precheck',
       consent: isAuthorized,
       message: `Weight: ${formData.weight}g`
     });

@@ -45,7 +45,7 @@ export default async function SectionRenderer({ sections, pageId }: SectionRende
     ),
     'page-section.contact-form': () => (
       <section className="container" style={{ padding: '60px 20px' }}>
-        <OTPEnquiryForm />
+        <OTPEnquiryForm formType="page-builder" />
       </section>
     ),
     // Fallback for older sections
@@ -75,7 +75,7 @@ export default async function SectionRenderer({ sections, pageId }: SectionRende
     ),
     'sections.otp-enquiry-section': ({ section }) => (
       <section className="container" style={{ padding: '60px 20px' }}>
-        <OTPEnquiryForm sourceForm={section.sourceForm} enquiryType={section.enquiryType} />
+        <OTPEnquiryForm sourceForm={section.sourceForm} enquiryType={section.enquiryType} formType="page-builder" />
       </section>
     ),
     'sections.rich-text': ({ section }) => (

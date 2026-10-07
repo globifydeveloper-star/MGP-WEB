@@ -3,14 +3,17 @@
 import React, { useState } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
+import type { FormType } from '@/lib/otp';
 import './OTPEnquiryForm.css';
 
 export default function OTPEnquiryForm({
   sourceForm = 'OTP Enquiry Form',
   enquiryType = 'Enquire Now',
+  formType = 'page-builder',
 }: {
   sourceForm?: string;
   enquiryType?: string;
+  formType?: FormType;
 } = {}) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -80,6 +83,7 @@ export default function OTPEnquiryForm({
       consent,
       sourceForm,
       enquiryType,
+      formType,
     });
     
     if (!success) {

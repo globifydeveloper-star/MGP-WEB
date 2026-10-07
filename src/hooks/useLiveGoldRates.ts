@@ -94,7 +94,8 @@ async function fetchRates() {
   return fetchPromise;
 }
 
-export function useLiveGoldRates(): LiveGoldRatesState {
+export function useLiveGoldRates(options?: { enabled?: boolean }): LiveGoldRatesState {
+  const enabled = options?.enabled ?? true;
   const [state, setState] = useState<LiveGoldRatesState>(sharedState);
 
   useEffect(() => {

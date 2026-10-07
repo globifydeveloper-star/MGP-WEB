@@ -113,6 +113,7 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
               <OTPEnquiryForm 
                 sourceForm={`Blog: ${post.title}`} 
                 enquiryType="Blog Enquiry" 
+                formType="blog" 
               />
             </div>
           </aside>

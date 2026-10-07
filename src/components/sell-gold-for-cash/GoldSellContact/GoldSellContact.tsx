@@ -96,6 +96,7 @@ export default function GoldSellContact() {
         consent: true,
         sourceForm: 'Sell Gold For Cash Page',
         enquiryType: 'Sell Gold',
+        formType: 'sell-gold-page',
       });
       if (success) {
         setIsSubmitted(true);

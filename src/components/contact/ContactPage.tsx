@@ -173,6 +173,7 @@ export default function ContactPage({ data }: { data?: ContactUsPageData | null 
         consent: true,
         sourceForm: 'Contact Us Page',
         enquiryType: formData.service || 'Contact Us',
+        formType: 'contact',
       });
       if (success) {
         setIsSubmitted(true);
