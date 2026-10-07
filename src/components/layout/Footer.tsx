@@ -45,6 +45,31 @@ export default async function Footer() {
     return raw;
   })();
 
+  const defaultPresenceStates: NavItem[] = [
+    { id: 1, label: 'Madhya Pradesh', url: '/#branches' },
+    { id: 2, label: 'Andhra Pradesh', url: '/#branches' },
+    { id: 3, label: 'Kerala', url: '/#branches' },
+    { id: 4, label: 'Telangana', url: '/#branches' },
+    { id: 5, label: 'Maharashtra', url: '/#branches' },
+    { id: 6, label: 'Tamil Nadu', url: '/#branches' },
+    { id: 7, label: 'Karnataka', url: '/#branches' },
+    { id: 8, label: 'Uttar Pradesh', url: '/#branches' },
+    { id: 9, label: 'Delhi NCR', url: '/#branches' },
+    { id: 10, label: 'West Bengal', url: '/#branches' },
+    { id: 11, label: 'Haryana', url: '/#branches' },
+    { id: 12, label: 'Rajasthan', url: '/#branches' },
+    { id: 13, label: 'Odisha', url: '/#branches' },
+    { id: 14, label: 'Punjab', url: '/#branches' },
+    { id: 15, label: 'Uttarakhand', url: '/#branches' },
+    { id: 16, label: 'Gujarat', url: '/#branches' },
+    { id: 17, label: 'Chhattisgarh', url: '/#branches' },
+    { id: 18, label: 'Assam', url: '/#branches' },
+  ];
+
+  const presenceStatesList: NavItem[] = footerSettings?.presenceStates && footerSettings.presenceStates.length > 0
+    ? footerSettings.presenceStates
+    : defaultPresenceStates;
+
   const half = Math.ceil(allQuickLinks.length / 2);
   const quickLinksCol1 = allQuickLinks.slice(0, half);
   const quickLinksCol2 = allQuickLinks.slice(half);

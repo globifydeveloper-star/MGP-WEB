@@ -944,6 +944,8 @@ export interface NavItem {
 export interface FooterSetting {
   quickLinks: NavItem[];
   legalLinks: NavItem[];
+  presenceHeading?: string;
+  presenceStates?: NavItem[];
   footerDescription?: string;
   facebookUrl?: string;
   instagramUrl?: string;
@@ -957,12 +959,14 @@ export interface FooterSetting {
 }
 
 export const getFooterSetting = cache(async function getFooterSetting(): Promise<FooterSetting | null> {
-  const data = await fetchStrapi<StrapiAny>('/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFooterSetting');
+  const data = await fetchStrapi<StrapiAny>('/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*&populate[presenceStates][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFooterSetting');
   if (!data) return null;
   const flat = unwrap<StrapiAny>(data);
   return {
     quickLinks: Array.isArray(flat.quickLinks) ? flat.quickLinks : [],
     legalLinks: Array.isArray(flat.legalLinks) ? flat.legalLinks : [],
+    presenceHeading: flat.presenceHeading,
+    presenceStates: Array.isArray(flat.presenceStates) ? flat.presenceStates : [],
     footerDescription: flat.footerDescription,
     facebookUrl: flat.facebookUrl,
     instagramUrl: flat.instagramUrl,

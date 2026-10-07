@@ -141,10 +141,11 @@
 }
 
 .service-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(241, 185, 51, 0.1);
+  font-size: 1.75rem;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: rgba(241, 185, 51, 0.12);
   border: 1px solid rgba(241, 185, 51, 0.2);
   color: var(--gold-primary, #EBAF20);
   display: flex;
@@ -152,6 +153,12 @@
   justify-content: center;
   flex-shrink: 0;
   transition: all 0.3s ease;
+}
+
+.service-icon svg {
+  width: 28px;
+  height: 28px;
+  display: block;
 }
 
 .service-card:hover .service-icon {
@@ -213,3 +220,5 @@
     padding: 1rem 1.25rem;
   }
 }
+
+
