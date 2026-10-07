@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import heroWaveImg from '@/assets/images/hero-wave.png';
 import './BlogHero.css';
 
 interface BlogHeroProps {
@@ -33,9 +34,16 @@ export default function BlogHero({ heading, subheading, imageUrl, fallbackImage 
           <Image src={heroSrc} alt="Blog Banner Fallback" className="blog-hero-image" priority />
         )}
         <div className="blog-hero-overlay" />
+        <Image
+          src={heroWaveImg}
+          alt=""
+          aria-hidden="true"
+          className="blog-hero-wave"
+          priority
+        />
       </div>
       <div className="blog-hero-content container">
-        <h1 className="blog-hero-title">{heading || 'Our Blog'}</h1>
+        <h1 className="blog-hero-title">{heading || 'Blog'}</h1>
         {subheading && <p className="blog-hero-subtitle">{subheading}</p>}
       </div>
     </div>

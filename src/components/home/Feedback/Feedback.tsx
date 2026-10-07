@@ -79,12 +79,12 @@ export default function Feedback({ reviews }: FeedbackProps) {
 
   const activeReviews = reviews && reviews.length > 0
     ? reviews.map((r) => ({
-        name: r.customerName,
-        location: r.location || '',
-        rating: r.rating ?? 5,
-        photo: getFallbackPhoto(r.customerName, r.profilePicture),
-        text: r.testimonialText
-      }))
+      name: r.customerName,
+      location: r.location || '',
+      rating: r.rating ?? 5,
+      photo: getFallbackPhoto(r.customerName, r.profilePicture),
+      text: r.testimonialText
+    }))
     : DEFAULT_REVIEWS;
 
   const maxIndex = activeReviews.length - 1;

@@ -38,8 +38,8 @@ export default function TestimonialsGrid() {
     <section className="testimonials-grid-section">
       <div className="container">
         <div className="testimonials-grid-header">
-          <h3 className="testimonials-grid-pretitle">What do our customers say about us?</h3>
-          <h2 className="testimonials-grid-title">Feedback about Gold Point</h2>
+          <h3 className="testimonials-grid-pretitle">Feedback about Gold Point</h3>
+          <h2 className="testimonials-grid-title">What do our customers say about us?</h2>
           <p className="testimonials-grid-subtitle">
             We are a dedicated gold buying company &ndash; Built on science, not guesswork.
           </p>
