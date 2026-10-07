@@ -6,6 +6,7 @@ import CareerHero from './careerhero/careerhero';
 import CareerBenefits from './careerbenefits/careerbenefits';
 import OpenPositions from './openpositions/openpositions';
 import ApplyForm from './applyform/applyform';
+import ApplicationSuccessModal from './ApplicationSuccessModal';
 import { submitJobAction } from '@/actions/submitJob';
 
 interface CareerPageProps { data?: CareerPageSettingsData | null; }
@@ -31,6 +32,8 @@ export default function CareerPage({ data }: CareerPageProps) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [submittedInfo, setSubmittedInfo] = useState<{ name: string; position: string }>({ name: '', position: '' });
   const [submitError, setSubmitError] = useState('');
   
   const formRef = useRef<HTMLDivElement>(null);
@@ -78,20 +81,25 @@ export default function CareerPage({ data }: CareerPageProps) {
     setSubmitError('');
     
     try {
+      const currentName = formData.name;
+      const currentPosition = formData.position;
+
       const result = await (async () => {
-      const fd = new FormData();
-      fd.append('fullName', formData.name);
-      fd.append('email', formData.email);
-      fd.append('phone', formData.phone);
-      fd.append('coverNote', formData.message);
-      fd.append('jobPosition', formData.position);
-      fd.append('experienceYears', '');
-      fd.append('currentCity', '');
-      if (formData.resumeFile) fd.append('resumeFile', formData.resumeFile);
-      return submitJobAction(fd);
-    })();
+        const fd = new FormData();
+        fd.append('fullName', formData.name);
+        fd.append('email', formData.email);
+        fd.append('phone', formData.phone);
+        fd.append('coverNote', formData.message);
+        fd.append('jobPosition', formData.position);
+        fd.append('experienceYears', '');
+        fd.append('currentCity', '');
+        if (formData.resumeFile) fd.append('resumeFile', formData.resumeFile);
+        return submitJobAction(fd);
+      })();
 
       if (result.success) {
+        setSubmittedInfo({ name: currentName, position: currentPosition });
+        setIsSuccessModalOpen(true);
         setSubmitSuccess(true);
         setFormData({
           name: '',
@@ -106,8 +114,8 @@ export default function CareerPage({ data }: CareerPageProps) {
           fileInputRef.current.value = '';
         }
         
-        // Auto dismiss success message after 5s
-        setTimeout(() => setSubmitSuccess(false), 5000);
+        // Auto dismiss banner after 6s
+        setTimeout(() => setSubmitSuccess(false), 6000);
       } else {
         setSubmitError(result.error ?? 'Failed to submit application.');
         alert(result.error ?? 'Failed to submit application. Please try again.');
@@ -133,7 +141,6 @@ export default function CareerPage({ data }: CareerPageProps) {
 
   return (
     <>
-            
       <main>
         {/* Career Hero */}
         <CareerHero 
@@ -162,8 +169,15 @@ export default function CareerPage({ data }: CareerPageProps) {
             fileInputRef={fileInputRef}
           />
         </div>
-      </main>
 
-          </>
+        {/* Success Modal Popup */}
+        <ApplicationSuccessModal
+          isOpen={isSuccessModalOpen}
+          onClose={() => setIsSuccessModalOpen(false)}
+          applicantName={submittedInfo.name}
+          positionTitle={submittedInfo.position}
+        />
+      </main>
+    </>
   );
 }

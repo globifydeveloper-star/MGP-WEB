@@ -1,8 +1,14 @@
+'use client';
+
+import React from 'react';
 import type { GlobalStatsData } from '@/lib/strapi';
+import { AnimatedStatNumber } from './AnimatedStatNumber';
 import './heroStats.css';
+
 interface HeroStatsProps {
   globalStats?: GlobalStatsData | null;
 }
+
 export default function HeroStats({ globalStats }: HeroStatsProps) {
   return (
     <div className="hero-stats-ribbon-v2">
@@ -27,7 +33,7 @@ export default function HeroStats({ globalStats }: HeroStatsProps) {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">{globalStats?.branchesValue || "4,200"}</span>
+            <AnimatedStatNumber value={globalStats?.branchesValue || "4,200"} />
             <span className="hero-stat-metric-label">{globalStats?.branchesLabel || "Branches across India"}</span>
           </div>
         </div>
@@ -42,7 +48,7 @@ export default function HeroStats({ globalStats }: HeroStatsProps) {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">{globalStats?.legacyValue || "133+"}</span>
+            <AnimatedStatNumber value={globalStats?.legacyValue || "133+"} />
             <span className="hero-stat-metric-label">{globalStats?.legacyLabel || "Years of legacy"}</span>
           </div>
         </div>
@@ -59,7 +65,7 @@ export default function HeroStats({ globalStats }: HeroStatsProps) {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">{globalStats?.employeesValue || "24,000"}</span>
+            <AnimatedStatNumber value={globalStats?.employeesValue || "24,000"} />
             <span className="hero-stat-metric-label">{globalStats?.employeesLabel || "Employees serving millions of customer"}</span>
           </div>
         </div>
@@ -74,7 +80,7 @@ export default function HeroStats({ globalStats }: HeroStatsProps) {
             </svg>
           </div>
           <div className="hero-stat-info-v2">
-            <span className="hero-stat-metric-value">{globalStats?.customersValue || "1,00,000"}</span>
+            <AnimatedStatNumber value={globalStats?.customersValue || "1,00,000"} />
             <span className="hero-stat-metric-label">{globalStats?.customersLabel || "Customers per day"}</span>
           </div>
         </div>
@@ -82,3 +88,4 @@ export default function HeroStats({ globalStats }: HeroStatsProps) {
     </div>
   );
 }
+
