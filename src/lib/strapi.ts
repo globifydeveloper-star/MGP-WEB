@@ -369,7 +369,10 @@ export async function submitFormSubmission(payload: {
   phone: string;
   email?: string;
   branch?: string;
+  branchName?: string;
   branchCode?: string;
+  branchValidated?: boolean;
+  formType?: string;
   enquiryType?: string;
   sourceForm?: string;
   purity?: string;
@@ -390,8 +393,11 @@ export async function submitFormSubmission(payload: {
           email: payload.email,
           purity: payload.purity,
           weight: payload.weight,
-          branch: payload.branch,
+          branch: payload.branchName || payload.branch,
+          branchName: payload.branchName,
           branchCode: payload.branchCode,
+          branchValidated: payload.branchValidated,
+          formType: payload.formType || 'gold-value',
           sourceForm: payload.sourceForm,
           details: payload.details,
         }

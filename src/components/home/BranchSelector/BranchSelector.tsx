@@ -59,7 +59,7 @@ export default function BranchSelector() {
   }, []);
 
   const { states, branchesByState } = useBranchMaster();
-  const { rates } = useLiveGoldRates();
+  const { rates } = useLiveGoldRates({ enabled: SHOW_GOLD_RATE_CARD });
   const currentRate = rates['24K'];
 
   const availableBranches = useMemo(() => {

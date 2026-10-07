@@ -72,6 +72,11 @@ export async function verifyOtpAction(phone: string, otp: string, details?: Enqu
             };
           }
         }
+
+        details.branchValidated = true;
+        if (!details.branchName) {
+          details.branchName = found.branchName;
+        }
       } else {
         // Branch Master cache unavailable: pass through without blocking
         details.branchValidated = false;

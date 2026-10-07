@@ -99,13 +99,15 @@ export function useLiveGoldRates(options?: { enabled?: boolean }): LiveGoldRates
   const [state, setState] = useState<LiveGoldRatesState>(sharedState);
 
   useEffect(() => {
+    if (!enabled) return;
+
     listeners.push(setState);
     fetchRates();
 
     return () => {
       listeners = listeners.filter((l) => l !== setState);
     };
-  }, []);
+  }, [enabled]);
 
   return state;
 }

@@ -89,13 +89,18 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
       weight: clientData.weight
     });
 
+    const selectedBranchObj = availableBranches.find((b) => b.branchCode === selectedBranchCode);
+    const branchName = selectedBranchObj?.branchName || `${selectedCity}, ${selectedState}`;
+
     setIsSubmitting(true);
     try {
       const res = await submitFormSubmission({
         name: clientData.name,
         phone: clientData.phone,
-        branch: `${selectedCity}, ${selectedState}`,
+        branch: branchName,
+        branchName: branchName,
         branchCode: selectedBranchCode,
+        formType: 'gold-value',
         enquiryType: 'Enquire Now',
         sourceForm: `Gold Value Calculator (Purity: ${clientData.purity || 'N/A'}, Weight: ${clientData.weight || '0'}g)`,
         purity: clientData.purity,
@@ -106,6 +111,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
           state: selectedState,
           city: selectedCity,
           branchCode: selectedBranchCode,
+          branchName: branchName,
         },
       });
 

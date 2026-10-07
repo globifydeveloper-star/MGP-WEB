@@ -6,6 +6,7 @@ import { animate, createTimeline, stagger, set } from 'animejs';
 import './heroGoldRateCard.css';
 import sparkle2Img from '@/assets/images/sparkle2.png';
 import { useLiveGoldRates } from '@/hooks/useLiveGoldRates';
+import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import { PurityKey } from '@/lib/goldRateData';
 
 interface HeroGoldRateCardProps {
@@ -17,7 +18,7 @@ export default function HeroGoldRateCard({
 }: HeroGoldRateCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { rates, isLoading, isLive } = useLiveGoldRates();
+  const { rates, isLoading, isLive } = useLiveGoldRates({ enabled: SHOW_GOLD_RATE_CARD });
   
   const currentRate = rates[purityKey] || rates['24K'];
   const isRateReady = !isLoading && isLive;

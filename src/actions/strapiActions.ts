@@ -34,9 +34,32 @@ export async function submitFormSubmissionAction(data?: any) {
       if (!found) {
         return { success: false, error: 'Please re-select your branch.' };
       }
+
+      // Validate state & city match if provided in details
+      if (submission.details?.state && String(submission.details.state).trim()) {
+        const expectedState = String(submission.details.state).trim().toLowerCase();
+        const actualState = found.state.trim().toLowerCase();
+        if (expectedState !== actualState) {
+          return { success: false, error: 'Please re-select your branch.' };
+        }
+      }
+
+      if (submission.details?.city && String(submission.details.city).trim()) {
+        const expectedCity = String(submission.details.city).trim().toLowerCase();
+        const actualCity = found.location.trim().toLowerCase();
+        if (expectedCity !== actualCity) {
+          return { success: false, error: 'Please re-select your branch.' };
+        }
+      }
+
+      (submission as any).branchValidated = true;
+      (submission as any).branchName = found.branchName;
+    } else {
+      (submission as any).branchValidated = false;
     }
   } catch (err) {
     console.warn('[submitFormSubmissionAction] Branch lookup error, passing through:', err);
+    (submission as any).branchValidated = false;
   }
 
   return (submitFormSubmission as any)(submission);
