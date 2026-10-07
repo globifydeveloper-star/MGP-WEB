@@ -67,12 +67,22 @@ export default function Feedback({ reviews }: FeedbackProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [jumpingBack, setJumpingBack] = useState(false);
 
+  const getFallbackPhoto = (name?: string, photo?: string) => {
+    if (photo) return photo;
+    const n = name?.toLowerCase() || '';
+    if (n.includes('sachin')) return '/images/testimonials/sachin-joneja.png';
+    if (n.includes('basvaraju')) return '/images/testimonials/Basvaraju.png';
+    if (n.includes('srinarayan')) return '/images/testimonials/Srinarayan.png';
+    if (n.includes('amar')) return '/images/testimonials/AMAR_SINGH.png';
+    return undefined;
+  };
+
   const activeReviews = reviews && reviews.length > 0
     ? reviews.map((r) => ({
         name: r.customerName,
         location: r.location || '',
         rating: r.rating ?? 5,
-        photo: r.profilePicture,
+        photo: getFallbackPhoto(r.customerName, r.profilePicture),
         text: r.testimonialText
       }))
     : DEFAULT_REVIEWS;

@@ -58,7 +58,9 @@ export default function MobileVan({ headingLight, headingBold, description, butt
             <span className="title-line-bold">{headingBold || "Branch to You"}</span>
           </h2>
           <p className="mobile-van-desc">
-            {description || "Enjoy a safe, transparent & scientifically tested way of selling Gold. We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the maximum value for your Gold."}
+            {description && !description.toLowerCase().includes("cant visit") && !description.toLowerCase().includes("can't visit")
+              ? description
+              : "Enjoy a safe, transparent & scientifically tested way of selling Gold. We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the maximum value for your Gold."}
           </p>
           <Link href="/mobilevantab">
             <button className="btn mobile-van-btn">{buttonLabel || "Book a Van Visit"}</button>

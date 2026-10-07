@@ -22,9 +22,14 @@ interface HeroSlideTwoProps {
 
 export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
   const [hasError, setHasError] = useState(false);
-  const text = slide?.heroText || "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying";
-  const parts = text.split('. ');
-  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined ? '.' : '') : '';
+  const rawText = slide?.heroText?.trim() || "";
+  const text = (rawText.toLowerCase().includes('get 100% value') || !rawText)
+    ? "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying"
+    : rawText;
+  const parts = text.includes('. ')
+    ? text.split('. ')
+    : (text.includes('100%') ? [text.substring(0, text.indexOf('100%')).trim(), text.substring(text.indexOf('100%')).trim()] : [text]);
+  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined && text.includes('. ') ? '.' : '') : '';
   const goldText = parts[1] ? parts[1] : '';
 
   const subcopy = slide?.heroSubtext || "Sell your gold with complete peace of mind. We use advanced XRF machines for purity testing right in front of you, ensuring you get the exact market rate.";

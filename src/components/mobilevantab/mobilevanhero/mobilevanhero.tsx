@@ -40,7 +40,9 @@ export default function MobileVanHero({ data }: MobileVanHeroProps) {
             <span className="mvh-heading-bold">{data?.heroHeadingBold || 'At Your Doorstep'}</span>
           </h1>
           <p className="mvh-desc">
-            We bring our gold valuation process directly to your doorstep—safe, secure, and fully transparent. Our Doorstep Service is available in Mumbai, Kalyan, and Bengaluru.
+            {data?.heroDescription && !data.heroDescription.toLowerCase().includes("cant visit") && !data.heroDescription.toLowerCase().includes("can't visit")
+              ? data.heroDescription
+              : "Enjoy a safe, transparent & scientifically tested way of selling Gold. We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the maximum value for your Gold."}
           </p>
         </div>
       </div>
