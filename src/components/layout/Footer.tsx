@@ -10,20 +10,44 @@ export default async function Footer() {
   const defaultQuickLinks: NavItem[] = [
     { id: 1, label: 'About Us', url: '/about-us' },
     { id: 2, label: 'Mobile Van', url: '/mobilevantab' },
-    { id: 3, label: 'Privacy Policy', url: '/privacy-policy' },
-    { id: 4, label: 'Gold Rate', url: '/gold-rate' },
+    { id: 3, label: 'Gold Rate', url: '/gold-rate' },
+    { id: 4, label: 'Gold Price Calculator', url: '/#gold-value-form' },
     { id: 5, label: 'Blog', url: '/blog' },
     { id: 6, label: 'Testimonials', url: '/testimonials' },
     { id: 7, label: 'Contact Us', url: '/contact-us' },
     { id: 8, label: 'FAQs', url: '/faq' },
-    { id: 9, label: 'Gold Price Calculator', url: '/#gold-value-form' },
+    { id: 9, label: 'Privacy Policy', url: '/privacy-policy' },
   ];
 
-  const quickLinks: NavItem[] = footerSettings?.quickLinks && footerSettings.quickLinks.length > 0 
-    ? footerSettings.quickLinks 
-    : defaultQuickLinks;
+  const allQuickLinks: NavItem[] = (() => {
+    const raw = footerSettings?.quickLinks && footerSettings.quickLinks.length > 0 
+      ? [...footerSettings.quickLinks] 
+      : [...defaultQuickLinks];
 
-  const legalLinks: NavItem[] = footerSettings?.legalLinks || [];
+    const hasPrivacy = raw.some(l => 
+      l.label?.toLowerCase().includes('privacy') || 
+      l.url?.includes('privacy') || 
+      l.page?.slug?.includes('privacy')
+    );
+    if (!hasPrivacy) {
+      raw.push({ id: 999, label: 'Privacy Policy', url: '/privacy-policy' });
+    }
+
+    if (footerSettings?.legalLinks && footerSettings.legalLinks.length > 0) {
+      footerSettings.legalLinks.forEach((l, idx) => {
+        const alreadyIn = raw.some(existing => existing.label?.toLowerCase() === l.label?.toLowerCase() || existing.url === l.url);
+        if (!alreadyIn) {
+          raw.push({ ...l, id: l.id || 1000 + idx });
+        }
+      });
+    }
+
+    return raw;
+  })();
+
+  const half = Math.ceil(allQuickLinks.length / 2);
+  const quickLinksCol1 = allQuickLinks.slice(0, half);
+  const quickLinksCol2 = allQuickLinks.slice(half);
 
   return (
     <footer className="footer-root">
@@ -52,23 +76,23 @@ export default async function Footer() {
           <h4 className="footer-col-title">Reach Us</h4>
           <div className="reach-item">
             <svg className="reach-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-            <span>0484 2351481</span>
+            <a href="tel:04842351481" className="reach-link">0484 2351481</a>
           </div>
           <div className="reach-item">
             <svg className="reach-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-            <span>0484 2351494</span>
+            <a href="tel:04842351494" className="reach-link">0484 2351494</a>
           </div>
           <div className="reach-item">
             <svg className="reach-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span>info@muthootexim.com</span>
+            <a href="mailto:info@muthootexim.com" className="reach-link">info@muthootexim.com</a>
           </div>
         </div>
 
-        {/* Col 3: Quick Links */}
+        {/* Col 3: Quick Links Part 1 */}
         <div className="footer-col">
           <h4 className="footer-col-title">Quick Links</h4>
           <ul className="footer-links-list">
-            {quickLinks.map((link) => {
+            {quickLinksCol1.map((link) => {
               // Resolve URL: prioritize page slug if relation exists, otherwise fallback to typed URL
               const resolvedUrl = link.page?.slug ? `/${link.page.slug}` : (link.url || '#');
               
@@ -83,16 +107,11 @@ export default async function Footer() {
           </ul>
         </div>
 
-        {/* Col 4: Legal Links & Policies */}
+        {/* Col 4: Quick Links Part 2 */}
         <div className="footer-col">
-          <h4 className="footer-col-title">Legal &amp; Policy</h4>
+          <h4 className="footer-col-title footer-col-title-hidden" aria-hidden="true">Quick Links</h4>
           <ul className="footer-links-list">
-            <li>
-              <Link href="/privacy-policy" className="footer-link">
-                Privacy Policy
-              </Link>
-            </li>
-            {legalLinks.map((link) => {
+            {quickLinksCol2.map((link) => {
               const resolvedUrl = link.page?.slug ? `/${link.page.slug}` : (link.url || '#');
               
               return (
@@ -110,7 +129,33 @@ export default async function Footer() {
         <div className="footer-col">
           <h4 className="footer-col-title">Our Presence - States</h4>
           <div className="presence-states">
-            Madhya Pradesh, Andhra Pradesh, Kerala, Telangana, Maharashtra, Tamil Nadu, Karnataka Uttarpradesh, Delhi NCR, West Bengal, Haryana, Rajasthan, Odisha, Punjab, Uttarakhand, Gujarat, Chhattisgarh, Assam
+            {[
+              'Madhya Pradesh',
+              'Andhra Pradesh',
+              'Kerala',
+              'Telangana',
+              'Maharashtra',
+              'Tamil Nadu',
+              'Karnataka',
+              'Uttar Pradesh',
+              'Delhi NCR',
+              'West Bengal',
+              'Haryana',
+              'Rajasthan',
+              'Odisha',
+              'Punjab',
+              'Uttarakhand',
+              'Gujarat',
+              'Chhattisgarh',
+              'Assam',
+            ].map((state, index, arr) => (
+              <React.Fragment key={state}>
+                <Link href="/#branches" className="presence-state-link">
+                  {state}
+                </Link>
+                {index < arr.length - 1 && ', '}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </div>
@@ -119,7 +164,7 @@ export default async function Footer() {
       <div className="footer-middle-bar">
         <div className="container middle-bar-container">
           <div className="legal-text-string">
-            CIN: U51909KL1998PTC012492 | GST Number: 32AACCM4564E1ZS | Contact ID: info@muthootexim.com | Contact Number: 0484 2351481
+            CIN: U51909KL1998PTC012492 | GST Number: 32AACCM4564E1ZS | Contact ID: <a href="mailto:info@muthootexim.com" className="legal-contact-link">info@muthootexim.com</a> | Contact Number: <a href="tel:04842351481" className="legal-contact-link">0484 2351481</a>
           </div>
           <div className="middle-bar-right">
             <WebsiteDropdown />

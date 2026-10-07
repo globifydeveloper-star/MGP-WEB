@@ -259,7 +259,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
               <form className="sg-contact-form" onSubmit={handleSubmit}>
                 <h2 className="sg-form-title">GET IN TOUCH</h2>
                 <p className="sg-form-subtitle">
-                  Fill in the form and our team will get back to you with various information of Muthoot Goldpoint.
+                  Fill in the form and our team will get back to you with various information of Muthoot Gold Point.
                 </p>
 
                 {/* Name */}

@@ -82,10 +82,13 @@ export default function MobileVan({ headingLight, headingBold, description, butt
           <div className="van-features-row">
             <div className="van-feature-item">
               <span className="van-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <circle cx="10" cy="10" r="7" stroke="#ffffff" strokeWidth="2" />
-                  <line x1="15" y1="15" x2="20.5" y2="20.5" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M6.5 10l2.2 2.2L13.5 7" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 17h1v-6l2-5h9v11h1" />
+                  <path d="M16 17h-8" />
+                  <path d="M6 6h6v6" />
+                  <path d="M16 10h3l2 3v4h-2" />
+                  <circle cx="7.5" cy="17.5" r="1.5" />
+                  <circle cx="17.5" cy="17.5" r="1.5" />
                 </svg>
               </span>
               <span className="van-feature-text">XRF Testing at Your Door</span>
@@ -93,12 +96,10 @@ export default function MobileVan({ headingLight, headingBold, description, butt
 
             <div className="van-feature-item">
               <span className="van-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="9" width="18" height="7" rx="1.5" />
-                  <line x1="7" y1="9" x2="7" y2="12" />
-                  <line x1="11" y1="9" x2="11" y2="12" />
-                  <line x1="15" y1="9" x2="15" y2="12" />
-                  <line x1="19" y1="9" x2="19" y2="12" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="11" height="5" rx="1.5" />
+                  <line x1="6.5" y1="8" x2="6.5" y2="12" />
+                  <path d="M6.5 12h4a3 3 0 0 1 3 3v6" />
                 </svg>
               </span>
               <span className="van-feature-text">Precise Weighing</span>
@@ -106,11 +107,13 @@ export default function MobileVan({ headingLight, headingBold, description, butt
 
             <div className="van-feature-item">
               <span className="van-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="6" width="20" height="13" rx="2" />
-                  <circle cx="7" cy="12.5" r="1.4" fill="#F1B933" stroke="none" />
-                  <path d="M16 15v-6" />
-                  <path d="M13.5 11.5 16 9l2.5 2.5" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 18h8" />
+                  <path d="M3 22h12" />
+                  <path d="M14 22a7 7 0 1 0 0-14h-1" />
+                  <path d="M9 14h3" />
+                  <path d="M9 12h4l-1-7h-2z" />
+                  <path d="M12 5h2" />
                 </svg>
               </span>
               <span className="van-feature-text">Transparent Valuation</span>
@@ -118,11 +121,10 @@ export default function MobileVan({ headingLight, headingBold, description, butt
 
             <div className="van-feature-item">
               <span className="van-feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v3h4" />
-                  <path d="M19 17V5a2 2 0 0 0-2-2H4" />
-                  <path d="M15 8h-5" />
-                  <path d="M15 12h-5" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="7" width="18" height="12" rx="2" />
+                  <path d="M3 7l3-4h12l3 4" />
+                  <circle cx="12" cy="13" r="2.5" />
                 </svg>
               </span>
               <span className="van-feature-text">Instant Bank Transfer</span>

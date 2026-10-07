@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import AboutHero from './abouthero/abouthero';
 import MuthootBlue from './muthootblue/muthootblue';
 import History from './history/history';
 import StandToday from './standtoday/standtoday';
 import Philanthropy from './philanthropy/philanthropy';
 import FAQ from '@/components/home/FAQ/FAQ';
+import SellGoldModal from '@/components/layout/SellGoldModal';
 import { AboutUsPageData } from '@/lib/strapi';
 
 interface AboutUsPageProps {
@@ -14,20 +15,14 @@ interface AboutUsPageProps {
 }
 
 export default function AboutUsPage({ data }: AboutUsPageProps) {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
 
   return (
     <>
-      
       <main>
         <AboutHero
           data={data}
-          onExploreClick={() => window.location.href = '/sell-gold-for-cash'}
+          onExploreClick={() => setIsSellGoldOpen(true)}
         />
 
         <MuthootBlue data={data} />
@@ -37,7 +32,10 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
         <FAQ />
       </main>
 
-
+      <SellGoldModal
+        isOpen={isSellGoldOpen}
+        onClose={() => setIsSellGoldOpen(false)}
+      />
     </>
   );
 }

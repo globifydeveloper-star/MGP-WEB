@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { AboutUsPageData } from '@/lib/strapi';
 import './philanthropy.css';
-import aboutlastImg from '@/assets/images/aboutlast.jpeg';
+import aboutPhilanthropyImg from '@/assets/images/about-philanthropy.jpg';
 
 interface PhilanthropyProps { data?: AboutUsPageData | null; }
 
@@ -64,7 +64,15 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
               )}
             </p>
             <div className="heel-info-image">
-              <Image src={aboutlastImg} alt="Muthoot Blue team connecting with the community" />
+              <a
+                href="https://muthoot.com/csr/philosophyandoutlook"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Muthoot Blue CSR - Philosophy and Outlook"
+                style={{ display: 'block' }}
+              >
+                <Image src={aboutPhilanthropyImg} alt="Muthoot Blue CSR - HEEL Initiative" />
+              </a>
             </div>
           </div>
 

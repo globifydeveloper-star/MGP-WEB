@@ -382,7 +382,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 min="0"
                 step="0.01"
                 name="weight"
-                placeholder="Gold Weight (e.g., 15.5)"
+                placeholder="Approx Weight in Grams (e.g., 15.5)"
                 required
                 className="sg-input"
                 value={formData.weight}
@@ -393,7 +393,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   }
                 }}
               />
-              <span className="sg-input-helper">Enter total weight in grams (e.g., 15.5g)</span>
+              <span className="sg-input-helper">Enter approx weight in grams (e.g., 15.5g)</span>
               {errors.weight && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.weight}</span>}
             </div>
 

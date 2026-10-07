@@ -60,7 +60,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
           </span>
 
           <h1 className="about-hero-title">
-            Muthoot Gold Point — Trusted gold Buyer
+            Muthoot Gold Point — Trusted Gold Buyer
           </h1>
         </div>
 
@@ -139,18 +139,6 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
                     </>
                   )}
                 </div>
-
-                <div className="experience-badge">
-                  <div className="badge-top-row">
-                    <span className="badge-num">1M+</span>
-                    <span className="badge-icon" aria-hidden="true">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="9" />
-                      </svg>
-                    </span>
-                  </div>
-                  <span className="badge-text">Overall happy Customers</span>
-                </div>
               </div>
             </div>
 
@@ -208,7 +196,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
 
             <div className="about-hero-info-card">
               <h3 className="about-hero-subheading">Transparent Process</h3>
-              <p className="about-hero-desc">We enable customers to <a href="https://www.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is 100% fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point – India&apos;s first mobile gold buying van – brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
+              <p className="about-hero-desc">We enable customers to <a href="#" onClick={onExploreClick ? (e) => { e.preventDefault(); onExploreClick(); } : undefined} className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is 100% fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point – India&apos;s first mobile gold buying van – brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
             </div>
           </div>
 

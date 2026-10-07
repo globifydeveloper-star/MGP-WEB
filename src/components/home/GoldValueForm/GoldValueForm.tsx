@@ -238,7 +238,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               </div>
 
               <div className="gvf-field">
-                <label htmlFor="gvf-weight" className="gvf-label">Weight In Grams<span className="gvf-required">*</span></label>
+                <label htmlFor="gvf-weight" className="gvf-label">Approx Weight In Grams<span className="gvf-required">*</span></label>
                 <input
                   id="gvf-weight"
                   name="weight"
@@ -246,7 +246,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   min="0"
                   step="0.01"
                   className="gvf-input"
-                  placeholder="Quantity (in grams)"
+                  placeholder="Approx weight in grams (e.g., 15.5)"
                   value={formData.weight}
                   onChange={handleChange}
                   onKeyDown={(e) => {

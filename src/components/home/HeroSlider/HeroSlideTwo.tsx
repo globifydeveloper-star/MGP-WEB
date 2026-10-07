@@ -89,7 +89,7 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
               </svg>
             </span>
             <span className="hero-slide-two-badge-text">
-              <span className="hero-slide-two-badge-highlight">Muthoot Goldpoint:</span> India&apos;s First National Level Organised Gold Buyer
+              <span className="hero-slide-two-badge-highlight">Muthoot Gold Point:</span> India&apos;s First National Level Organised Gold Buyer
             </span>
           </div>
 

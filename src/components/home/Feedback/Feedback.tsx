@@ -154,14 +154,11 @@ export default function Feedback({ reviews }: FeedbackProps) {
     <section id="testimonials" className="feedback-section">
       <div className="container">
         <div className="feedback-header">
-          <h3 className="feedback-title-sub">What do our customers say about us?</h3>
-          <h2 className="feedback-title-main">Feedback about Gold Point</h2>
-          <p className="feedback-subtitle">
-            We are a dedicated gold buying company &ndash; Built on science, not guesswork.
-          </p>
+          <h3 className="feedback-title-sub">Feedback about Gold Point</h3>
+          <h2 className="feedback-title-main">What do our customers say about us?
+          </h2>
           <div className="feedback-divider" />
         </div>
-
         <div className="feedback-slider-wrap">
           <div className="feedback-viewport">
             <div
