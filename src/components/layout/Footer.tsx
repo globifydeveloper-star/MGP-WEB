@@ -152,35 +152,19 @@ export default async function Footer() {
 
         {/* Col 5: Presence */}
         <div className="footer-col">
-          <h4 className="footer-col-title">Our Presence - States</h4>
+          <h4 className="footer-col-title">{footerSettings?.presenceHeading || 'Our Presence - States'}</h4>
           <div className="presence-states">
-            {[
-              'Madhya Pradesh',
-              'Andhra Pradesh',
-              'Kerala',
-              'Telangana',
-              'Maharashtra',
-              'Tamil Nadu',
-              'Karnataka',
-              'Uttar Pradesh',
-              'Delhi NCR',
-              'West Bengal',
-              'Haryana',
-              'Rajasthan',
-              'Odisha',
-              'Punjab',
-              'Uttarakhand',
-              'Gujarat',
-              'Chhattisgarh',
-              'Assam',
-            ].map((state, index, arr) => (
-              <React.Fragment key={state}>
-                <Link href="/#branches" className="presence-state-link">
-                  {state}
-                </Link>
-                {index < arr.length - 1 && ', '}
-              </React.Fragment>
-            ))}
+            {presenceStatesList.map((stateItem, index, arr) => {
+              const resolvedUrl = stateItem.page?.slug ? `/${stateItem.page.slug}` : (stateItem.url || '/#branches');
+              return (
+                <React.Fragment key={stateItem.id || stateItem.label || index}>
+                  <Link href={resolvedUrl} className="presence-state-link">
+                    {stateItem.label}
+                  </Link>
+                  {index < arr.length - 1 && ', '}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       </div>
