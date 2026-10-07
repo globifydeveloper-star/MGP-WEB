@@ -17,6 +17,9 @@ export default function CareerPage({ data }: CareerPageProps) {
     name: string;
     email: string;
     phone: string;
+    currentCity: string;
+    experienceYears: string;
+    noticePeriod: string;
     position: string;
     message: string;
     resumeName: string;
@@ -25,6 +28,9 @@ export default function CareerPage({ data }: CareerPageProps) {
     name: '',
     email: '',
     phone: '',
+    currentCity: '',
+    experienceYears: '',
+    noticePeriod: '',
     position: '',
     message: '',
     resumeName: '',
@@ -62,7 +68,7 @@ export default function CareerPage({ data }: CareerPageProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.position) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.position || !formData.currentCity || !formData.experienceYears || !formData.noticePeriod) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -89,10 +95,11 @@ export default function CareerPage({ data }: CareerPageProps) {
         fd.append('fullName', formData.name);
         fd.append('email', formData.email);
         fd.append('phone', formData.phone);
+        fd.append('currentCity', formData.currentCity);
+        fd.append('experienceYears', formData.experienceYears);
+        fd.append('noticePeriod', formData.noticePeriod);
         fd.append('coverNote', formData.message);
         fd.append('jobPosition', formData.position);
-        fd.append('experienceYears', '');
-        fd.append('currentCity', '');
         if (formData.resumeFile) fd.append('resumeFile', formData.resumeFile);
         return submitJobAction(fd);
       })();
@@ -105,6 +112,9 @@ export default function CareerPage({ data }: CareerPageProps) {
           name: '',
           email: '',
           phone: '',
+          currentCity: '',
+          experienceYears: '',
+          noticePeriod: '',
           position: '',
           message: '',
           resumeName: '',

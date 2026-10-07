@@ -10,6 +10,9 @@ interface ApplyFormProps {
     name: string;
     email: string;
     phone: string;
+    currentCity: string;
+    experienceYears: string;
+    noticePeriod: string;
     position: string;
     message: string;
     resumeName: string;
@@ -109,6 +112,67 @@ export default function ApplyForm({
               </div>
 
               <div className="career-form-group">
+                <label htmlFor="currentCity" className="career-form-label">
+                  Current City <span className="career-form-required">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="currentCity" 
+                  name="currentCity" 
+                  required 
+                  value={formData.currentCity}
+                  onChange={onChangeInput}
+                  placeholder="e.g. Bengaluru, Mumbai, Delhi"
+                  className="career-form-input" 
+                />
+              </div>
+
+              <div className="career-form-group">
+                <label htmlFor="experienceYears" className="career-form-label">
+                  Total Experience <span className="career-form-required">*</span>
+                </label>
+                <select 
+                  id="experienceYears" 
+                  name="experienceYears" 
+                  required 
+                  value={formData.experienceYears}
+                  onChange={onChangeInput}
+                  className="career-form-select"
+                >
+                  <option value="" disabled>Select experience</option>
+                  <option value="Fresher (< 1 Year)">Fresher (&lt; 1 Year)</option>
+                  <option value="1 - 2 Years">1 - 2 Years</option>
+                  <option value="2 - 4 Years">2 - 4 Years</option>
+                  <option value="4 - 7 Years">4 - 7 Years</option>
+                  <option value="7 - 10 Years">7 - 10 Years</option>
+                  <option value="10+ Years">10+ Years</option>
+                </select>
+              </div>
+
+              <div className="career-form-group">
+                <label htmlFor="noticePeriod" className="career-form-label">
+                  Notice Period <span className="career-form-required">*</span>
+                </label>
+                <select 
+                  id="noticePeriod" 
+                  name="noticePeriod" 
+                  required 
+                  value={formData.noticePeriod}
+                  onChange={onChangeInput}
+                  className="career-form-select"
+                >
+                  <option value="" disabled>Select notice period</option>
+                  <option value="Immediate Joiner">Immediate Joiner</option>
+                  <option value="15 Days">15 Days</option>
+                  <option value="30 Days">30 Days</option>
+                  <option value="45 Days">45 Days</option>
+                  <option value="60 Days">60 Days</option>
+                  <option value="90 Days">90 Days</option>
+                  <option value="Serving Notice Period">Serving Notice Period</option>
+                </select>
+              </div>
+
+              <div className="career-form-group career-form-group-full">
                 <label htmlFor="position" className="career-form-label">
                   Desired Position <span className="career-form-required">*</span>
                 </label>
@@ -144,7 +208,7 @@ export default function ApplyForm({
               </div>
 
               <div className="career-form-group career-form-group-full">
-                <label className="career-form-label">Upload Resume (PDF, DOCX)</label>
+                <label className="career-form-label">Upload Resume (PDF, DOCX) <span className="career-form-required">*</span></label>
                 <div className="career-form-file-wrap">
                   <input 
                     type="file" 

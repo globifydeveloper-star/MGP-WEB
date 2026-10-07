@@ -9,9 +9,10 @@ export async function submitJobAction(formData: FormData) {
   const jobPosition = formData.get('jobPosition') as string;
   const experienceYears = (formData.get('experienceYears') as string) || '';
   const currentCity = (formData.get('currentCity') as string) || '';
+  const noticePeriod = (formData.get('noticePeriod') as string) || '';
   const resumeFile = formData.get('resumeFile') as File | null;
 
   return await submitToStrapi({
-    fullName, email, phone, coverNote, jobPosition, experienceYears, currentCity, resumeFile
+    fullName, email, phone, coverNote, jobPosition, experienceYears, currentCity, noticePeriod, resumeFile
   });
 }

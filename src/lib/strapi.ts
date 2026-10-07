@@ -314,6 +314,7 @@ export async function submitJobApplication(payload: {
   phone: string;
   experienceYears?: string;
   currentCity?: string;
+  noticePeriod?: string;
   coverNote?: string;
   jobPosition?: string;
   resumeFile?: File | null;
@@ -330,6 +331,7 @@ export async function submitJobApplication(payload: {
         phone: payload.phone,
         experienceYears: payload.experienceYears,
         currentCity: payload.currentCity,
+        noticePeriod: payload.noticePeriod,
         coverNote: payload.coverNote,
         jobPosition: payload.jobPosition,
       };
