@@ -66,7 +66,19 @@ const LocateIcon = () => (
   </svg>
 );
 
-function BranchLocatorInner() {
+export interface BranchLocatorProps {
+  heading?: string;
+  highlight?: string;
+  subtitle?: string;
+  branchesCount?: string;
+}
+
+function BranchLocatorInner({
+  heading,
+  highlight,
+  subtitle,
+  branchesCount,
+}: BranchLocatorProps) {
   const searchParams = useSearchParams();
   const sectionRef = useRef<HTMLElement>(null);
   const [query, setQuery] = useState('');
@@ -194,10 +206,20 @@ function BranchLocatorInner() {
       <div className="container">
         <div className="branch-locator-header">
           <h2 className="branch-locator-title">
-            {allBranches.length}+ branches. <span className="branch-locator-title-highlight">One standard.</span>
+            {heading ? (
+              <>
+                {heading}{' '}
+                {highlight && <span className="branch-locator-title-highlight">{highlight}</span>}
+              </>
+            ) : (
+              <>
+                {branchesCount ? `${branchesCount} ` : '122+ '}
+                branches. <span className="branch-locator-title-highlight">{highlight || 'One standard.'}</span>
+              </>
+            )}
           </h2>
           <p className="branch-locator-subtitle">
-            Every GoldPoint branch runs the same process, uses the same equipment, and upholds the same promise. Choose the nearest — the experience is always identical.
+            {subtitle || 'Every GoldPoint branch runs the same process, uses the same equipment, and upholds the same promise. Choose the nearest — the experience is always identical.'}
           </p>
         </div>
 
@@ -465,10 +487,10 @@ function BranchLocatorInner() {
   );
 }
 
-export default function BranchLocator() {
+export default function BranchLocator(props: BranchLocatorProps) {
   return (
     <Suspense fallback={null}>
-      <BranchLocatorInner />
+      <BranchLocatorInner {...props} />
     </Suspense>
   );
 }

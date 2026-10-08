@@ -2,7 +2,8 @@
 .footer-root {
   background: #111A41;
   color: #ffffff;
-  padding-top: 2rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2rem;
   position: relative;
   z-index: 2;
   font-family: var(--font-sans, sans-serif);
@@ -10,8 +11,8 @@
 
 .footer-top-container {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr;
-  gap: 1.5rem;
+  grid-template-columns: 1.6fr 1.1fr 1.5fr 1.4fr;
+  gap: 2rem;
   padding-bottom: 1.5rem;
   align-items: start;
 }
@@ -22,8 +23,9 @@
 }
 
 .brand-col {
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
+  padding-right: 1.5rem;
 }
 
 .footer-logo {
@@ -31,8 +33,8 @@
   height: auto;
   margin-bottom: 1rem;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .footer-desc {
@@ -40,7 +42,7 @@
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.65);
   margin-bottom: 1rem;
-  text-align: center;
+  text-align: left;
 }
 
 .footer-col-title {
@@ -52,10 +54,21 @@
   position: relative;
 }
 
-.footer-col-title-hidden {
-  opacity: 0;
-  visibility: hidden;
-  user-select: none;
+.quick-links-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.quick-links-title {
+  text-align: center;
+  width: 100%;
+}
+
+.quick-links-subgrid {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  gap: 1.75rem;
 }
 
 .reach-item {
@@ -102,7 +115,22 @@
   transition: opacity 0.2s ease;
 }
 
-.footer-link:hover {
+.footer-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  text-align: left;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+}
+
+.footer-link:hover,
+.footer-link-btn:hover {
   opacity: 0.7;
 }
 
@@ -327,7 +355,16 @@
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .footer-top-container {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .quick-links-title {
+    text-align: left;
+  }
+
+  .quick-links-subgrid {
+    justify-content: start;
   }
   
   .footer-bottom-container {
@@ -336,18 +373,42 @@
 }
 
 @media (max-width: 768px) {
+  .footer-root {
+    padding-bottom: 6.5rem; /* Ensures the fixed Branch Locator tab/bar never overlaps the bottom footer content */
+  }
+
   .footer-top-container {
     grid-template-columns: 1fr;
     text-align: center;
     gap: 2.5rem;
   }
 
+  .brand-col {
+    align-items: center;
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .footer-logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-desc {
+    text-align: center;
+  }
+
   .reach-item {
     justify-content: center;
   }
 
-  .footer-col-title-hidden {
-    display: none;
+  .quick-links-title {
+    text-align: center;
+  }
+
+  .quick-links-subgrid {
+    justify-content: center;
+    gap: 2.5rem;
   }
   
   .middle-bar-container {
@@ -358,7 +419,8 @@
   .footer-bottom-container {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2.5rem;
+    gap: 2rem;
+    padding-bottom: 1.5rem;
   }
 
   .office-flex {

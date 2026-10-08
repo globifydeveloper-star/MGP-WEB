@@ -152,9 +152,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     const purityErr = validateRequired(formData.purity, 'Purity');
     if (purityErr) newErrors.purity = purityErr;
 
-    const weightErr = validateRequired(formData.weight, 'Weight');
-    if (weightErr) newErrors.weight = weightErr;
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -383,7 +380,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 step="0.01"
                 name="weight"
                 placeholder="Approx Weight in Grams (e.g., 15.5)"
-                required
                 className="sg-input"
                 value={formData.weight}
                 onChange={handleChange}
@@ -393,7 +389,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   }
                 }}
               />
-              <span className="sg-input-helper">Enter approx weight in grams (e.g., 15.5g)</span>
+              <span className="sg-input-helper">Enter approx weight in grams (optional)</span>
               {errors.weight && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.weight}</span>}
             </div>
 
@@ -435,7 +431,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 !formData.city ||
                 !formData.branchCode ||
                 !formData.purity ||
-                !formData.weight ||
                 !formData.consent
               }
             >

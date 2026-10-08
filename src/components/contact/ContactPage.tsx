@@ -604,7 +604,7 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
         <HeroStats globalStats={globalStats} />
 
         {/* BRANCH LOCATOR SECTION */}
-        <BranchLocator />
+        <BranchLocator branchesCount={globalStats?.branchesValue} />
       </main>
 
 

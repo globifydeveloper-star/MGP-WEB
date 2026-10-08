@@ -464,6 +464,9 @@ export interface HomepageData {
   trustBadgePrefix?: string;
   trustBadgeHighlight?: string;
   trustBadgeSuffix?: string;
+  locatorHeading?: string;
+  locatorHighlight?: string;
+  locatorSubtitle?: string;
 }
 
 export interface HeroSlide {
@@ -571,6 +574,9 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
     trustBadgePrefix: flat.trustBadgePrefix,
     trustBadgeHighlight: flat.trustBadgeHighlight,
     trustBadgeSuffix: flat.trustBadgeSuffix,
+    locatorHeading: flat.locatorHeading,
+    locatorHighlight: flat.locatorHighlight,
+    locatorSubtitle: flat.locatorSubtitle,
     homeVideos: Array.isArray(flat.homeVideos)
       ? flat.homeVideos.map((item: StrapiAny) => ({
         id: item.id,

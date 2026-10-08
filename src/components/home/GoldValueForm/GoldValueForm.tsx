@@ -74,7 +74,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.weight || !otp) {
+    if (!formData.name || !formData.phone || !otp) {
       alert('Please fill in all required fields including OTP.');
       return;
     }
@@ -89,7 +89,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
       sourceForm: 'Gold Value Form',
       formType: 'gold-value-precheck',
       consent: isAuthorized,
-      message: `Weight: ${formData.weight}g`
+      message: formData.weight ? `Weight: ${formData.weight}g` : ''
     });
 
     if (success) {
@@ -238,7 +238,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
               </div>
 
               <div className="gvf-field">
-                <label htmlFor="gvf-weight" className="gvf-label">Approx Weight In Grams<span className="gvf-required">*</span></label>
+                <label htmlFor="gvf-weight" className="gvf-label">Approx Weight In Grams</label>
                 <input
                   id="gvf-weight"
                   name="weight"

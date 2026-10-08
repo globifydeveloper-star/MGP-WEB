@@ -96,13 +96,13 @@ export default function WhyRatesChange({ sectionImage }: { sectionImage?: string
           translateX: [-20, 0],
           duration: 900,
         })
-        .add(Array.from(cards), {
-          opacity: [0, 1],
-          translateY: [50, 0],
-          translateX: [-30, 0],
-          duration: 1000,
-          delay: stagger(150),
-        }, '-=500');
+          .add(Array.from(cards), {
+            opacity: [0, 1],
+            translateY: [50, 0],
+            translateX: [-30, 0],
+            duration: 1000,
+            delay: stagger(150),
+          }, '-=500');
 
         if (imageWrap) {
           tl.add(imageWrap, {

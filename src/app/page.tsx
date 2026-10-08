@@ -129,7 +129,12 @@ export default async function Home() {
       <Feedback reviews={testimonials} />
 
       {/* 10. Branch Locator */}
-      <BranchLocator />
+      <BranchLocator
+        heading={homepageData?.locatorHeading}
+        highlight={homepageData?.locatorHighlight}
+        subtitle={homepageData?.locatorSubtitle}
+        branchesCount={globalStats?.branchesValue}
+      />
 
       {/* Mobile Van Banner */}
       <MobileVan

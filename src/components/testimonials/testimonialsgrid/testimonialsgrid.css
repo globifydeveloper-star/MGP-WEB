@@ -202,6 +202,10 @@
     font-size: 1.8rem;
   }
 
+  .testimonials-grid-pretitle {
+    font-size: 1.3rem;
+  }
+
   .testimonials-grid {
     grid-template-columns: 1fr;
   }
@@ -213,6 +217,9 @@
   }
   .testimonials-grid-title {
     font-size: 1.6rem;
+  }
+  .testimonials-grid-pretitle {
+    font-size: 1.15rem;
   }
   .testimonials-card {
     padding: 1.5rem 1.25rem;
