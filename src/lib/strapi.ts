@@ -334,6 +334,26 @@ export async function submitJobApplication(payload: {
     const baseHeaders = getSubmissionHeaders();
 
     if (payload.resumeFile) {
+      const ALLOWED_EXTENSIONS = ['pdf', 'docx', 'doc'];
+      const ALLOWED_MIME_TYPES = [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/msword',
+      ];
+      const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
+
+      const fileName = payload.resumeFile.name || '';
+      const lastDotIndex = fileName.lastIndexOf('.');
+      const extension = lastDotIndex >= 0 ? fileName.slice(lastDotIndex + 1).toLowerCase() : '';
+
+      const extensionOk = ALLOWED_EXTENSIONS.includes(extension);
+      const mimeOk = ALLOWED_MIME_TYPES.includes(payload.resumeFile.type);
+      const sizeOk = payload.resumeFile.size > 0 && payload.resumeFile.size <= MAX_SIZE_BYTES;
+
+      if (!extensionOk || !mimeOk || !sizeOk) {
+        return { success: false, error: 'Please upload a PDF, DOC, or DOCX file under 5 MB.' };
+      }
+
       const formData = new FormData();
       const data = {
         fullName: payload.fullName,
