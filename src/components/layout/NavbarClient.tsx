@@ -60,6 +60,16 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
   // Lock background scroll completely on mobile & desktop when hamburger menu is open
   useBodyScrollLock(menuOpen);
 
+  // Clicking Home while already on "/" won't trigger Next.js navigation (same route),
+  // so scroll to top manually in that case.
+  const handleNavClick = (resolvedUrl: string) => (e: React.MouseEvent) => {
+    if (resolvedUrl === '/' && pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setMenuOpen(false);
+  };
+
 
 
   return (
@@ -79,7 +89,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
         </button>
 
         {/* Logo */}
-        <Link href="/" className="navbar-logo-link" onClick={() => setMenuOpen(false)}>
+        <Link href="/" className="navbar-logo-link" onClick={handleNavClick('/')}>
           <Image
             src={logoImg}
             alt="GOLDPOINT - We Buy Gold"
@@ -99,7 +109,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
             return link.isExternal ? (
               <a key={label + i} href={resolvedUrl} target="_blank" rel="noopener noreferrer">{label}</a>
             ) : (
-              <Link key={label + i} href={resolvedUrl} className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}>{label}</Link>
+              <Link key={label + i} href={resolvedUrl} onClick={handleNavClick(resolvedUrl)} className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}>{label}</Link>
             )
           })}
 
@@ -160,7 +170,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
                 key={label + i}
                 href={resolvedUrl}
                 className={resolvedUrl !== '#' && pathname === resolvedUrl ? 'active' : ''}
-                onClick={() => setMenuOpen(false)}
+                onClick={handleNavClick(resolvedUrl)}
               >
                 {label}
               </Link>

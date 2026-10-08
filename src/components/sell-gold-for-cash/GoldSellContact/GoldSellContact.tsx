@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import './GoldSellContact.css';
-import handHoldingGoldImg from '@/assets/images/gold_rate_component_photos/05-cta-hand-holding-gold.png';
+import contactBgImg from '../../../../public/images/sell-gold-for-cash/get-in-touch-form-bg.jpg';
 
 export default function GoldSellContact() {
   const [formData, setFormData] = useState({
@@ -126,8 +126,8 @@ export default function GoldSellContact() {
     <section className="grct-section" id="sell-gold-contact">
       <div className="grct-bg">
         <Image
-          src={handHoldingGoldImg}
-          alt="Hand holding gold jewellery"
+          src={contactBgImg}
+          alt="Gold jewellery"
           className="grct-bg-img"
           fill
           sizes="100vw"

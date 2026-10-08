@@ -86,15 +86,6 @@
   justify-content: center;
 }
 
-.gso-circle-ring {
-  position: absolute;
-  width: calc(100% + 40px);
-  height: calc(100% + 40px);
-  border: 1.5px dashed var(--border-gold);
-  border-radius: 50%;
-  z-index: 1;
-}
-
 .gso-circle {
   position: relative;
   z-index: 2;

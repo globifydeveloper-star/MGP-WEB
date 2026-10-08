@@ -8,7 +8,7 @@ import { validateName, validateEmail, validatePhone, validateRequired, validateO
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 
 import './SellGoldHero.css';
-import coupleImg from '@/assets/images/sellgoldimg.png';
+import coupleImg from '../../../../public/images/sell-gold-for-cash/sell-gold-hero-model.png';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import bannerLogo from '@/assets/images/banner-logo.png';

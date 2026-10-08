@@ -149,7 +149,17 @@ export const getBlogPosts = cache(async function getBlogPosts(): Promise<BlogPos
 export const getCategories = cache(async function getCategories(): Promise<Category[]> {
   const data = await fetchStrapi<StrapiAny[]>('/api/categories', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCategories');
   const arr = Array.isArray(data) ? data : [];
-  return arr.map((entry: unknown) => unwrap<Category>(entry));
+  const categories = arr.map((entry: unknown) => unwrap<Category>(entry));
+
+  // Strapi can return the same category more than once (e.g. duplicate slugs
+  // created from the admin UI); de-dupe so the filter pills don't repeat.
+  const seen = new Set<string>();
+  return categories.filter((category) => {
+    const key = (category.slug || category.name || '').trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 });
 
 export const getBlogPostBySlug = cache(async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {

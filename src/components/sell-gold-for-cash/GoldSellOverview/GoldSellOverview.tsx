@@ -30,13 +30,13 @@ export default function GoldSellOverview({ overviewImage1, overviewImage2 }: { o
             We give you an unparalleled experience of selling your old Gold for instant cash. Our 11 state of the art branches across India and mobile van (presently only in Mumbai) are equipped with the latest ultrasonic and XRF machines to clean your Gold for free and check its accurate weight &amp; purity. Not just the process is transparent, rates at which we buy your Gold are as per the market rates.
           </p>
 
-          <a href="https://branches.muthootgoldpoint.com/" target="_blank" rel="noopener noreferrer" className="btn btn-primary gso-cta">
+          <Link href="/#branches" className="btn btn-primary gso-cta">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
               <circle cx="12" cy="10" r="3" />
             </svg>
             Visit Your Nearest Branch Today
-          </a>
+          </Link>
         </div>
 
         <div className="gso-visual">
@@ -88,8 +88,6 @@ export default function GoldSellOverview({ overviewImage1, overviewImage2 }: { o
               <p>100%<br />Transparent<br />Process</p>
             </div>
           </div>
-
-          <div className="gso-circle-ring" aria-hidden="true" />
         </div>
       </div>
     </section>

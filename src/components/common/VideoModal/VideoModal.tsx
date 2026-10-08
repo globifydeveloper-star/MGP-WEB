@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import './VideoModal.css';
 
@@ -22,8 +22,6 @@ export const VIDEO_LANGUAGES: LanguageOption[] = [
   { code: 'bn', label: 'বাংলা', poster: '/components/video_thumb.png', video: null },
 ];
 
-const VISIBLE_COUNT = 4;
-
 interface VideoModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -32,12 +30,9 @@ interface VideoModalProps {
 
 export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Point — How It Works' }: VideoModalProps) {
   const [activeCode, setActiveCode] = useState(VIDEO_LANGUAGES[0].code);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const visibleLanguages = VIDEO_LANGUAGES.slice(0, VISIBLE_COUNT);
-  const moreLanguages = VIDEO_LANGUAGES.slice(VISIBLE_COUNT);
   const activeLanguage = VIDEO_LANGUAGES.find((l) => l.code === activeCode) ?? VIDEO_LANGUAGES[0];
 
   // Pause video & reset playback state when language or isOpen changes
@@ -72,7 +67,6 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
 
   const selectLanguage = (code: string) => {
     setActiveCode(code);
-    setDropdownOpen(false);
     setIsPlaying(false);
   };
 
@@ -158,7 +152,7 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
           <div className="vm-lang-bar">
             <span className="vm-lang-label">Language:</span>
             <div className="vm-lang-buttons">
-              {visibleLanguages.map((lang) => (
+              {VIDEO_LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
                   type="button"
@@ -168,38 +162,6 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
                   {lang.label}
                 </button>
               ))}
-
-              <span className="vm-lang-divider" />
-
-              <div className="vm-lang-more-wrap">
-                <button
-                  type="button"
-                  className="vm-lang-more-btn"
-                  aria-label="More languages"
-                  aria-expanded={dropdownOpen}
-                  onClick={() => setDropdownOpen((prev) => !prev)}
-                >
-                  <span>More</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-
-                {dropdownOpen && (
-                  <div className="vm-lang-dropdown">
-                    {moreLanguages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        type="button"
-                        className={`vm-lang-dropdown-item ${activeCode === lang.code ? 'vm-lang-active' : ''}`}
-                        onClick={() => selectLanguage(lang.code)}
-                      >
-                        {lang.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>
