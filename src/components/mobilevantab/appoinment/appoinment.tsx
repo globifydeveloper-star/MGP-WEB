@@ -5,6 +5,7 @@ import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { MobileVanPageData } from '@/lib/strapi';
+import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './appoinment.css';
 
 const DEFAULT_VAN_IMAGE = '/images/home/mobile-van-hero.png';
@@ -392,7 +393,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                     onChange={handleChange}
                   />
                   <span>
-                    I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                    <ConsentText />
                   </span>
                 </label>
                 {errors.consent && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block', marginBottom: '1rem'}}>{errors.consent}</span>}

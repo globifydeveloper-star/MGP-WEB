@@ -27,23 +27,28 @@ const PATTERN_TILES = [
 
 interface HeroProps {
   slide?: any;
-  imageSrc?: string;
+  imageSrc?: string | any;
   mediaType?: 'image' | 'video';
   layout?: 'full' | 'half';
+  isFirstSlide?: boolean;
   trustBadgePrefix?: string;
   trustBadgeHighlight?: string;
   trustBadgeSuffix?: string;
 }
 
-export default function Hero({ slide, imageSrc, mediaType, layout = 'full', trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroProps) {
-  // Below the design width/height, uniformly scale the pixel-pinned canvas down so
-  // it still fits the viewport instead of overflowing/clipping (e.g. the
-  // gold rate card running off-screen or vertically below the page).
-
-
+export default function Hero({
+  slide,
+  imageSrc,
+  mediaType,
+  layout = 'full',
+  isFirstSlide = true,
+  trustBadgePrefix,
+  trustBadgeHighlight,
+  trustBadgeSuffix,
+}: HeroProps) {
   return (
     <section
-      className={`hero-section-root-v2 ${layout === 'half' ? 'hero-layout-half' : ''}`}
+      className={`hero-section-root-v2 ${isFirstSlide ? 'hero-slide-with-curve' : 'hero-slide-standalone'} ${layout === 'half' ? 'hero-layout-half' : ''}`}
       style={layout === 'half' ? { maxWidth: '1000px', margin: '0 auto' } : undefined}
     >
       {/* Floating Gold Coin decoration - Pinned to viewport left edge */}
@@ -55,20 +60,22 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full', trus
         priority
       />
 
-
-
       {/* Mobile-only Model Photo (rendered on top on mobile/tablet) */}
       <div className="hero-mobile-top-model-wrapper">
         <div className="hero-mobile-top-visual-container">
-          <div className="hero-mobile-bg-pattern" aria-hidden="true" />
-          <div className="hero-mobile-golden-aura" aria-hidden="true" />
-          <Image
-            src={groupHeroImg}
-            alt="Muthoot Goldpoint Arc Features"
-            className="hmv-curve-img"
-            priority
-          />
-          <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} />
+          {isFirstSlide && (
+            <>
+              <div className="hero-mobile-bg-pattern" aria-hidden="true" />
+              <div className="hero-mobile-golden-aura" aria-hidden="true" />
+              <Image
+                src={groupHeroImg}
+                alt="Muthoot Goldpoint Arc Features"
+                className="hmv-curve-img"
+                priority
+              />
+            </>
+          )}
+          <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} isFirstSlide={isFirstSlide} />
         </div>
       </div>
 
@@ -77,6 +84,7 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full', trus
         {/* Left Column (Branding & Copy) */}
         <HeroLeftColumn
           heroText={slide?.heroText}
+          heroSubtext={slide?.heroSubtext}
           button1={slide?.button1}
           button2={slide?.button2}
           trustBadgePrefix={trustBadgePrefix}
@@ -102,22 +110,26 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full', trus
       */}
       <div className="hero-scaled-host hero-figma-canvas-host">
         <div className="hero-figma-canvas">
-          {PATTERN_TILES.map((tile, i) => (
-            <div
-              key={i}
-              className="hero-pattern-tile"
-              style={{ left: tile.left, top: tile.top, transform: `rotate(${tile.rotate}deg)` }}
-              aria-hidden="true"
-            />
-          ))}
+          {isFirstSlide && (
+            <>
+              {PATTERN_TILES.map((tile, i) => (
+                <div
+                  key={i}
+                  className="hero-pattern-tile"
+                  style={{ left: tile.left, top: tile.top, transform: `rotate(${tile.rotate}deg)` }}
+                  aria-hidden="true"
+                />
+              ))}
 
-          <div className="hero-model-bg-pattern" aria-hidden="true" />
-          <div className="hero-model-golden-aura" aria-hidden="true" />
-          <div className="hero-model-bg-glow" aria-hidden="true" />
+              <div className="hero-model-bg-pattern" aria-hidden="true" />
+              <div className="hero-model-golden-aura" aria-hidden="true" />
+              <div className="hero-model-bg-glow" aria-hidden="true" />
+            </>
+          )}
 
-          <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} />
+          <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} isFirstSlide={isFirstSlide} />
           {SHOW_GOLD_RATE_CARD && <HeroGoldRateCard />}
-          <HeroCurve />
+          {isFirstSlide && <HeroCurve />}
 
         </div>
       </div>
@@ -127,22 +139,24 @@ export default function Hero({ slide, imageSrc, mediaType, layout = 'full', trus
         this star's z-index can actually outrank the navbar - see the
         .hero-curve-star-wrapper comment in hero.css for why.
       */}
-      <div className="hero-scaled-host hero-curve-star-host">
-        <div className="hero-curve-star-inner">
-          <div className="hero-curve-star-wrapper">
-            <Image
-              src={starImg}
-              alt=""
-              aria-hidden="true"
-              className="hero-sparkle-flare"
-              style={{ left: CURVE_STAR.left, top: CURVE_STAR.top, width: CURVE_STAR.width, height: CURVE_STAR.height }}
-              width={51}
-              height={53}
-            />
+      {isFirstSlide && (
+        <div className="hero-scaled-host hero-curve-star-host">
+          <div className="hero-curve-star-inner">
+            <div className="hero-curve-star-wrapper">
+              <Image
+                src={starImg}
+                alt=""
+                aria-hidden="true"
+                className="hero-sparkle-flare"
+                style={{ left: CURVE_STAR.left, top: CURVE_STAR.top, width: CURVE_STAR.width, height: CURVE_STAR.height }}
+                width={51}
+                height={53}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-    </section >
+    </section>
   );
 }

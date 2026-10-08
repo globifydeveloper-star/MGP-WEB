@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
+import ConsentText from '@/components/common/ConsentText/ConsentText';
 
 import './SellGoldHero.css';
 import coupleImg from '../../../../public/images/sell-gold-for-cash/sell-gold-hero-model.png';
@@ -422,7 +423,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
                       className="sg-consent-checkbox"
                     />
                     <span className="sg-consent-text">
-                      I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                      <ConsentText />
                     </span>
                   </label>
                   {errors.consent && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.consent}</span>}

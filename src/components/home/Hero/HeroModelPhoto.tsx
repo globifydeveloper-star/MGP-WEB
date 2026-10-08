@@ -5,18 +5,19 @@ import Image from 'next/image';
 import defaultHeroModel from '@/assets/images/hero-model.png';
 
 interface HeroModelPhotoProps {
-  imageSrc?: string;
+  imageSrc?: string | any;
   mediaType?: 'image' | 'video';
+  isFirstSlide?: boolean;
 }
 
-export default function HeroModelPhoto({ imageSrc, mediaType }: HeroModelPhotoProps) {
+export default function HeroModelPhoto({ imageSrc, mediaType, isFirstSlide = true }: HeroModelPhotoProps) {
   const [hasError, setHasError] = useState(false);
   const isVideo = mediaType === 'video' && Boolean(imageSrc);
 
   const finalSrc = !hasError && imageSrc ? imageSrc : defaultHeroModel;
 
   return (
-    <div className="hero-model-photo-wrapper">
+    <div className={`hero-model-photo-wrapper ${!isFirstSlide ? 'hero-model-photo-standalone' : ''}`}>
       {isVideo && imageSrc ? (
         <video
           src={imageSrc}

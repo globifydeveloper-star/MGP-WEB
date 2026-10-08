@@ -7,6 +7,7 @@ import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 import { animate } from 'animejs';
 import LocationPopup from './LocationPopup';
+import ConsentText from '@/components/common/ConsentText/ConsentText';
 
 interface GoldValueFormProps {
   sectionImage?: string;
@@ -266,7 +267,7 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   className="gvf-checkbox"
                 />
                 <label htmlFor="gvf-authorize" className="gvf-consent-label">
-                  I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                  <ConsentText />
                 </label>
               </div>
 

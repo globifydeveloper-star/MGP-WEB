@@ -10,35 +10,50 @@ import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 export interface HeroSlideData {
   heroText?: string;
   heroSubtext?: string;
-  heroImage?: string;
+  heroImage?: any;
   button1?: { enabled?: boolean; label?: string; link?: string };
   button2?: { enabled?: boolean; label?: string; link?: string };
 }
 
 interface HeroSlideTwoProps {
   slide?: HeroSlideData;
-  imageSrc?: string;
+  imageSrc?: any;
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
 }
 
-export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
+export default function HeroSlideTwo({
+  slide,
+  imageSrc,
+  trustBadgePrefix = 'Trusted by',
+  trustBadgeHighlight = 'Customers',
+  trustBadgeSuffix = 'Across India',
+}: HeroSlideTwoProps) {
   const [hasError, setHasError] = useState(false);
   const rawText = slide?.heroText?.trim() || "";
   const text = (rawText.toLowerCase().includes('get 100% value') || !rawText)
     ? "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying"
     : rawText;
-  const parts = text.includes('. ')
-    ? text.split('. ')
-    : (text.includes('100%') ? [text.substring(0, text.indexOf('100%')).trim(), text.substring(text.indexOf('100%')).trim()] : [text]);
-  const whiteText = parts[0] ? parts[0] + (parts[1] !== undefined && text.includes('. ') ? '.' : '') : '';
-  const goldText = parts[1] ? parts[1] : '';
+  
+  let whiteText = text;
+  let goldText = "";
 
-  const subcopy = slide?.heroSubtext || "Sell your gold with complete peace of mind. We use advanced XRF machines for purity testing right in front of you, ensuring you get the exact market rate.";
+  if (text.includes('. ')) {
+    const splitIndex = text.indexOf('. ');
+    whiteText = text.substring(0, splitIndex + 1);
+    goldText = text.substring(splitIndex + 2);
+  } else if (text.includes('100%')) {
+    const splitIndex = text.indexOf('100%');
+    whiteText = text.substring(0, splitIndex).trim();
+    goldText = text.substring(splitIndex).trim();
+  }
 
-  const btn1Enabled = slide?.button1 ? slide.button1.enabled : true;
+  const btn1Enabled = slide?.button1?.enabled !== false;
   const btn1Label = slide?.button1?.label || "Locate Nearest Branch";
   const btn1Link = slide?.button1?.link || "#branches";
 
-  const btn2Enabled = slide?.button2 ? slide.button2.enabled : true;
+  const btn2Enabled = slide?.button2 ? slide.button2.enabled !== false : true;
   const btn2Label = slide?.button2?.label || "Check Gold Purity";
   const btn2Link = slide?.button2?.link || "#gold-value-form";
 
@@ -65,7 +80,28 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
 
   return (
     <section className="hero-slide-two-section">
-      {/* Desktop Background (hidden on mobile/tablet) */}
+      {/* Mobile-only Full Advertisement View */}
+      <div className="hero-slide-two-mobile-wrapper">
+        <div className="hero-slide-two-mobile-poster-box">
+          <Image
+            src="/images/12.png"
+            alt="Sell Your Gold Get Cash Instantly - 100% Fair & Precise Gold Buying"
+            fill
+            sizes="(max-width: 768px) 100vw, 480px"
+            className="hero-slide-two-mobile-poster-img"
+            priority
+          />
+          <div className="hero-slide-two-mobile-poster-overlay">
+            {btn1Enabled && (
+              <button className="btn-gold-gradient hero-slide-two-btn" onClick={() => handleCta(btn1Link)}>
+                {btn1Label}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Background / Image presentation */}
       <div className="hero-slide-two-bg" aria-hidden="true">
         <Image
           src={finalImage}
@@ -79,26 +115,20 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
         <div className="hero-slide-two-overlay" />
       </div>
 
-      {/* Mobile-only Visual Header (matching Hero.tsx mobile top visual) */}
-      <div className="hero-slide-two-mobile-top-wrapper">
-        <div className="hero-slide-two-mobile-visual-container">
-          <div className="hero-mobile-bg-pattern" aria-hidden="true" />
-          <div className="hero-mobile-golden-aura" aria-hidden="true" />
-          <div className="hero-slide-two-mobile-img-box">
-            <Image
-              src={finalImage}
-              alt="Muthoot Gold Point"
-              fill
-              className="hero-slide-two-mobile-img"
-              onError={() => setHasError(true)}
-              priority
-            />
-          </div>
-        </div>
-      </div>
-
       <div className="hero-slide-two-container">
         <div className="hero-slide-two-content">
+          {/* Desktop Trust Badge */}
+          <div className="hero-slide-two-badge">
+            <span className="hero-slide-two-badge-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+              </svg>
+            </span>
+            <span className="hero-slide-two-badge-text">
+              {trustBadgePrefix} <span className="hero-slide-two-badge-highlight">{trustBadgeHighlight}</span> {trustBadgeSuffix}
+            </span>
+          </div>
+
           <h2 className="hero-slide-two-title">
             <span className="hero-slide-two-title-white">{whiteText}</span>
             {goldText && <span className="hero-slide-two-title-gold">{goldText}</span>}
@@ -128,7 +158,7 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
               </button>
             )}
             {btn2Enabled && (
-              <button className="btn-white-outline-v2 hero-slide-two-btn" onClick={() => handleCta(btn2Link)}>
+              <button className="hero-slide-two-btn hero-slide-two-btn-secondary" onClick={() => handleCta(btn2Link)}>
                 {btn2Label}
               </button>
             )}
@@ -156,3 +186,6 @@ export default function HeroSlideTwo({ slide, imageSrc }: HeroSlideTwoProps) {
     </section>
   );
 }
+
+
+

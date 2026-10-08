@@ -452,6 +452,70 @@
   }
 }
 
+/* Standalone Slide (Slide 2+) Media Slot Rules */
+.hero-slide-standalone .hero-model-photo-wrapper {
+  position: absolute;
+  left: 950px;
+  top: 110px;
+  width: 580px;
+  height: 780px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.hero-slide-standalone .hero-model-img {
+  object-fit: cover !important;
+  object-position: center center !important;
+  mask-image: radial-gradient(ellipse at center, #000 60%, transparent 95%) !important;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 60%, transparent 95%) !important;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero-slide-standalone .hero-mobile-top-visual-container .hero-model-photo-wrapper {
+    position: absolute !important;
+    inset: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    z-index: 2;
+  }
+
+  .hero-slide-standalone .hero-mobile-top-visual-container .hero-model-img {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%) !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-slide-standalone .hero-mobile-top-visual-container .hero-model-photo-wrapper {
+    position: absolute !important;
+    inset: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    z-index: 2;
+  }
+
+  .hero-slide-standalone .hero-mobile-top-visual-container .hero-model-img {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    mask-image: linear-gradient(to bottom, black 75%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%) !important;
+  }
+}
+
 /* Utilities */
 .self-stretch {
   align-self: stretch;

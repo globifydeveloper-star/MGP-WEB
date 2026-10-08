@@ -12,9 +12,10 @@ import { AboutUsPageData } from '@/lib/strapi';
 
 interface AboutUsPageProps {
   data: AboutUsPageData;
+  faqs?: any[];
 }
 
-export default function AboutUsPage({ data }: AboutUsPageProps) {
+export default function AboutUsPage({ data, faqs }: AboutUsPageProps) {
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
 
   return (
@@ -29,7 +30,7 @@ export default function AboutUsPage({ data }: AboutUsPageProps) {
         <History data={data} />
         <StandToday data={data} />
         <Philanthropy data={data} />
-        <FAQ />
+        <FAQ faqs={faqs} />
       </main>
 
       <SellGoldModal

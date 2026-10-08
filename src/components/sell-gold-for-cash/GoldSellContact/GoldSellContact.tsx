@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
+import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './GoldSellContact.css';
 import contactBgImg from '../../../../public/images/sell-gold-for-cash/get-in-touch-form-bg.jpg';
 
@@ -322,7 +323,7 @@ export default function GoldSellContact() {
                   onChange={handleChange}
                 />
                 <span>
-                  I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                  <ConsentText />
                 </span>
               </label>
 

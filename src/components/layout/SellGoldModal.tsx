@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
+import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './SellGoldModal.css';
 
 interface SellGoldModalProps {
@@ -226,7 +227,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 value={formData.name}
                 onChange={handleChange}
               />
-              {errors.name && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.name}</span>}
+              {errors.name && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.name}</span>}
             </div>
 
             {/* Email */}
@@ -240,7 +241,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 value={formData.email}
                 onChange={handleChange}
               />
-              {errors.email && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.email}</span>}
+              {errors.email && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.email}</span>}
             </div>
 
             {/* Phone with GET OTP */}
@@ -273,7 +274,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 {otpState === 'sending' ? '...' : otpCountdown > 0 ? `Resend (${otpCountdown}s)` : 'GET OTP'}
               </button>
             </div>
-            {errors.phone && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '-0.5rem', marginBottom: '0.5rem', display: 'block'}}>{errors.phone}</span>}
+            {errors.phone && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '-0.5rem', marginBottom: '0.5rem', display: 'block' }}>{errors.phone}</span>}
 
             {/* OTP */}
             <div className="sg-form-group">
@@ -290,7 +291,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   if (errors.otp) setErrors(prev => ({ ...prev, otp: '' }));
                 }}
               />
-              {errors.otp && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.otp}</span>}
+              {errors.otp && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.otp}</span>}
             </div>
 
             {/* State and City (side by side) */}
@@ -309,7 +310,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   ))}
                 </select>
                 <span className="sg-select-chevron"></span>
-                {errors.state && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.state}</span>}
+                {errors.state && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.state}</span>}
               </div>
 
               <div className="sg-select-wrapper">
@@ -327,7 +328,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   ))}
                 </select>
                 <span className="sg-select-chevron"></span>
-                {errors.city && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.city}</span>}
+                {errors.city && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.city}</span>}
               </div>
             </div>
 
@@ -348,12 +349,12 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   ))}
                 </select>
                 <span className="sg-select-chevron"></span>
-                {errors.branchCode && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.branchCode}</span>}
+                {errors.branchCode && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.branchCode}</span>}
               </div>
             </div>
 
             {/* Gold Purity */}
-            <div className="sg-form-group">
+            {/* <div className="sg-form-group">
               <div className="sg-select-wrapper">
                 <select
                   name="purity"
@@ -368,9 +369,9 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   ))}
                 </select>
                 <span className="sg-select-chevron"></span>
-                {errors.purity && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.purity}</span>}
+                {errors.purity && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.purity}</span>}
               </div>
-            </div>
+            </div> */}
 
             {/* Gold Weight */}
             <div className="sg-form-group">
@@ -390,7 +391,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 }}
               />
               <span className="sg-input-helper">Enter approx weight in grams (optional)</span>
-              {errors.weight && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.weight}</span>}
+              {errors.weight && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.weight}</span>}
             </div>
 
             {otpErrorMessage && (
@@ -410,7 +411,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                   style={{ marginTop: '0.2rem' }}
                 />
                 <span>
-                  I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                  <ConsentText />
                 </span>
               </label>
             </div>
@@ -434,7 +435,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 !formData.consent
               }
             >
-              {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> VERIFYING... </>) : ('GET MY OFFER')}
+              {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> VERIFYING... </>) : ('Submit ')}
             </button>
           </form>
         )}

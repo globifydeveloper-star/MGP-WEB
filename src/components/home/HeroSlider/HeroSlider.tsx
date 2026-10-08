@@ -3,13 +3,29 @@
 import { useEffect, useRef, useState } from 'react';
 import Hero from '@/components/home/Hero/Hero';
 import HeroSlideTwo from './HeroSlideTwo';
-import type { HeroSlideData } from './HeroSlideTwo';
 import HeroStats from './HeroStats';
+import goldsImg from '@/assets/images/golds.png';
 import './heroSlider.css';
 
 // Set to true to enable second slide auto-rotation
 const ENABLE_SECOND_SLIDE = true;
 const SLIDE_INTERVAL_MS = 10000; // 10 seconds per slide
+
+const DEFAULT_SLIDES = [
+  {
+    heroText: "Sell Your Gold. Get Cash Today.",
+    heroSubtext: "Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you",
+    button1: { enabled: true, label: "Find Nearest Branch", link: "#branches" },
+    button2: { enabled: true, label: "See how it works", link: "#gold-sell-process" },
+  },
+  {
+    heroText: "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying",
+    heroSubtext: "Sell your gold with complete peace of mind. We use advanced XRF machines for purity testing right in front of you, ensuring you get the exact market rate.",
+    heroImage: goldsImg,
+    button1: { enabled: true, label: "Locate Nearest Branch", link: "#branches" },
+    button2: { enabled: false, label: "See how it works", link: "#gold-sell-process" },
+  },
+];
 
 interface HeroSliderProps {
   slides?: any[];
@@ -26,7 +42,7 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  const slideList: (any | undefined)[] = slides && slides.length > 0 ? slides : [undefined, undefined];
+  const slideList: any[] = slides && slides.length > 0 ? slides : DEFAULT_SLIDES;
   const slideCount = slideList.length;
 
   useEffect(() => {
@@ -56,7 +72,15 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
     const imageSrc = firstSlide?.heroImage || firstSlide?.media?.url;
     return (
       <>
-        <Hero slide={firstSlide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} trustBadgePrefix={trustBadgePrefix} trustBadgeHighlight={trustBadgeHighlight} trustBadgeSuffix={trustBadgeSuffix} />
+        <Hero
+          slide={firstSlide}
+          imageSrc={imageSrc}
+          mediaType={mediaType}
+          layout={layout}
+          trustBadgePrefix={trustBadgePrefix}
+          trustBadgeHighlight={trustBadgeHighlight}
+          trustBadgeSuffix={trustBadgeSuffix}
+        />
         {showStats && <HeroStats globalStats={globalStats} />}
       </>
     );
@@ -76,20 +100,43 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
         {slideList.map((slide, idx) => {
           const isActive = activeSlide === idx;
           const mediaType = slide?.mediaType || (slide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
-          const imageSrc = slide?.heroImage || slide?.media?.url;
+          const imageSrc = slide?.heroImage || slide?.media?.url || (idx === 1 ? goldsImg : undefined);
           return (
             <div key={idx} className={`hero-slider-slide${isActive ? ' is-active' : ''}`} aria-hidden={!isActive}>
               {idx === 0 ? (
-                <Hero slide={slide} imageSrc={imageSrc} mediaType={mediaType} layout={layout} trustBadgePrefix={trustBadgePrefix} trustBadgeHighlight={trustBadgeHighlight} trustBadgeSuffix={trustBadgeSuffix} />
+                <Hero
+                  slide={slide}
+                  imageSrc={imageSrc}
+                  mediaType={mediaType}
+                  layout={layout}
+                  isFirstSlide={true}
+                  trustBadgePrefix={trustBadgePrefix}
+                  trustBadgeHighlight={trustBadgeHighlight}
+                  trustBadgeSuffix={trustBadgeSuffix}
+                />
               ) : (
-                <HeroSlideTwo slide={slide} imageSrc={imageSrc} />
+                <HeroSlideTwo
+                  slide={slide}
+                  imageSrc={imageSrc}
+                  trustBadgePrefix={trustBadgePrefix}
+                  trustBadgeHighlight={trustBadgeHighlight}
+                  trustBadgeSuffix={trustBadgeSuffix}
+                />
               )}
             </div>
           );
         })}
         <div className="hero-slider-dots" role="tablist" aria-label="Choose promotion">
           {slideList.map((_, index) => (
-            <button key={index} type="button" className={`hero-slider-dot${index === activeSlide ? ' is-active' : ''}`} onClick={() => goToSlide(index)} aria-label={`Show slide ${index + 1}`} aria-selected={index === activeSlide} role="tab" />
+            <button
+              key={index}
+              type="button"
+              className={`hero-slider-dot${index === activeSlide ? ' is-active' : ''}`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Show slide ${index + 1}`}
+              aria-selected={index === activeSlide}
+              role="tab"
+            />
           ))}
         </div>
       </div>
@@ -97,3 +144,4 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
     </>
   );
 }
+

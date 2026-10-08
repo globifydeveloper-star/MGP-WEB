@@ -6,6 +6,7 @@ import Image from 'next/image';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
 import HeroStats from '@/components/home/HeroSlider/HeroStats';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
+import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './ContactPage.css';
 import type { ContactUsPageData, GlobalStatsData } from '@/lib/strapi';
 
@@ -575,7 +576,7 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                         style={{ marginTop: '0.2rem' }}
                       />
                       <span>
-                        I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                        <ConsentText />
                       </span>
                     </label>
 

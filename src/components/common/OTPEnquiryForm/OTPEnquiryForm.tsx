@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import type { FormType } from '@/lib/otp';
+import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './OTPEnquiryForm.css';
 
 export default function OTPEnquiryForm({
@@ -294,7 +295,7 @@ export default function OTPEnquiryForm({
                 className="otp-consent-checkbox"
               />
               <span className="otp-consent-text">
-                I authorize Muthoot Exim Pvt. Ltd. and other Muthoot Pappachan Group companies (including their agents/representatives) to contact me via telephone, mobile, SMS, WhatsApp, or email regarding their products, services, and promotions, and to share my details with associated third-party agencies for marketing purposes.
+                <ConsentText />
               </span>
             </label>
           </div>

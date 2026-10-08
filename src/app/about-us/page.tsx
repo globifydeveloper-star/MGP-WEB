@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import AboutUsPage from '@/components/about-us/page';
-import { getAboutUsPage } from '@/lib/strapi';
+import { getAboutUsPage, getFaqs } from '@/lib/strapi';
 import { notFound } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -45,12 +45,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const data = await getAboutUsPage();
+  const [data, faqs] = await Promise.all([
+    getAboutUsPage(),
+    getFaqs('home'),
+  ]);
   if (!data) return notFound();
   return (
     <>
       {!data?.hideNavbar && <Navbar />}
-      <AboutUsPage data={data} />
+      <AboutUsPage data={data} faqs={faqs} />
       { !data?.hideFooter && <Footer /> }
     </>
   );

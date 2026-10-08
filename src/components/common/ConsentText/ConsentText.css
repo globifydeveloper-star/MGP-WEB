@@ -1,0 +1,26 @@
+.consent-text-root {
+  display: inline;
+  line-height: 1.45;
+}
+
+.consent-more-btn {
+  display: inline;
+  background: none;
+  border: none;
+  padding: 0 0.15rem;
+  margin: 0;
+  color: #CB9224;
+  font-weight: 700;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  line-height: inherit;
+  vertical-align: baseline;
+  transition: color 0.15s ease;
+}
+
+.consent-more-btn:hover {
+  color: #b37d18;
+}

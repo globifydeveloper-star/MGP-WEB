@@ -2,34 +2,14 @@
 
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { HOME_FAQS } from '@/lib/faqsData';
 import './FAQ.css';
 
 interface FAQProps {
   faqs?: any[];
 }
 
-const DEFAULT_FAQS = [
-  {
-    question: 'Why Should I Choose Muthoot Gold Point to Sell my Gold?',
-    answer: 'Citizenship by Investment (CBI) is a process where individuals can gain citizenship by  investing in a country. The process involves applying to a government-approved program, undergoing a background check, and, if approved, making an economic contribution and Citizenship by Investment (CBI) is a process where in'
-  },
-  {
-    question: 'How Much Do Gold Buyers Pay For Gold?',
-    answer: 'Dummy content — the payout is based on the live market rate of gold, adjusted for purity and the net weight of your ornaments. Will be replaced later.'
-  },
-  {
-    question: 'How Is Valuation Done And How Long Does It Take?',
-    answer: 'Dummy content — valuation is done using XRF technology right in front of you and typically takes only a few minutes to complete. Will be replaced later.'
-  },
-  {
-    question: 'How Is Gold Price Per Gram Calculated?',
-    answer: 'Dummy content — the price per gram is calculated using the live gold rate multiplied by the purity percentage of your gold. Will be replaced later.'
-  },
-  {
-    question: 'Do I need any documents for selling my jewelry?',
-    answer: 'Dummy content — yes, a valid photo ID and address proof are required to complete the sale. Will be replaced later.'
-  }
-];
+const DEFAULT_FAQS = HOME_FAQS;
 
 export default function FAQ({ faqs }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);

@@ -1,33 +1,66 @@
-/* HeroSlider - crossfades between the untouched Hero section and a second
-   promo slide. Both slides are placed in the same CSS grid cell (grid-area:
-   1 / 1) so they stack directly on top of one another with no JS-measured
-   height math - the row sizes to the taller slide, and each one fades via
-   opacity on .is-active. */
+/* HeroSlider - crossfades between slides. Both slides are
+   placed in the same CSS grid cell (grid-area: 1 / 1) so they stack directly
+   on top of one another with no JS-measured height math - the row sizes to
+   the taller slide, and each one fades via opacity on .is-active. */
 
 .hero-slider-stack {
   display: grid;
   position: relative;
   width: 100%;
+  touch-action: pan-y;
+  background-color: #06132E;
 }
 
 .hero-slider-slide {
   grid-area: 1 / 1;
   position: relative;
   width: 100%;
+  height: 100%;
   z-index: 1;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 1.2s ease-in-out;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
 }
 
 .hero-slider-slide.is-active {
   z-index: 2;
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
-/* Slide Two - full-bleed golds.png promo slide, self-contained styling so
-   it doesn't depend on the Hero component's own stylesheet. */
+/* Shared carousel dots navigation */
+.hero-slider-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  z-index: 10;
+  display: flex;
+  gap: 9px;
+  transform: translateX(-50%);
+}
+
+.hero-slider-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  background: rgba(6, 19, 46, 0.55);
+  cursor: pointer;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.hero-slider-dot.is-active {
+  width: 27px;
+  background: #EBAF20;
+  border-color: #EBAF20;
+}
+
+/* ==========================================================================
+   Hero Slide 2 - Custom Layout & Content Positioning
+   ========================================================================== */
 
 .hero-slide-two-section {
   position: relative;
@@ -161,60 +194,8 @@
 }
 
 .hero-slide-two-subcopy {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
-  max-width: 520px;
   margin: 0 0 1.5rem 0;
-  min-height: 90px;
-}
-
-.hero-slide-two-cta-group {
-  display: flex;
-  gap: 1.25rem;
-}
-
-.hero-slide-two-btn-gold {
-  font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #06132E;
-  background: linear-gradient(180deg, #EBAF20 0%, #FFE088 50%, #E29D24 100%);
-  border: none;
-  box-shadow: 0 4px 18px rgba(235, 175, 32, 0.3);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  padding: 1.1rem 2.25rem;
-  border-radius: 8px;
-}
-
-.hero-slide-two-btn-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(235, 175, 32, 0.45);
-  filter: brightness(1.05);
-}
-
-.hero-slide-two-btn-outline {
-  font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #FFFFFF;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  padding: 1.1rem 2.25rem;
-  border-radius: 8px;
-}
-
-.hero-slide-two-btn-outline:hover {
-  border-color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-2px);
-}
-
-.hero-slide-two-mobile-top-wrapper {
-  display: none;
+  width: 100%;
 }
 
 .hero-slide-two-features-list {
@@ -234,359 +215,139 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
+.hero-slide-two-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.hero-slide-two-btn {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 1.1rem 2.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  text-decoration: none;
+}
+
+.hero-slide-two-btn-secondary {
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #FFFFFF;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.hero-slide-two-btn-secondary:hover {
+  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+.hero-slide-two-mobile-wrapper {
+  display: none;
+}
+
+/* ==========================================================================
+   Mobile & Responsive Adjustments - Full Poster Advertisement Slide
+   ========================================================================== */
+
+@media (max-width: 1024px) {
   .hero-slide-two-section {
-    padding-top: 80px;
-    min-height: auto;
+    padding-top: 75px;
     height: auto;
-    overflow: visible;
+    min-height: 100%;
     justify-content: flex-start;
-    padding-bottom: 32px;
-  }
-
-  .hero-slide-two-bg {
-    display: none;
-  }
-
-  .hero-slide-two-mobile-top-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    width: 100%;
-    height: min(70vw, 620px);
-    position: relative;
-    overflow: hidden;
-    background-color: #06132E;
-    z-index: 1;
-  }
-
-  .hero-slide-two-mobile-visual-container {
-    position: relative;
-    width: 100%;
-    max-width: 820px;
-    height: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hero-slide-two-mobile-img-box {
-    position: relative;
-    width: 95%;
-    height: 100%;
-    z-index: 2;
-  }
-
-  .hero-slide-two-mobile-img {
-    object-fit: cover !important;
-    object-position: bottom center !important;
-    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.6));
-    mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
-  }
-
-  .hero-slide-two-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 48px 3rem 48px;
-    width: 100%;
-    background-color: #06132E;
+    background: #06132E;
+    padding-bottom: 50px;
     box-sizing: border-box;
   }
 
-  .hero-slide-two-content {
-    align-items: center;
-    text-align: center;
-    padding: 0;
-    width: 100%;
-    max-width: 720px;
+  .hero-slide-two-bg,
+  .hero-slide-two-container,
+  .hero-slide-two-desktop-rate-card {
+    display: none !important;
   }
 
-  .hero-slide-two-badge {
+  .hero-slide-two-mobile-wrapper {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    background: rgba(30, 27, 75, 0.85);
-    border: 1.5px solid rgba(255, 255, 255, 0.1);
-    padding: 12px 28px;
-    border-radius: 50px;
-    margin: -28px auto 2.5rem auto;
-    min-height: 64px;
+    justify-content: center;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+
+  .hero-slide-two-mobile-poster-box {
     position: relative;
-    z-index: 10;
-    width: fit-content;
-    justify-content: center;
-  }
-
-  .hero-slide-two-badge-text {
-    font-size: 1.05rem;
-    font-weight: 600;
-    white-space: nowrap;
-    text-align: center;
-  }
-
-  .hero-slide-two-title {
-    font-size: clamp(3rem, 6vw, 4.5rem);
-    text-align: center;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
     width: 100%;
-  }
-
-  .hero-slide-two-subcopy {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 2.5rem;
-    min-height: 100px;
-  }
-
-  .hero-slide-two-cta-group {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 1.5rem;
-    width: 100%;
-    margin-bottom: 1.5rem;
-    flex-wrap: nowrap;
-  }
-
-  .hero-slide-two-cta-group .hero-slide-two-btn {
-    flex: 0 1 260px;
-    padding: 1.1rem 2rem;
-    font-size: 1.1rem;
-    white-space: nowrap;
-    height: auto;
-  }
-
-  .hero-slide-two-mobile-rate-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: auto;
-  }
-}
-
-@media (max-width: 767px) {
-  .hero-slide-two-section {
-    padding-top: 80px;
-    min-height: auto;
-    height: auto;
-    overflow: visible;
-    justify-content: flex-start;
-    padding-bottom: 0;
-  }
-
-  .hero-slide-two-bg {
-    display: none;
-  }
-
-  .hero-slide-two-mobile-top-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    width: 100%;
-    height: clamp(380px, 58vw, 600px);
-    position: relative;
+    aspect-ratio: 9 / 16;
+    max-height: calc(100dvh - 140px);
+    border-radius: 16px;
     overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
     background-color: #06132E;
-    z-index: 1;
   }
 
-  .hero-slide-two-mobile-top-wrapper::after {
-    content: '';
+  .hero-slide-two-mobile-poster-img {
+    object-fit: cover !important;
+    object-position: center top !important;
+  }
+
+  .hero-slide-two-mobile-poster-overlay {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: linear-gradient(to bottom, rgba(6, 19, 46, 0) 0%, rgba(6, 19, 46, 0.6) 60%, #06132E 100%);
-    pointer-events: none;
+    bottom: 20px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: center;
     z-index: 5;
   }
 
-  .hero-slide-two-mobile-visual-container {
-    position: relative;
+  .hero-slide-two-mobile-poster-overlay .hero-slide-two-btn {
     width: 100%;
-    max-width: 600px;
-    height: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hero-slide-two-mobile-img-box {
-    position: relative;
-    width: 95%;
-    height: 100%;
-    z-index: 2;
-  }
-
-  .hero-slide-two-mobile-img {
-    object-fit: cover !important;
-    object-position: bottom center !important;
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
-    mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
-  }
-
-  .hero-slide-two-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 24px 1.5rem 24px;
-    width: 100%;
-    background-color: #06132E;
-  }
-
-  .hero-slide-two-content {
-    align-items: center;
-    text-align: center;
-    padding: 0;
-    width: 100%;
-    max-width: 600px;
-  }
-
-  .hero-slide-two-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    background: transparent;
-    border: none;
-    padding: 0;
-    border-radius: 0;
-    margin: 0.5rem auto 1.25rem auto;
-    min-height: 48px;
-    position: relative;
-    z-index: 10;
-    width: fit-content;
-    justify-content: center;
-  }
-
-  .hero-slide-two-badge-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .hero-slide-two-badge-text {
-    font-size: 0.72rem;
-    font-weight: 500;
-    white-space: normal;
-    text-align: center;
-  }
-
-  .hero-slide-two-title {
-    font-size: clamp(1.75rem, 5vw, 2.2rem) !important;
-    text-align: center;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-
-  .hero-slide-two-subcopy {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 2.25rem;
-    min-height: 80px;
-  }
-
-  .hero-slide-two-features-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-    text-align: left;
-    max-width: 480px;
-  }
-
-  .hero-slide-two-features-list li {
+    max-width: 320px;
+    height: 48px;
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.85);
-  }
-
-  .hero-slide-two-cta-group {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 1rem;
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .hero-slide-two-cta-group .hero-slide-two-btn {
-    flex: 1;
-    max-width: 220px;
-    padding: 0.9rem 1.25rem;
-    font-size: 0.95rem;
-    white-space: nowrap;
-  }
-
-  .hero-slide-two-mobile-rate-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: auto;
+    font-weight: 700;
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
   }
 }
 
 @media (max-width: 480px) {
-  .hero-slide-two-mobile-top-wrapper {
-    height: clamp(320px, 95vw, 420px);
+  .hero-slide-two-section {
+    padding-top: 70px;
+    padding-bottom: 46px;
   }
 
-  .hero-slide-two-mobile-visual-container {
-    max-width: 450px;
+  .hero-slide-two-mobile-wrapper {
+    padding: 0 8px;
   }
 
-  .hero-slide-two-cta-group {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+  .hero-slide-two-mobile-poster-box {
+    border-radius: 12px;
   }
 
-  .hero-slide-two-cta-group .hero-slide-two-btn {
-    width: 100%;
-    max-width: 320px;
+  .hero-slide-two-mobile-poster-overlay {
+    bottom: 16px;
+    left: 12px;
+    right: 12px;
   }
-}
 
-/* Shared carousel controls and responsive promo image treatment. */
-.hero-slider-stack {
-  touch-action: pan-y;
-}
-
-.hero-slider-dots {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  z-index: 5;
-  display: flex;
-  gap: 9px;
-  transform: translateX(-50%);
-}
-
-.hero-slider-dot {
-  width: 9px;
-  height: 9px;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 999px;
-  background: rgba(6, 19, 46, 0.55);
-  cursor: pointer;
-  transition: width 0.2s ease, background-color 0.2s ease;
-}
-
-.hero-slider-dot.is-active {
-  width: 27px;
-  background: #EBAF20;
-  border-color: #EBAF20;
+  .hero-slide-two-mobile-poster-overlay .hero-slide-two-btn {
+    height: 46px;
+    font-size: 0.92rem;
+  }
 }

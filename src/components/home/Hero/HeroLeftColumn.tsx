@@ -9,13 +9,14 @@ import './heroLeftColumn.css';
 
 interface HeroLeftColumnProps {
   heroText?: string;
+  heroSubtext?: string;
   button1?: {
-    enabled: boolean;
+    enabled?: boolean;
     label?: string;
     link?: string;
   };
   button2?: {
-    enabled: boolean;
+    enabled?: boolean;
     label?: string;
     link?: string;
   };
@@ -24,7 +25,7 @@ interface HeroLeftColumnProps {
   trustBadgeSuffix?: string;
 }
 
-export default function HeroLeftColumn({ heroText, button1, button2, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroLeftColumnProps) {
+export default function HeroLeftColumn({ heroText, heroSubtext, button1, button2, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroLeftColumnProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -138,7 +139,7 @@ export default function HeroLeftColumn({ heroText, button1, button2, trustBadgeP
 
       <div className="hero-subcopy-wrapper-v2">
         <div className="hero-subcopy-text-v2 w-96 justify-center text-white text-xl font-medium font-['Gilroy']">
-          Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you
+          {heroSubtext || 'Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you'}
         </div>
       </div>
 
