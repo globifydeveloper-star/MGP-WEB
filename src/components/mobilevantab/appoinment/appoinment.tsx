@@ -142,9 +142,6 @@ export default function Appoinment({ data }: AppoinmentProps) {
     const branchErr = validateRequired(formData.branchCode, 'Branch');
     if (branchErr) newErrors.branchCode = branchErr;
 
-    const addressErr = validateRequired(formData.address, 'Address');
-    if (addressErr) newErrors.address = addressErr;
-
     const otpErr = validateOtp(otp);
     if (otpErr) newErrors.otp = otpErr;
 
@@ -205,19 +202,8 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   )}
                 </h2>
                 <p className="apt-desc">
-                  Enjoy a safe, transparent &amp; scientifically tested way of selling Gold. We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight &amp; purity. Not just that, the process is transparent and you get the maximum value for your Gold.
+                  {data?.appointmentDescription || 'Enjoy a safe, transparent & scientifically tested way of selling Gold. We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the fair value for your Gold.'}
                 </p>
-              </div>
-
-              <div className="apt-features">
-                <div className="apt-feature-row">
-                  <span className="apt-feature-icon"><GaugeIcon /></span>
-                  <span>24/7 Support Available</span>
-                </div>
-                <div className="apt-feature-row">
-                  <span className="apt-feature-icon"><LockIcon /></span>
-                  <span>Your data is safe &amp; encrypted</span>
-                </div>
               </div>
             </div>
 
@@ -386,12 +372,12 @@ export default function Appoinment({ data }: AppoinmentProps) {
                 
                 <div className="apt-form-row" style={{ gridTemplateColumns: '1fr' }}>
                   <div className="apt-field">
-                    <label htmlFor="apt-address" className="apt-label">Address<span className="apt-required">*</span></label>
+                    <label htmlFor="apt-address" className="apt-label">Address</label>
                     <textarea
                       id="apt-address"
                       name="address"
                       className="apt-input"
-                      placeholder="Enter your complete address"
+                      placeholder="Enter your complete address (optional)"
                       disabled={otpState === 'sending' || otpState === 'verifying'}
                       value={formData.address}
                       onChange={handleChange as any}
@@ -437,7 +423,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   }
                   className="apt-submit-btn"
                 >
-                  {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Confirming... </>) : ('Confirm Appointment')}
+                  {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Confirming... </>) : ('Book Appointment')}
                 </button>
               </form>
             )}

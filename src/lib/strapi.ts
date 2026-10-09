@@ -1108,14 +1108,58 @@ export interface MobileVanPageData {
 }
 
 export const getMobileVanPageSettings = cache(async function getMobileVanPageSettings(): Promise<MobileVanPageData | null> {
-  const data = await fetchStrapi<StrapiAny>('/api/mobile-van-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings');
+  const endpoint = '/api/mobile-van-page?populate[howItWorksSteps]=*&populate[how_it_works_steps]=*&populate[testingMethods]=*&populate[testing_methods]=*&populate[heroImage]=*&populate[hero_image]=*&populate[testingMethodsImage]=*&populate[testing_methods_image]=*&populate[bookVanFormImage]=*&populate[book_van_form_image]=*&populate[ogImage]=*&populate[og_image]=*&populate=*';
+  const data = await fetchStrapi<StrapiAny>(endpoint, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings');
   if (!data) return null;
   const flat = unwrap<StrapiAny>(data);
+
+  const rawSteps = flat.howItWorksSteps || flat.how_it_works_steps || flat.howitworks_steps || flat.steps || [];
+  const rawMethods = flat.testingMethods || flat.testing_methods || [];
+
+  const howItWorksSteps = Array.isArray(rawSteps)
+    ? rawSteps.map((s: StrapiAny, idx: number) => {
+        const item = unwrap<StrapiAny>(s);
+        return {
+          id: item.id || idx + 1,
+          title: item.title || item.stepTitle || item.step_title || item.heading || item.name || '',
+          desc: item.desc || item.description || item.stepDesc || item.step_desc || item.content || item.text || '',
+          iconSvg: item.iconSvg || item.icon_svg,
+        };
+      })
+    : [];
+
+  const testingMethods = Array.isArray(rawMethods)
+    ? rawMethods.map((m: StrapiAny, idx: number) => {
+        const item = unwrap<StrapiAny>(m);
+        return {
+          id: item.id || idx + 1,
+          title: item.title || item.heading || item.name || '',
+          desc: item.desc || item.description || item.content || item.text || '',
+        };
+      })
+    : [];
+
   return {
-    ...(flat as MobileVanPageData),
-    heroImage: getMediaUrl(flat.heroImage),
-    testingMethodsImage: getMediaUrl(flat.testingMethodsImage),
-    bookVanFormImage: getMediaUrl(flat.bookVanFormImage),
+    heroHeadingLight1: flat.heroHeadingLight1 || flat.hero_heading_light_1 || flat.heroHeadingLight || flat.hero_heading_light,
+    heroHeadingLight2: flat.heroHeadingLight2 || flat.hero_heading_light_2,
+    heroHeadingBold: flat.heroHeadingBold || flat.hero_heading_bold,
+    heroDescription: flat.heroDescription || flat.hero_description,
+    howItWorksTitle: flat.howItWorksTitle || flat.how_it_works_title || flat.howitworks_title || flat.howItWorksHeading || flat.how_it_works_heading,
+    howItWorksSubtitle: flat.howItWorksSubtitle || flat.how_it_works_subtitle || flat.howitworks_subtitle || flat.howItWorksDesc || flat.how_it_works_description || flat.howItWorksDescription,
+    howItWorksSteps: howItWorksSteps.length > 0 ? howItWorksSteps : undefined,
+    testingMethodsTitle: flat.testingMethodsTitle || flat.testing_methods_title,
+    testingMethods: testingMethods.length > 0 ? testingMethods : undefined,
+    locationsTitle: flat.locationsTitle || flat.locations_title,
+    locationsDescription: flat.locationsDescription || flat.locations_description,
+    appointmentTitle: flat.appointmentTitle || flat.appointment_title || flat.bookingTitle || flat.booking_title,
+    appointmentDescription: flat.appointmentDescription || flat.appointment_description || flat.bookingDescription || flat.booking_description,
+    seoTitle: flat.seoTitle || flat.seo_title,
+    seoDescription: flat.seoDescription || flat.seo_description,
+    seoKeywords: flat.seoKeywords || flat.seo_keywords,
+    heroImage: getMediaUrl(flat.heroImage || flat.hero_image),
+    testingMethodsImage: getMediaUrl(flat.testingMethodsImage || flat.testing_methods_image),
+    bookVanFormImage: getMediaUrl(flat.bookVanFormImage || flat.book_van_form_image),
+    ogImage: getMediaUrl(flat.ogImage || flat.og_image),
   };
 });
 

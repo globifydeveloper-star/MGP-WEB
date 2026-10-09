@@ -64,7 +64,14 @@ interface FourStepProps {
 }
 
 export default function FourStep({ data }: FourStepProps) {
-  const steps = DEFAULT_STEPS;
+  const steps = (data?.howItWorksSteps && data.howItWorksSteps.length > 0)
+    ? data.howItWorksSteps.map((s, idx) => ({
+        num: `0${idx + 1}`,
+        title: s.title || DEFAULT_STEPS[idx]?.title || '',
+        desc: s.desc || DEFAULT_STEPS[idx]?.desc || '',
+        icon: DEFAULT_STEPS[idx]?.icon || DEFAULT_STEPS[0].icon,
+      }))
+    : DEFAULT_STEPS;
 
   return (
     <section className="fs-section">
@@ -75,7 +82,7 @@ export default function FourStep({ data }: FourStepProps) {
             {data?.howItWorksTitle || <>Enjoy a safe, transparent & scientifically tested way of <span className="fs-title-highlight">selling Gold.</span></>}
           </h2>
           <p className="fs-subtitle">
-            {data?.howItWorksSubtitle || 'We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the maximum value for your Gold.'}
+            {data?.howItWorksSubtitle || 'We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the fair value for your Gold.'}
           </p>
         </div>
 

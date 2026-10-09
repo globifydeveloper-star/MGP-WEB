@@ -143,7 +143,12 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
         </nav>
 
         <div className="navbar-right-group">
-          <button className="navbar-cta-btn-v2" onClick={() => setIsSellGoldOpen(true)}>
+          <button
+            type="button"
+            className="navbar-cta-btn-v2"
+            onClick={() => setIsSellGoldOpen(true)}
+            aria-label="Enquire Now"
+          >
             <span>{ctaLabel}</span>
           </button>
         </div>

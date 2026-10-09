@@ -15,6 +15,11 @@ interface SellGoldModalProps {
 }
 
 export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,7 +38,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
   const availableCities = formData.state ? locationsByState[formData.state] || [] : [];
 
   const availableBranches = formData.state && formData.city
-    ? (branchesByState[formData.state] || []).filter(b => b.location.toLowerCase() === formData.city.toLowerCase())
+    ? (branchesByState[formData.state] || []).filter(b => (b?.location || b?.city || '').toLowerCase() === (formData.city || '').toLowerCase())
     : [];
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -189,7 +194,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   return createPortal(
     <div className="sg-modal-overlay" onClick={onClose}>
