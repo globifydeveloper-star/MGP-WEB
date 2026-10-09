@@ -6,7 +6,7 @@ export function proxy(request: NextRequest) {
 
   const publicStrapiUrl = process.env.STRAPI_PUBLIC_URL || process.env.NEXT_PUBLIC_STRAPI_URL || '';
 
-  const reportOnlyCsp = `
+  const csp = `
     default-src 'self';
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
     style-src 'self' 'unsafe-inline';
@@ -26,13 +26,13 @@ export function proxy(request: NextRequest) {
   // picks up this nonce and applies it to Next's own inline/hydration scripts.
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
-  requestHeaders.set('content-security-policy-report-only', reportOnlyCsp);
+  requestHeaders.set('content-security-policy', csp);
 
   const response = NextResponse.next({
     request: { headers: requestHeaders },
   });
 
-  response.headers.set('Content-Security-Policy-Report-Only', reportOnlyCsp);
+  response.headers.set('Content-Security-Policy', csp);
 
   return response;
 }
