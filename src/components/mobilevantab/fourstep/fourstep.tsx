@@ -65,13 +65,34 @@ interface FourStepProps {
 
 export default function FourStep({ data }: FourStepProps) {
   const steps = (data?.howItWorksSteps && data.howItWorksSteps.length > 0)
-    ? data.howItWorksSteps.map((s, idx) => ({
-        num: `0${idx + 1}`,
-        title: s.title || DEFAULT_STEPS[idx]?.title || '',
-        desc: s.desc || DEFAULT_STEPS[idx]?.desc || '',
-        icon: DEFAULT_STEPS[idx]?.icon || DEFAULT_STEPS[0].icon,
-      }))
+    ? data.howItWorksSteps.map((s, idx) => {
+        let customIcon: React.ReactNode = null;
+        if (s.iconSvg) {
+          if (s.iconSvg.trim().startsWith('<svg')) {
+            customIcon = <span dangerouslySetInnerHTML={{ __html: s.iconSvg }} />;
+          }
+        } else if (s.iconImage) {
+          // eslint-disable-next-line @next/next/no-img-element
+          customIcon = <img src={s.iconImage} alt={s.title || ''} style={{ width: 32, height: 32, objectFit: 'contain' }} />;
+        }
+
+        return {
+          num: s.num || `0${idx + 1}`,
+          title: s.title || DEFAULT_STEPS[idx % DEFAULT_STEPS.length]?.title || '',
+          desc: s.desc || DEFAULT_STEPS[idx % DEFAULT_STEPS.length]?.desc || '',
+          icon: customIcon || DEFAULT_STEPS[idx % DEFAULT_STEPS.length]?.icon || DEFAULT_STEPS[0].icon,
+        };
+      })
     : DEFAULT_STEPS;
+
+  const renderTitle = () => {
+    if (!data?.howItWorksTitle) {
+      return (
+        <>Enjoy a safe, transparent & scientifically tested way of <span className="fs-title-highlight">selling Gold.</span></>
+      );
+    }
+    return data.howItWorksTitle;
+  };
 
   return (
     <section className="fs-section">
@@ -79,7 +100,7 @@ export default function FourStep({ data }: FourStepProps) {
       <div className="container">
         <div className="fs-header">
           <h2 className="fs-title">
-            {data?.howItWorksTitle || <>Enjoy a safe, transparent & scientifically tested way of <span className="fs-title-highlight">selling Gold.</span></>}
+            {renderTitle()}
           </h2>
           <p className="fs-subtitle">
             {data?.howItWorksSubtitle || 'We give you an unparalleled experience of selling your old gold for instant cash. Call and book our mobile van – only in Mumbai, Kalyan and Bengaluru. Our vans are equipped with the latest ultrasonic, weighing and XRF machines to clean your Gold for free and check its accurate weight & purity. Not just that, the process is transparent and you get the fair value for your Gold.'}

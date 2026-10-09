@@ -1084,6 +1084,15 @@ export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<G
   };
 });
 
+export interface MobileVanStepItem {
+  id?: number | string;
+  num?: string;
+  title: string;
+  desc?: string;
+  iconSvg?: string;
+  iconImage?: string;
+}
+
 export interface MobileVanPageData {
   heroHeadingLight1?: string;
   heroHeadingLight2?: string;
@@ -1091,7 +1100,7 @@ export interface MobileVanPageData {
   heroDescription?: string;
   howItWorksSubtitle?: string;
   howItWorksTitle?: string;
-  howItWorksSteps?: { id: number; title: string; desc?: string; iconSvg?: string }[];
+  howItWorksSteps?: MobileVanStepItem[];
   testingMethodsTitle?: string;
   testingMethods?: { id: number; title: string; desc?: string }[];
   locationsTitle?: string;
@@ -1108,26 +1117,97 @@ export interface MobileVanPageData {
 }
 
 export const getMobileVanPageSettings = cache(async function getMobileVanPageSettings(): Promise<MobileVanPageData | null> {
-  const endpoint = '/api/mobile-van-page?populate[howItWorksSteps]=*&populate[how_it_works_steps]=*&populate[testingMethods]=*&populate[testing_methods]=*&populate[heroImage]=*&populate[hero_image]=*&populate[testingMethodsImage]=*&populate[testing_methods_image]=*&populate[bookVanFormImage]=*&populate[book_van_form_image]=*&populate[ogImage]=*&populate[og_image]=*&populate=*';
-  const data = await fetchStrapi<StrapiAny>(endpoint, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings');
-  if (!data) return null;
-  const flat = unwrap<StrapiAny>(data);
+  const query = [
+    'populate[howItWorksSteps][populate]=*',
+    'populate[how_it_works_steps][populate]=*',
+    'populate[fourSteps][populate]=*',
+    'populate[four_steps][populate]=*',
+    'populate[steps][populate]=*',
+    'populate[processSteps][populate]=*',
+    'populate[testingMethods][populate]=*',
+    'populate[testing_methods][populate]=*',
+    'populate[heroImage]=*',
+    'populate[hero_image]=*',
+    'populate[testingMethodsImage]=*',
+    'populate[testing_methods_image]=*',
+    'populate[bookVanFormImage]=*',
+    'populate[book_van_form_image]=*',
+    'populate[ogImage]=*',
+    'populate[og_image]=*',
+  ].join('&');
 
-  const rawSteps = flat.howItWorksSteps || flat.how_it_works_steps || flat.howitworks_steps || flat.steps || [];
-  const rawMethods = flat.testingMethods || flat.testing_methods || [];
+  let data = await fetchStrapi<StrapiAny>(`/api/mobile-van-page?${query}`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings');
+  
+  if (!data) {
+    data = await fetchStrapi<StrapiAny>('/api/mobile-van-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings:shallow');
+  }
+  if (!data) {
+    data = await fetchStrapi<StrapiAny>(`/api/mobile-van?${query}`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings:mobile-van');
+  }
+  if (!data) {
+    data = await fetchStrapi<StrapiAny>(`/api/mobile-van-page-setting?${query}`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings:setting');
+  }
+  if (!data) {
+    data = await fetchStrapi<StrapiAny>(`/api/mobile-van-tab?${query}`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings:tab');
+  }
 
-  const howItWorksSteps = Array.isArray(rawSteps)
+  const flat = data ? unwrap<StrapiAny>(data) : {};
+
+  const rawSteps =
+    flat.howItWorksSteps ||
+    flat.how_it_works_steps ||
+    flat.howitworks_steps ||
+    flat.fourSteps ||
+    flat.four_steps ||
+    flat.fourStep ||
+    flat.four_step ||
+    flat.fourStepJourney ||
+    flat.four_step_journey ||
+    flat.journeySteps ||
+    flat.steps ||
+    flat.processSteps ||
+    flat.process_steps ||
+    flat.howItWorks ||
+    flat.how_it_works ||
+    [];
+
+  let howItWorksSteps: MobileVanStepItem[] = Array.isArray(rawSteps)
     ? rawSteps.map((s: StrapiAny, idx: number) => {
         const item = unwrap<StrapiAny>(s);
+        const rawNum = item.num || item.stepNumber || item.step_number || item.order || (idx + 1);
+        const numStr = typeof rawNum === 'number' ? String(rawNum).padStart(2, '0') : String(rawNum);
         return {
           id: item.id || idx + 1,
-          title: item.title || item.stepTitle || item.step_title || item.heading || item.name || '',
-          desc: item.desc || item.description || item.stepDesc || item.step_desc || item.content || item.text || '',
-          iconSvg: item.iconSvg || item.icon_svg,
+          num: numStr,
+          title: item.title || item.stepTitle || item.step_title || item.heading || item.name || item.stepName || item.step_name || item.label || '',
+          desc: item.desc || item.description || item.stepDesc || item.step_desc || item.stepDescription || item.step_description || item.content || item.text || item.details || item.subtitle || '',
+          iconSvg: item.iconSvg || item.icon_svg || item.svg || item.iconHtml || item.icon_html,
+          iconImage: getMediaUrl(item.iconImage || item.icon_image || item.icon || item.image || item.stepImage || item.step_image),
         };
-      })
+      }).filter((s) => s.title || s.desc)
     : [];
 
+  if (howItWorksSteps.length === 0) {
+    try {
+      const processStepsData = await fetchStrapi<StrapiAny[]>('/api/process-steps?populate=*&sort=order:asc', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getMobileVanPageSettings:fallbackProcessSteps');
+      if (Array.isArray(processStepsData) && processStepsData.length > 0) {
+        howItWorksSteps = processStepsData.map((s: StrapiAny, idx: number) => {
+          const item = unwrap<StrapiAny>(s);
+          return {
+            id: item.id || idx + 1,
+            num: String(item.order || idx + 1).padStart(2, '0'),
+            title: item.stepTitle || item.title || item.heading || '',
+            desc: item.stepDescription || item.description || item.desc || item.leftDescription || '',
+            iconImage: getMediaUrl(item.stepImage || item.image),
+          };
+        });
+      }
+    } catch {
+      // fallback
+    }
+  }
+
+  const rawMethods = flat.testingMethods || flat.testing_methods || [];
   const testingMethods = Array.isArray(rawMethods)
     ? rawMethods.map((m: StrapiAny, idx: number) => {
         const item = unwrap<StrapiAny>(m);
@@ -1144,8 +1224,8 @@ export const getMobileVanPageSettings = cache(async function getMobileVanPageSet
     heroHeadingLight2: flat.heroHeadingLight2 || flat.hero_heading_light_2,
     heroHeadingBold: flat.heroHeadingBold || flat.hero_heading_bold,
     heroDescription: flat.heroDescription || flat.hero_description,
-    howItWorksTitle: flat.howItWorksTitle || flat.how_it_works_title || flat.howitworks_title || flat.howItWorksHeading || flat.how_it_works_heading,
-    howItWorksSubtitle: flat.howItWorksSubtitle || flat.how_it_works_subtitle || flat.howitworks_subtitle || flat.howItWorksDesc || flat.how_it_works_description || flat.howItWorksDescription,
+    howItWorksTitle: flat.howItWorksTitle || flat.how_it_works_title || flat.howitworks_title || flat.howItWorksHeading || flat.how_it_works_heading || flat.fourStepsTitle || flat.four_step_title || flat.stepsTitle,
+    howItWorksSubtitle: flat.howItWorksSubtitle || flat.how_it_works_subtitle || flat.howitworks_subtitle || flat.howItWorksDesc || flat.how_it_works_description || flat.howItWorksDescription || flat.fourStepsSubtitle || flat.stepsSubtitle,
     howItWorksSteps: howItWorksSteps.length > 0 ? howItWorksSteps : undefined,
     testingMethodsTitle: flat.testingMethodsTitle || flat.testing_methods_title,
     testingMethods: testingMethods.length > 0 ? testingMethods : undefined,
