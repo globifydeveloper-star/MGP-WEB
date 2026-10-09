@@ -23,6 +23,10 @@ function formatDate(dateStr: string): string {
   }).format(new Date(dateStr));
 }
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
+}
+
 export default function BlogCard({ post, readMoreLabel }: BlogCardProps) {
   const isVideo = post.coverMedia?.mime?.startsWith('video/');
   const fallbackSrc = DEFAULT_BLOG_IMAGES[(post.id || 0) % DEFAULT_BLOG_IMAGES.length];
@@ -62,7 +66,7 @@ export default function BlogCard({ post, readMoreLabel }: BlogCardProps) {
       <div className="blog-card-body">
         {post.category && <span className="blog-card-tag">{post.category.name}</span>}
         <h3 className="blog-card-title">{post.title}</h3>
-        {post.excerpt && <p className="blog-card-excerpt">{post.excerpt}</p>}
+        {post.excerpt && <p className="blog-card-excerpt">{stripHtml(post.excerpt)}</p>}
         <div className="blog-card-footer">
           <span className="blog-card-date">{formatDate(post.publishedAt)}</span>
           <Link href={`/blog/${post.slug}`} className="blog-card-readmore">

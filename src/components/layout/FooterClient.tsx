@@ -134,12 +134,7 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
               />
             </Link>
             <p className="footer-desc">
-              Muthoot Gold Point, a unit of Muthoot<br />
-              Exim (P) Ltd. (Precious Metals Division) is<br />
-              a venture of the Muthoot Pappachan<br />
-              Group. It is the first National level<br />
-              organised sector venture to get into<br />
-              recycling of Gold.
+              Muthoot Gold Point, a unit of Muthoot Exim (P) Ltd. (Precious Metals Division) is a venture of the Muthoot Pappachan Group. It is the first National level organised sector venture to get into recycling of Gold.
             </p>
           </div>
 

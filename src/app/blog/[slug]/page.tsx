@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import OTPEnquiryForm from '@/components/common/OTPEnquiryForm/OTPEnquiryForm';
 import BlogCard from '@/components/blog/BlogCard/BlogCard';
 import { getBlogPostBySlug, getBlogPosts, getBlogPageSettings } from '@/lib/strapi';
+import DOMPurify from 'isomorphic-dompurify';
 import '../blog-page.css';
 import './blog-post-page.css';
 
@@ -99,7 +100,10 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
               )}
             </div>
 
-            <div className="blog-post-body">{post.body}</div>
+            <div
+              className="blog-post-body"
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body || '') }}
+            />
 
             {post.cta?.enabled && post.cta.link && (
               <a href={post.cta.link} className="btn btn-primary blog-post-cta">

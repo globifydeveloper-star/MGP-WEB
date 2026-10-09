@@ -18,6 +18,10 @@ function formatDate(dateStr: string): string {
   }).format(new Date(dateStr));
 }
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
+}
+
 interface RecentPostProps {
   posts: BlogPost[];
 }
@@ -63,7 +67,7 @@ export default function RecentPost({ posts }: RecentPostProps) {
                   <div className="recent-post-body">
                     <h3 className="recent-post-card-title">{post.title}</h3>
                     <p className="recent-post-card-desc">
-                      {post.excerpt || (post.body ? post.body.slice(0, 120) + '...' : '')}
+                      {post.excerpt || (post.body ? stripHtml(post.body).slice(0, 120) + '...' : '')}
                     </p>
                     <Link href={`/blog/${post.slug}`} className="recent-post-btn-link">
                       <button className="recent-post-btn">Read More</button>
