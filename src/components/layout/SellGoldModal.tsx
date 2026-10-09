@@ -38,7 +38,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
   const availableCities = formData.state ? locationsByState[formData.state] || [] : [];
 
   const availableBranches = formData.state && formData.city
-    ? (branchesByState[formData.state] || []).filter(b => (b?.location || b?.city || '').toLowerCase() === (formData.city || '').toLowerCase())
+    ? (branchesByState[formData.state] || []).filter(b => (b?.location || '').toLowerCase() === (formData.city || '').toLowerCase())
     : [];
 
   const [isSubmitted, setIsSubmitted] = useState(false);
