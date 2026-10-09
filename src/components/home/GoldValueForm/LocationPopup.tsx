@@ -139,7 +139,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
         {/* Header */}
         <div className="lp-modal-header">
           <h2 className="lp-modal-title">
-            {isSubmitted ? "Estimate Confirmed" : "Select Your Location"}
+            {isSubmitted ? "" : "Select Your Location"}
           </h2>
           <button className="lp-modal-close-btn" onClick={onClose} aria-label="Close modal">
             &times;
@@ -232,7 +232,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
                   SUBMITTING...
                 </>
               ) : (
-                'SUBMIT ESTIMATE'
+                'SUBMIT'
               )}
             </button>
           </form>

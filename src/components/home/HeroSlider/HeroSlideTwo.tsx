@@ -87,18 +87,18 @@ export default function HeroSlideTwo({
             src="/images/12.png"
             alt="Sell Your Gold Get Cash Instantly - 100% Fair & Precise Gold Buying"
             fill
-            sizes="(max-width: 768px) 100vw, 480px"
+            sizes="100vw"
             className="hero-slide-two-mobile-poster-img"
             priority
           />
-          <div className="hero-slide-two-mobile-poster-overlay">
-            {btn1Enabled && (
-              <button className="btn-gold-gradient hero-slide-two-btn" onClick={() => handleCta(btn1Link)}>
-                {btn1Label}
-              </button>
-            )}
-          </div>
         </div>
+        {btn1Enabled && (
+          <div className="hero-slide-two-mobile-btn-container">
+            <button className="btn-gold-gradient hero-slide-two-btn" onClick={() => handleCta(btn1Link)}>
+              {btn1Label}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Desktop Background / Image presentation */}
@@ -125,7 +125,7 @@ export default function HeroSlideTwo({
               </svg>
             </span>
             <span className="hero-slide-two-badge-text">
-              {trustBadgePrefix} <span className="hero-slide-two-badge-highlight">{trustBadgeHighlight}</span> {trustBadgeSuffix}
+              <span className="hero-slide-two-badge-highlight">Muthoot Gold Point:</span> India&apos;s First National Level Organised Gold Buyer
             </span>
           </div>
 

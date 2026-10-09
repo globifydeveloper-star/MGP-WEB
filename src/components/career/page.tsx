@@ -56,6 +56,11 @@ export default function CareerPage({ data }: CareerPageProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const val = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, phone: val }));
+      return;
+    }
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 

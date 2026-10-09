@@ -157,11 +157,10 @@
 }
 
 .hero-slide-two-badge-text {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .hero-slide-two-badge-highlight {
@@ -283,20 +282,19 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 480px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 12px;
+    padding: 0;
     box-sizing: border-box;
   }
 
   .hero-slide-two-mobile-poster-box {
     position: relative;
     width: 100%;
-    aspect-ratio: 9 / 16;
-    max-height: calc(100dvh - 140px);
-    border-radius: 16px;
+    aspect-ratio: 941 / 1672;
+    max-height: calc(100dvh - 190px);
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
     background-color: #06132E;
   }
 
@@ -305,24 +303,25 @@
     object-position: center top !important;
   }
 
-  .hero-slide-two-mobile-poster-overlay {
-    position: absolute;
-    bottom: 20px;
-    left: 16px;
-    right: 16px;
+  .hero-slide-two-mobile-btn-container {
+    width: 100%;
     display: flex;
     justify-content: center;
+    padding: 0 16px;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
     z-index: 5;
   }
 
-  .hero-slide-two-mobile-poster-overlay .hero-slide-two-btn {
+  .hero-slide-two-mobile-btn-container .hero-slide-two-btn {
     width: 100%;
     max-width: 320px;
     height: 48px;
     font-size: 0.95rem;
     font-weight: 700;
     border-radius: 999px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -333,20 +332,23 @@
   }
 
   .hero-slide-two-mobile-wrapper {
-    padding: 0 8px;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
   }
 
   .hero-slide-two-mobile-poster-box {
-    border-radius: 12px;
+    border-radius: 0;
+    max-height: calc(100dvh - 180px);
   }
 
-  .hero-slide-two-mobile-poster-overlay {
-    bottom: 16px;
-    left: 12px;
-    right: 12px;
+  .hero-slide-two-mobile-btn-container {
+    margin-top: 20px;
+    padding: 0 14px;
   }
 
-  .hero-slide-two-mobile-poster-overlay .hero-slide-two-btn {
+  .hero-slide-two-mobile-btn-container .hero-slide-two-btn {
     height: 46px;
     font-size: 0.92rem;
   }

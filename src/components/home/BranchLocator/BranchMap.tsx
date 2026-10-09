@@ -17,20 +17,20 @@ export default function BranchMap({
   nearCoords,
 }: BranchMapProps) {
   // Determine map location query and zoom level for Google Maps Embed
-  let mapQuery = '"Muthoot Gold Point", India';
-  let zoom = 5;
+  let mapQuery = '"Muthoot Gold Point", Head Office, Ground Floor Muthoot Towers, M.G.Road, Ernakulam, Kerala 682035';
+  let zoom = 14;
 
   if (selectedBranchAddress) {
     mapQuery = selectedBranchAddress;
     zoom = 16;
-  } else if (searchQuery.trim()) {
-    mapQuery = `"Muthoot Gold Point", ${searchQuery.trim()}`;
-    zoom = 12;
-  } else if (activeStateName) {
-    mapQuery = `"Muthoot Gold Point", ${activeStateName}`;
-    zoom = 8;
   } else if (nearCoords) {
     mapQuery = `${nearCoords.lat},${nearCoords.lng}`;
+    zoom = 15;
+  } else if (activeStateName) {
+    mapQuery = `"Muthoot Gold Point", ${activeStateName}`;
+    zoom = 10;
+  } else if (searchQuery.trim()) {
+    mapQuery = `"Muthoot Gold Point", ${searchQuery.trim()}`;
     zoom = 14;
   }
 

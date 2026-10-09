@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
+import { useBranchMaster } from '@/hooks/useBranchMaster';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './SellGoldModal.css';
 
@@ -11,17 +13,6 @@ interface SellGoldModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-import { useBranchMaster } from '@/hooks/useBranchMaster';
-import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-
-const PURITIES = [
-  '24K (99.9%)',
-  '22K (91.6%)',
-  '20K (83.3%)',
-  '18K (75.0%)',
-  'Below 18K'
-];
 
 export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
   const [formData, setFormData] = useState({
@@ -101,6 +92,25 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     const target = e.target as HTMLInputElement;
     const { name, value, type, checked } = target;
     if (type === 'number' && Number(value) < 0) return;
+
+    if (name === 'phone') {
+      const numericPhone = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, phone: numericPhone }));
+      if (errors.phone) {
+        setErrors(prev => ({ ...prev, phone: '' }));
+      }
+      return;
+    }
+
+    if (name === 'otp') {
+      const numericOtp = value.replace(/\D/g, '').slice(0, 6);
+      setFormData(prev => ({ ...prev, otp: numericOtp }));
+      if (errors.otp) {
+        setErrors(prev => ({ ...prev, otp: '' }));
+      }
+      return;
+    }
+
     setFormData(prev => {
       const updates: any = { [name]: type === 'checkbox' ? checked : value };
       if (name === 'state') {
@@ -150,9 +160,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     const branchErr = validateRequired(formData.branchCode, 'Branch');
     if (branchErr) newErrors.branchCode = branchErr;
 
-    const purityErr = validateRequired(formData.purity, 'Purity');
-    if (purityErr) newErrors.purity = purityErr;
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -174,6 +181,11 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     });
     if (success) {
       setIsSubmitted(true);
+    } else {
+      setErrors(prev => ({
+        ...prev,
+        otp: otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'
+      }));
     }
   };
 
@@ -261,6 +273,8 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 name="phone"
                 placeholder="Phone*"
                 required
+                maxLength={10}
+                inputMode="numeric"
                 className="sg-input sg-phone-input"
                 value={formData.phone}
                 onChange={handleChange}
@@ -283,15 +297,18 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 name="otp"
                 placeholder="OTP*"
                 required
+                maxLength={6}
+                inputMode="numeric"
                 className="sg-input"
                 disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                 value={formData.otp}
-                onChange={(e) => {
-                  handleChange(e);
-                  if (errors.otp) setErrors(prev => ({ ...prev, otp: '' }));
-                }}
+                onChange={handleChange}
               />
-              {errors.otp && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.otp}</span>}
+              {(errors.otp || (otpState === 'error' && otpErrorMessage)) && (
+                <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
+                  {errors.otp || otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'}
+                </span>
+              )}
             </div>
 
             {/* State and City (side by side) */}
@@ -353,26 +370,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
               </div>
             </div>
 
-            {/* Gold Purity */}
-            {/* <div className="sg-form-group">
-              <div className="sg-select-wrapper">
-                <select
-                  name="purity"
-                  required
-                  className="sg-select"
-                  value={formData.purity}
-                  onChange={handleChange}
-                >
-                  <option value="" disabled>Gold Purity</option>
-                  {PURITIES.map(purity => (
-                    <option key={purity} value={purity}>{purity}</option>
-                  ))}
-                </select>
-                <span className="sg-select-chevron"></span>
-                {errors.purity && <span className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>{errors.purity}</span>}
-              </div>
-            </div> */}
-
             {/* Gold Weight */}
             <div className="sg-form-group">
               <input
@@ -431,11 +428,10 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 !formData.state ||
                 !formData.city ||
                 !formData.branchCode ||
-                !formData.purity ||
                 !formData.consent
               }
             >
-              {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> VERIFYING... </>) : ('Submit ')}
+              {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> VERIFYING... </>) : ('Submit')}
             </button>
           </form>
         )}

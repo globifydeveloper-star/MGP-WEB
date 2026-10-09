@@ -227,7 +227,15 @@ function BranchLocatorInner({
           {/* Map Column */}
           <div className="branch-locator-map-col">
             <BranchMap
-              selectedBranchAddress={selectedBranch ? `"Muthoot Gold Point", ${selectedBranch.address}, ${selectedBranch.city}` : undefined}
+              selectedBranchAddress={
+                selectedBranch
+                  ? `"Muthoot Gold Point", ${selectedBranch.address}, ${selectedBranch.city}, ${selectedBranch.state} - ${selectedBranch.pincode}`
+                  : filteredBranches.length > 0
+                  ? `"Muthoot Gold Point", ${filteredBranches[0].address}, ${filteredBranches[0].city}, ${filteredBranches[0].state} - ${filteredBranches[0].pincode}`
+                  : activeStateSummary && activeStateSummary.branches.length > 0
+                  ? `"Muthoot Gold Point", ${activeStateSummary.branches[0].address}, ${activeStateSummary.branches[0].city}, ${activeStateSummary.state}`
+                  : undefined
+              }
               searchQuery={query}
               activeStateName={activeStateSummary?.state}
               nearCoords={nearCoords}

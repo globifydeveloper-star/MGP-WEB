@@ -230,12 +230,19 @@ export default function GoldValueForm({ sectionImage, heading, headingHighlight,
                   id="gvf-otp"
                   name="otp"
                   type="text"
+                  maxLength={6}
+                  inputMode="numeric"
                   className="gvf-input"
                   placeholder="Enter OTP"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                 />
+                {otpErrorMessage && (
+                  <span style={{ color: '#e74c3c', fontSize: '12px', marginTop: '4px', display: 'block', fontWeight: 500 }}>
+                    {otpErrorMessage}
+                  </span>
+                )}
               </div>
 
               <div className="gvf-field">

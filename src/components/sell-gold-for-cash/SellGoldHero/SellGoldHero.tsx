@@ -70,6 +70,20 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
     const { name, value, type } = e.target;
     const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
 
+    if (name === 'phone') {
+      const numeric = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, phone: numeric }));
+      if (errors.phone) setErrors(prev => ({ ...prev, phone: '' }));
+      return;
+    }
+
+    if (name === 'otp') {
+      const numeric = value.replace(/\D/g, '').slice(0, 6);
+      setFormData(prev => ({ ...prev, otp: numeric }));
+      if (errors.otp) setErrors(prev => ({ ...prev, otp: '' }));
+      return;
+    }
+
     setFormData(prev => {
       const updates: any = { [name]: val };
       if (name === 'state') {
@@ -154,6 +168,11 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
         consent: false
       });
       resetOtpState();
+    } else {
+      setErrors(prev => ({
+        ...prev,
+        otp: otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'
+      }));
     }
   };
 

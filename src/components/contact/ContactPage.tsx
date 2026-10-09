@@ -132,6 +132,19 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
   ) => {
     const target = e.target as HTMLInputElement;
     const { name, value, type, checked } = target;
+
+    if (name === 'phone') {
+      const val = value.replace(/\D/g, '').slice(0, 10);
+      setFormData((prev) => ({ ...prev, phone: val }));
+      return;
+    }
+
+    if (name === 'otp') {
+      const val = value.replace(/\D/g, '').slice(0, 6);
+      setFormData((prev) => ({ ...prev, otp: val }));
+      return;
+    }
+
     setFormData((prev) => {
       const updates: any = { [name]: type === 'checkbox' ? checked : value };
       if (name === 'state') {
@@ -470,6 +483,8 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                           value={formData.otp}
                           onChange={handleChange}
                           placeholder="OTP*"
+                          maxLength={6}
+                          inputMode="numeric"
                           disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                           required
                           className="cp-input-field"

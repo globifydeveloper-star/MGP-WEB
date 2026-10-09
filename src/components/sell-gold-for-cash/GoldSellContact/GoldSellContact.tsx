@@ -50,7 +50,12 @@ export default function GoldSellContact() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
-    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+    let val: any = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+    if (name === 'phone') {
+      val = (value as string).replace(/\D/g, '').slice(0, 10);
+    } else if (name === 'otp') {
+      val = (value as string).replace(/\D/g, '').slice(0, 6);
+    }
     setFormData((prev) => {
       const updates: any = { [name]: val };
       if (name === 'state') {
@@ -249,6 +254,8 @@ export default function GoldSellContact() {
                     value={formData.otp}
                     onChange={handleChange}
                     placeholder="OTP*"
+                    pattern="[0-9]{6}"
+                    maxLength={6}
                     disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                     required
                   />

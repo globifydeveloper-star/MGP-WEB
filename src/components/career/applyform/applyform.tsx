@@ -104,9 +104,11 @@ export default function ApplyForm({
                   id="phone" 
                   name="phone" 
                   required 
+                  maxLength={10}
+                  pattern="[0-9]{10}"
                   value={formData.phone}
                   onChange={onChangeInput}
-                  placeholder="e.g. +91 98765 43210"
+                  placeholder="e.g. 9876543210"
                   className="career-form-input" 
                 />
               </div>

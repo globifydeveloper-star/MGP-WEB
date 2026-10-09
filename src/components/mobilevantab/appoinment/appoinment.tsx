@@ -82,6 +82,16 @@ export default function Appoinment({ data }: AppoinmentProps) {
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
+
+    if (name === 'mobile') {
+      const numeric = value.replace(/\D/g, '').slice(0, 10);
+      setFormData((prev) => ({ ...prev, mobile: numeric }));
+      if (errors.mobile) {
+        setErrors((prev) => ({ ...prev, mobile: '' }));
+      }
+      return;
+    }
+
     setFormData((prev) => {
       const updates: any = { [name]: type === 'checkbox' ? checked : value };
       if (name === 'state') {
@@ -172,6 +182,11 @@ export default function Appoinment({ data }: AppoinmentProps) {
       });
       setOtp('');
       resetOtpState();
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        otp: otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'
+      }));
     }
   };
 
@@ -269,6 +284,8 @@ export default function Appoinment({ data }: AppoinmentProps) {
                         id="apt-mobile"
                         name="mobile"
                         type="tel"
+                        maxLength={10}
+                        inputMode="numeric"
                         className="apt-input apt-input-otp"
                         placeholder="Phone number"
                         disabled={otpState === 'sending' || otpState === 'verifying'}
