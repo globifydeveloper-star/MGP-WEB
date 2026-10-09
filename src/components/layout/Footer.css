@@ -64,6 +64,7 @@
 .quick-links-title {
   text-align: left;
   width: 100%;
+  padding-left: 35px;
 }
 
 .quick-links-subgrid {
@@ -503,6 +504,7 @@
   .quick-links-title {
     text-align: center;
     width: 100%;
+    padding-left: 0;
   }
 
   .quick-links-subgrid {

@@ -328,6 +328,7 @@ export default function GoldSellContact() {
                   name="consent"
                   checked={formData.consent}
                   onChange={handleChange}
+                  required
                 />
                 <span>
                   <ConsentText />
@@ -335,7 +336,24 @@ export default function GoldSellContact() {
               </label>
 
               {/* Submit Button */}
-              <button type="submit" className="grct-submit-btn" disabled={isSubmitting || !formData.consent}>
+              <button
+                type="submit"
+                className="grct-submit-btn"
+                disabled={
+                  isSubmitting ||
+                  otpState === 'idle' ||
+                  otpState === 'sending' ||
+                  otpState === 'verifying' ||
+                  !formData.name ||
+                  !formData.email ||
+                  !formData.phone ||
+                  !formData.otp ||
+                  !formData.state ||
+                  !formData.city ||
+                  !formData.branchCode ||
+                  !formData.consent
+                }
+              >
                 {isSubmitting ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> SUBMITTING... </>) : ('SUBMIT ENQUIRY')}
               </button>
             </form>

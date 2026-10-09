@@ -598,7 +598,21 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                     {/* Row 7: Submit CTA Button */}
                     <button
                       type="submit"
-                      disabled={isSubmitting || otpState === 'sending' || otpState === 'verifying' || !formData.consent}
+                      disabled={
+                        isSubmitting ||
+                        otpState === 'idle' ||
+                        otpState === 'sending' ||
+                        otpState === 'verifying' ||
+                        !formData.name ||
+                        !formData.email ||
+                        !formData.phone ||
+                        !formData.otp ||
+                        !formData.service ||
+                        !formData.state ||
+                        !formData.city ||
+                        !formData.branchCode ||
+                        !formData.consent
+                      }
                       className="cp-submit-btn"
                     >
                       <span>{isSubmitting ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Sending... </>) : ('Send Message')}</span>

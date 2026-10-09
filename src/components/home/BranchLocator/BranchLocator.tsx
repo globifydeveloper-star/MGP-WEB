@@ -114,29 +114,60 @@ function BranchLocatorInner({
     if (query.trim() || selectedState) setNearCoords(null);
   }, [query, selectedState]);
 
-  // All state summaries sorted by branch count (Loaded directly from live Branch Master API)
+function cleanBranchAddress(address?: string): string {
+  if (!address) return '';
+  return address
+    .replace(/,+/g, ', ')
+    .replace(/\bNear\s+District,\s*Hospital\b/gi, 'Near District Hospital')
+    .replace(/\s+/g, ' ')
+    .replace(/,\s*,/g, ', ')
+    .trim();
+}
+
+function formatBranchMapQuery(branch: {
+  address?: string;
+  city: string;
+  state: string;
+  pincode?: string;
+}): string {
+  const cleanAddr = cleanBranchAddress(branch.address);
+  const pin = branch.pincode && /^\d{6}$/.test(branch.pincode.trim()) ? branch.pincode.trim() : '';
+  const parts = [
+    'Muthoot Gold Point',
+    cleanAddr,
+    branch.city,
+    branch.state,
+    pin
+  ].filter(Boolean);
+  return parts.join(', ');
+}
+
+// All state summaries sorted by branch count (Loaded directly from live Branch Master API)
   const stateSummaries = useMemo(() => {
     return apiStates.map((stName) => {
       const bList = branchesByState[stName] || [];
       return {
         state: stName,
         count: bList.length,
-        branches: bList.map((b, idx) => ({
-          id: b.branchCode || `${stName}-${idx}`,
-          branchCode: b.branchCode,
-          name: b.branchName || `Muthoot Gold Point - ${b.location}`,
-          url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-            `"Muthoot Gold Point", ${b.addressLine1 || ''}, ${b.location}, ${stName}`
-          )}`,
-          address: b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location,
-          city: b.location,
-          pincode: b.pin,
-          state: stName,
-          phone: b.branchPhoneNo,
-          mobile: b.contactPersonMobile,
-          email: b.branchEmail,
-          timing: '10:00 AM - 6:30 PM',
-        })),
+        branches: bList.map((b, idx) => {
+          const rawAddress = b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location;
+          const cleanAddr = cleanBranchAddress(rawAddress);
+          const mapQueryString = `Muthoot Gold Point, ${cleanAddr}, ${b.location}, ${stName} ${b.pin || ''}`.trim();
+          return {
+            id: b.branchCode || `${stName}-${idx}`,
+            branchCode: b.branchCode,
+            name: b.branchName || `Muthoot Gold Point - ${b.location}`,
+            url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQueryString)}`,
+            address: cleanAddr,
+            city: b.location,
+            pincode: b.pin,
+            state: stName,
+            phone: b.branchPhoneNo,
+            mobile: b.contactPersonMobile,
+            email: b.branchEmail,
+            timing: '10:00 AM - 6:30 PM',
+          };
+        }),
       };
     }).sort((a, b) => b.count - a.count);
   }, [apiStates, branchesByState]);
@@ -229,11 +260,9 @@ function BranchLocatorInner({
             <BranchMap
               selectedBranchAddress={
                 selectedBranch
-                  ? `"Muthoot Gold Point", ${selectedBranch.address}, ${selectedBranch.city}, ${selectedBranch.state} - ${selectedBranch.pincode}`
-                  : filteredBranches.length > 0
-                  ? `"Muthoot Gold Point", ${filteredBranches[0].address}, ${filteredBranches[0].city}, ${filteredBranches[0].state} - ${filteredBranches[0].pincode}`
-                  : activeStateSummary && activeStateSummary.branches.length > 0
-                  ? `"Muthoot Gold Point", ${activeStateSummary.branches[0].address}, ${activeStateSummary.branches[0].city}, ${activeStateSummary.state}`
+                  ? formatBranchMapQuery(selectedBranch)
+                  : filteredBranches.length === 1
+                  ? formatBranchMapQuery(filteredBranches[0])
                   : undefined
               }
               searchQuery={query}

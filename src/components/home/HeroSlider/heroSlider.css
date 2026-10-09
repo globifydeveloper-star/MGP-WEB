@@ -127,6 +127,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding-top: 2.5rem;
 }
 
 .hero-slide-two-badge {
@@ -157,6 +158,7 @@
 }
 
 .hero-slide-two-badge-text {
+  font-family: 'Montserrat', var(--font-montserrat), sans-serif;
   font-size: 0.92rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -174,7 +176,7 @@
   font-weight: 800;
   line-height: 1.05;
   color: #FFFFFF;
-  margin: 0 0 1.1rem 0;
+  margin: 0 0 1.25rem 0;
   letter-spacing: -0.01em;
   max-width: 720px;
 }
@@ -193,7 +195,7 @@
 }
 
 .hero-slide-two-subcopy {
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 2rem 0;
   width: 100%;
 }
 
@@ -203,15 +205,15 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 
 .hero-slide-two-features-list li {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.85);
+  gap: 12px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .hero-slide-two-cta-group {
@@ -219,14 +221,16 @@
   align-items: center;
   gap: 1.25rem;
   flex-wrap: wrap;
+  margin-top: 3.5rem;
 }
 
 .hero-slide-two-btn {
   font-family: 'Gilroy', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 0.95rem;
-  padding: 1.1rem 2.25rem;
-  border-radius: 8px;
+  font-size: 0.98rem;
+  height: 54px;
+  padding: 0 2.5rem;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
@@ -262,11 +266,13 @@
 @media (max-width: 1024px) {
   .hero-slide-two-section {
     padding-top: 75px;
-    height: auto;
+    height: 100%;
     min-height: 100%;
-    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: #06132E;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
     box-sizing: border-box;
   }
 
@@ -280,19 +286,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
+    flex: 1;
+    min-height: 100%;
+    justify-content: space-between;
   }
 
   .hero-slide-two-mobile-poster-box {
     position: relative;
     width: 100%;
-    aspect-ratio: 941 / 1672;
-    max-height: calc(100dvh - 190px);
+    aspect-ratio: 941 / 1580;
+    max-height: calc(100dvh - 170px);
     border-radius: 0;
     overflow: hidden;
     background-color: #06132E;
@@ -308,8 +316,9 @@
     display: flex;
     justify-content: center;
     padding: 0 16px;
-    margin-top: 24px;
-    margin-bottom: 8px;
+    margin-top: auto;
+    padding-top: 18px;
+    padding-bottom: 84px;
     box-sizing: border-box;
     z-index: 5;
   }
@@ -317,8 +326,8 @@
   .hero-slide-two-mobile-btn-container .hero-slide-two-btn {
     width: 100%;
     max-width: 320px;
-    height: 48px;
-    font-size: 0.95rem;
+    height: 50px;
+    font-size: 0.98rem;
     font-weight: 700;
     border-radius: 999px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
@@ -328,7 +337,7 @@
 @media (max-width: 480px) {
   .hero-slide-two-section {
     padding-top: 70px;
-    padding-bottom: 46px;
+    padding-bottom: 0;
   }
 
   .hero-slide-two-mobile-wrapper {
@@ -340,16 +349,18 @@
 
   .hero-slide-two-mobile-poster-box {
     border-radius: 0;
-    max-height: calc(100dvh - 180px);
+    max-height: calc(100dvh - 160px);
   }
 
   .hero-slide-two-mobile-btn-container {
-    margin-top: 20px;
-    padding: 0 14px;
+    padding-top: 16px;
+    padding-bottom: 76px;
+    padding-left: 14px;
+    padding-right: 14px;
   }
 
   .hero-slide-two-mobile-btn-container .hero-slide-two-btn {
-    height: 46px;
-    font-size: 0.92rem;
+    height: 48px;
+    font-size: 0.95rem;
   }
 }
