@@ -27,6 +27,85 @@ export default function nextConfig(phase: string): NextConfig {
     async rewrites() {
       return [{ source: "/strapi/:path*", destination: `${strapiInternalUrl}/:path*` }];
     },
+    async redirects() {
+      return [
+        {
+          source: '/home',
+          destination: '/',
+          permanent: true,
+        },
+        {
+          source: '/index.php',
+          destination: '/',
+          permanent: true,
+        },
+        {
+          source: '/index.html',
+          destination: '/',
+          permanent: true,
+        },
+        {
+          source: '/faqs',
+          destination: '/faq',
+          permanent: true,
+        },
+        {
+          source: '/faq.php',
+          destination: '/faq',
+          permanent: true,
+        },
+        {
+          source: '/faq.html',
+          destination: '/faq',
+          permanent: true,
+        },
+        {
+          source: '/about-us.php',
+          destination: '/about-us',
+          permanent: true,
+        },
+        {
+          source: '/about-us.html',
+          destination: '/about-us',
+          permanent: true,
+        },
+        {
+          source: '/contact-us.php',
+          destination: '/contact-us',
+          permanent: true,
+        },
+        {
+          source: '/contact-us.html',
+          destination: '/contact-us',
+          permanent: true,
+        },
+        {
+          source: '/sell-gold',
+          destination: '/sell-gold-for-cash',
+          permanent: true,
+        },
+        {
+          source: '/sell-gold.php',
+          destination: '/sell-gold-for-cash',
+          permanent: true,
+        },
+        {
+          source: '/sell-gold.html',
+          destination: '/sell-gold-for-cash',
+          permanent: true,
+        },
+        {
+          source: '/branches',
+          destination: '/#branches',
+          permanent: true,
+        },
+        {
+          source: '/branch-locator',
+          destination: '/#branches',
+          permanent: true,
+        },
+      ];
+    },
     async headers() {
       return [
         {

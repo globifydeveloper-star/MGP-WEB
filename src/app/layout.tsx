@@ -50,6 +50,47 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://www.muthootgoldpoint.com/#organization',
+      name: 'Muthoot Gold Point',
+      legalName: 'Muthoot Exim Private Limited',
+      url: 'https://www.muthootgoldpoint.com',
+      logo: 'https://www.muthootgoldpoint.com/images/home/mgp-logo.png',
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+91-1800-102-1616',
+        contactType: 'customer service',
+        areaServed: 'IN',
+        availableLanguage: ['English', 'Hindi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam'],
+      },
+      sameAs: [
+        'https://www.facebook.com/muthootgoldpoint/',
+        'https://www.instagram.com/muthootgoldpoint/',
+        'https://www.linkedin.com/company/muthoot-exim-pvt-ltd',
+        'https://www.youtube.com/@MuthootGoldpoint',
+      ],
+    },
+    {
+      '@type': 'FinancialService',
+      '@id': 'https://www.muthootgoldpoint.com/#financialservice',
+      name: 'Muthoot Gold Point',
+      image: 'https://www.muthootgoldpoint.com/images/home/mgp-logo.png',
+      url: 'https://www.muthootgoldpoint.com',
+      telephone: '1800 102 1616',
+      priceRange: '₹₹₹',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'IN',
+      },
+      description: 'India\'s trusted gold buyer. Sell old, unused, or pledged gold for instant spot payment with scientific XRF purity testing.',
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,6 +100,10 @@ export default function RootLayout({
     <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} style={{ colorScheme: 'light' }} suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, '\\u003c') }}
+        />
       </head>
       <body style={{ colorScheme: 'light' }}>
         {children}

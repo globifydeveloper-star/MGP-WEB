@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import FAQPage from '@/components/faq/FAQPage';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { HOME_FAQS } from '@/lib/faqsData';
 
 export const metadata: Metadata = {
   title: 'FAQs | Muthoot Gold Point',
@@ -35,8 +36,25 @@ export const metadata: Metadata = {
 };
 
 export default function FAQRoute() {
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: HOME_FAQS.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
+      />
       <Navbar />
       <FAQPage />
       <Footer />

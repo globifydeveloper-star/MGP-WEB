@@ -13,7 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/gold-rate',
     '/sell-gold-for-cash',
     '/testimonials',
-    '/blog'
+    '/blog',
+    '/mobilevantab',
+    '/privacy-policy',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
