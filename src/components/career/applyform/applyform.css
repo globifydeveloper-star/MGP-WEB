@@ -158,6 +158,13 @@
   font-weight: 600;
 }
 
+.career-form-file-hint {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400 !important;
+  margin-top: 0.15rem;
+}
+
 .career-form-submit-btn {
   width: 100%;
   margin-top: 1.5rem;

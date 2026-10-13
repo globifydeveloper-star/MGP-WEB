@@ -210,7 +210,7 @@ export default function ApplyForm({
               </div>
 
               <div className="career-form-group career-form-group-full">
-                <label className="career-form-label">Upload Resume (PDF, DOCX) <span className="career-form-required">*</span></label>
+                <label className="career-form-label">Upload Resume (PDF, DOC, DOCX - Max 5 MB) <span className="career-form-required">*</span></label>
                 <div className="career-form-file-wrap">
                   <input 
                     type="file" 
@@ -226,7 +226,10 @@ export default function ApplyForm({
                     {formData.resumeName ? (
                       <p>Selected: <span>{formData.resumeName}</span></p>
                     ) : (
-                      <p>Drag & drop or <span>browse file</span></p>
+                      <>
+                        <p>Drag & drop or <span>browse file</span></p>
+                        <span className="career-form-file-hint">PDF, DOC, or DOCX (Max 5 MB)</span>
+                      </>
                     )}
                   </div>
                 </div>

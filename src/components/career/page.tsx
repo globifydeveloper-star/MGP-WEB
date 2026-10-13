@@ -67,6 +67,24 @@ export default function CareerPage({ data }: CareerPageProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      const maxSizeBytes = 5 * 1024 * 1024;
+      const allowedExts = ['.pdf', '.docx', '.doc'];
+      const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
+
+      if (!allowedExts.includes(ext)) {
+        alert('Invalid file type. Please upload a PDF, DOC, or DOCX file.');
+        e.target.value = '';
+        setFormData(prev => ({ ...prev, resumeName: '', resumeFile: null }));
+        return;
+      }
+
+      if (file.size > maxSizeBytes) {
+        alert('File size exceeds 5 MB. Please upload a resume under 5 MB.');
+        e.target.value = '';
+        setFormData(prev => ({ ...prev, resumeName: '', resumeFile: null }));
+        return;
+      }
+
       setFormData(prev => ({ ...prev, resumeName: file.name, resumeFile: file }));
     }
   };
@@ -84,7 +102,7 @@ export default function CareerPage({ data }: CareerPageProps) {
     }
 
     if (!formData.resumeFile) {
-      alert('Please upload your resume (PDF or DOCX).');
+      alert('Please upload your resume (PDF, DOC, or DOCX under 5 MB).');
       return;
     }
     
