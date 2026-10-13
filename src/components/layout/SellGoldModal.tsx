@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
-import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
+import { validateName, validateEmail, validatePhone, validateRequired, validateOtp, isValidLeadRef } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
@@ -42,6 +42,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     : [];
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [companyWebsite, setCompanyWebsite] = useState('');
 
@@ -72,9 +73,9 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     };
   }, [isOpen, onClose]);
 
-  // Reset form and submission status when modal is closed
+  // Reset form and submission status only after successful submission when modal is closed
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen && isSubmitted) {
       setFormData({
         name: '',
         email: '',
@@ -89,9 +90,10 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       });
       setCompanyWebsite('');
       setIsSubmitted(false);
+      setSubmittedLeadRef(null);
       resetOtpState();
     }
-  }, [isOpen, resetOtpState]);
+  }, [isOpen, isSubmitted, resetOtpState]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target as HTMLInputElement;
@@ -170,7 +172,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       return;
     }
 
-    const success = await verifyOtp(formData.phone, formData.otp, {
+    const res = await verifyOtp(formData.phone, formData.otp, {
       name: formData.name,
       email: formData.email,
       state: formData.state,
@@ -184,12 +186,13 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       enquiryType: 'Gold Valuation',
       formType: 'sell-gold-modal',
     });
-    if (success) {
+    if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+      setSubmittedLeadRef(res.leadRef);
       setIsSubmitted(true);
     } else {
       setErrors(prev => ({
         ...prev,
-        otp: otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'
+        otp: res.message || otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'
       }));
     }
   };
@@ -197,13 +200,12 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
   if (!isOpen || !mounted) return null;
 
   return createPortal(
-    <div className="sg-modal-overlay" onClick={onClose}>
+    <div className="sg-modal-overlay">
       <div
         className="sg-modal-container"
         role="dialog"
         aria-modal="true"
         aria-labelledby="sg-modal-title"
-        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="sg-modal-header">
@@ -227,6 +229,11 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
             <p className="sg-success-message">
               Thank you for contacting us, we have received your enquiry. We will reach out to you shortly.
             </p>
+            {submittedLeadRef && (
+              <p className="sg-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600, textAlign: 'center' }}>
+                Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
+              </p>
+            )}
             <button type="button" className="sg-success-close-btn" onClick={onClose}>
               Close Window
             </button>

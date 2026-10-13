@@ -27,6 +27,7 @@ export interface OtpResponse {
   success: boolean;
   message?: string;
   verified?: boolean;
+  leadRef?: string;
 }
 
 /**
@@ -120,6 +121,7 @@ export async function verifyOtp(
     return {
       success: true,
       verified: true,
+      ...(typeof data.leadRef === 'string' && data.leadRef.trim() ? { leadRef: data.leadRef.trim() } : {}),
     };
   } catch (err) {
     console.error('verifyOtp error:', err);

@@ -410,7 +410,7 @@ export async function submitFormSubmission(payload: {
   purity?: string;
   weight?: string;
   details?: StrapiAny;
-}): Promise<{ success: boolean; error?: string; code?: string }> {
+}): Promise<{ success: boolean; error?: string; code?: string; leadRef?: string }> {
   try {
     await assertPhoneVerified(payload.phone);
     const baseHeaders = getSubmissionHeaders();
@@ -441,7 +441,11 @@ export async function submitFormSubmission(payload: {
       return { success: false, error: errJson?.error?.message ?? `Server responded with ${valuationRes.status}` };
     }
 
-    return { success: true };
+    const valData = await valuationRes.json().catch(() => ({}));
+    return {
+      success: true,
+      ...(typeof valData?.leadRef === 'string' && valData.leadRef.trim() ? { leadRef: valData.leadRef.trim() } : {}),
+    };
   } catch (err) {
     if (err instanceof VerificationError) {
       console.warn('[submit] verification failed:', err.code);

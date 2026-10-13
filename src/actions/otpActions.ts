@@ -104,5 +104,10 @@ export async function verifyOtpAction(phone: string, otp: string, details?: Enqu
     });
   }
 
-  return result;
+  return {
+    success: result.success,
+    verified: result.verified,
+    ...(result.message ? { message: result.message } : {}),
+    ...(typeof result.leadRef === 'string' && result.leadRef.trim() ? { leadRef: result.leadRef.trim() } : {}),
+  };
 }

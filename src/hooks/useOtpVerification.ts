@@ -4,6 +4,13 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { sendOtpAction as sendOtp, verifyOtpAction as verifyOtp } from '@/actions/otpActions';
 import type { EnquiryDetails } from '@/lib/otp';
 
+export interface VerifyOtpResult {
+  success: boolean;
+  verified: boolean;
+  leadRef?: string;
+  message?: string;
+}
+
 export type OtpState = 'idle' | 'sending' | 'otpSent' | 'verifying' | 'verified' | 'expired' | 'error';
 
 export interface UseOtpVerificationOptions {
@@ -21,6 +28,7 @@ export function useOtpVerification(options: UseOtpVerificationOptions = {}) {
   const [countdown, setCountdown] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activePhone, setActivePhone] = useState<string>('');
+  const [leadRef, setLeadRef] = useState<string | null>(null);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -102,19 +110,22 @@ export function useOtpVerification(options: UseOtpVerificationOptions = {}) {
   }, [cooldownSeconds, phoneRegex, getStorageKey, checkCooldown]);
 
   const triggerVerifyOtp = useCallback(
-    async (phone: string, code: string, details?: EnquiryDetails) => {
+    async (phone: string, code: string, details?: EnquiryDetails): Promise<VerifyOtpResult> => {
       setErrorMessage(null);
+      setLeadRef(null);
 
       if (!phone || !phoneRegex.test(phone)) {
         setState('error');
-        setErrorMessage('Please enter a valid 10-digit phone number');
-        return false;
+        const msg = 'Please enter a valid 10-digit phone number';
+        setErrorMessage(msg);
+        return { success: false, verified: false, message: msg };
       }
 
       if (!code || code.length < 4) {
         setState('error');
-        setErrorMessage('Please enter a valid OTP code.');
-        return false;
+        const msg = 'Please enter a valid OTP code.';
+        setErrorMessage(msg);
+        return { success: false, verified: false, message: msg };
       }
 
       setState('verifying');
@@ -124,24 +135,35 @@ export function useOtpVerification(options: UseOtpVerificationOptions = {}) {
         if (typeof window !== 'undefined') {
           localStorage.removeItem(getStorageKey(phone));
         }
-        return true;
+        if (typeof res.leadRef === 'string' && res.leadRef.trim()) {
+          setLeadRef(res.leadRef.trim());
+        }
+        return {
+          success: true,
+          verified: true,
+          leadRef: res.leadRef,
+        };
       } else {
         // Check if the failure is expiry
         const isExpired = res.message?.toLowerCase().includes('expired');
         setState(isExpired ? 'expired' : 'error');
         setErrorMessage(res.message || 'Incorrect OTP.');
-        return false;
+        return {
+          success: false,
+          verified: false,
+          message: res.message || 'Incorrect OTP.',
+        };
       }
     },
     [phoneRegex, getStorageKey]
   );
-
 
   const resetOtpState = useCallback(() => {
     setState('idle');
     setCountdown(0);
     setErrorMessage(null);
     setActivePhone('');
+    setLeadRef(null);
   }, []);
 
   return {
@@ -149,6 +171,7 @@ export function useOtpVerification(options: UseOtpVerificationOptions = {}) {
     countdown,
     errorMessage,
     activePhone,
+    leadRef,
     sendOtp: triggerSendOtp,
     verifyOtp: triggerVerifyOtp,
     checkCooldown,

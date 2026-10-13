@@ -49,3 +49,11 @@ export const validateOtp = (otp: string): string | null => {
   }
   return null;
 };
+
+export const isValidLeadRef = (ref: unknown): ref is string => {
+  if (typeof ref !== 'string') return false;
+  const trimmed = ref.trim();
+  if (!trimmed) return false;
+  return /^[a-zA-Z0-9_-]{8,64}$/.test(trimmed);
+};
+

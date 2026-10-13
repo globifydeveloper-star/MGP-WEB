@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
-import { validateName, validateEmail, validatePhone, validateRequired, validateOtp } from '@/lib/validation';
+import { validateName, validateEmail, validatePhone, validateRequired, validateOtp, isValidLeadRef } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 
@@ -54,6 +54,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
   }, [formData.state, formData.city, branchesByState]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [companyWebsite, setCompanyWebsite] = useState('');
 
@@ -142,7 +143,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
       return;
     }
 
-    const success = await verifyOtp(formData.phone, formData.otp, {
+    const res = await verifyOtp(formData.phone, formData.otp, {
       name: formData.name,
       email: formData.email,
       state: formData.state,
@@ -155,7 +156,8 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
       formType: 'sell-gold-page',
     });
 
-    if (success) {
+    if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+      setSubmittedLeadRef(res.leadRef);
       setIsSubmitted(true);
       setFormData({
         name: '',
@@ -171,7 +173,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
     } else {
       setErrors(prev => ({
         ...prev,
-        otp: otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'
+        otp: res.message || otpErrorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.'
       }));
     }
   };
@@ -267,10 +269,18 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
                 <p className="sg-success-desc">
                   Thank you for contacting us, we have received your enquiry. Our team will get in touch with you shortly.
                 </p>
+                {submittedLeadRef && (
+                  <p className="sg-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600 }}>
+                    Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
+                  </p>
+                )}
                 <button
                   type="button"
                   className="btn btn-primary sg-success-reset-btn"
-                  onClick={() => setIsSubmitted(false)}
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setSubmittedLeadRef(null);
+                  }}
                 >
                   Submit Another Request
                 </button>

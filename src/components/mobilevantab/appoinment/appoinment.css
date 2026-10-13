@@ -259,8 +259,17 @@
   transition: var(--transition-smooth);
 }
 
-.apt-submit-btn:hover {
+.apt-submit-btn:hover:not(:disabled) {
   background: var(--gold-gradient-hover);
+}
+
+.apt-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #cbd5e1;
+  color: #64748b;
+  box-shadow: none;
+  transform: none;
 }
 
 /* Responsive */

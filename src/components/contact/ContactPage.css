@@ -544,10 +544,19 @@
   box-shadow: 0 8px 20px rgba(218, 161, 46, 0.3);
 }
 
-.cp-submit-btn:hover {
+.cp-submit-btn:hover:not(:disabled) {
   background: var(--gold-gradient-hover);
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(218, 161, 46, 0.4);
+}
+
+.cp-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #cbd5e1;
+  color: #64748b;
+  box-shadow: none;
+  transform: none;
 }
 
 .cp-btn-arrow-circle {

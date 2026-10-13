@@ -19,6 +19,7 @@ interface LocationPopupProps {
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { submitFormSubmissionAction as submitFormSubmission } from '@/actions/strapiActions';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { isValidLeadRef } from '@/lib/validation';
 
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, onOtpRequired }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
@@ -26,6 +27,8 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
   const [selectedBranchCode, setSelectedBranchCode] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedData, setSubmittedData] = useState<{name: string, phone: string, weight: string} | null>(null);
 
   const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
@@ -64,6 +67,8 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
       setSelectedCity('');
       setSelectedBranchCode('');
       setIsSubmitted(false);
+      setSubmittedLeadRef(null);
+      setSubmitError(null);
       setSubmittedData(null);
     }
   }, [isOpen]);
@@ -93,6 +98,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
     const branchName = selectedBranchObj?.branchName || `${selectedCity}, ${selectedState}`;
 
     setIsSubmitting(true);
+    setSubmitError(null);
     try {
       const res = await submitFormSubmission({
         name: clientData.name,
@@ -121,21 +127,31 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
         }
         return;
       }
+
+      if (res && res.success === true && isValidLeadRef((res as any).leadRef)) {
+        setSubmittedLeadRef((res as any).leadRef);
+        setIsSubmitted(true);
+        if (onSuccess) {
+          onSuccess();
+        }
+      } else {
+        const errorMsg = (res && ((res as any).error || (res as any).message)) || 'Submission failed. Please try again.';
+        setSubmitError(errorMsg);
+        alert(errorMsg);
+      }
     } catch (err) {
       console.error('Gold value estimate submission error:', err);
+      const errorMsg = 'Network error submitting form. Please try again.';
+      setSubmitError(errorMsg);
+      alert(errorMsg);
     } finally {
       setIsSubmitting(false);
-    }
-
-    setIsSubmitted(true);
-    if (onSuccess) {
-      onSuccess();
     }
   };
 
   return (
-    <div className="lp-modal-overlay" onClick={onClose}>
-      <div className="lp-modal-container" onClick={(e) => e.stopPropagation()}>
+    <div className="lp-modal-overlay">
+      <div className="lp-modal-container">
         {/* Header */}
         <div className="lp-modal-header">
           <h2 className="lp-modal-title">
@@ -159,12 +175,22 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
             <p className="lp-success-message">
               Thank you for contacting us, we have received your enquiry. Our team in {selectedCity}, {selectedState} will contact you shortly.
             </p>
+            {submittedLeadRef && (
+              <p className="lp-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600, textAlign: 'center' }}>
+                Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
+              </p>
+            )}
             <button type="button" className="lp-success-close-btn" onClick={onClose}>
               Close
             </button>
           </div>
         ) : (
           <form className="lp-modal-form" onSubmit={handleSubmit}>
+            {submitError && (
+              <div style={{ color: '#DC2626', fontSize: '0.8rem', marginBottom: '0.75rem', textAlign: 'center', background: '#FEE2E2', padding: '0.5rem', borderRadius: '4px' }}>
+                {submitError}
+              </div>
+            )}
             {/* State Selection */}
             <div className="lp-form-group">
               <div className="lp-select-wrapper">

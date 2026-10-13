@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import type { FormType } from '@/lib/otp';
+import { isValidLeadRef } from '@/lib/validation';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './OTPEnquiryForm.css';
 
@@ -26,6 +27,8 @@ export default function OTPEnquiryForm({
   const [message, setMessage] = useState('');
   const [consent, setConsent] = useState(false);
   const [shake, setShake] = useState(false);
+  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
 
@@ -74,7 +77,7 @@ export default function OTPEnquiryForm({
       return;
     }
 
-    const success = await verifyOtp(phone, otp, {
+    const res = await verifyOtp(phone, otp, {
       name,
       state: selectedState,
       city: selectedCity,
@@ -87,10 +90,12 @@ export default function OTPEnquiryForm({
       formType,
     });
     
-    if (!success) {
-      if (state !== 'verified') {
-        triggerShake();
-      }
+    if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+      setSubmittedLeadRef(res.leadRef);
+      setSubmitError(null);
+    } else {
+      setSubmitError(res.message || errorMessage || 'Invalid or incorrect OTP. Please enter the correct OTP.');
+      triggerShake();
     }
   };
 
@@ -99,7 +104,7 @@ export default function OTPEnquiryForm({
     setOtp(val);
   };
 
-  const isSubmitted = state === 'verified';
+  const isSubmitted = state === 'verified' && isValidLeadRef(submittedLeadRef);
 
   return (
     <div className={`otp-enquiry-card ${shake ? 'shake-animation' : ''}`}>
@@ -115,11 +120,18 @@ export default function OTPEnquiryForm({
           <p className="otp-success-desc">
             Thank you for contacting us, we have received your enquiry. We will be in touch shortly.
           </p>
+          {submittedLeadRef && (
+            <p className="otp-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600, textAlign: 'center' }}>
+              Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
+            </p>
+          )}
           <button
             type="button"
             className="otp-submit-btn otp-reset-btn"
             onClick={() => {
               resetOtpState();
+              setSubmittedLeadRef(null);
+              setSubmitError(null);
               setName('');
               setPhone('');
               setOtp('');
@@ -138,6 +150,12 @@ export default function OTPEnquiryForm({
           <p className="otp-enquiry-subtitle">
             Fill in the details to connect with us.
           </p>
+
+          {submitError && (
+            <div className="otp-error-msg" style={{ color: '#DC2626', fontSize: '0.8rem', marginBottom: '0.75rem', textAlign: 'center' }}>
+              {submitError}
+            </div>
+          )}
 
           {/* Name Field */}
           <div className="otp-form-group">
