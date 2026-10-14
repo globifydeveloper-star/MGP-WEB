@@ -17,7 +17,7 @@ const DEFAULT_CONTACT_HERO = '/ImageSet/Contact Us page/Hero Section 1774x887 px
 
 const SERVICES = [
   'Sell Gold for Cash',
-  'Gold Loan Service',
+  'Release Pledged Gold',
   'Mobile Van Appointment',
   'Branch Enquiry',
   'Gold Valuation & Purity Check',
@@ -30,7 +30,7 @@ const REGISTERED_OFFICE = {
   phone1: '0484 2351481',
   phone2: '0484 2351494',
   email: 'info@muthootexim.com',
-  mapEmbedUrl: 'https://maps.google.com/maps?q=Muthoot%20Towers,%20MG%20Road,%20Ernakulam,%20Kerala%20682035&t=&z=15&ie=UTF8&iwloc=&output=embed',
+  mapEmbedUrl: 'https://maps.google.com/maps?q=Muthoot%20Gold%20Point,%20AVS%20Building,%20MG%20Road,%20Ernakulam,%20Kerala%20682035&t=&z=16&ie=UTF8&iwloc=&output=embed',
 };
 
 /* Input Icons */
@@ -65,19 +65,6 @@ const PinIconGold = () => (
   <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
     <circle cx="12" cy="10" r="3" fill="#F1B933" />
-  </svg>
-);
-
-const PhoneIconGold = () => (
-  <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
-  </svg>
-);
-
-const BriefcaseIconGold = () => (
-  <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="7" width="20" height="14" rx="2" />
-    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
   </svg>
 );
 
@@ -242,8 +229,8 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
             </h1>
             <p className="cp-hero-lead">
               Have questions or need assistance? <br />
-              We’re here to help you with all your gold loan &amp; <br />
-              selling needs.
+              We’re here to help you with all your gold selling &amp; <br />
+              valuation needs.
             </p>
           </div>
         </section>
@@ -275,34 +262,6 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
 
                   <div className="cp-dotted-line" />
 
-                  {/* Phone 1 */}
-                  <div className="cp-card-item">
-                    <div className="cp-badge-circle">
-                      <PhoneIconGold />
-                    </div>
-                    <div className="cp-card-item-body">
-                      <a href={`tel:${(data?.officePhone1 || REGISTERED_OFFICE.phone1).replace(/\s+/g, '')}`} className="cp-contact-link">
-                        {data?.officePhone1 || REGISTERED_OFFICE.phone1}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="cp-dotted-line" />
-
-                  {/* Phone 2 */}
-                  <div className="cp-card-item">
-                    <div className="cp-badge-circle">
-                      <BriefcaseIconGold />
-                    </div>
-                    <div className="cp-card-item-body">
-                      <a href={`tel:${(data?.officePhone2 || REGISTERED_OFFICE.phone2).replace(/\s+/g, '')}`} className="cp-contact-link">
-                        {data?.officePhone2 || REGISTERED_OFFICE.phone2}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="cp-dotted-line" />
-
                   {/* Email */}
                   <div className="cp-card-item">
                     <div className="cp-badge-circle">
@@ -319,7 +278,11 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                 <div className="cp-map-box">
                   {(() => {
                     const mapUrl = data?.officeMapUrl || REGISTERED_OFFICE.mapEmbedUrl;
-                    return mapUrl.startsWith('https://www.google.com/maps/embed') ? (
+                    const isValidEmbed =
+                      mapUrl.startsWith('https://www.google.com/maps/embed') ||
+                      mapUrl.startsWith('https://maps.google.com/maps') ||
+                      mapUrl.includes('google.com/maps');
+                    return isValidEmbed ? (
                       <iframe
                         title="Muthoot Gold Point Registered Office Location"
                         className="cp-map-iframe"
@@ -332,8 +295,8 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                   {/* Floating Marker Card on Map */}
                   <div className="cp-map-popup">
                     <div className="cp-map-popup-body">
-                      <h4 className="cp-map-popup-title">{data?.officeMapPopupTitle || 'Muthoot Towers'}</h4>
-                      <p className="cp-map-popup-text">{data?.officeMapPopupText || 'M.G. Road, Ernakulam, Kerala - 682035'}</p>
+                      <h4 className="cp-map-popup-title">{data?.officeMapPopupTitle || 'Muthoot Gold Point'}</h4>
+                      <p className="cp-map-popup-text">{data?.officeMapPopupText || 'AVS Building, M.G. Road, Ernakulam, Kerala - 682035'}</p>
                     </div>
                     <div className="cp-map-popup-pin">
                       <svg viewBox="0 0 24 24" width="28" height="28" fill="#0B1536">

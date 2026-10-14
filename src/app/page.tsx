@@ -118,7 +118,7 @@ export default async function Home() {
       {/* 4. Comparison Table */}
       <GoldSellComparison rows={comparisonRows} />
 
-      {/* 5. The MGP Difference */}
+      {/* 5. Why Choose Muthoot Gold Point */}
       <TheGpDiff cards={differenceBoxes} />
 
 

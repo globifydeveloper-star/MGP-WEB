@@ -3,12 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 import Hero from '@/components/home/Hero/Hero';
 import HeroSlideTwo from './HeroSlideTwo';
+import HeroSlideThree from './HeroSlideThree';
 import HeroStats from './HeroStats';
 import goldsImg from '@/assets/images/golds.png';
 import './heroSlider.css';
 
-// Set to true to enable second slide auto-rotation
-const ENABLE_SECOND_SLIDE = true;
+// Set to true to enable multi-slide auto-rotation
+const ENABLE_HERO_SLIDER = true;
 const SLIDE_INTERVAL_MS = 10000; // 10 seconds per slide
 
 const DEFAULT_SLIDES = [
@@ -24,6 +25,12 @@ const DEFAULT_SLIDES = [
     heroImage: goldsImg,
     button1: { enabled: true, label: "Locate Nearest Branch", link: "#branches" },
     button2: { enabled: false, label: "See how it works", link: "#gold-sell-process" },
+  },
+  {
+    heroText: "Recycle Your Gold. Protect Nature, Empower the Nation",
+    heroSubtext: "Helping Nature by reducing mining for extracting gold, helping government through reducing Current Account Deficit, and 100% transparent process.",
+    button1: { enabled: true, label: "Locate Nearest Branch", link: "#branches" },
+    button2: { enabled: true, label: "Our Transparent Process", link: "#gold-sell-process" },
   },
 ];
 
@@ -42,11 +49,13 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  const slideList: any[] = slides && slides.length > 0 ? slides : DEFAULT_SLIDES;
+  const slideList: any[] = slides && slides.length > 0
+    ? (slides.length < DEFAULT_SLIDES.length ? [...slides, ...DEFAULT_SLIDES.slice(slides.length)] : slides)
+    : DEFAULT_SLIDES;
   const slideCount = slideList.length;
 
   useEffect(() => {
-    if (!ENABLE_SECOND_SLIDE || slideCount <= 1 || isPaused) return;
+    if (!ENABLE_HERO_SLIDER || slideCount <= 1 || isPaused) return;
     const id = setTimeout(() => {
       setActiveSlide((prev) => (prev + 1) % slideCount);
     }, SLIDE_INTERVAL_MS);
@@ -66,7 +75,7 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
     if (Math.abs(distance) >= 45) goToSlide(activeSlide + (distance < 0 ? 1 : -1));
   };
 
-  if (!ENABLE_SECOND_SLIDE || slideCount <= 1) {
+  if (!ENABLE_HERO_SLIDER || slideCount <= 1) {
     const firstSlide = slideList[0];
     const mediaType = firstSlide?.mediaType || (firstSlide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
     const imageSrc = firstSlide?.heroImage || firstSlide?.media?.url;
@@ -114,8 +123,16 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
                   trustBadgeHighlight={trustBadgeHighlight}
                   trustBadgeSuffix={trustBadgeSuffix}
                 />
-              ) : (
+              ) : idx === 1 ? (
                 <HeroSlideTwo
+                  slide={slide}
+                  imageSrc={imageSrc}
+                  trustBadgePrefix={trustBadgePrefix}
+                  trustBadgeHighlight={trustBadgeHighlight}
+                  trustBadgeSuffix={trustBadgeSuffix}
+                />
+              ) : (
+                <HeroSlideThree
                   slide={slide}
                   imageSrc={imageSrc}
                   trustBadgePrefix={trustBadgePrefix}

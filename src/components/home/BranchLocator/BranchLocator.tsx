@@ -89,7 +89,7 @@ function BranchLocatorInner({
   const [nearCoords, setNearCoords] = useState<{ lat: number; lng: number } | null>(null);
   const appliedStateParam = useRef<string | null>(null);
 
-  const { states: apiStates, branchesByState } = useBranchMaster();
+  const { states: apiStates, branchesByState, loading: branchesLoading } = useBranchMaster();
 
   // Deep-link from the footer's "Our Presence - States" links: ?state=<name>#branches
   // selects that state's branch list as soon as the Branch Master data loads.
@@ -117,6 +117,7 @@ function BranchLocatorInner({
 function cleanBranchAddress(address?: string): string {
   if (!address) return '';
   return address
+    .replace(/\b(Opp\.?|Near|Opposite)\s+Muthoot\s+Finance\b/gi, '')
     .replace(/,+/g, ', ')
     .replace(/\bNear\s+District,\s*Hospital\b/gi, 'Near District Hospital')
     .replace(/\s+/g, ' ')
@@ -130,10 +131,13 @@ function formatBranchMapQuery(branch: {
   state: string;
   pincode?: string;
 }): string {
-  const cleanAddr = cleanBranchAddress(branch.address);
+  let cleanAddr = cleanBranchAddress(branch.address);
+  if (cleanAddr.toLowerCase().startsWith('muthoot gold point')) {
+    cleanAddr = cleanAddr.replace(/^muthoot gold point[,\s]*/i, '').trim();
+  }
   const pin = branch.pincode && /^\d{6}$/.test(branch.pincode.trim()) ? branch.pincode.trim() : '';
   const parts = [
-    'Muthoot Gold Point',
+    'Muthoot Gold Point - We Buy Gold',
     cleanAddr,
     branch.city,
     branch.state,
@@ -153,10 +157,13 @@ function formatBranchMapQuery(branch: {
           const rawAddress = b.addressLine1 ? (b.addressLine2 ? `${b.addressLine1}, ${b.addressLine2}` : b.addressLine1) : b.location;
           const cleanAddr = cleanBranchAddress(rawAddress);
           const mapQueryString = `Muthoot Gold Point, ${cleanAddr}, ${b.location}, ${stName} ${b.pin || ''}`.trim();
+          const cleanName = b.branchName
+            ? (b.branchName.toUpperCase().includes('MUTHOOT GOLD POINT') ? b.branchName : `Muthoot Gold Point - ${b.branchName}`)
+            : `Muthoot Gold Point - ${b.location}`;
           return {
             id: b.branchCode || `${stName}-${idx}`,
             branchCode: b.branchCode,
-            name: b.branchName || `Muthoot Gold Point - ${b.location}`,
+            name: cleanName,
             url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQueryString)}`,
             address: cleanAddr,
             city: b.location,
@@ -232,6 +239,18 @@ function formatBranchMapQuery(branch: {
     return allBranches.find((b) => b.id === selectedBranchId) || null;
   }, [selectedBranchId, allBranches]);
 
+  // When a user selects a state or searches, default to the first matching branch if none is explicitly clicked
+  const activeBranch = useMemo(() => {
+    if (selectedBranch) return selectedBranch;
+    if (query.trim() !== '' && filteredBranches.length > 0) {
+      return filteredBranches[0];
+    }
+    if (activeStateSummary && activeStateSummary.branches.length > 0) {
+      return activeStateSummary.branches[0];
+    }
+    return null;
+  }, [selectedBranch, query, filteredBranches, activeStateSummary]);
+
   return (
     <section className="branch-locator-section" id="branches" ref={sectionRef}>
       <div className="container">
@@ -259,11 +278,7 @@ function formatBranchMapQuery(branch: {
           <div className="branch-locator-map-col">
             <BranchMap
               selectedBranchAddress={
-                selectedBranch
-                  ? formatBranchMapQuery(selectedBranch)
-                  : filteredBranches.length === 1
-                  ? formatBranchMapQuery(filteredBranches[0])
-                  : undefined
+                activeBranch ? formatBranchMapQuery(activeBranch) : undefined
               }
               searchQuery={query}
               activeStateName={activeStateSummary?.state}
@@ -351,7 +366,7 @@ function formatBranchMapQuery(branch: {
                   ) : (
                     filteredBranches.map((branch) => (
                       <div
-                        className={`branch-locator-branch-card${branch.id === selectedBranchId ? ' branch-locator-branch-card-active' : ''}`}
+                        className={`branch-locator-branch-card${branch.id === (selectedBranchId || activeBranch?.id) ? ' branch-locator-branch-card-active' : ''}`}
                         key={branch.id}
                         onClick={() => setSelectedBranchId(branch.id)}
                       >
@@ -419,7 +434,7 @@ function formatBranchMapQuery(branch: {
                 <div className="branch-locator-cards">
                   {activeStateSummary.branches.map((branch: any) => (
                     <div
-                      className={`branch-locator-branch-card${branch.id === selectedBranchId ? ' branch-locator-branch-card-active' : ''}`}
+                      className={`branch-locator-branch-card${branch.id === (selectedBranchId || activeBranch?.id) ? ' branch-locator-branch-card-active' : ''}`}
                       key={branch.id}
                       onClick={() => setSelectedBranchId(branch.id)}
                     >
@@ -472,49 +487,60 @@ function formatBranchMapQuery(branch: {
               <div className="branch-locator-content">
                 <div className="branch-locator-states-header">
                   <span className="branch-locator-states-subtitle">
-                    Select a state to view branches ({stateSummaries.length} states total)
+                    {stateSummaries.length === 0
+                      ? 'Loading branches across India...'
+                      : `Select a state to view branches (${stateSummaries.length} states total)`}
                   </span>
                 </div>
 
                 <div className="branch-locator-cards">
-                  {visibleStateSummaries.map((summary) => (
-                    <div
-                      className="branch-locator-card"
-                      key={summary.state}
-                      onClick={() => setSelectedState(summary.state)}
-                    >
-                      <div className="branch-locator-card-main">
-                        <h3 className="branch-locator-card-city">{summary.state}</h3>
-                        <p className="branch-locator-card-meta">
-                          {summary.count} Branch{summary.count !== 1 ? 'es' : ''} available
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        className="branch-locator-card-link-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedState(summary.state);
-                        }}
-                      >
-                        View Branches &gt;
-                      </button>
+                  {stateSummaries.length === 0 ? (
+                    <div style={{ padding: '2rem', textAlign: 'center', color: '#7C8298' }}>
+                      <span className="branch-locator-loading-spinner" style={{ display: 'inline-block', width: '22px', height: '22px', border: '2px solid rgba(245,179,1,0.3)', borderTopColor: '#F5B301', borderRadius: '50%', animation: 'spin 1s linear infinite', marginBottom: '8px' }}></span>
+                      <p style={{ margin: 0, fontSize: '0.9rem' }}>Fetching live branch directory...</p>
                     </div>
-                  ))}
+                  ) : (
+                    visibleStateSummaries.map((summary) => (
+                      <div
+                        className="branch-locator-card"
+                        key={summary.state}
+                        onClick={() => setSelectedState(summary.state)}
+                      >
+                        <div className="branch-locator-card-main">
+                          <h3 className="branch-locator-card-city">{summary.state}</h3>
+                          <p className="branch-locator-card-meta">
+                            {summary.count} Branch{summary.count !== 1 ? 'es' : ''} available
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          className="branch-locator-card-link-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedState(summary.state);
+                          }}
+                        >
+                          View Branches &gt;
+                        </button>
+                      </div>
+                    ))
+                  )}
                 </div>
 
                 {/* View All / Toggle Button */}
-                <div className="branch-locator-toggle-wrap">
-                  <button
-                    type="button"
-                    className="branch-locator-toggle-btn"
-                    onClick={() => setShowAllStates((prev) => !prev)}
-                  >
-                    {showAllStates
-                      ? 'Show Top 4 States ↑'
-                      : `View All ${stateSummaries.length} States ↓`}
-                  </button>
-                </div>
+                {stateSummaries.length > 4 && (
+                  <div className="branch-locator-toggle-wrap">
+                    <button
+                      type="button"
+                      className="branch-locator-toggle-btn"
+                      onClick={() => setShowAllStates((prev) => !prev)}
+                    >
+                      {showAllStates
+                        ? 'Show Top 4 States ↑'
+                        : `View All ${stateSummaries.length} States ↓`}
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

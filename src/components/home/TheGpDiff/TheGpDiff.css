@@ -51,6 +51,12 @@
   padding: 0 1.5rem 1.75rem 1.5rem;
   overflow: hidden;
   box-shadow: 0 4px 18px rgba(20, 22, 46, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gp-diff-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(20, 22, 46, 0.12);
 }
 
 .gp-diff-card-pattern {

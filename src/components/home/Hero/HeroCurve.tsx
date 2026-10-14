@@ -198,7 +198,7 @@ export default function HeroCurve() {
         style={{ left: 669, top: 208, opacity: 0 }}
       >
         <span className="label-text-white">Get the</span>
-        <span className="label-text-gold">Best Value</span>
+        <span className="label-text-gold">Fair Value</span>
         <span className="label-text-white">for your gold</span>
       </div>
 
