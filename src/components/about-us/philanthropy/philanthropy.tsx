@@ -2,40 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import { AboutUsPageData } from '@/lib/strapi';
 import './philanthropy.css';
-import aboutPhilanthropyImg from '@/assets/images/about-philanthropy.jpg';
+import f1Img from '@/assets/images/f1.jpg';
+import f3Img from '@/assets/images/f3.png';
 
 interface PhilanthropyProps { data?: AboutUsPageData | null; }
 
 export default function Philanthropy({ data }: PhilanthropyProps) {
-  const defaultPillars = [
-    {
-      letter: "H",
-      title: "Health",
-      desc: "Providing access to quality healthcare, diagnostics, and medical equipment in rural and economically backward regions.",
-      iconSvg: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>'
-    },
-    {
-      letter: "E",
-      title: "Education",
-      desc: "Supporting primary education, establishing learning centers, providing scholarships, and supporting digital classroom infrastructures.",
-      iconSvg: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>'
-    },
-    {
-      letter: "E",
-      title: "Environment",
-      desc: "Promoting green cover, driving clean energy solutions, encouraging organic farming methods, and supporting water harvesting programs.",
-      iconSvg: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>'
-    },
-    {
-      letter: "L",
-      title: "Livelihood",
-      desc: "Empowering under-served communities, youth, and women through skill development, vocational courses, and self-employment training.",
-      iconSvg: '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>'
-    }
-  ];
-  
-  const displayPillars = data?.philanthropyPillars && data.philanthropyPillars.length > 0 ? data.philanthropyPillars : defaultPillars;
-
   return (
     <section className="philanthropy-section">
       <div className="container">
@@ -53,44 +25,41 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
           </p>
         </div>
 
-        <div className="heel-container">
-          <div className="heel-info-box">
-            <h3>{data?.philanthropyInitiativeTitle || 'HEEL Initiative'}</h3>
-            <p>
-              {data?.philanthropyInitiativeDesc ? (
+        {/* Muthoot Football Academy CSR Initiative */}
+        <div className="football-academy-container">
+          <div className="football-academy-content">
+            <h3 className="football-academy-title">
+              {data?.philanthropyInitiativeTitle && data.philanthropyInitiativeTitle !== 'HEEL Initiative'
+                ? data.philanthropyInitiativeTitle
+                : 'Muthoot Football Academy'}
+            </h3>
+            <p className="football-academy-desc">
+              {data?.philanthropyInitiativeDesc && !data.philanthropyInitiativeDesc.includes('HEEL') ? (
                 <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.philanthropyInitiativeDesc) }} />
               ) : (
-                <>The corporate social responsibility (CSR) programs of Muthoot Blue revolve around the signature theme <strong>HEEL</strong>, touching thousands of lives by enhancing capabilities, providing health relief, and establishing self-reliant livelihoods.</>
+                <>
+                  The Muthoot Football Academy, a flagship initiative of the Muthoot Pappachan Foundation&apos;s sports division, aims to identify and train young football talents to become future stars. With a curriculum designed by international coaches, the Academy focuses on grassroots talent from districts where football is popular, conducting talent hunts in Kozhikode, Kochi, and Thiruvananthapuram. Forty-two selected talents receive comprehensive training, high-quality education, nutrition, healthcare, life skills, and career training. The Academy, a full-fledged residential facility near several schools, offers scholarships covering all expenses, including schooling, food, medical insurance, and accommodation. Students also benefit from physiotherapy services and participate in competitive matches and tournaments to hone their skills.
+                </>
               )}
             </p>
-            <div className="heel-info-image">
-              <a
-                href="https://muthoot.com/csr/philosophyandoutlook"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Muthoot Blue CSR - Philosophy and Outlook"
-                style={{ display: 'block' }}
-              >
-                <Image src={aboutPhilanthropyImg} alt="Muthoot Blue CSR - HEEL Initiative" />
-              </a>
-            </div>
           </div>
 
-          <div className="heel-pillars-grid">
-            {displayPillars.map((pillar: any, idx: number) => (
-              <div key={idx} className="heel-card glass-panel">
-                <div className="heel-letter-badge">{pillar.letter}</div>
-                <div className="heel-card-header">
-                  <div className="heel-icon-box">
-                    {(pillar.iconSvg || defaultPillars[idx]?.iconSvg) && (
-                      <div dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(pillar.iconSvg || defaultPillars[idx].iconSvg) }} />
-                    )}
-                  </div>
-                  <h3>{pillar.title}</h3>
-                </div>
-                <p>{pillar.desc}</p>
-              </div>
-            ))}
+          <div className="football-academy-visual">
+            <div className="football-academy-img-primary-wrap">
+              <Image
+                src={f1Img}
+                alt="Muthoot Football Academy - Training Future Stars"
+                className="football-academy-img-primary"
+                priority
+              />
+            </div>
+            <div className="football-academy-img-secondary-wrap">
+              <Image
+                src={f3Img}
+                alt="Muthoot Football Academy - Team Celebration"
+                className="football-academy-img-secondary"
+              />
+            </div>
           </div>
         </div>
 

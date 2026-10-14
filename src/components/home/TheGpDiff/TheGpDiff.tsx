@@ -99,10 +99,10 @@ export default function TheGpDiff({ cards }: TheGpDiffProps) {
       <div className="container">
         <div className="gp-diff-header">
           <h2 className="gp-diff-title">
-            Why Choose <span className="gp-diff-highlight">Muthoot Gold Point?</span>
+            Sell your <span className="gp-diff-highlight">Gold</span>
           </h2>
           <p className="gp-diff-subtitle">
-            India&apos;s first organised sector gold recycler &ndash; Built on trust, environmental responsibility, and scientific precision.
+            India&apos;s First National Level Organised Gold Buyer
           </p>
           <div className="gp-diff-divider" />
         </div>

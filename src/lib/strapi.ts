@@ -494,6 +494,14 @@ export interface HomepageData {
   locatorBranchesCount?: string;
 }
 
+export interface SlideFeature {
+  id?: number;
+  title: string;
+  desc?: string;
+  tag?: string;
+  iconType?: string;
+}
+
 export interface HeroSlide {
   id: number;
   heroText?: string;
@@ -501,6 +509,7 @@ export interface HeroSlide {
   slideLink?: string;
   button1?: CTA;
   button2?: CTA;
+  features?: SlideFeature[];
 }
 
 export interface ProcessStep {
@@ -657,7 +666,11 @@ export const getGlobalStats = cache(async function getGlobalStats(): Promise<Glo
 });
 
 export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroSlide[]> {
-  const data = await fetchStrapi<StrapiAny[]>('/api/hero-slides?populate=*', { cache: 'no-store' }, 'getHeroSlides');
+  const data = await fetchStrapi<StrapiAny[]>(
+    '/api/hero-slides?populate[0]=features&populate[1]=button1&populate[2]=button2&populate[3]=heroImage',
+    { cache: 'no-store' },
+    'getHeroSlides'
+  );
   const arr = Array.isArray(data) ? data : [];
   return arr.map((entry: StrapiAny) => {
     const flat = unwrap<StrapiAny>(entry);
@@ -668,6 +681,9 @@ export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroS
       slideLink: flat.slideLink,
       button1: flat.button1,
       button2: flat.button2,
+      features: Array.isArray(flat.features)
+        ? flat.features.map((f: StrapiAny) => unwrap<SlideFeature>(f))
+        : undefined,
     };
   });
 });

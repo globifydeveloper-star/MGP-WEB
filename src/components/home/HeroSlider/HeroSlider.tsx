@@ -30,7 +30,7 @@ const DEFAULT_SLIDES = [
   {
     heroText: "Recycle Your Gold. Protect Nature, Empower the Nation",
     heroSubtext: "Helping Nature by reducing mining for extracting gold, helping government through reducing Current Account Deficit, and 100% transparent process.",
-    heroImage: slideThreeImg,
+    heroImage: '/images/3rdslide.png',
     button1: { enabled: true, label: "Locate Nearest Branch", link: "#branches" },
     button2: { enabled: true, label: "Our Transparent Process", link: "#gold-sell-process" },
   },
@@ -111,7 +111,7 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
         {slideList.map((slide, idx) => {
           const isActive = activeSlide === idx;
           const mediaType = slide?.mediaType || (slide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
-          const imageSrc = slide?.heroImage || slide?.media?.url || (idx === 1 ? goldsImg : idx === 2 ? slideThreeImg : undefined);
+          const imageSrc = slide?.heroImage || slide?.media?.url || (idx === 1 ? goldsImg : idx === 2 ? '/images/3rdslide.png' : undefined);
           return (
             <div key={idx} className={`hero-slider-slide${isActive ? ' is-active' : ''}`} aria-hidden={!isActive}>
               {idx === 0 ? (

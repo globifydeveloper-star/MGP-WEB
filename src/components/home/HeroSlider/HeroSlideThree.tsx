@@ -7,12 +7,21 @@ import slideThreeImg from '@/assets/images/gold-recycling-nature.jpg';
 import './HeroSlideThree.css';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 
+export interface SlideFeatureData {
+  id?: number;
+  title: string;
+  desc?: string;
+  tag?: string;
+  iconType?: string;
+}
+
 export interface HeroSlideData {
   heroText?: string;
   heroSubtext?: string;
   heroImage?: any;
   button1?: { enabled?: boolean; label?: string; link?: string };
   button2?: { enabled?: boolean; label?: string; link?: string };
+  features?: SlideFeatureData[];
 }
 
 interface HeroSlideThreeProps {
@@ -30,7 +39,7 @@ export default function HeroSlideThree({
   trustBadgeHighlight = 'India’s First Organised Gold Recycler',
   trustBadgeSuffix = '',
 }: HeroSlideThreeProps) {
-  const finalImage = imageSrc || slideThreeImg;
+  const finalImage = imageSrc || '/images/3rdslide.png' || slideThreeImg;
   const btn1Enabled = slide?.button1?.enabled !== false;
   const btn1Label = slide?.button1?.label || 'Locate Nearest Branch';
   const btn1Link = slide?.button1?.link || '#branches';
@@ -94,97 +103,84 @@ export default function HeroSlideThree({
             </div>
           </div>
 
-          {/* Trust & Sustainability Badge */}
-          <div className="hero-slide-three-badge">
-            <span className="hero-slide-three-badge-icon" aria-hidden="true">
-              {/* Eco Leaf & Star Hybrid Icon */}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
-                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
-              </svg>
-            </span>
-            <span className="hero-slide-three-badge-text">
-              <span className="hero-slide-three-badge-highlight">{trustBadgePrefix}</span>{' '}
-              {trustBadgeHighlight} {trustBadgeSuffix}
-            </span>
-          </div>
-
-          {/* Slide Heading */}
-          <h2 className="hero-slide-three-title">
-            <span className="hero-slide-three-title-white">Recycle Your Gold.</span>
-            <span className="hero-slide-three-title-gradient">Protect Nature, Empower the Nation</span>
-          </h2>
-
-          <p className="hero-slide-three-subtitle">
-            Every gram of recycled gold creates a positive ripple effect — conserving the environment, preserving foreign reserves, and ensuring total fairness.
-          </p>
-
-          {/* 3 Themed Feature Cards with Distinct Visual Accents */}
+          {/* 3 Themed Feature Cards with Distinct Visual Accents (Dynamic from Strapi with fallback) */}
           <div className="hero-slide-three-pillars">
-            {/* 1. Helping Nature */}
-            <div className="hero-slide-three-card hero-slide-three-card-nature">
-              <div className="hero-slide-three-card-icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22v-9" />
-                  <path d="M12 13c-3-3-6-3-9 0 0-4.5 4.5-9 9-9s9 4.5 9 9c-3-3-6-3-9 0Z" />
-                  <path d="M8 17c1.5 1.5 3 2 4 2s2.5-.5 4-2" />
-                </svg>
-              </div>
-              <div className="hero-slide-three-card-body">
-                <div className="hero-slide-three-card-header">
-                  <h3 className="hero-slide-three-card-title">Helping Nature</h3>
-                  <span className="hero-slide-three-card-tag">Eco Conservation</span>
-                </div>
-                <p className="hero-slide-three-card-text">
-                  Helping Nature by reducing the mining for extracting gold from the gold mines, preserving ecosystems and natural resources.
-                </p>
-              </div>
-            </div>
+            {(slide?.features && slide.features.length > 0 ? slide.features : [
+              {
+                title: 'Helping Nature',
+                tag: 'Eco Conservation',
+                desc: 'Helping Nature by reducing the mining for extracting gold from the gold mines.',
+                iconType: 'nature'
+              },
+              {
+                title: 'Helping Government',
+                tag: 'Economic Growth',
+                desc: 'Helping government through reducing Current Account Deficit by importing less gold from International market.',
+                iconType: 'economy'
+              },
+              {
+                title: 'Transparent Process',
+                tag: '100% Scientific',
+                desc: 'Advanced German XRF purity testing right in front of you.',
+                iconType: 'trust'
+              }
+            ]).map((card: SlideFeatureData, idx: number) => {
+              const cardType = (() => {
+                const normIcon = (card.iconType || '').toLowerCase();
+                const normTitle = (card.title || '').toLowerCase();
+                if (normIcon === 'nature' || normTitle.includes('nature') || normTitle.includes('environment')) return 'nature';
+                if (normIcon === 'economy' || normTitle.includes('government') || normTitle.includes('economy') || normTitle.includes('cad')) return 'nation';
+                if (normIcon === 'trust' || normTitle.includes('transparent') || normTitle.includes('process')) return 'trust';
+                return idx === 0 ? 'nature' : idx === 1 ? 'nation' : 'trust';
+              })();
 
-            {/* 2. Helping Government / CAD */}
-            <div className="hero-slide-three-card hero-slide-three-card-nation">
-              <div className="hero-slide-three-card-icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 21h18" />
-                  <path d="M4 18h16" />
-                  <path d="M6 18v-7" />
-                  <path d="M10 18v-7" />
-                  <path d="M14 18v-7" />
-                  <path d="M18 18v-7" />
-                  <path d="M12 2 3 7h18l-9-5Z" />
-                </svg>
-              </div>
-              <div className="hero-slide-three-card-body">
-                <div className="hero-slide-three-card-header">
-                  <h3 className="hero-slide-three-card-title">Helping Government</h3>
-                  <span className="hero-slide-three-card-tag">Economic Growth</span>
-                </div>
-                <p className="hero-slide-three-card-text">
-                  Helping government through reducing Current Account Deficit by importing less gold from International market.
-                </p>
-              </div>
-            </div>
+              const defaultTag = cardType === 'nature' ? 'Eco Conservation' : cardType === 'nation' ? 'Economic Growth' : '100% Scientific';
+              const hasDesc = Boolean(card.desc && card.desc.trim());
 
-            {/* 3. Transparent Process */}
-            <div className="hero-slide-three-card hero-slide-three-card-trust">
-              <div className="hero-slide-three-card-icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3v18" />
-                  <path d="M4 7h16" />
-                  <path d="m3 7 4 7a2.5 2.5 0 0 0 5 0L8 7" />
-                  <path d="m16 7-4 7a2.5 2.5 0 0 0 5 0l4-7" />
-                </svg>
-              </div>
-              <div className="hero-slide-three-card-body">
-                <div className="hero-slide-three-card-header">
-                  <h3 className="hero-slide-three-card-title">Transparent Process</h3>
-                  <span className="hero-slide-three-card-tag">100% Scientific</span>
+              return (
+                <div key={card.id || `${card.title}-${idx}`} className={`hero-slide-three-card hero-slide-three-card-${cardType}${!hasDesc ? ' hero-slide-three-card-compact' : ''}`}>
+                  <div className="hero-slide-three-card-icon" aria-hidden="true">
+                    {cardType === 'nature' && (
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 22v-9" />
+                        <path d="M12 13c-3-3-6-3-9 0 0-4.5 4.5-9 9-9s9 4.5 9 9c-3-3-6-3-9 0Z" />
+                        <path d="M8 17c1.5 1.5 3 2 4 2s2.5-.5 4-2" />
+                      </svg>
+                    )}
+                    {cardType === 'nation' && (
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 21h18" />
+                        <path d="M4 18h16" />
+                        <path d="M6 18v-7" />
+                        <path d="M10 18v-7" />
+                        <path d="M14 18v-7" />
+                        <path d="M18 18v-7" />
+                        <path d="M12 2 3 7h18l-9-5Z" />
+                      </svg>
+                    )}
+                    {cardType === 'trust' && (
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 3v18" />
+                        <path d="M4 7h16" />
+                        <path d="m3 7 4 7a2.5 2.5 0 0 0 5 0L8 7" />
+                        <path d="m16 7-4 7a2.5 2.5 0 0 0 5 0l4-7" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="hero-slide-three-card-body">
+                    <div className="hero-slide-three-card-header">
+                      <h3 className="hero-slide-three-card-title">{card.title}</h3>
+                      <span className="hero-slide-three-card-tag">{card.tag || defaultTag}</span>
+                    </div>
+                    {hasDesc && (
+                      <p className="hero-slide-three-card-text">
+                        {card.desc}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <p className="hero-slide-three-card-text">
-                  Advanced German XRF purity testing right in front of you, 3-decimal precision weighing, and instant direct bank settlement.
-                </p>
-              </div>
-            </div>
+              );
+            })}
           </div>
 
           {/* CTA Buttons */}
