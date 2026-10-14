@@ -1,7 +1,7 @@
 import React from 'react';
 import Image, { StaticImageData } from 'next/image';
 import './CommunityPage.css';
-import srkImg from '@/assets/images/community/srk.jpg';
+import muthootLogo from '@/assets/images/muthootlogo.png';
 import butterfliesImg from '@/assets/images/community/Butterflies.jpg';
 import counsellingImg from '@/assets/images/community/card-expenses.png';
 import educationImg from '@/assets/images/community/education.jpg';
@@ -170,13 +170,12 @@ export default function CommunityPage() {
                 ))}
               </div>
             </div>
-            <div className="community-hero-media">
+            <div className="community-hero-media community-hero-logo">
               <Image
-                src={srkImg}
-                alt="Muthoot Pappachan Foundation CSR initiatives"
-                className="community-img"
+                src={muthootLogo}
+                alt="Muthoot Pappachan Group logo"
+                className="community-hero-logo-img"
                 priority
-                sizes="(max-width: 1024px) 100vw, 560px"
               />
             </div>
           </div>
