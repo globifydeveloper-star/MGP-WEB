@@ -133,7 +133,6 @@ export default async function Home() {
         heading={homepageData?.locatorHeading}
         highlight={homepageData?.locatorHighlight}
         subtitle={homepageData?.locatorSubtitle}
-        branchesCount={homepageData?.locatorBranchesCount}
       />
 
       {/* Mobile Van Banner */}

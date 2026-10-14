@@ -70,14 +70,12 @@ export interface BranchLocatorProps {
   heading?: string;
   highlight?: string;
   subtitle?: string;
-  branchesCount?: string;
 }
 
 function BranchLocatorInner({
   heading,
   highlight,
   subtitle,
-  branchesCount,
 }: BranchLocatorProps) {
   const searchParams = useSearchParams();
   const sectionRef = useRef<HTMLElement>(null);
@@ -263,7 +261,7 @@ function formatBranchMapQuery(branch: {
               </>
             ) : (
               <>
-                {branchesCount ? `${branchesCount} ` : '122+ '}
+                {allBranches.length > 0 ? `${allBranches.length}+ ` : '122+ '}
                 branches. <span className="branch-locator-title-highlight">{highlight || 'One standard.'}</span>
               </>
             )}

@@ -491,7 +491,6 @@ export interface HomepageData {
   locatorHeading?: string;
   locatorHighlight?: string;
   locatorSubtitle?: string;
-  locatorBranchesCount?: string;
 }
 
 export interface SlideFeature {
@@ -611,7 +610,6 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
     locatorHeading: flat.locatorHeading,
     locatorHighlight: flat.locatorHighlight,
     locatorSubtitle: flat.locatorSubtitle,
-    locatorBranchesCount: flat.locatorBranchesCount,
     homeVideos: Array.isArray(flat.homeVideos)
       ? flat.homeVideos.map((item: StrapiAny) => ({
         id: item.id,
