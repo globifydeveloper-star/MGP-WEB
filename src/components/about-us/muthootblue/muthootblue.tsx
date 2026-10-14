@@ -36,14 +36,18 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
               )}
             </h2>
 
-            <>
-              <p className="blue-desc">
-                The Muthoot Pappachan Group, also popularly known as the Muthoot Blue Group, is built on the bedrock of Trust and is shaped by core values of Integrity, Collaboration and Excellence. With the genesis in its Founder, Shri Muthoot Pappachan&apos;s unwavering faith in God&apos;s teachings of love, respect and duty towards humanity and resolute adherence to basic human values &amp; principles, the Group have evolved over the decades, into a business conglomerate that has the well-being of the people at the lower levels of socio-economic strata, at the very centre towards empowering the human ambition of these under-served masses in India.
-              </p>
-              <p className="blue-desc">
-                We are the part of Muthoot Pappachan Group (also known as Muthoot Blue). We have inherited values &amp; principles and taken over +138 years&apos; legacy forward to empower millions of Indians in their grit &amp; determination to rise above their ordinariness towards an aureate tomorrow. With around 4200 branches across India, we endeavor to serve over 1,00,000 customers a day. Including our other Group-companies products, we offer our target customer an extensive array of financial products &amp; services, like <a href="https://muthootfincorp.com" target="_blank" rel="noopener noreferrer" className="blue-link" style={{ color: '#0070c0' }}>Gold Loans</a>, Small Business Loans, Affordable Housing Loans, Two wheeler Loans, Used-car Loans, Domestic Money Transfer, International Remittance, Foreign Exchange, Insurance Products &amp; Services, Wealth Management Services for the common, Affordable Gold Jewellery and more. Each of these 4200 or so branches is like a financial super-market helping our customer in fulfilling most of their requirements under one roof.
-              </p>
-            </>
+            {data?.parentDescription ? (
+              <p className="blue-desc">{data.parentDescription}</p>
+            ) : (
+              <>
+                <p className="blue-desc">
+                  The Muthoot Pappachan Group, also popularly known as the Muthoot Blue Group, is built on the bedrock of Trust and is shaped by core values of Integrity, Collaboration and Excellence. With the genesis in its Founder, Shri Muthoot Pappachan&apos;s unwavering faith in God&apos;s teachings of love, respect and duty towards humanity and resolute adherence to basic human values &amp; principles, the Group have evolved over the decades, into a business conglomerate that has the well-being of the people at the lower levels of socio-economic strata, at the very centre towards empowering the human ambition of these under-served masses in India.
+                </p>
+                <p className="blue-desc">
+                  We are the part of Muthoot Pappachan Group (also known as Muthoot Blue). We have inherited values &amp; principles and taken over +138 years&apos; legacy forward to empower millions of Indians in their grit &amp; determination to rise above their ordinariness towards an aureate tomorrow. With around 4200 branches across India, we endeavor to serve over 1,00,000 customers a day. Including our other Group-companies products, we offer our target customer an extensive array of financial products &amp; services, like <a href="https://muthootfincorp.com" target="_blank" rel="noopener noreferrer" className="blue-link" style={{ color: '#0070c0' }}>Gold Loans</a>, Small Business Loans, Affordable Housing Loans, Two wheeler Loans, Used-car Loans, Domestic Money Transfer, International Remittance, Foreign Exchange, Insurance Products &amp; Services, Wealth Management Services for the common, Affordable Gold Jewellery and more. Each of these 4200 or so branches is like a financial super-market helping our customer in fulfilling most of their requirements under one roof.
+                </p>
+              </>
+            )}
 
             <ul className="blue-checklist">
               {data?.parentChecklist && data.parentChecklist.length > 0 ? (

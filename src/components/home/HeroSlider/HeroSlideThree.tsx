@@ -4,6 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import slideThreeImg from '@/assets/images/gold-recycling-nature.jpg';
+import trustIcon from '@/assets/images/trusticon.png';
+import lineImg from '@/assets/images/Line.png';
 import './HeroSlideThree.css';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 
@@ -40,6 +42,16 @@ export default function HeroSlideThree({
   trustBadgeSuffix = '',
 }: HeroSlideThreeProps) {
   const finalImage = imageSrc || '/images/3rdslide.png' || slideThreeImg;
+  const rawText = slide?.heroText?.trim() || '';
+  let whiteText = rawText;
+  let goldText = '';
+
+  if (rawText.includes('. ')) {
+    const splitIndex = rawText.indexOf('. ');
+    whiteText = rawText.substring(0, splitIndex + 1);
+    goldText = rawText.substring(splitIndex + 2);
+  }
+
   const btn1Enabled = slide?.button1?.enabled !== false;
   const btn1Label = slide?.button1?.label || 'Locate Nearest Branch';
   const btn1Link = slide?.button1?.link || '#branches';
@@ -102,6 +114,38 @@ export default function HeroSlideThree({
               <div className="hero-slide-three-mobile-img-overlay" />
             </div>
           </div>
+
+          {/* Desktop Trust Badge - Matches Slide 1 & Slide 2 */}
+          <div className="hero-trust-badge-v2">
+            <div className="trust-badge-header-v2">
+              <Image
+                src={trustIcon}
+                alt="Trust Icon"
+                width={34}
+                height={34}
+                className="trust-badge-icon-img"
+                priority
+              />
+              <span className="trust-badge-text-v2">
+                <span className="gold-highlight">{trustBadgePrefix || 'Muthoot Gold Point:'}</span> {trustBadgeHighlight || "India's First Organised Gold Recycler"} {trustBadgeSuffix}
+              </span>
+            </div>
+            <div className="trust-badge-line-wrapper">
+              <Image
+                src={lineImg}
+                alt=""
+                className="trust-badge-underline-img"
+                priority
+              />
+            </div>
+          </div>
+
+          {rawText && (
+            <h2 className="hero-main-title-v2">
+              <span className="hero-title-white-text">{whiteText}</span>
+              {goldText && <span className="hero-gold-text">{goldText}</span>}
+            </h2>
+          )}
 
           {/* 3 Themed Feature Cards with Distinct Visual Accents (Dynamic from Strapi with fallback) */}
           <div className="hero-slide-three-pillars">
@@ -183,11 +227,11 @@ export default function HeroSlideThree({
             })}
           </div>
 
-          {/* CTA Buttons */}
-          <div className="hero-slide-three-cta-group">
+          {/* CTA Buttons - Matching Slide 1 and Slide 2 identically */}
+          <div className="hero-cta-group-v2">
             {btn1Enabled && (
               <button
-                className="btn-gold-gradient hero-slide-three-btn"
+                className="btn-gold-gradient"
                 onClick={() => handleCta(btn1Link)}
               >
                 {btn1Label}
@@ -195,7 +239,7 @@ export default function HeroSlideThree({
             )}
             {btn2Enabled && (
               <button
-                className="hero-slide-three-btn hero-slide-three-btn-secondary"
+                className="btn-white-outline-v2"
                 onClick={() => handleCta(btn2Link)}
               >
                 {btn2Label}

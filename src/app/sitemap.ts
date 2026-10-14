@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/blog',
     '/mobilevantab',
     '/privacy-policy',
+    '/community',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),

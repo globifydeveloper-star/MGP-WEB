@@ -134,7 +134,7 @@
 }
 
 .hero-slide-three-badge-text {
-  font-family: 'Montserrat', var(--font-montserrat), sans-serif;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
   font-size: 0.84rem;
   font-weight: 500;
   letter-spacing: 0.025em;
@@ -146,35 +146,39 @@
   font-weight: 700;
 }
 
-/* Title */
+/* Title - Matches Slide 1 and 2 exactly */
 .hero-slide-three-title {
   font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: clamp(30px, 2.7vw, 42px);
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: clamp(34px, 2.9vw, 44px);
+  font-weight: 300;
+  line-height: 1.05;
   color: #FFFFFF;
-  margin: 0 0 0.85rem 0;
-  letter-spacing: -0.015em;
+  margin: 0 0 1.1rem 0;
+  letter-spacing: -0.01em;
   max-width: 720px;
 }
 
 .hero-slide-three-title-white {
   display: block;
   color: #FFFFFF;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
 }
 
 .hero-slide-three-title-gradient {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F5D372 35%, #EBAF20 70%, #6EE7B7 100%);
+  font-weight: 700;
+  background: linear-gradient(169.26deg, #E39E23 5.27%, #EEB648 40.63%, #FFE4A6 75.98%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: block;
 }
 
 .hero-slide-three-subtitle {
-  font-family: 'Montserrat', var(--font-montserrat), sans-serif;
-  font-size: 0.95rem;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-size: clamp(16px, 1.4vw, 21px);
+  font-weight: 300;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.78);
+  color: #FFFFFF;
   margin: 0 0 1.35rem 0;
   max-width: 660px;
 }
@@ -331,8 +335,8 @@
 }
 
 .hero-slide-three-card-title {
-  font-family: 'Gilroy', 'Outfit', sans-serif;
-  font-size: 1.02rem;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
@@ -342,8 +346,8 @@
 }
 
 .hero-slide-three-card-tag {
-  font-family: 'Montserrat', var(--font-montserrat), sans-serif;
-  font-size: 0.68rem;
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -352,29 +356,29 @@
 }
 
 .hero-slide-three-card-text {
-  font-family: 'Montserrat', var(--font-montserrat), sans-serif;
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.84);
+  font-family: 'Gilroy', 'Outfit', sans-serif;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
 }
 
-/* CTA Group */
+/* CTA Group - Matches Slide 1 and 2 exactly */
 .hero-slide-three-cta-group {
   display: flex;
   align-items: center;
-  gap: 1.15rem;
+  gap: 1.25rem;
   flex-wrap: wrap;
-  margin-top: 0.25rem;
+  margin-top: 1.5rem;
 }
 
 .hero-slide-three-btn {
   font-family: 'Gilroy', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 0.95rem;
-  height: 50px;
-  padding: 0 2.2rem;
-  border-radius: 10px;
+  font-size: 0.9rem;
+  height: 52px;
+  width: clamp(190px, 15vw, 230px);
+  border-radius: 10.14px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
@@ -387,15 +391,15 @@
 .hero-slide-three-btn-secondary {
   font-family: 'Gilroy', 'Outfit', sans-serif;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: #FFFFFF;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1.26px solid #FFFFFF;
 }
 
 .hero-slide-three-btn-secondary:hover {
   border-color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.05);
   transform: translateY(-2px);
 }
 

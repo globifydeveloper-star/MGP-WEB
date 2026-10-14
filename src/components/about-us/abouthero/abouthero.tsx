@@ -60,7 +60,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
           </span>
 
           <h1 className="about-hero-title">
-            Muthoot Gold Point — Trusted Gold Buyer
+            {data?.heroTitle || 'Muthoot Gold Point — Trusted Gold Buyer'}
           </h1>
         </div>
 
@@ -144,7 +144,9 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
 
             <div className="about-hero-who-we-are">
               <h3 className="about-hero-subheading">Who We Are</h3>
-              <p className="about-hero-desc">Muthoot Gold Point is a unit of Muthoot Exim (P) Ltd., the precious metal vertical of the Muthoot Pappachan Group that specialises in innovative products and offerings in the precious metal space. The vertical gives customers access to quality products that meet the highest standards at an affordable price. Apart from Muthoot Gold Point, Muthoot Exim&apos;s flagship products include Swarnavarsham, Swethavarsham, and Corporate gifting.</p>
+              <p className="about-hero-desc">
+                {data?.heroDescription || 'Muthoot Gold Point is a unit of Muthoot Exim (P) Ltd., the precious metal vertical of the Muthoot Pappachan Group that specialises in innovative products and offerings in the precious metal space. The vertical gives customers access to quality products that meet the highest standards at an affordable price. Apart from Muthoot Gold Point, Muthoot Exim\'s flagship products include Swarnavarsham, Swethavarsham, and Corporate gifting.'}
+              </p>
 
               <ul className="about-hero-checklist">
                 {data?.heroChecklist && data.heroChecklist.length > 0 ? (

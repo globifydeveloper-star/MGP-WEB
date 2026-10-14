@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { AboutUsPageData } from '@/lib/strapi';
 import './philanthropy.css';
 import f1Img from '@/assets/images/f1.jpg';
@@ -44,7 +45,11 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
             </p>
           </div>
 
-          <div className="football-academy-visual">
+          <Link
+            href="/community"
+            className="football-academy-visual"
+            aria-label="Explore our community initiatives"
+          >
             <div className="football-academy-img-primary-wrap">
               <Image
                 src={f1Img}
@@ -60,7 +65,7 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
                 className="football-academy-img-secondary"
               />
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="philanthropy-conclusion">

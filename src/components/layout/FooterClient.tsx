@@ -23,6 +23,7 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
     { id: 6, label: 'Testimonials', url: '/testimonials' },
     { id: 7, label: 'Contact Us', url: '/contact-us' },
     { id: 8, label: 'FAQs', url: '/faq' },
+    { id: 10, label: 'Community', url: '/community' },
     { id: 9, label: 'Privacy Policy', url: '/privacy-policy' },
   ];
 
@@ -30,6 +31,15 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
     const raw = footerSettings?.quickLinks && footerSettings.quickLinks.length > 0
       ? [...footerSettings.quickLinks]
       : [...defaultQuickLinks];
+
+    const hasCommunity = raw.some(l =>
+      l.label?.toLowerCase() === 'community' ||
+      l.url === '/community' ||
+      l.page?.slug === 'community'
+    );
+    if (!hasCommunity) {
+      raw.push({ id: 998, label: 'Community', url: '/community' });
+    }
 
     const hasPrivacy = raw.some(l =>
       l.label?.toLowerCase().includes('privacy') ||
@@ -194,7 +204,7 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
         <div className="footer-middle-bar">
           <div className="container middle-bar-container">
             <div className="legal-text-string">
-              CIN: U51909KL1998PTC012492 | GST Number: 32AACCM4564E1ZS | Contact ID: <a href="mailto:info@muthootexim.com" className="legal-contact-link">info@muthootexim.com</a> | Contact Number: <a href="tel:04842351481" className="legal-contact-link">0484 2351481</a>
+              CIN: U51909KL1998PTC012492 | GST Number: 32AACCM4564E1ZS | Contact ID: <a href="mailto:info@muthootexim.com" className="legal-contact-link">info@muthootexim.com</a>
             </div>
             <div className="middle-bar-right">
               <WebsiteDropdown />

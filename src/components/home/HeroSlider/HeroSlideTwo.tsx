@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import goldsImg from '@/assets/images/golds.png';
+import trustIcon from '@/assets/images/trusticon.png';
+import lineImg from '@/assets/images/Line.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import './heroSlider.css';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
@@ -117,24 +119,37 @@ export default function HeroSlideTwo({
 
       <div className="hero-slide-two-container">
         <div className="hero-slide-two-content">
-          {/* Desktop Trust Badge */}
-          <div className="hero-slide-two-badge">
-            <span className="hero-slide-two-badge-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </span>
-            <span className="hero-slide-two-badge-text">
-              <span className="hero-slide-two-badge-highlight">Muthoot Gold Point:</span> India&apos;s First National Level Organised Gold Buyer
-            </span>
+          {/* Desktop Trust Badge - Matches Slide 1 exactly */}
+          <div className="hero-trust-badge-v2">
+            <div className="trust-badge-header-v2">
+              <Image
+                src={trustIcon}
+                alt="Trust Icon"
+                width={34}
+                height={34}
+                className="trust-badge-icon-img"
+                priority
+              />
+              <span className="trust-badge-text-v2">
+                <span className="gold-highlight">{trustBadgePrefix || 'Muthoot Gold Point:'}</span> {trustBadgeHighlight || "India's First National Level Organised Gold Buyer"} {trustBadgeSuffix}
+              </span>
+            </div>
+            <div className="trust-badge-line-wrapper">
+              <Image
+                src={lineImg}
+                alt=""
+                className="trust-badge-underline-img"
+                priority
+              />
+            </div>
           </div>
 
-          <h2 className="hero-slide-two-title">
-            <span className="hero-slide-two-title-white">{whiteText}</span>
-            {goldText && <span className="hero-slide-two-title-gold">{goldText}</span>}
+          <h2 className="hero-main-title-v2">
+            <span className="hero-title-white-text">{whiteText}</span>
+            {goldText && <span className="hero-gold-text">{goldText}</span>}
           </h2>
 
-          <div className="hero-slide-two-subcopy">
+          <div className="hero-subcopy-wrapper-v2 hero-slide-two-subcopy">
             <ul className="hero-slide-two-features-list">
               <li>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EBAF20" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -151,14 +166,14 @@ export default function HeroSlideTwo({
             </ul>
           </div>
 
-          <div className="hero-slide-two-cta-group">
+          <div className="hero-cta-group-v2">
             {btn1Enabled && (
-              <button className="btn-gold-gradient hero-slide-two-btn" onClick={() => handleCta(btn1Link)}>
+              <button className="btn-gold-gradient" onClick={() => handleCta(btn1Link)}>
                 {btn1Label}
               </button>
             )}
             {btn2Enabled && (
-              <button className="hero-slide-two-btn hero-slide-two-btn-secondary" onClick={() => handleCta(btn2Link)}>
+              <button className="btn-white-outline-v2" onClick={() => handleCta(btn2Link)}>
                 {btn2Label}
               </button>
             )}

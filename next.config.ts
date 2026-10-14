@@ -137,6 +137,7 @@ export default function nextConfig(phase: string): NextConfig {
     },
     images: {
       formats: ["image/avif", "image/webp"],
+      qualities: [75, 90],
       remotePatterns: [
         {
           protocol: strapiUrl.protocol.replace(":", "") as "http" | "https",

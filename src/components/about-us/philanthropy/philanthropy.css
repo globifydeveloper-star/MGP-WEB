@@ -79,6 +79,8 @@
   align-items: flex-start;
   justify-content: flex-end;
   padding: 1rem 0 2rem 1.5rem;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 /* Primary Top-Right Card (f1.jpg) */
