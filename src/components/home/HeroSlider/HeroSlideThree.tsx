@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
+import slideThreeImg from '@/assets/images/gold-recycling-nature.jpg';
 import './HeroSlideThree.css';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 
@@ -28,6 +30,7 @@ export default function HeroSlideThree({
   trustBadgeHighlight = 'India’s First Organised Gold Recycler',
   trustBadgeSuffix = '',
 }: HeroSlideThreeProps) {
+  const finalImage = imageSrc || slideThreeImg;
   const btn1Enabled = slide?.button1?.enabled !== false;
   const btn1Label = slide?.button1?.label || 'Locate Nearest Branch';
   const btn1Link = slide?.button1?.link || '#branches';
@@ -59,14 +62,38 @@ export default function HeroSlideThree({
 
   return (
     <section className="hero-slide-three-section">
-      {/* Background with Ambient Radial Glows & Subtle Pattern */}
+      {/* Background with Ambient Radial Glows & Custom Gold Recycling Image */}
       <div className="hero-slide-three-bg" aria-hidden="true">
+        <Image
+          src={finalImage}
+          alt="Recycle Gold - Protect Nature, Empower the Nation"
+          fill
+          priority
+          sizes="100vw"
+          className="hero-slide-three-bg-img"
+        />
         <div className="hero-slide-three-pattern" />
         <div className="hero-slide-three-overlay" />
+        <div className="hero-slide-three-ambient-glow" />
       </div>
 
       <div className="hero-slide-three-container">
         <div className="hero-slide-three-content">
+          {/* Mobile Top Visual Banner */}
+          <div className="hero-slide-three-mobile-visual">
+            <div className="hero-slide-three-mobile-img-box">
+              <Image
+                src={finalImage}
+                alt="Recycle Gold - Protect Nature, Empower the Nation"
+                fill
+                sizes="(max-width: 768px) 100vw, 600px"
+                className="hero-slide-three-mobile-img"
+                priority
+              />
+              <div className="hero-slide-three-mobile-img-overlay" />
+            </div>
+          </div>
+
           {/* Trust & Sustainability Badge */}
           <div className="hero-slide-three-badge">
             <span className="hero-slide-three-badge-icon" aria-hidden="true">
