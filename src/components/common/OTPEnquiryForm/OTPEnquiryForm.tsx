@@ -120,11 +120,6 @@ export default function OTPEnquiryForm({
           <p className="otp-success-desc">
             Thank you for contacting us, we have received your enquiry. We will be in touch shortly.
           </p>
-          {submittedLeadRef && (
-            <p className="otp-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600, textAlign: 'center' }}>
-              Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
-            </p>
-          )}
           <button
             type="button"
             className="otp-submit-btn otp-reset-btn"

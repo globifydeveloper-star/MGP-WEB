@@ -43,7 +43,6 @@ export default function Appoinment({ data }: AppoinmentProps) {
   const [otp, setOtp] = useState('');
   const [companyWebsite, setCompanyWebsite] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
@@ -168,7 +167,6 @@ export default function Appoinment({ data }: AppoinmentProps) {
     });
 
     if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
-      setSubmittedLeadRef(res.leadRef);
       setIsSubmitted(true);
       setFormData({
         fullName: '',
@@ -229,17 +227,11 @@ export default function Appoinment({ data }: AppoinmentProps) {
                 <p className="sg-success-desc" style={{ color: '#4B5563', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
                   Thank you for contacting us, we have received your enquiry. We will contact you shortly to confirm your booking.
                 </p>
-                {submittedLeadRef && (
-                  <p className="apt-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', marginBottom: '1.5rem', fontWeight: 600 }}>
-                    Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
-                  </p>
-                )}
                 <button
                   type="button"
                   className="apt-submit-btn"
                   onClick={() => {
                     setIsSubmitted(false);
-                    setSubmittedLeadRef(null);
                   }}
                 >
                   Book Another Appointment

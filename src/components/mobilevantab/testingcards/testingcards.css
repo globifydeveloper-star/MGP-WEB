@@ -57,6 +57,7 @@
 .tc-image-col {
   position: relative;
   height: 80%;
+  align-self: center;
 }
 
 .tc-image-glow {

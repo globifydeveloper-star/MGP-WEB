@@ -885,6 +885,7 @@ export interface AboutUsPageData {
   philanthropyInitiativeDesc?: string;
   philanthropyImages?: string[];
   philanthropyLink?: string;
+  philanthropyLinkText?: string;
   philanthropyPillars?: { id: number; letter?: string; title: string; desc?: string; iconSvg?: string }[];
   philanthropyConclusion?: string;
   presentSubtitle?: string;
@@ -946,6 +947,7 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
     philanthropyInitiativeDesc: flat.philanthropyInitiativeDesc,
     philanthropyImages: Array.isArray(flat.philanthropyImages) ? flat.philanthropyImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
     philanthropyLink: flat.philanthropyLink,
+    philanthropyLinkText: flat.philanthropyLinkText,
     philanthropyPillars: flat.philanthropyPillars,
     philanthropyConclusion: flat.philanthropyConclusion,
     presentSubtitle: flat.presentSubtitle,

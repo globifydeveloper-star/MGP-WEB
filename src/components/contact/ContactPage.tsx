@@ -91,7 +91,6 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
   const [companyWebsite, setCompanyWebsite] = useState('');
 
   const {
@@ -179,7 +178,6 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
         formType: 'contact',
       });
       if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
-        setSubmittedLeadRef(res.leadRef);
         setIsSubmitted(true);
         setFormData({
           name: '',
@@ -357,17 +355,11 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                     <p className="cp-success-text">
                       Thank you for contacting us, we have received your enquiry. Our team will get back to you shortly.
                     </p>
-                    {submittedLeadRef && (
-                      <p className="cp-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600 }}>
-                        Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
-                      </p>
-                    )}
                     <button
                       type="button"
                       className="cp-submit-btn"
                       onClick={() => {
                         setIsSubmitted(false);
-                        setSubmittedLeadRef(null);
                       }}
                     >
                       Send Another Message

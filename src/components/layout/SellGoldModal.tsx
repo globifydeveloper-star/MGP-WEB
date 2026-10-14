@@ -42,7 +42,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     : [];
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [companyWebsite, setCompanyWebsite] = useState('');
 
@@ -90,7 +89,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       });
       setCompanyWebsite('');
       setIsSubmitted(false);
-      setSubmittedLeadRef(null);
       resetOtpState();
     }
   }, [isOpen, isSubmitted, resetOtpState]);
@@ -187,7 +185,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       formType: 'sell-gold-modal',
     });
     if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
-      setSubmittedLeadRef(res.leadRef);
       setIsSubmitted(true);
     } else {
       setErrors(prev => ({
@@ -229,11 +226,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
             <p className="sg-success-message">
               Thank you for contacting us, we have received your enquiry. We will reach out to you shortly.
             </p>
-            {submittedLeadRef && (
-              <p className="sg-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600, textAlign: 'center' }}>
-                Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
-              </p>
-            )}
             <button type="button" className="sg-success-close-btn" onClick={onClose}>
               Close Window
             </button>

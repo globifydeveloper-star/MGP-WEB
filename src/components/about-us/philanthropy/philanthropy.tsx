@@ -14,6 +14,8 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
     : 'Muthoot Football Academy';
   const primaryImg = data?.philanthropyImages?.[0] || f1Img;
   const secondaryImg = data?.philanthropyImages?.[1] || f3Img;
+  const csrLink = data?.philanthropyLink || '/community';
+  const csrLinkText = data?.philanthropyLinkText || 'Explore all our CSR initiatives';
 
   return (
     <section className="philanthropy-section">
@@ -45,13 +47,27 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
                 </>
               )}
             </p>
+            <Link href={csrLink} className="football-academy-cta">
+              {csrLinkText}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </Link>
           </div>
 
           <Link
-            href={data?.philanthropyLink || '/community'}
+            href={csrLink}
             className="football-academy-visual"
-            aria-label="Explore our community initiatives"
+            aria-label={csrLinkText}
           >
+            <span className="football-academy-visual-badge" aria-hidden="true">
+              View all CSR initiatives
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </span>
             <div className="football-academy-img-primary-wrap">
               <Image
                 src={primaryImg}

@@ -54,7 +54,6 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
   }, [formData.state, formData.city, branchesByState]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [companyWebsite, setCompanyWebsite] = useState('');
 
@@ -157,7 +156,6 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
     });
 
     if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
-      setSubmittedLeadRef(res.leadRef);
       setIsSubmitted(true);
       setFormData({
         name: '',
@@ -269,17 +267,11 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
                 <p className="sg-success-desc">
                   Thank you for contacting us, we have received your enquiry. Our team will get in touch with you shortly.
                 </p>
-                {submittedLeadRef && (
-                  <p className="sg-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600 }}>
-                    Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
-                  </p>
-                )}
                 <button
                   type="button"
                   className="btn btn-primary sg-success-reset-btn"
                   onClick={() => {
                     setIsSubmitted(false);
-                    setSubmittedLeadRef(null);
                   }}
                 >
                   Submit Another Request

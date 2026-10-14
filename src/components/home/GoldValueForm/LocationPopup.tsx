@@ -27,7 +27,6 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
   const [selectedBranchCode, setSelectedBranchCode] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittedLeadRef, setSubmittedLeadRef] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedData, setSubmittedData] = useState<{name: string, phone: string, weight: string} | null>(null);
 
@@ -67,7 +66,6 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
       setSelectedCity('');
       setSelectedBranchCode('');
       setIsSubmitted(false);
-      setSubmittedLeadRef(null);
       setSubmitError(null);
       setSubmittedData(null);
     }
@@ -129,7 +127,6 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
       }
 
       if (res && res.success === true && isValidLeadRef((res as any).leadRef)) {
-        setSubmittedLeadRef((res as any).leadRef);
         setIsSubmitted(true);
         if (onSuccess) {
           onSuccess();
@@ -175,11 +172,6 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
             <p className="lp-success-message">
               Thank you for contacting us, we have received your enquiry. Our team in {selectedCity}, {selectedState} will contact you shortly.
             </p>
-            {submittedLeadRef && (
-              <p className="lp-reference-text" style={{ fontSize: '0.85rem', color: '#4B5563', margin: '0.5rem 0 1rem', fontWeight: 600, textAlign: 'center' }}>
-                Your reference: <span style={{ color: '#0c1f6c', letterSpacing: '0.05em' }}>{submittedLeadRef}</span>
-              </p>
-            )}
             <button type="button" className="lp-success-close-btn" onClick={onClose}>
               Close
             </button>
