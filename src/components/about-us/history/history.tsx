@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AboutUsPageData } from '@/lib/strapi';
+import CmsParagraphs from '../CmsParagraphs';
 import './history.css';
 import muthootLogo from '@/assets/images/muthootlogo.png';
 
@@ -60,6 +61,15 @@ export default function History({ data }: HistoryProps) {
               style={{ float: 'right', marginLeft: '2rem', marginBottom: '1rem', marginTop: '0.4rem', borderRadius: '12px', width: '28%', maxWidth: '240px', height: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', cursor: 'pointer' }}
             />
           </Link>
+          {data?.historySections && data.historySections.length > 0 ? (
+            data.historySections.map((section) => (
+              <div key={section.id} className="history-cms-section">
+                {section.heading && <h3>{section.heading}</h3>}
+                {section.body && <CmsParagraphs text={section.body} />}
+              </div>
+            ))
+          ) : (
+          <>
           <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.35rem', marginBottom: '0.85rem', fontWeight: 800 }}>History</h3>
           <p style={{ marginBottom: '1.75rem', color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: '1.8' }}>
             Muthoot Pappachan Group, more popularly known as Muthoot Blue, takes its name from its family, which is a branch of a traditional Orthodox Christian family, based in Kozhencherry, a small town in the erstwhile primary state of Travancore. (Kerala).
@@ -80,6 +90,8 @@ export default function History({ data }: HistoryProps) {
           <p style={{ marginBottom: '0', color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: '1.8' }}>
             Over the years, the Muthoot Pappachan Group has grown to become a significant entity in the Indian business landscape. &quot;A journey of a thousand miles begins with a single step&quot;. True to this adage, the group which has roots in retail trading, later diversified into various sectors including Financial Services, Hospitality, Automotive, Realty, IT Services, Healthcare, Precious Metals, Global Services and Alternate Energy.
           </p>
+          </>
+          )}
         </div>
 
         <div className="timeline-container" style={{ marginTop: '4rem' }}>

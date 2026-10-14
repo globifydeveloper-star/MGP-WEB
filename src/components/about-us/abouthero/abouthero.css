@@ -281,7 +281,8 @@
   font-size: 0.95rem;
 }
 
-.about-hero-link {
+.about-hero-link,
+.about-hero-info-card .about-hero-desc a {
   color: var(--gold-primary);
   text-decoration: underline;
 }

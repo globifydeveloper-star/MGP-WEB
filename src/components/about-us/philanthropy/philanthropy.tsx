@@ -9,6 +9,12 @@ import f3Img from '@/assets/images/f3.png';
 interface PhilanthropyProps { data?: AboutUsPageData | null; }
 
 export default function Philanthropy({ data }: PhilanthropyProps) {
+  const initiativeTitle = data?.philanthropyInitiativeTitle && data.philanthropyInitiativeTitle !== 'HEEL Initiative'
+    ? data.philanthropyInitiativeTitle
+    : 'Muthoot Football Academy';
+  const primaryImg = data?.philanthropyImages?.[0] || f1Img;
+  const secondaryImg = data?.philanthropyImages?.[1] || f3Img;
+
   return (
     <section className="philanthropy-section">
       <div className="container">
@@ -29,11 +35,7 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
         {/* Muthoot Football Academy CSR Initiative */}
         <div className="football-academy-container">
           <div className="football-academy-content">
-            <h3 className="football-academy-title">
-              {data?.philanthropyInitiativeTitle && data.philanthropyInitiativeTitle !== 'HEEL Initiative'
-                ? data.philanthropyInitiativeTitle
-                : 'Muthoot Football Academy'}
-            </h3>
+            <h3 className="football-academy-title">{initiativeTitle}</h3>
             <p className="football-academy-desc">
               {data?.philanthropyInitiativeDesc && !data.philanthropyInitiativeDesc.includes('HEEL') ? (
                 <span dangerouslySetInnerHTML={{ __html: require('isomorphic-dompurify').sanitize(data.philanthropyInitiativeDesc) }} />
@@ -46,23 +48,27 @@ export default function Philanthropy({ data }: PhilanthropyProps) {
           </div>
 
           <Link
-            href="/community"
+            href={data?.philanthropyLink || '/community'}
             className="football-academy-visual"
             aria-label="Explore our community initiatives"
           >
             <div className="football-academy-img-primary-wrap">
               <Image
-                src={f1Img}
-                alt="Muthoot Football Academy - Training Future Stars"
+                src={primaryImg}
+                alt={`${initiativeTitle} - Training Future Stars`}
                 className="football-academy-img-primary"
+                fill
+                sizes="(max-width: 992px) 90vw, 500px"
                 priority
               />
             </div>
             <div className="football-academy-img-secondary-wrap">
               <Image
-                src={f3Img}
-                alt="Muthoot Football Academy - Team Celebration"
+                src={secondaryImg}
+                alt={`${initiativeTitle} - Team Celebration`}
                 className="football-academy-img-secondary"
+                fill
+                sizes="(max-width: 992px) 50vw, 320px"
               />
             </div>
           </Link>

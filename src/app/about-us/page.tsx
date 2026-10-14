@@ -45,10 +45,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const [data, faqs] = await Promise.all([
+  const [data, aboutFaqs] = await Promise.all([
     getAboutUsPage(),
-    getFaqs('home'),
+    getFaqs('about-us'),
   ]);
+  // Use About Us FAQs when any exist in Strapi, otherwise share the home FAQs.
+  const faqs = aboutFaqs.length > 0 ? aboutFaqs : await getFaqs('home');
   if (!data) return notFound();
   return (
     <>

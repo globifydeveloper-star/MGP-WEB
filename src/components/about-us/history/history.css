@@ -151,3 +151,31 @@
     font-size: 1.85rem;
   }
 }
+
+/* CMS-authored history sections (mirror the built-in inline styles) */
+.history-cms-section + .history-cms-section {
+  margin-top: 1.75rem;
+}
+
+.history-cms-section h3 {
+  color: var(--gold-primary);
+  font-size: 1.35rem;
+  margin-bottom: 0.85rem;
+  font-weight: 800;
+}
+
+.history-cms-section p {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.history-cms-section p:last-child {
+  margin-bottom: 0;
+}
+
+.history-cms-section a {
+  color: var(--gold-primary);
+  text-decoration: underline;
+}

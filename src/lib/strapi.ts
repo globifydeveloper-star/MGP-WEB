@@ -775,7 +775,7 @@ export const getTestimonials = cache(async function getTestimonials(): Promise<T
   });
 });
 
-export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate' = 'home'): Promise<FAQ[]> {
+export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate' | 'about-us' = 'home'): Promise<FAQ[]> {
   const data = await fetchStrapi<StrapiAny[]>(`/api/faqs?filters[section][$eq]=${section}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqs');
   const arr = Array.isArray(data) ? data : [];
   return arr.map((entry: StrapiAny) => {
@@ -843,13 +843,21 @@ export const getFaqsByPage = cache(async function getFaqsByPage(pageId: number):
   });
 });
 
+export interface TextSection {
+  id: number;
+  heading?: string;
+  body?: string;
+}
+
 export interface AboutUsPageData {
   heroEyebrow?: string;
   heroTitle?: string;
+  heroWhoWeAreHeading?: string;
   heroDescription?: string;
   heroButtonText?: string;
   heroButtonLink?: string;
   heroChecklist?: { id: number; text: string }[];
+  heroInfoCards?: TextSection[];
   heroStats?: { id: number; label: string; number: string }[];
   heroImages?: string[];
   recyclingSubtitle?: string;
@@ -859,6 +867,7 @@ export interface AboutUsPageData {
   historySubtitle?: string;
   historyTitle?: string;
   historyDescription?: string;
+  historySections?: TextSection[];
   historyMilestones?: { id: number; year?: string; title: string; desc?: string }[];
   parentEyebrow?: string;
   parentTitle?: string;
@@ -866,12 +875,18 @@ export interface AboutUsPageData {
   parentChecklist?: { id: number; text: string }[];
   parentCompareHeading?: string;
   parentStats?: { id: number; label: string; number: string }[];
+  parentTableHeaderLeft?: string;
+  parentTableHeaderRight?: string;
+  parentCtaText?: string;
+  parentCtaLink?: string;
   parentPortraitImage?: string;
   philanthropySubtitle?: string;
   philanthropyTitle?: string;
   philanthropyDescription?: string;
   philanthropyInitiativeTitle?: string;
   philanthropyInitiativeDesc?: string;
+  philanthropyImages?: string[];
+  philanthropyLink?: string;
   philanthropyPillars?: { id: number; letter?: string; title: string; desc?: string; iconSvg?: string }[];
   philanthropyConclusion?: string;
   presentSubtitle?: string;
@@ -898,10 +913,12 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
   return {
     heroEyebrow: flat.heroEyebrow,
     heroTitle: flat.heroTitle,
+    heroWhoWeAreHeading: flat.heroWhoWeAreHeading,
     heroDescription: flat.heroDescription,
     heroButtonText: flat.heroButtonText,
     heroButtonLink: flat.heroButtonLink,
     heroChecklist: flat.heroChecklist,
+    heroInfoCards: flat.heroInfoCards,
     heroStats: flat.heroStats,
     heroImages: Array.isArray(flat.heroImages) ? flat.heroImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
     recyclingSubtitle: flat.recyclingSubtitle,
@@ -911,6 +928,7 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
     historySubtitle: flat.historySubtitle,
     historyTitle: flat.historyTitle,
     historyDescription: flat.historyDescription,
+    historySections: flat.historySections,
     historyMilestones: flat.historyMilestones,
     parentEyebrow: flat.parentEyebrow,
     parentTitle: flat.parentTitle,
@@ -918,12 +936,18 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
     parentChecklist: flat.parentChecklist,
     parentCompareHeading: flat.parentCompareHeading,
     parentStats: flat.parentStats,
+    parentTableHeaderLeft: flat.parentTableHeaderLeft,
+    parentTableHeaderRight: flat.parentTableHeaderRight,
+    parentCtaText: flat.parentCtaText,
+    parentCtaLink: flat.parentCtaLink,
     parentPortraitImage: getMediaUrl(flat.parentPortraitImage),
     philanthropySubtitle: flat.philanthropySubtitle,
     philanthropyTitle: flat.philanthropyTitle,
     philanthropyDescription: flat.philanthropyDescription,
     philanthropyInitiativeTitle: flat.philanthropyInitiativeTitle,
     philanthropyInitiativeDesc: flat.philanthropyInitiativeDesc,
+    philanthropyImages: Array.isArray(flat.philanthropyImages) ? flat.philanthropyImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
+    philanthropyLink: flat.philanthropyLink,
     philanthropyPillars: flat.philanthropyPillars,
     philanthropyConclusion: flat.philanthropyConclusion,
     presentSubtitle: flat.presentSubtitle,
@@ -937,8 +961,10 @@ export const getAboutUsPage = cache(async function getAboutUsPage(): Promise<Abo
     presentServices: flat.presentServices,
     seoTitle: flat.seoTitle,
     seoDescription: flat.seoDescription,
+    seoKeywords: flat.seoKeywords,
     ogImage: getMediaUrl(flat.ogImage),
     hideFooter: flat.hideFooter ?? false,
+    hideNavbar: flat.hideNavbar ?? false,
   };
 });
 

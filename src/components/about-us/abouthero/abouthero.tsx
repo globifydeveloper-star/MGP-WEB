@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './abouthero.css';
 import Image from 'next/image';
 import type { AboutUsPageData } from '@/lib/strapi';
+import CmsParagraphs from '../CmsParagraphs';
 
 interface AboutHeroProps {
   onExploreClick: () => void;
@@ -43,6 +44,15 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
     touchStartX.current = null;
     if (Math.abs(distance) >= 35) {
       goToSlide(activeSlide + (distance < 0 ? 1 : -1));
+    }
+  };
+
+  // CMS-authored info cards can link to "#sell-gold" to open the Sell Gold form.
+  const handleInfoCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const link = (e.target as HTMLElement).closest('a');
+    if (link?.getAttribute('href') === '#sell-gold') {
+      e.preventDefault();
+      onExploreClick();
     }
   };
 
@@ -143,7 +153,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
             </div>
 
             <div className="about-hero-who-we-are">
-              <h3 className="about-hero-subheading">Who We Are</h3>
+              <h3 className="about-hero-subheading">{data?.heroWhoWeAreHeading || 'Who We Are'}</h3>
               <p className="about-hero-desc">
                 {data?.heroDescription || 'Muthoot Gold Point is a unit of Muthoot Exim (P) Ltd., the precious metal vertical of the Muthoot Pappachan Group that specialises in innovative products and offerings in the precious metal space. The vertical gives customers access to quality products that meet the highest standards at an affordable price. Apart from Muthoot Gold Point, Muthoot Exim\'s flagship products include Swarnavarsham, Swethavarsham, and Corporate gifting.'}
               </p>
@@ -185,6 +195,16 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
           </div>
 
           {/* Bottom Content: Key facts as cards */}
+          {data?.heroInfoCards && data.heroInfoCards.length > 0 ? (
+            <div className="about-hero-info-grid" onClick={handleInfoCardClick}>
+              {data.heroInfoCards.map((card) => (
+                <div key={card.id} className="about-hero-info-card">
+                  {card.heading && <h3 className="about-hero-subheading">{card.heading}</h3>}
+                  {card.body && <CmsParagraphs text={card.body} className="about-hero-desc" />}
+                </div>
+              ))}
+            </div>
+          ) : (
           <div className="about-hero-info-grid">
             <div className="about-hero-info-card">
               <h3 className="about-hero-subheading">Corporate Information</h3>
@@ -201,6 +221,7 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
               <p className="about-hero-desc">We enable customers to <a href="#" onClick={onExploreClick ? (e) => { e.preventDefault(); onExploreClick(); } : undefined} className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point – India&apos;s first mobile gold buying van – brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
             </div>
           </div>
+          )}
 
           <div className="about-hero-footer-row">
             <button onClick={onExploreClick} className="about-hero-know-more">

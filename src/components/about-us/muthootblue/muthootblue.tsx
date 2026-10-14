@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { AboutUsPageData } from '@/lib/strapi';
+import CmsParagraphs from '../CmsParagraphs';
 import './muthootblue.css';
 
 const DEFAULT_STATS = [
@@ -37,7 +38,7 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
             </h2>
 
             {data?.parentDescription ? (
-              <p className="blue-desc">{data.parentDescription}</p>
+              <CmsParagraphs text={data.parentDescription} className="blue-desc" />
             ) : (
               <>
                 <p className="blue-desc">
@@ -84,12 +85,12 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
             </ul>
 
             <a
-              href="https://muthoot.com"
+              href={data?.parentCtaLink || 'https://muthoot.com'}
               target="_blank"
               rel="noopener noreferrer"
               className="blue-cta-btn"
             >
-              Visit muthoot.com
+              {data?.parentCtaText || 'Visit muthoot.com'}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>
@@ -111,8 +112,8 @@ export default function MuthootBlue({ data }: MuthootBlueProps) {
 
             <div className="blue-compare-table">
               <div className="blue-compare-row blue-compare-row-header">
-                <span>Muthoot Pappachan Group</span>
-                <span>At a Glance</span>
+                <span>{data?.parentTableHeaderLeft || 'Muthoot Pappachan Group'}</span>
+                <span>{data?.parentTableHeaderRight || 'At a Glance'}</span>
               </div>
 
               {(data?.parentStats && data.parentStats.length > 0 ? data.parentStats : DEFAULT_STATS).map((stat) => (

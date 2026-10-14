@@ -52,35 +52,6 @@ export default function HeroSlideThree({
     goldText = rawText.substring(splitIndex + 2);
   }
 
-  const btn1Enabled = slide?.button1?.enabled !== false;
-  const btn1Label = slide?.button1?.label || 'Locate Nearest Branch';
-  const btn1Link = slide?.button1?.link || '#branches';
-
-  const btn2Enabled = slide?.button2?.enabled !== false;
-  const btn2Label = slide?.button2?.label || 'Our Transparent Process';
-  const btn2Link = slide?.button2?.link || '#gold-sell-process';
-
-  const handleCta = (link: string) => {
-    if (!link) return;
-    if (link.startsWith('#')) {
-      const element = document.getElementById(link.substring(1));
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      try {
-        const url = new URL(link, window.location.origin);
-        if (url.origin === window.location.origin) {
-          window.location.href = link;
-        } else {
-          window.open(link, '_blank');
-        }
-      } catch (e) {
-        window.location.href = link;
-      }
-    }
-  };
-
   return (
     <section className="hero-slide-three-section">
       {/* Background with Ambient Radial Glows & Custom Gold Recycling Image */}
@@ -225,26 +196,6 @@ export default function HeroSlideThree({
                 </div>
               );
             })}
-          </div>
-
-          {/* CTA Buttons - Matching Slide 1 and Slide 2 identically */}
-          <div className="hero-cta-group-v2">
-            {btn1Enabled && (
-              <button
-                className="btn-gold-gradient"
-                onClick={() => handleCta(btn1Link)}
-              >
-                {btn1Label}
-              </button>
-            )}
-            {btn2Enabled && (
-              <button
-                className="btn-white-outline-v2"
-                onClick={() => handleCta(btn2Link)}
-              >
-                {btn2Label}
-              </button>
-            )}
           </div>
         </div>
 
