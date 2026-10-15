@@ -38,5 +38,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  // sitemap.xml/.xsl are skipped: Chrome treats the XSL stylesheet as a script, and
+  // 'strict-dynamic' would block it, leaving the browser view of the sitemap blank.
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|sitemap.xml|sitemap.xsl).*)'],
 };

@@ -825,6 +825,51 @@ export const getPageBySlug = cache(async function getPageBySlug(slug: string): P
   };
 });
 
+export interface SitemapEntry {
+  slug: string;
+  updatedAt?: string;
+}
+
+// Lightweight paginated fetch of every published entry's slug + updatedAt, for the sitemap.
+async function getAllSlugs(collection: string): Promise<SitemapEntry[]> {
+  if (process.env.NEXT_PHASE === 'phase-production-build') return [];
+  const pageSize = 100; // matches Strapi's config/api.ts maxLimit
+  const all: SitemapEntry[] = [];
+  let page = 1;
+  try {
+    while (true) {
+      const res = await fetch(
+        `${getStrapiUrl()}/api/${collection}?fields[0]=slug&fields[1]=updatedAt&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+        { next: { revalidate: REVALIDATE_INTERVAL } }
+      );
+      if (!res.ok) {
+        console.warn(`getAllSlugs(${collection}): Strapi responded with ${res.status}`);
+        break;
+      }
+      const json = await res.json();
+      const batch: StrapiAny[] = Array.isArray(json?.data) ? json.data : [];
+      for (const entry of batch) {
+        const flat = unwrap<StrapiAny>(entry);
+        if (flat?.slug) all.push({ slug: flat.slug, updatedAt: flat.updatedAt });
+      }
+      const pageCount = json?.meta?.pagination?.pageCount ?? 1;
+      if (batch.length === 0 || page >= pageCount) break;
+      page++;
+    }
+  } catch (err) {
+    if (isDynamicServerError(err)) throw err;
+    console.error(`getAllSlugs(${collection})`, err);
+  }
+  return all;
+}
+
+export const getSitemapContent = cache(async function getSitemapContent(): Promise<{
+  blogPosts: SitemapEntry[];
+  pages: SitemapEntry[];
+}> {
+  const [blogPosts, pages] = await Promise.all([getAllSlugs('blog-posts'), getAllSlugs('pages')]);
+  return { blogPosts, pages };
+});
 
 export const getFaqsByPage = cache(async function getFaqsByPage(pageId: number): Promise<FAQ[]> {
   const data = await fetchStrapi<StrapiAny[]>(`/api/faqs?filters[page][id][$eq]=${pageId}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqsByPage');
