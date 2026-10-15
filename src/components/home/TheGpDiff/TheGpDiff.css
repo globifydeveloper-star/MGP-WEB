@@ -1,7 +1,7 @@
 /* The Gold Point Difference Styles */
 .gp-diff-section {
   background: #ffffff;
-  padding: 6rem 0;
+  padding: 2.5rem 0 6rem; /* small top: sits right under the white comparison section */
 }
 
 .gp-diff-header {
@@ -176,7 +176,7 @@
 
 /* Compact spacing for tablet / mobile */
 @media (max-width: 1024px) {
-  .gp-diff-section { padding: 3.5rem 0; }
+  .gp-diff-section { padding: 1.5rem 0 3.5rem; }
   .gp-diff-header { margin-bottom: 2rem; }
   .gp-diff-title { font-size: 2rem; margin-bottom: 0.6rem; }
   .gp-diff-subtitle { margin-bottom: 1rem; }
@@ -188,7 +188,7 @@
 }
 
 @media (max-width: 640px) {
-  .gp-diff-section { padding: 2.25rem 0; }
+  .gp-diff-section { padding: 1rem 0 2.25rem; }
   .gp-diff-header { margin-bottom: 1.25rem; }
   .gp-diff-title { font-size: 1.5rem; }
   .gp-diff-subtitle { font-size: 0.9rem; line-height: 1.5; }
