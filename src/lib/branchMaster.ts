@@ -19,6 +19,14 @@ export interface BranchMasterDetail {
   pin: string;
   isActive?: boolean;
   gstNo?: string;
+  // Only set if the API starts sending coordinates; see branchCoordinates.ts
+  lat?: number;
+  lng?: number;
+}
+
+function toCoordinate(value: unknown): number | undefined {
+  const n = typeof value === 'string' ? parseFloat(value) : typeof value === 'number' ? value : NaN;
+  return Number.isFinite(n) && n !== 0 ? n : undefined;
 }
 
 export interface BranchMasterDetailsItem extends BranchMasterDetail {}
@@ -85,6 +93,8 @@ export async function fetchAllBranchDetails(): Promise<BranchMasterDetail[]> {
       pin: d.pin || '',
       isActive: d.isActive,
       gstNo: d.gstNo,
+      lat: toCoordinate(d.latitude ?? d.lat),
+      lng: toCoordinate(d.longitude ?? d.lng ?? d.lon),
     }));
   } catch (err) {
     console.error('[BranchMaster] fetchAllBranchDetails error:', err);

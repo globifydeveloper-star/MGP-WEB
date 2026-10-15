@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getDailyCachedBranchMasterData } from '@/lib/branchMaster';
+import { attachCoordinates } from '@/lib/branchCoordinates';
 
 export const revalidate = 86400; // Cache on server for 24 hours (86,400 seconds)
 export const dynamic = 'force-dynamic';
@@ -26,10 +27,17 @@ export async function GET() {
       );
     }
 
+    // Map pins: coordinates from the saved file, or looked up automatically for new branches
+    const allBranches = await attachCoordinates(data.allBranches);
+    const branchesByState: Record<string, typeof allBranches> = {};
+    for (const b of allBranches) (branchesByState[b.state.trim()] ||= []).push(b);
+
     return NextResponse.json(
       {
         success: true,
-        ...(typeof data === 'object' ? data : {}),
+        ...data,
+        allBranches,
+        branchesByState,
       },
       {
         status: 200,

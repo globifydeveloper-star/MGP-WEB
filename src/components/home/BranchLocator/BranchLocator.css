@@ -583,3 +583,48 @@
   .branch-map-container,
   .branch-locator-map-loading { min-height: 260px; }
 }
+
+/* Leaflet map fills the container (absolute, since the container only has a min-height) */
+.branch-map-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.branch-map-leaflet {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  z-index: 0;
+}
+
+.branch-map-pin-selected {
+  z-index: 1000 !important;
+}
+
+.branch-map-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 180px;
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #41444f;
+}
+
+.branch-map-popup strong {
+  color: #10182B;
+  font-size: 0.9rem;
+}
+
+.branch-map-container .branch-map-popup a {
+  align-self: flex-start;
+  margin-top: 0.2rem;
+  color: #B8860B;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.branch-map-container .branch-map-popup a:hover {
+  text-decoration: underline;
+}
