@@ -201,7 +201,6 @@ function cleanBranchAddress(address?: string): string {
         b.name.toLowerCase().includes(q) ||
         b.city.toLowerCase().includes(q) ||
         b.state.toLowerCase().includes(q) ||
-        b.address.toLowerCase().includes(q) ||
         b.pincode.toLowerCase().includes(q)
     );
   }, [query, allBranches]);
@@ -240,7 +239,10 @@ function cleanBranchAddress(address?: string): string {
     const source = query.trim() ? filteredBranches : activeStateSummary ? activeStateSummary.branches : allBranches;
     return source.flatMap((b) =>
       b.lat != null && b.lng != null
-        ? [{ id: b.id, name: b.name, address: b.address, city: b.city, pincode: b.pincode, url: b.url, lat: b.lat, lng: b.lng }]
+        ? [{
+            id: b.id, name: b.name, address: b.address, city: b.city, pincode: b.pincode, state: b.state,
+            phone: b.phone, mobile: b.mobile, email: b.email, timing: b.timing, url: b.url, lat: b.lat, lng: b.lng,
+          }]
         : []
     );
   }, [query, filteredBranches, activeStateSummary, allBranches]);
@@ -275,6 +277,7 @@ function cleanBranchAddress(address?: string): string {
               selectedId={selectedBranchId}
               nearCoords={nearCoords}
               onSelect={setSelectedBranchId}
+              cluster={!query.trim() && !activeStateSummary}
             />
           </div>
 
@@ -290,13 +293,13 @@ function cleanBranchAddress(address?: string): string {
               <input
                 type="text"
                 className="branch-locator-search-input"
-                placeholder="Search by city, state, locality or pincode..."
+                placeholder="Search by city, state or pincode..."
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
                   if (selectedState) setSelectedState(null);
                 }}
-                aria-label="Search by city, state, locality or pincode"
+                aria-label="Search by city, state or pincode"
               />
               {query ? (
                 <button
