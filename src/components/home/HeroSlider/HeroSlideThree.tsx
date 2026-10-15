@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 import Link from 'next/link';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import slideThreeImg from '@/assets/images/gold-recycling-nature.jpg';
+import slideThreeMobileImg from '@/assets/images/3rdVertic.png';
 import trustIcon from '@/assets/images/trusticon.png';
 import lineImg from '@/assets/images/Line.png';
 import './HeroSlideThree.css';
@@ -96,18 +97,19 @@ export default function HeroSlideThree({
     goldText = rawText.substring(splitIndex + 2);
   }
 
+  // Art direction: wide image on desktop, portrait 3rdVertic on phones/tablets (each device downloads only its own)
+  const bgCommon = { alt: 'Recycle Gold - Protect Nature, Empower the Nation', fill: true, priority: true, sizes: '100vw' } as const;
+  const { props: { srcSet: desktopBgSrcSet } } = getImageProps({ ...bgCommon, src: finalImage });
+  const { props: { srcSet: mobileBgSrcSet, ...bgImgProps } } = getImageProps({ ...bgCommon, src: slideThreeMobileImg });
+
   return (
     <section className="hero-slide-three-section">
       {/* Background with Ambient Radial Glows & Custom Gold Recycling Image */}
       <div className="hero-slide-three-bg" aria-hidden="true">
-        <Image
-          src={finalImage}
-          alt="Recycle Gold - Protect Nature, Empower the Nation"
-          fill
-          priority
-          sizes="100vw"
-          className="hero-slide-three-bg-img"
-        />
+        <picture>
+          <source media="(min-width: 1025px)" srcSet={desktopBgSrcSet} />
+          <img {...bgImgProps} srcSet={mobileBgSrcSet} className="hero-slide-three-bg-img" />
+        </picture>
         <div className="hero-slide-three-pattern" />
         <div className="hero-slide-three-overlay" />
         <div className="hero-slide-three-ambient-glow" />
@@ -115,21 +117,6 @@ export default function HeroSlideThree({
 
       <div className="hero-slide-three-container">
         <div className="hero-slide-three-content">
-          {/* Mobile Top Visual Banner */}
-          <div className="hero-slide-three-mobile-visual">
-            <div className="hero-slide-three-mobile-img-box">
-              <Image
-                src={finalImage}
-                alt="Recycle Gold - Protect Nature, Empower the Nation"
-                fill
-                sizes="(max-width: 768px) 100vw, 600px"
-                className="hero-slide-three-mobile-img"
-                priority
-              />
-              <div className="hero-slide-three-mobile-img-overlay" />
-            </div>
-          </div>
-
           {/* Desktop Trust Badge - Matches Slide 1 & Slide 2 */}
           <div className="hero-trust-badge-v2">
             <div className="trust-badge-header-v2">

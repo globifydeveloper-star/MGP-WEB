@@ -72,10 +72,6 @@
     radial-gradient(circle at 75% 75%, rgba(235, 175, 32, 0.14) 0%, transparent 50%);
 }
 
-.hero-slide-three-mobile-visual {
-  display: none;
-}
-
 /* Container */
 .hero-slide-three-container {
   position: relative;
@@ -447,35 +443,13 @@ a.hero-slide-three-card:focus-visible {
     background: #06132E;
   }
 
+  /* Portrait 3rdVertic background: text sits on the dark sky, globe shows at the bottom */
+  .hero-slide-three-bg-img {
+    object-position: center bottom;
+  }
+
   .hero-slide-three-overlay {
-    background: linear-gradient(180deg, rgba(6, 19, 46, 0.88) 0%, #06132E 65%, #06132E 100%);
-  }
-
-  .hero-slide-three-mobile-visual {
-    display: block;
-    width: 100%;
-    margin-bottom: 1.25rem;
-  }
-
-  .hero-slide-three-mobile-img-box {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(235, 175, 32, 0.25);
-    background: #06132E;
-  }
-
-  .hero-slide-three-mobile-img {
-    object-fit: cover;
-    object-position: center center;
-  }
-
-  .hero-slide-three-mobile-img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 55%, rgba(6, 19, 46, 0.75) 100%);
+    background: linear-gradient(180deg, rgba(6, 19, 46, 0.6) 0%, rgba(6, 19, 46, 0.35) 45%, rgba(6, 19, 46, 0) 70%);
   }
 
   .hero-slide-three-container {
