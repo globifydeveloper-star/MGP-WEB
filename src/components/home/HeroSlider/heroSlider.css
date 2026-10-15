@@ -5,6 +5,8 @@
 
 .hero-slider-stack {
   display: grid;
+  /* minmax(0, 1fr): stop wide slide content stretching the column past the screen on phones */
+  grid-template-columns: minmax(0, 1fr);
   position: relative;
   width: 100%;
   touch-action: pan-y;

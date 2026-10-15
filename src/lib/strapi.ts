@@ -499,6 +499,7 @@ export interface SlideFeature {
   desc?: string;
   tag?: string;
   iconType?: string;
+  link?: string;
 }
 
 export interface HeroSlide {

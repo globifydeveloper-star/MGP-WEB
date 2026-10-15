@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import slideThreeImg from '@/assets/images/gold-recycling-nature.jpg';
 import trustIcon from '@/assets/images/trusticon.png';
@@ -15,6 +16,49 @@ export interface SlideFeatureData {
   desc?: string;
   tag?: string;
   iconType?: string;
+  link?: string;
+}
+
+type CardType = 'nature' | 'nation' | 'trust';
+
+// Cards always show in this order, whatever order Strapi returns them in.
+const CARD_ORDER: CardType[] = ['nation', 'trust', 'nature'];
+
+// Blog post each card opens (a `link` set on the card in Strapi takes priority).
+const CARD_LINKS: Record<CardType, string> = {
+  nation: '/blog/how-gold-rate-fluctuation-affect-the-indian-economy',
+  trust: '/blog/how-muthoot-gold-point-ensures-the-purity-of-your-gold',
+  nature: '/blog/the-environmental-impact-of-gold-mining-vs-gold-recycling',
+};
+
+const DEFAULT_FEATURES: SlideFeatureData[] = [
+  {
+    title: 'Helping Government',
+    tag: 'Economic Growth',
+    desc: 'Helping government through reducing Current Account Deficit by importing less gold from International market.',
+    iconType: 'economy'
+  },
+  {
+    title: 'Transparent Process',
+    tag: '100% Scientific',
+    desc: 'Advanced German XRF purity testing right in front of you.',
+    iconType: 'trust'
+  },
+  {
+    title: 'Helping Nature',
+    tag: 'Eco Conservation',
+    desc: 'Helping Nature by reducing the mining for extracting gold from the gold mines.',
+    iconType: 'nature'
+  },
+];
+
+function getCardType(card: SlideFeatureData, idx: number): CardType {
+  const normIcon = (card.iconType || '').toLowerCase();
+  const normTitle = (card.title || '').toLowerCase();
+  if (normIcon === 'nature' || normTitle.includes('nature') || normTitle.includes('environment')) return 'nature';
+  if (normIcon === 'economy' || normTitle.includes('government') || normTitle.includes('economy') || normTitle.includes('cad')) return 'nation';
+  if (normIcon === 'trust' || normTitle.includes('transparent') || normTitle.includes('process')) return 'trust';
+  return CARD_ORDER[idx % CARD_ORDER.length];
 }
 
 export interface HeroSlideData {
@@ -120,40 +164,20 @@ export default function HeroSlideThree({
 
           {/* 3 Themed Feature Cards with Distinct Visual Accents (Dynamic from Strapi with fallback) */}
           <div className="hero-slide-three-pillars">
-            {(slide?.features && slide.features.length > 0 ? slide.features : [
-              {
-                title: 'Helping Nature',
-                tag: 'Eco Conservation',
-                desc: 'Helping Nature by reducing the mining for extracting gold from the gold mines.',
-                iconType: 'nature'
-              },
-              {
-                title: 'Helping Government',
-                tag: 'Economic Growth',
-                desc: 'Helping government through reducing Current Account Deficit by importing less gold from International market.',
-                iconType: 'economy'
-              },
-              {
-                title: 'Transparent Process',
-                tag: '100% Scientific',
-                desc: 'Advanced German XRF purity testing right in front of you.',
-                iconType: 'trust'
-              }
-            ]).map((card: SlideFeatureData, idx: number) => {
-              const cardType = (() => {
-                const normIcon = (card.iconType || '').toLowerCase();
-                const normTitle = (card.title || '').toLowerCase();
-                if (normIcon === 'nature' || normTitle.includes('nature') || normTitle.includes('environment')) return 'nature';
-                if (normIcon === 'economy' || normTitle.includes('government') || normTitle.includes('economy') || normTitle.includes('cad')) return 'nation';
-                if (normIcon === 'trust' || normTitle.includes('transparent') || normTitle.includes('process')) return 'trust';
-                return idx === 0 ? 'nature' : idx === 1 ? 'nation' : 'trust';
-              })();
-
+            {(slide?.features && slide.features.length > 0 ? slide.features : DEFAULT_FEATURES)
+              .map((card, idx) => ({ card, idx, cardType: getCardType(card, idx) }))
+              .sort((a, b) => CARD_ORDER.indexOf(a.cardType) - CARD_ORDER.indexOf(b.cardType))
+              .map(({ card, idx, cardType }) => {
               const defaultTag = cardType === 'nature' ? 'Eco Conservation' : cardType === 'nation' ? 'Economic Growth' : '100% Scientific';
               const hasDesc = Boolean(card.desc && card.desc.trim());
 
               return (
-                <div key={card.id || `${card.title}-${idx}`} className={`hero-slide-three-card hero-slide-three-card-${cardType}${!hasDesc ? ' hero-slide-three-card-compact' : ''}`}>
+                <Link
+                  key={card.id || `${card.title}-${idx}`}
+                  href={card.link || CARD_LINKS[cardType]}
+                  aria-label={`${card.title} – read more on our blog`}
+                  className={`hero-slide-three-card hero-slide-three-card-${cardType}${!hasDesc ? ' hero-slide-three-card-compact' : ''}`}
+                >
                   <div className="hero-slide-three-card-icon" aria-hidden="true">
                     {cardType === 'nature' && (
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -193,7 +217,7 @@ export default function HeroSlideThree({
                       </p>
                     )}
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

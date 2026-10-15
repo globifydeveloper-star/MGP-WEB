@@ -9,6 +9,8 @@ import CmsParagraphs from '../CmsParagraphs';
 interface AboutHeroProps {
   onExploreClick: () => void;
   data?: AboutUsPageData | null;
+  // Use 'h2' when embedded on a page that already has its own h1 (one h1 per page for SEO).
+  headingLevel?: 'h1' | 'h2';
 }
 
 const DEFAULT_HERO_IMAGES = [
@@ -17,7 +19,8 @@ const DEFAULT_HERO_IMAGES = [
   '/ImageSet/About us page/About us Hero 1536×1024 px-03.jpg',
 ];
 
-export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
+export default function AboutHero({ onExploreClick, data, headingLevel = 'h1' }: AboutHeroProps) {
+  const Heading = headingLevel;
   const images = (data?.heroImages && data.heroImages.length > 0) ? data.heroImages : DEFAULT_HERO_IMAGES;
   const [activeSlide, setActiveSlide] = useState(0);
   const touchStartX = useRef<number | null>(null);
@@ -69,9 +72,9 @@ export default function AboutHero({ onExploreClick, data }: AboutHeroProps) {
             {data?.heroEyebrow || 'A Muthoot Exim (P) Ltd. Enterprise'}
           </span>
 
-          <h1 className="about-hero-title">
+          <Heading className="about-hero-title">
             {data?.heroTitle || 'Muthoot Gold Point — Trusted Gold Buyer'}
-          </h1>
+          </Heading>
         </div>
 
         <div className="about-hero-main">

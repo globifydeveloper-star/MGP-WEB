@@ -6,9 +6,12 @@ export function proxy(request: NextRequest) {
 
   const publicStrapiUrl = process.env.STRAPI_PUBLIC_URL || process.env.NEXT_PUBLIC_STRAPI_URL || '';
 
+  // React needs eval in development only (debug stacks); without it the client never hydrates in dev.
+  const isDev = process.env.NODE_ENV === 'development';
+
   const csp = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: https:;
     font-src 'self' data: https:;

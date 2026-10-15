@@ -12,12 +12,16 @@ export default function BranchSelector() {
   const [selectedState, setSelectedState] = useState('');
   const [selectedBranchId, setSelectedBranchId] = useState('');
   const [isVisible, setIsVisible] = useState(true);
-  const [isMinimized, setIsMinimized] = useState(false);
+  // null = visitor hasn't chosen: CSS decides (minimized tab on phones, full bar elsewhere),
+  // so phones never flash the full bar before hydration.
+  const [isMinimized, setIsMinimized] = useState<boolean | null>(null);
+  const barClass = isMinimized === true || !isVisible ? 'is-hidden' : isMinimized === null ? 'is-visible is-default' : 'is-visible';
+  const tabClass = isMinimized === true ? 'is-visible' : isMinimized === null ? 'is-hidden is-default' : 'is-hidden';
 
-  // Reset selector bar to VISIBLE & un-minimized state on route change
+  // Reset selector bar to its default state on route change
   useEffect(() => {
     setIsVisible(true);
-    setIsMinimized(false);
+    setIsMinimized(null);
   }, [pathname]);
 
   // Hide bar on scroll down, reveal on scroll up
@@ -101,7 +105,7 @@ export default function BranchSelector() {
   return (
     <div className="branch-selector-wrapper">
       {/* Main Branch Selector Bar */}
-      <div className={`branch-selector-bar glass-panel ${!isMinimized && isVisible ? 'is-visible' : 'is-hidden'}`}>
+      <div className={`branch-selector-bar glass-panel ${barClass}`}>
         {/* Header Row: Info & Rate */}
         <div className="selector-header-row">
           <div className="selector-section-info">
@@ -188,7 +192,7 @@ export default function BranchSelector() {
 
       {/* Minimized Tab Widget */}
       <div
-        className={`branch-selector-minimized-tab ${isMinimized ? 'is-visible' : 'is-hidden'}`}
+        className={`branch-selector-minimized-tab ${tabClass}`}
         onClick={() => {
           setIsMinimized(false);
           setIsVisible(true);

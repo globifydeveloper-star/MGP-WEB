@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  min-width: 0;
 }
 
 .blog-listing-controls {
@@ -10,6 +11,13 @@
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+  min-width: 0;
+}
+
+/* Let the category pills scroll sideways instead of widening the page on phones */
+.blog-listing-controls > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .blog-listing-grid {

@@ -232,6 +232,18 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 
+/* Cards are links to their blog posts */
+a.hero-slide-three-card {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.hero-slide-three-card:focus-visible {
+  outline: 2px solid #F1B933;
+  outline-offset: 2px;
+}
+
 /* Card 1: Nature (Eco Green) */
 .hero-slide-three-card-nature::before {
   background: linear-gradient(180deg, #10B981 0%, #059669 100%);
@@ -467,7 +479,8 @@
   }
 
   .hero-slide-three-container {
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr): keep long badge/card text from stretching the column past the screen */
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
     padding: 1rem 1.25rem 2rem 1.25rem;
   }

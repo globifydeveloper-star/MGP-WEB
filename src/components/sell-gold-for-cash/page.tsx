@@ -46,7 +46,7 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows, page
         <GoldSellOverview overviewImage1={pageSettings?.overviewImage1} overviewImage2={pageSettings?.overviewImage2} />
 
         {/* About Muthoot Gold Point */}
-        <AboutHero onExploreClick={() => scrollToSection('sell-gold-form')} />
+        <AboutHero onExploreClick={() => scrollToSection('sell-gold-form')} headingLevel="h2" />
 
         {/* Get in Touch */}
         <GoldSellContact />
