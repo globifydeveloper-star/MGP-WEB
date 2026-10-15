@@ -601,32 +601,63 @@
   z-index: 1000 !important;
 }
 
+/* Branch popup on a pin: name, address and Maps links (Google-Maps-style card) */
 .branch-map-popup {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  min-width: 180px;
+  gap: 0.4rem;
+  min-width: 200px;
   font-family: var(--font-outfit), sans-serif;
-  font-size: 0.82rem;
   line-height: 1.4;
-  color: #41444f;
 }
 
-.branch-map-popup strong {
+.branch-map-popup-name {
   color: #10182B;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-.branch-map-container .branch-map-popup a {
-  align-self: flex-start;
-  margin-top: 0.2rem;
-  color: #B8860B;
-  font-weight: 700;
+.branch-map-popup-address {
+  color: #5F6368;
+  font-size: 0.85rem;
+}
+
+.branch-map-popup-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.35rem;
+}
+
+.branch-map-container .branch-map-popup a.branch-map-popup-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: #1A73E8;
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 600;
   text-decoration: none;
 }
 
-.branch-map-container .branch-map-popup a:hover {
-  text-decoration: underline;
+.branch-map-container .branch-map-popup a.branch-map-popup-dir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #E8F0FE;
+  color: #1A73E8;
+  text-decoration: none;
+}
+
+.branch-map-container .branch-map-popup a.branch-map-popup-btn:hover,
+.branch-map-container .branch-map-popup a.branch-map-popup-dir:hover {
+  filter: brightness(0.94);
 }
 
 /* Pin clusters: a stack of pins for nearby branches (no count shown) */
@@ -642,66 +673,6 @@
   transform: scale(1.1);
 }
 
-/* Branch details popup on a pin (mirrors the branch cards) */
-.branch-map-container .branch-map-popup {
-  gap: 0.35rem;
-}
-
-.branch-map-container .branch-map-popup-name {
-  font-size: 0.95rem;
-  line-height: 1.3;
-}
-
-.branch-map-container .branch-map-popup-tag {
-  align-self: flex-start;
-  padding: 1px 8px;
-  border-radius: 999px;
-  background: rgba(245, 179, 1, 0.15);
-  color: #8a6400;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.branch-map-container .branch-map-popup-row {
-  font-size: 0.8rem;
-  word-break: break-word;
-}
-
-.branch-map-container .branch-map-popup-row a {
-  margin: 0;
-  font-weight: 600;
-}
-
-.branch-map-container .branch-map-popup-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.35rem;
-}
-
-.branch-map-container .branch-map-popup a.branch-map-popup-btn {
-  flex: 1;
-  margin: 0;
-  padding: 0.45rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #F5B301;
-  color: #10182B;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-align: center;
-  text-decoration: none;
-}
-
-.branch-map-container .branch-map-popup a.branch-map-popup-btn-primary {
-  background: #F5B301;
-}
-
-.branch-map-container .branch-map-popup a.branch-map-popup-btn:hover {
-  filter: brightness(0.95);
-  text-decoration: none;
-}
-
 /* Phones: taller map so the branch details popup fits, and a slightly tighter popup */
 @media (max-width: 640px) {
   .branch-locator-map-col,
@@ -712,14 +683,6 @@
 
   .branch-map-container .leaflet-popup-content {
     margin: 10px 12px;
-  }
-
-  .branch-map-container .branch-map-popup {
-    gap: 0.25rem;
-  }
-
-  .branch-map-container .branch-map-popup-row {
-    font-size: 0.76rem;
   }
 }
 

@@ -239,10 +239,7 @@ function cleanBranchAddress(address?: string): string {
     const source = query.trim() ? filteredBranches : activeStateSummary ? activeStateSummary.branches : allBranches;
     return source.flatMap((b) =>
       b.lat != null && b.lng != null
-        ? [{
-            id: b.id, name: b.name, address: b.address, city: b.city, pincode: b.pincode, state: b.state,
-            phone: b.phone, mobile: b.mobile, email: b.email, timing: b.timing, url: b.url, lat: b.lat, lng: b.lng,
-          }]
+        ? [{ id: b.id, name: b.name, address: b.address, city: b.city, pincode: b.pincode, url: b.url, lat: b.lat, lng: b.lng }]
         : []
     );
   }, [query, filteredBranches, activeStateSummary, allBranches]);

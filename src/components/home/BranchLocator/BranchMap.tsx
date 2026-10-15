@@ -8,17 +8,18 @@ import 'leaflet/dist/leaflet.css';
 import 'react-leaflet-cluster/dist/assets/MarkerCluster.css';
 import './BranchLocator.css';
 
-// Map background providers, tried in order. If OpenStreetMap's tiles are blocked or failing
-// (some office networks/firewalls block them), the map falls back to Esri's street map,
-// which is served from separate (non-OpenStreetMap) infrastructure.
+// Map background providers, tried in order: Esri's street map (Google-Maps-like look, English
+// labels, no key), falling back to OpenStreetMap if Esri's tiles are blocked or failing.
 const TILE_PROVIDERS = [
-  {
-    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
-  },
   {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
     attribution: 'Tiles &copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &mdash; Source: Esri, HERE, Garmin, USGS, OpenStreetMap contributors',
+    maxNativeZoom: 17, // Esri has no detail beyond 17 in India ("map data not yet available"); closer zooms enlarge 17
+  },
+  {
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+    maxNativeZoom: 19,
   },
 ];
 const TILE_ERRORS_BEFORE_FALLBACK = 4;
@@ -52,6 +53,7 @@ function FallbackTileLayer() {
       url={provider.url}
       attribution={provider.attribution}
       maxZoom={19}
+      maxNativeZoom={provider.maxNativeZoom}
       eventHandlers={{
         tileload: () => { loaded.current++; },
         tileerror: () => { if (++errors.current >= TILE_ERRORS_BEFORE_FALLBACK) fallBack(); },
@@ -81,54 +83,47 @@ export interface MapBranch {
   address: string;
   city: string;
   pincode?: string;
-  state?: string;
-  phone?: string;
-  mobile?: string;
-  email?: string;
-  timing?: string;
   url: string;
   lat: number;
   lng: number;
 }
 
-const telHref = (n: string) => `tel:${n.replace(/[^\d+]/g, '')}`;
+// Google Maps directions to the same place the branch's "Open in Maps" link searches for
+function directionsUrl(mapsSearchUrl: string): string {
+  const destination = new URL(mapsSearchUrl).searchParams.get('query') || '';
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+}
 
-// Same details as the branch cards in the list
+// Name, address and Maps links (Google-Maps-style card)
 function BranchPopupContent({ b }: { b: MapBranch }) {
-  const callNumber = b.mobile || b.phone;
   return (
     <div className="branch-map-popup">
       <strong className="branch-map-popup-name">{b.name}</strong>
-      {b.state && <span className="branch-map-popup-tag">{b.state}</span>}
-      <span className="branch-map-popup-row">
-        📍 {b.address}, {b.city}
+      <span className="branch-map-popup-address">
+        {b.address}, {b.city}
         {b.pincode ? ` - ${b.pincode}` : ''}
       </span>
-      {b.timing && <span className="branch-map-popup-row">🕒 {b.timing}</span>}
-      {b.phone && (
-        <span className="branch-map-popup-row">
-          📞 Phone: <a href={telHref(b.phone)}>{b.phone}</a>
-        </span>
-      )}
-      {b.mobile && (
-        <span className="branch-map-popup-row">
-          📱 Mobile: <a href={telHref(b.mobile)}>{b.mobile}</a>
-        </span>
-      )}
-      {b.email && (
-        <span className="branch-map-popup-row">
-          ✉️ <a href={`mailto:${b.email}`}>{b.email}</a>
-        </span>
-      )}
       <div className="branch-map-popup-actions">
-        <a className="branch-map-popup-btn branch-map-popup-btn-primary" href={b.url} target="_blank" rel="noopener noreferrer">
-          Get Directions
+        <a className="branch-map-popup-btn" href={b.url} target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M14 3h7v7" />
+            <path d="M10 14 21 3" />
+            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+          </svg>
+          Open in Maps
         </a>
-        {callNumber && (
-          <a className="branch-map-popup-btn" href={telHref(callNumber)}>
-            Call
-          </a>
-        )}
+        <a
+          className="branch-map-popup-dir"
+          href={directionsUrl(b.url)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Directions to ${b.name}`}
+          title="Directions"
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4ZM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5-3.5 3.5Z" />
+          </svg>
+        </a>
       </div>
     </div>
   );
@@ -146,7 +141,6 @@ interface BranchMapProps {
 const INDIA_CENTER: [number, number] = [22.5, 79];
 // The map is kept to India: it can't be dragged outside this box or zoomed out past it
 const INDIA_BOUNDS = L.latLngBounds([6.5, 68], [37.2, 97.4]);
-
 // Minimum zoom = the level where all of India just fits, recalculated when the map resizes
 function KeepToIndia() {
   const map = useMap();
@@ -230,9 +224,14 @@ function FitView({ branches, selected, nearCoords, markerRefs, overview }: { bra
       map.flyToBounds(L.latLngBounds(frame), { padding: [60, 60], maxZoom: 14, duration: 0.8 });
       return;
     }
-    if (points.length === 0 || overview) {
-      // All-India view (and nothing to show): frame the whole country
+    if (points.length === 0) {
       map.flyToBounds(INDIA_BOUNDS, { duration: 0.8 });
+    } else if (overview) {
+      // All-India view: fit tightly around the branches (closer than the whole country, every pin
+      // still visible); visitors can zoom out to see all of India
+      // Extra top padding: pins hang above their point, so the northernmost ones need room
+      // (kept tight so the desktop map lands on the closer zoom level 5)
+      map.flyToBounds(L.latLngBounds(points), { paddingTopLeft: [20, 40], paddingBottomRight: [20, 8], duration: 0.8 });
     } else if (points.length === 1) {
       map.flyTo(points[0], 14, { duration: 0.8 });
     } else {
@@ -287,9 +286,7 @@ export default function BranchMap({ branches, selectedId, nearCoords, onSelect, 
         zoom={5}
         maxBounds={INDIA_BOUNDS}
         maxBoundsViscosity={1}
-        // Quarter-step zoom so the zoomed-out view fits India tightly instead of showing neighbouring countries
-        zoomSnap={0.25}
-        zoomDelta={0.5}
+        // Whole zoom steps only: the pin grouping (markercluster) drops some single pins at fractional zooms
         scrollWheelZoom={false}
         zoomControl={false}
         className="branch-map-leaflet"
@@ -311,11 +308,13 @@ export default function BranchMap({ branches, selectedId, nearCoords, onSelect, 
           <MarkerClusterGroup
             key="clustered"
             iconCreateFunction={clusterIcon}
-            maxClusterRadius={45}
+            maxClusterRadius={40}
             disableClusteringAtZoom={12}
             showCoverageOnHover={false}
             spiderfyOnMaxZoom
-            chunkedLoading
+            // Only ~120 pins, so no need for batching or off-screen culling
+            chunkedLoading={false}
+            removeOutsideVisibleBounds={false}
           >
             {markers}
           </MarkerClusterGroup>
