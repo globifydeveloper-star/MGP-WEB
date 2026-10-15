@@ -629,34 +629,17 @@
   text-decoration: underline;
 }
 
-/* Pin clusters (numbered bubble for nearby branches) */
+/* Pin clusters: a stack of pins for nearby branches (no count shown) */
 .branch-map-container .branch-map-cluster {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #F5B301;
-  border: 3px solid #FFFFFF;
-  box-shadow: 0 0 0 4px rgba(245, 179, 1, 0.35), 0 4px 12px rgba(16, 24, 43, 0.35);
-  color: #10182B;
-  font-family: var(--font-outfit), sans-serif;
-  font-size: 0.9rem;
-  font-weight: 800;
+  background: transparent;
+  border: none;
   cursor: pointer;
+  filter: drop-shadow(0 3px 6px rgba(16, 24, 43, 0.35));
   transition: transform 0.15s ease;
 }
 
 .branch-map-container .branch-map-cluster:hover {
-  transform: scale(1.08);
-}
-
-.branch-map-container .branch-map-cluster span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  line-height: 1;
+  transform: scale(1.1);
 }
 
 /* Branch details popup on a pin (mirrors the branch cards) */

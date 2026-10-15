@@ -61,15 +61,19 @@ function FallbackTileLayer() {
 }
 
 // Gold numbered bubble for a group of nearby branches
-function clusterIcon(cluster: L.MarkerCluster) {
-  const count = cluster.getChildCount();
-  const size = count < 10 ? 36 : count < 50 ? 44 : 52;
-  return L.divIcon({
-    html: `<span>${count}</span>`,
-    className: 'branch-map-cluster',
-    iconSize: [size, size],
-  });
-}
+// A group of nearby branches: a small stack of pins (no count); clicking zooms in to separate them
+const PIN_PATH = 'M14 0C6.268 0 0 6.268 0 14c0 10.5 14 24 14 24s14-13.5 14-24C28 6.268 21.732 0 14 0z';
+const clusterStackIcon = L.divIcon({
+  className: 'branch-map-cluster',
+  html: `
+    <svg width="40" height="44" viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(12 0)" opacity="0.75"><path d="${PIN_PATH}" fill="#F5B301" stroke="#10182B" stroke-width="1"/></g>
+      <g transform="translate(0 6)"><path d="${PIN_PATH}" fill="#F5B301" stroke="#10182B" stroke-width="1"/><circle cx="14" cy="14" r="6" fill="#FFFFFF"/></g>
+    </svg>`,
+  iconSize: [40, 44],
+  iconAnchor: [14, 44],
+});
+const clusterIcon = () => clusterStackIcon;
 
 export interface MapBranch {
   id: string;
