@@ -9,16 +9,14 @@ export function proxy(request: NextRequest) {
   // React needs eval in development only (debug stacks); without it the client never hydrates in dev.
   const isDev = process.env.NODE_ENV === 'development';
 
-  // Google Maps (branch locator) needs data:/blob: connections, blob: workers and *.google.com frames
   const csp = `
     default-src 'self';
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: https:;
     font-src 'self' data: https:;
-    connect-src 'self' https: data: blob:;
-    worker-src 'self' blob:;
-    frame-src 'self' https://*.google.com;
+    connect-src 'self' https:;
+    frame-src 'self' https://maps.google.com https://www.google.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';

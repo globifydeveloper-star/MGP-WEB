@@ -2,16 +2,11 @@
 
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
-import type { MapBranch } from './BranchMap';
 import './BranchLocator.css';
 
-// Leaflet needs `window`, so the map only renders in the browser
-const BranchMap = dynamic(() => import('./BranchMap'), {
-  ssr: false,
-  loading: () => <div className="branch-locator-map-loading" aria-hidden="true" />,
-});
+import BranchMap from './BranchMap';
+
 const SearchIcon = () => (
   <svg
     className="branch-locator-search-icon"
@@ -128,6 +123,27 @@ function cleanBranchAddress(address?: string): string {
     .trim();
 }
 
+function formatBranchMapQuery(branch: {
+  address?: string;
+  city: string;
+  state: string;
+  pincode?: string;
+}): string {
+  let cleanAddr = cleanBranchAddress(branch.address);
+  if (cleanAddr.toLowerCase().startsWith('muthoot gold point')) {
+    cleanAddr = cleanAddr.replace(/^muthoot gold point[,\s]*/i, '').trim();
+  }
+  const pin = branch.pincode && /^\d{6}$/.test(branch.pincode.trim()) ? branch.pincode.trim() : '';
+  const parts = [
+    'Muthoot Gold Point - We Buy Gold',
+    cleanAddr,
+    branch.city,
+    branch.state,
+    pin
+  ].filter(Boolean);
+  return parts.join(', ');
+}
+
 // All state summaries sorted by branch count (Loaded directly from live Branch Master API)
   const stateSummaries = useMemo(() => {
     return apiStates.map((stName) => {
@@ -155,9 +171,9 @@ function cleanBranchAddress(address?: string): string {
             mobile: b.contactPersonMobile,
             email: b.branchEmail,
             timing: '10:00 AM - 6:30 PM',
-            // Added server-side by /api/branch/all (see src/lib/branchCoordinates.ts)
-            lat: b.lat ?? null,
-            lng: b.lng ?? null,
+            // From src/data/branchCoordinates.json (via /api/branch/all); pins the branch exactly on the map
+            lat: typeof b.lat === 'number' ? b.lat : null,
+            lng: typeof b.lng === 'number' ? b.lng : null,
           };
         }),
       };
@@ -168,7 +184,8 @@ function cleanBranchAddress(address?: string): string {
     return stateSummaries.flatMap((s) => s.branches);
   }, [stateSummaries]);
 
-  // "Near Me" shows the visitor's location on the map, framed with their closest branch
+  // The Branch Master API has no coordinates, so "Near Me" centres the map on
+  // the visitor's own location instead of picking a branch from the list
   const handleLocateMe = () => {
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser');
@@ -201,6 +218,7 @@ function cleanBranchAddress(address?: string): string {
         b.name.toLowerCase().includes(q) ||
         b.city.toLowerCase().includes(q) ||
         b.state.toLowerCase().includes(q) ||
+        b.address.toLowerCase().includes(q) ||
         b.pincode.toLowerCase().includes(q)
     );
   }, [query, allBranches]);
@@ -234,16 +252,6 @@ function cleanBranchAddress(address?: string): string {
     return null;
   }, [selectedBranch, query, filteredBranches, activeStateSummary]);
 
-  // Pins on the map: search results, else the chosen state's branches, else every branch
-  const mapBranches = useMemo<MapBranch[]>(() => {
-    const source = query.trim() ? filteredBranches : activeStateSummary ? activeStateSummary.branches : allBranches;
-    return source.flatMap((b) =>
-      b.lat != null && b.lng != null
-        ? [{ id: b.id, name: b.name, address: b.address, city: b.city, pincode: b.pincode, url: b.url, lat: b.lat, lng: b.lng }]
-        : []
-    );
-  }, [query, filteredBranches, activeStateSummary, allBranches]);
-
   return (
     <section className="branch-locator-section" id="branches" ref={sectionRef}>
       <div className="container">
@@ -270,11 +278,17 @@ function cleanBranchAddress(address?: string): string {
           {/* Map Column */}
           <div className="branch-locator-map-col">
             <BranchMap
-              branches={mapBranches}
-              selectedId={selectedBranchId}
+              selectedBranchAddress={
+                activeBranch ? formatBranchMapQuery(activeBranch) : undefined
+              }
+              selectedBranchCoords={
+                activeBranch?.lat != null && activeBranch?.lng != null
+                  ? { lat: activeBranch.lat, lng: activeBranch.lng }
+                  : null
+              }
+              searchQuery={query}
+              activeStateName={activeStateSummary?.state}
               nearCoords={nearCoords}
-              onSelect={setSelectedBranchId}
-              cluster={!query.trim() && !activeStateSummary}
             />
           </div>
 
@@ -290,13 +304,13 @@ function cleanBranchAddress(address?: string): string {
               <input
                 type="text"
                 className="branch-locator-search-input"
-                placeholder="Search by city, state or pincode..."
+                placeholder="Search by city, state, locality or pincode..."
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
                   if (selectedState) setSelectedState(null);
                 }}
-                aria-label="Search by city, state or pincode"
+                aria-label="Search by city, state, locality or pincode"
               />
               {query ? (
                 <button
