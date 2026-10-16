@@ -27,8 +27,8 @@ export async function GET() {
       );
     }
 
-    // Map pins: coordinates from the saved file, or looked up automatically for new branches
-    const allBranches = await attachCoordinates(data.allBranches);
+    // Map pins: coordinates from the saved file, or looked up in the background for new/changed branches
+    const { branches: allBranches, complete } = attachCoordinates(data.allBranches);
     const branchesByState: Record<string, typeof allBranches> = {};
     for (const b of allBranches) (branchesByState[b.state.trim()] ||= []).push(b);
 
@@ -42,7 +42,10 @@ export async function GET() {
       {
         status: 200,
         headers: {
-          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=43200',
+          // While some pins are still being looked up, keep caches short so they fill in within a minute
+          'Cache-Control': complete
+            ? 'public, s-maxage=86400, stale-while-revalidate=43200'
+            : 'public, s-maxage=60',
         },
       }
     );

@@ -158,7 +158,7 @@ export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' 
         {/* Header Title */}
         <h2 className="gsc-title">
           How Muthoot Gold Point<br />
-          is different from Unorganised Jewellers
+          is different from Unorganised Gold Buyer
         </h2>
 
         {/* Desktop Comparison Table */}
@@ -188,7 +188,7 @@ export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' 
                         <rect x="65" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
                       </svg>
                     </div>
-                    <span>Unorganised Jewellers</span>
+                    <span>Unorganised Gold Buyer</span>
                   </div>
                 </th>
               </tr>

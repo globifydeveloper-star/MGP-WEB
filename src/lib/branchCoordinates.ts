@@ -5,8 +5,9 @@ import type { BranchMasterDetail } from './branchMaster';
 // Map pins need lat/lng, which the Branch Master API doesn't provide. Each branch gets its
 // coordinates from, in order:
 //   1. the API itself (lat/lng), if it ever starts sending them
-//   2. src/data/branchCoordinates.json (geocoded once; hand-correctable)
-//   3. an automatic OpenStreetMap lookup for branches that are in neither (new branches)
+//   2. src/data/branchCoordinates.json (geocoded once; hand-correctable) — only while the branch's
+//      PIN and city still match what was geocoded, so a changed/replaced API never shows stale pins
+//   3. an automatic OpenStreetMap lookup, run in the background, for anything else (new or changed branches)
 
 export interface BranchWithCoordinates extends Omit<BranchMasterDetail, 'lat' | 'lng'> {
   lat: number | null;
@@ -14,10 +15,10 @@ export interface BranchWithCoordinates extends Omit<BranchMasterDetail, 'lat' | 
 }
 
 type LatLng = { lat: number; lng: number };
+type SavedEntry = { lat: number | null; lng: number | null; pin?: string; location?: string };
 
-const SAVED = savedCoordinates as Record<string, { lat: number | null; lng: number | null }>;
+const SAVED = savedCoordinates as Record<string, SavedEntry>;
 
-const MAX_LOOKUPS_PER_REQUEST = 5; // keeps a burst of new branches from slowing one request down
 const RETRY_FAILED_AFTER_MS = 6 * 60 * 60 * 1000;
 const NOMINATIM_GAP_MS = 1100; // Nominatim usage policy: max 1 request per second
 
@@ -66,31 +67,53 @@ async function geocodeBranch(b: BranchMasterDetail): Promise<LatLng | null> {
   return null;
 }
 
-export async function attachCoordinates(branches: BranchMasterDetail[]): Promise<BranchWithCoordinates[]> {
-  let lookupsLeft = MAX_LOOKUPS_PER_REQUEST;
-  const out: BranchWithCoordinates[] = [];
+const norm = (s?: string) => (s || '').trim().toLowerCase();
 
-  for (const b of branches) {
-    const code = b.branchCode;
-    const saved = SAVED[code];
+// A saved coordinate is only trusted while the API still has the branch at the same PIN and city
+function savedStillMatches(b: BranchMasterDetail, saved: SavedEntry): boolean {
+  if (saved.pin && norm(b.pin) && norm(saved.pin) !== norm(b.pin)) return false;
+  if (saved.location && norm(b.location) && norm(saved.location) !== norm(b.location)) return false;
+  return true;
+}
+
+// Lookups are cached by branch code + PIN + city, so a branch whose address changes is looked up again
+const lookupKey = (b: BranchMasterDetail) => `${b.branchCode}|${norm(b.pin)}|${norm(b.location)}`;
+const pending = new Set<string>();
+
+// Background lookup: the API response doesn't wait for it; the pin appears on a later request
+function lookUpInBackground(b: BranchMasterDetail) {
+  const key = lookupKey(b);
+  if (pending.has(key) || Date.now() - (failedAt.get(key) ?? 0) < RETRY_FAILED_AFTER_MS) return;
+  pending.add(key);
+  geocodeBranch(b)
+    .then((coords) => {
+      if (coords) {
+        found.set(key, coords);
+        console.info(`[BranchCoordinates] Auto-geocoded branch ${b.branchCode} (${b.branchName}); add it to src/data/branchCoordinates.json (scripts/geocode-branches.mjs) to pin it exactly.`);
+      } else {
+        failedAt.set(key, Date.now());
+        console.warn(`[BranchCoordinates] Could not geocode branch ${b.branchCode} (${b.branchName}); it has no map pin.`);
+      }
+    })
+    .finally(() => pending.delete(key));
+}
+
+// `complete` is false while some branches are still waiting for a background lookup
+export function attachCoordinates(branches: BranchMasterDetail[]): { branches: BranchWithCoordinates[]; complete: boolean } {
+  let complete = true;
+  const out = branches.map((b) => {
+    const saved = SAVED[b.branchCode];
     let coords: LatLng | null = null;
 
     if (b.lat != null && b.lng != null) coords = { lat: b.lat, lng: b.lng };
-    else if (saved?.lat != null && saved?.lng != null) coords = { lat: saved.lat, lng: saved.lng };
-    else if (found.has(code)) coords = found.get(code)!;
-    else if (code && lookupsLeft > 0 && Date.now() - (failedAt.get(code) ?? 0) > RETRY_FAILED_AFTER_MS) {
-      lookupsLeft--;
-      coords = await geocodeBranch(b);
-      if (coords) {
-        found.set(code, coords);
-        console.info(`[BranchCoordinates] Auto-geocoded new branch ${code} (${b.branchName}); add it to src/data/branchCoordinates.json to pin it exactly.`);
-      } else {
-        failedAt.set(code, Date.now());
-        console.warn(`[BranchCoordinates] Could not geocode branch ${code} (${b.branchName}); it has no map pin.`);
-      }
+    else if (saved?.lat != null && saved?.lng != null && savedStillMatches(b, saved)) coords = { lat: saved.lat, lng: saved.lng };
+    else if (found.has(lookupKey(b))) coords = found.get(lookupKey(b))!;
+    else if (b.branchCode) {
+      lookUpInBackground(b);
+      if (pending.has(lookupKey(b))) complete = false;
     }
 
-    out.push({ ...b, lat: coords?.lat ?? null, lng: coords?.lng ?? null });
-  }
-  return out;
+    return { ...b, lat: coords?.lat ?? null, lng: coords?.lng ?? null };
+  });
+  return { branches: out, complete };
 }

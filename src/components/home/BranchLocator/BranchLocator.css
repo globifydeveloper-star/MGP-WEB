@@ -584,21 +584,41 @@
   .branch-locator-map-loading { min-height: 260px; }
 }
 
-/* Leaflet map fills the container (absolute, since the container only has a min-height) */
+/* Google map fills the container (absolute, since the container only has a min-height) */
 .branch-map-container {
   position: relative;
   overflow: hidden;
 }
 
-.branch-map-leaflet {
+.branch-map-google {
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  z-index: 0;
+  overflow: hidden;
 }
 
-.branch-map-pin-selected {
-  z-index: 1000 !important;
+.branch-map-pin {
+  display: block;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 3px rgba(16, 24, 43, 0.3));
+  transition: transform 0.15s ease;
+  transform-origin: 50% 100%;
+}
+
+.branch-map-pin:hover {
+  transform: scale(1.15);
+}
+
+/* "Near Me": the visitor's location */
+.branch-map-you-are-here {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2F80ED;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 0 0 6px rgba(47, 128, 237, 0.25);
+  transform: translateY(50%);
 }
 
 /* Branch popup on a pin: name, address and Maps links (Google-Maps-style card) */
@@ -662,8 +682,6 @@
 
 /* Pin clusters: a stack of pins for nearby branches (no count shown) */
 .branch-map-container .branch-map-cluster {
-  background: transparent;
-  border: none;
   cursor: pointer;
   filter: drop-shadow(0 3px 6px rgba(16, 24, 43, 0.35));
   transition: transform 0.15s ease;
@@ -681,12 +699,4 @@
     min-height: 380px;
   }
 
-  .branch-map-container .leaflet-popup-content {
-    margin: 10px 12px;
-  }
-}
-
-/* Hide hover labels while a branch details popup is open */
-.branch-map-container .leaflet-map-pane:has(.leaflet-popup) .leaflet-tooltip {
-  display: none;
 }

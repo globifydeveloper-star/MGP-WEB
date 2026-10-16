@@ -4,7 +4,9 @@
 //   curl -s http://localhost:3000/api/branch/all > branches.json
 //   node scripts/geocode-branches.mjs branches.json src/data/branchCoordinates.json
 //
-// Branches already in the output file are skipped, so re-running only looks up new branches.
+// Branches already geocoded from the same PIN + city are skipped, so re-running only looks up new or
+// changed branches. (The site also does this lookup itself, in the background, for any branch whose
+// PIN/city no longer match this file — see src/lib/branchCoordinates.ts — but with area-level accuracy.)
 // To fix a pin by hand, edit its lat/lng in the JSON and set "precision": "manual".
 // Uses OpenStreetMap Nominatim, limited to 1 request/second by its usage policy.
 import fs from 'node:fs';
@@ -29,7 +31,9 @@ const clean = (s) => (s || '').replace(/\b(no|door no|shop no|d\.?no)\.?\s*[\w\/
 
 const out = fs.existsSync(outFile) ? JSON.parse(fs.readFileSync(outFile, "utf8")) : {};
 for (const b of allBranches) {
-  if (out[b.branchCode]?.lat != null) continue;
+  const prev = out[b.branchCode];
+  // Skip branches already geocoded from the same PIN + city; re-geocode ones whose address changed
+  if (prev?.lat != null && (!prev.pin || prev.pin === (b.pin || "").trim()) && (!prev.location || prev.location.toLowerCase() === (b.location || "").trim().toLowerCase())) continue;
   const pin = /^\d{6}$/.test((b.pin || '').trim()) ? b.pin.trim() : '';
   // Anchor: PIN-code area centre (used to sanity-check finer matches)
   let anchor = null;
@@ -47,7 +51,9 @@ for (const b of allBranches) {
     if (r) { found = { lat: +(+r.lat).toFixed(6), lng: +(+r.lon).toFixed(6), precision }; break; }
   }
   if (!found && anchor) found = { lat: +anchor.lat.toFixed(6), lng: +anchor.lng.toFixed(6), precision: 'pincode' };
-  out[b.branchCode] = found ? { ...found, name: b.branchName, state: b.state } : { lat: null, lng: null, precision: 'none', name: b.branchName, state: b.state };
+  // location + pin record what was geocoded; the site ignores this entry if the API later changes them
+  const source = { name: b.branchName, state: b.state, location: (b.location || "").trim(), pin: (b.pin || "").trim() };
+  out[b.branchCode] = found ? { ...found, ...source } : { lat: null, lng: null, precision: "none", ...source };
   console.log(b.branchCode, b.state, b.branchName, '->', found ? `${found.precision} ${found.lat},${found.lng}` : 'NOT FOUND');
   fs.writeFileSync(outFile, JSON.stringify(out, null, 2));
 }

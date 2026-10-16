@@ -1,81 +1,15 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip, CircleMarker, ZoomControl, useMap } from 'react-leaflet';
-import MarkerClusterGroup from 'react-leaflet-cluster';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'react-leaflet-cluster/dist/assets/MarkerCluster.css';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { APIProvider, Map, AdvancedMarker, InfoWindow, useMap } from '@vis.gl/react-google-maps';
+import { MarkerClusterer, SuperClusterAlgorithm, type Renderer } from '@googlemaps/markerclusterer';
 import './BranchLocator.css';
 
-// Map background providers, tried in order: Esri's street map (Google-Maps-like look, English
-// labels, no key), falling back to OpenStreetMap if Esri's tiles are blocked or failing.
-const TILE_PROVIDERS = [
-  {
-    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-    attribution: 'Tiles &copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &mdash; Source: Esri, HERE, Garmin, USGS, OpenStreetMap contributors',
-    maxNativeZoom: 17, // Esri has no detail beyond 17 in India ("map data not yet available"); closer zooms enlarge 17
-  },
-  {
-    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
-    maxNativeZoom: 19,
-  },
-];
-const TILE_ERRORS_BEFORE_FALLBACK = 4;
-const TILE_LOAD_TIMEOUT_MS = 8000; // blocked requests can hang instead of erroring
-
-function FallbackTileLayer() {
-  const [providerIndex, setProviderIndex] = useState(0);
-  const loaded = useRef(0);
-  const errors = useRef(0);
-  const provider = TILE_PROVIDERS[providerIndex];
-  const hasFallback = providerIndex < TILE_PROVIDERS.length - 1;
-
-  const fallBack = () => {
-    if (!hasFallback || loaded.current > 0) return;
-    loaded.current = 0;
-    errors.current = 0;
-    // Clamped: a burst of tile errors can call this several times before the re-render
-    setProviderIndex((i) => Math.min(i + 1, TILE_PROVIDERS.length - 1));
-  };
-
-  useEffect(() => {
-    if (!hasFallback) return;
-    const timer = setTimeout(fallBack, TILE_LOAD_TIMEOUT_MS);
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [providerIndex]);
-
-  return (
-    <TileLayer
-      key={provider.url}
-      url={provider.url}
-      attribution={provider.attribution}
-      maxZoom={19}
-      maxNativeZoom={provider.maxNativeZoom}
-      eventHandlers={{
-        tileload: () => { loaded.current++; },
-        tileerror: () => { if (++errors.current >= TILE_ERRORS_BEFORE_FALLBACK) fallBack(); },
-      }}
-    />
-  );
-}
-
-// Gold numbered bubble for a group of nearby branches
-// A group of nearby branches: a small stack of pins (no count); clicking zooms in to separate them
-const PIN_PATH = 'M14 0C6.268 0 0 6.268 0 14c0 10.5 14 24 14 24s14-13.5 14-24C28 6.268 21.732 0 14 0z';
-const clusterStackIcon = L.divIcon({
-  className: 'branch-map-cluster',
-  html: `
-    <svg width="40" height="44" viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg">
-      <g transform="translate(12 0)" opacity="0.75"><path d="${PIN_PATH}" fill="#F5B301" stroke="#10182B" stroke-width="1"/></g>
-      <g transform="translate(0 6)"><path d="${PIN_PATH}" fill="#F5B301" stroke="#10182B" stroke-width="1"/><circle cx="14" cy="14" r="6" fill="#FFFFFF"/></g>
-    </svg>`,
-  iconSize: [40, 44],
-  iconAnchor: [14, 44],
-});
-const clusterIcon = () => clusterStackIcon;
+// Google Maps JavaScript API (billed to the Google Cloud project that owns this key).
+// Without a key the map falls back to the keyless Google embed, which can show one place at a time.
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+// Advanced Markers need a Map ID (Google Cloud console > Map Management); DEMO_MAP_ID works for testing.
+const GOOGLE_MAPS_MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID || 'DEMO_MAP_ID';
 
 export interface MapBranch {
   id: string;
@@ -88,17 +22,72 @@ export interface MapBranch {
   lng: number;
 }
 
+interface BranchMapProps {
+  branches: MapBranch[];
+  selectedId?: string | null;
+  nearCoords?: { lat: number; lng: number } | null;
+  onSelect?: (id: string | null) => void;
+  // Group nearby pins into stacks (used for the all-India view; state/search views show every pin)
+  cluster?: boolean;
+}
+
+const INDIA_CENTER = { lat: 22.5, lng: 79 };
+// The map is kept to India: it can't be dragged outside this box or zoomed out past it
+const INDIA_BOUNDS = { south: 6.5, west: 68, north: 37.2, east: 97.4 };
+
+const PIN_PATH = 'M14 0C6.268 0 0 6.268 0 14c0 10.5 14 24 14 24s14-13.5 14-24C28 6.268 21.732 0 14 0z';
+
+function BranchPin({ selected }: { selected: boolean }) {
+  return (
+    <svg className="branch-map-pin" width="28" height="38" viewBox="0 0 28 38" aria-hidden="true">
+      <path d={PIN_PATH} fill={selected ? '#10182B' : '#F5B301'} stroke="#10182B" strokeWidth="1" />
+      <circle cx="14" cy="14" r="6" fill={selected ? '#F5B301' : '#FFFFFF'} />
+    </svg>
+  );
+}
+
+// A group of nearby branches: a small stack of pins (no count); clicking zooms in to separate them
+const stackRenderer: Renderer = {
+  render: ({ position }) => {
+    const el = document.createElement('div');
+    el.className = 'branch-map-cluster';
+    el.innerHTML = `
+      <svg width="40" height="44" viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g transform="translate(12 0)" opacity="0.75"><path d="${PIN_PATH}" fill="#F5B301" stroke="#10182B" stroke-width="1"/></g>
+        <g transform="translate(0 6)"><path d="${PIN_PATH}" fill="#F5B301" stroke="#10182B" stroke-width="1"/><circle cx="14" cy="14" r="6" fill="#FFFFFF"/></g>
+      </svg>`;
+    return new google.maps.marker.AdvancedMarkerElement({ position, content: el, title: 'Several branches – click to zoom in' });
+  },
+};
+
+// Branches geocoded only to their locality share a point; fan them out in a small
+// ring (~150 m) so every pin stays visible and clickable.
+function spreadOverlapping(branches: MapBranch[]): MapBranch[] {
+  const groups = new globalThis.Map<string, MapBranch[]>();
+  for (const b of branches) {
+    const key = `${b.lat.toFixed(4)},${b.lng.toFixed(4)}`;
+    groups.set(key, [...(groups.get(key) || []), b]);
+  }
+  return [...groups.values()].flatMap((group) =>
+    group.length === 1
+      ? group
+      : group.map((b, i) => {
+          const angle = (2 * Math.PI * i) / group.length;
+          return { ...b, lat: b.lat + 0.0014 * Math.sin(angle), lng: b.lng + 0.0014 * Math.cos(angle) };
+        })
+  );
+}
+
 // Google Maps directions to the same place the branch's "Open in Maps" link searches for
 function directionsUrl(mapsSearchUrl: string): string {
   const destination = new URL(mapsSearchUrl).searchParams.get('query') || '';
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
 }
 
-// Name, address and Maps links (Google-Maps-style card)
+// Address and Maps links (the branch name is the info window's header, next to its close button)
 function BranchPopupContent({ b }: { b: MapBranch }) {
   return (
     <div className="branch-map-popup">
-      <strong className="branch-map-popup-name">{b.name}</strong>
       <span className="branch-map-popup-address">
         {b.address}, {b.city}
         {b.pincode ? ` - ${b.pincode}` : ''}
@@ -129,113 +118,55 @@ function BranchPopupContent({ b }: { b: MapBranch }) {
   );
 }
 
-interface BranchMapProps {
-  branches: MapBranch[];
-  selectedId?: string | null;
-  nearCoords?: { lat: number; lng: number } | null;
-  onSelect?: (id: string) => void;
-  // Group nearby pins into numbered bubbles (used for the all-India view; state/search views show every pin)
-  cluster?: boolean;
-}
+const boundsOf = (points: { lat: number; lng: number }[]) => {
+  const bounds = new google.maps.LatLngBounds();
+  points.forEach((p) => bounds.extend(p));
+  return bounds;
+};
 
-const INDIA_CENTER: [number, number] = [22.5, 79];
-// The map is kept to India: it can't be dragged outside this box or zoomed out past it
-const INDIA_BOUNDS = L.latLngBounds([6.5, 68], [37.2, 97.4]);
-// Minimum zoom = the level where all of India just fits, recalculated when the map resizes
-function KeepToIndia() {
-  const map = useMap();
-  useEffect(() => {
-    const update = () => map.setMinZoom(map.getBoundsZoom(INDIA_BOUNDS, false));
-    update();
-    map.on('resize', update);
-    return () => {
-      map.off('resize', update);
-    };
-  }, [map]);
-  return null;
-}
-
-const pinSvg = (fill: string, dot: string) => `
-  <svg width="28" height="38" viewBox="0 0 28 38" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 24 14 24s14-13.5 14-24C28 6.268 21.732 0 14 0z" fill="${fill}" stroke="#10182B" stroke-width="1"/>
-    <circle cx="14" cy="14" r="6" fill="${dot}" />
-  </svg>`;
-
-const branchPinIcon = L.divIcon({
-  className: 'branch-map-pin',
-  html: pinSvg('#F5B301', '#FFFFFF'),
-  iconSize: [28, 38],
-  iconAnchor: [14, 38],
-  popupAnchor: [0, -34],
-});
-
-const branchPinIconSelected = L.divIcon({
-  className: 'branch-map-pin branch-map-pin-selected',
-  html: pinSvg('#10182B', '#F5B301'),
-  iconSize: [28, 38],
-  iconAnchor: [14, 38],
-  popupAnchor: [0, -34],
-});
-
-// Branches geocoded only to their locality share a point; fan them out in a small
-// ring (~150 m) so every pin stays visible and clickable.
-function spreadOverlapping(branches: MapBranch[]): MapBranch[] {
-  const groups = new Map<string, MapBranch[]>();
-  for (const b of branches) {
-    const key = `${b.lat.toFixed(4)},${b.lng.toFixed(4)}`;
-    groups.set(key, [...(groups.get(key) || []), b]);
-  }
-  return [...groups.values()].flatMap((group) =>
-    group.length === 1
-      ? group
-      : group.map((b, i) => {
-          const angle = (2 * Math.PI * i) / group.length;
-          return { ...b, lat: b.lat + 0.0014 * Math.sin(angle), lng: b.lng + 0.0014 * Math.cos(angle) };
-        })
-  );
+// Never zoom closer than `maxZoom` after a fitBounds
+function capZoomAfterFit(map: google.maps.Map, maxZoom: number) {
+  google.maps.event.addListenerOnce(map, 'idle', () => {
+    if ((map.getZoom() ?? 0) > maxZoom) map.setZoom(maxZoom);
+  });
 }
 
 // Re-frames the map whenever the visible set of branches, the selection or the visitor's location changes.
-function FitView({ branches, selected, nearCoords, markerRefs, overview }: { branches: MapBranch[]; selected: MapBranch | null; nearCoords?: { lat: number; lng: number } | null; markerRefs: React.RefObject<Record<string, L.Marker>>; overview: boolean }) {
+function FitView({ branches, selected, nearCoords, overview }: { branches: MapBranch[]; selected: MapBranch | null; nearCoords?: { lat: number; lng: number } | null; overview: boolean }) {
   const map = useMap();
   const boundsKey = branches.map((b) => b.id).join('|');
 
   useEffect(() => {
+    if (!map) return;
     if (selected) {
-      // Fly to the branch, then show its details (e.g. after a card in the list is clicked)
-      const openDetails = () => markerRefs.current?.[selected.id]?.openPopup();
-      map.once('moveend', openDetails);
-      // Centre slightly above the pin so it sits low in the map, leaving room for the popup above it
-      const zoom = Math.max(map.getZoom(), 14);
-      const pinPoint = map.project([selected.lat, selected.lng], zoom);
-      const target = map.unproject(pinPoint.subtract([0, map.getSize().y * 0.25]), zoom);
-      map.flyTo(target, zoom, { duration: 0.8 });
-      return () => {
-        map.off('moveend', openDetails);
-      };
-    }
-    const points: [number, number][] = branches.map((b) => [b.lat, b.lng]);
-    if (nearCoords) {
-      // Visitor's location plus their closest branch
-      const here = L.latLng(nearCoords.lat, nearCoords.lng);
-      const nearest = [...branches].sort((a, b) => here.distanceTo([a.lat, a.lng]) - here.distanceTo([b.lat, b.lng]))[0];
-      const frame: [number, number][] = [[nearCoords.lat, nearCoords.lng]];
-      if (nearest) frame.push([nearest.lat, nearest.lng]);
-      map.flyToBounds(L.latLngBounds(frame), { padding: [60, 60], maxZoom: 14, duration: 0.8 });
+      // Zoom to the branch; its info window opens above the pin and auto-pans into view
+      map.setZoom(Math.max(map.getZoom() ?? 0, 14));
+      map.panTo({ lat: selected.lat, lng: selected.lng });
       return;
     }
-    if (points.length === 0) {
-      map.flyToBounds(INDIA_BOUNDS, { duration: 0.8 });
+    if (nearCoords) {
+      // Visitor's location plus their closest branch
+      const here = new google.maps.LatLng(nearCoords.lat, nearCoords.lng);
+      const distance = (b: MapBranch) => google.maps.geometry?.spherical
+        ? google.maps.geometry.spherical.computeDistanceBetween(here, { lat: b.lat, lng: b.lng })
+        : (b.lat - nearCoords.lat) ** 2 + (b.lng - nearCoords.lng) ** 2;
+      const nearest = [...branches].sort((a, b) => distance(a) - distance(b))[0];
+      map.fitBounds(boundsOf(nearest ? [nearCoords, nearest] : [nearCoords]), 60);
+      capZoomAfterFit(map, 14);
+      return;
+    }
+    if (branches.length === 0) {
+      map.fitBounds(INDIA_BOUNDS, 0);
     } else if (overview) {
       // All-India view: fit tightly around the branches (closer than the whole country, every pin
-      // still visible); visitors can zoom out to see all of India
-      // Extra top padding: pins hang above their point, so the northernmost ones need room
-      // (kept tight so the desktop map lands on the closer zoom level 5)
-      map.flyToBounds(L.latLngBounds(points), { paddingTopLeft: [20, 40], paddingBottomRight: [20, 8], duration: 0.8 });
-    } else if (points.length === 1) {
-      map.flyTo(points[0], 14, { duration: 0.8 });
+      // visible); extra top padding because pins hang above their point
+      map.fitBounds(boundsOf(branches), { top: 40, bottom: 8, left: 20, right: 20 });
+    } else if (branches.length === 1) {
+      map.setZoom(14);
+      map.panTo(branches[0]);
     } else {
-      map.flyToBounds(L.latLngBounds(points), { padding: [40, 40], maxZoom: 13, duration: 0.8 });
+      map.fitBounds(boundsOf(branches), { top: 48, bottom: 24, left: 24, right: 24 });
+      capZoomAfterFit(map, 13);
     }
     // boundsKey captures the branch set; selected/nearCoords identity changes on each selection
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -244,84 +175,123 @@ function FitView({ branches, selected, nearCoords, markerRefs, overview }: { bra
   return null;
 }
 
-export default function BranchMap({ branches, selectedId, nearCoords, onSelect, cluster = false }: BranchMapProps) {
-  // `position` is created once per pin: react-leaflet moves a marker whenever it gets a new array,
-  // which on re-render (e.g. selecting a card) crashed Leaflet while a popup was open.
-  const pins = useMemo(
-    () => spreadOverlapping(branches).map((b) => ({ ...b, position: [b.lat, b.lng] as [number, number] })),
-    [branches]
-  );
-  const selected = pins.find((b) => b.id === selectedId) || null;
-  const markerRefs = useRef<Record<string, L.Marker>>({});
+// Branch pins, optionally grouped into stacks via Google's MarkerClusterer
+function BranchMarkers({ pins, selectedId, onSelect, cluster }: { pins: MapBranch[]; selectedId?: string | null; onSelect?: (id: string | null) => void; cluster: boolean }) {
+  const map = useMap();
+  const [markers, setMarkers] = useState<Record<string, google.maps.marker.AdvancedMarkerElement>>({});
 
-  const markers = pins.map((b) => (
-    <Marker
-      key={b.id}
-      ref={(m) => {
-        if (m) markerRefs.current[b.id] = m;
-        else delete markerRefs.current[b.id];
-      }}
-      position={b.position}
-      icon={b.id === selectedId ? branchPinIconSelected : branchPinIcon}
-      zIndexOffset={b.id === selectedId ? 1000 : 0}
-      eventHandlers={{
-        click: () => onSelect?.(b.id),
-        // The hover label would otherwise sit behind the open details popup
-        popupopen: (e) => e.target.closeTooltip(),
-      }}
-    >
-      <Tooltip direction="top" offset={[0, -34]}>
-        {b.name.replace(/^Muthoot Gold Point - /i, '')}
-      </Tooltip>
-      <Popup minWidth={220} maxWidth={300} autoPanPadding={[12, 12]}>
-        <BranchPopupContent b={b} />
-      </Popup>
-    </Marker>
-  ));
+  const clusterer = useMemo(() => {
+    if (!map || !cluster) return null;
+    return new MarkerClusterer({
+      map,
+      renderer: stackRenderer,
+      algorithm: new SuperClusterAlgorithm({ radius: 50, maxZoom: 11 }),
+    });
+  }, [map, cluster]);
+
+  useEffect(() => {
+    if (!clusterer) return;
+    clusterer.clearMarkers();
+    clusterer.addMarkers(Object.values(markers));
+  }, [clusterer, markers]);
+
+  useEffect(() => () => clusterer?.setMap(null), [clusterer]);
+
+  const setMarkerRef = useCallback((marker: google.maps.marker.AdvancedMarkerElement | null, id: string) => {
+    setMarkers((prev) => {
+      if ((marker && prev[id] === marker) || (!marker && !prev[id])) return prev;
+      const next = { ...prev };
+      if (marker) next[id] = marker;
+      else delete next[id];
+      return next;
+    });
+  }, []);
+
+  const selected = pins.find((b) => b.id === selectedId) || null;
+
+  return (
+    <>
+      {pins.map((b) => (
+        <AdvancedMarker
+          key={b.id}
+          ref={(m) => setMarkerRef(m, b.id)}
+          position={{ lat: b.lat, lng: b.lng }}
+          title={b.name.replace(/^Muthoot Gold Point - /i, '')}
+          zIndex={b.id === selectedId ? 1000 : undefined}
+          onClick={() => onSelect?.(b.id)}
+        >
+          <BranchPin selected={b.id === selectedId} />
+        </AdvancedMarker>
+      ))}
+      {selected && (
+        <InfoWindow
+          position={{ lat: selected.lat, lng: selected.lng }}
+          pixelOffset={[0, -40]}
+          headerContent={<strong className="branch-map-popup-name">{selected.name}</strong>}
+          onCloseClick={() => onSelect?.(null)}
+        >
+          <BranchPopupContent b={selected} />
+        </InfoWindow>
+      )}
+    </>
+  );
+}
+
+// Fallback before an API key is configured: the keyless Google embed (one place at a time)
+function EmbedFallback({ branches, selectedId, nearCoords }: Pick<BranchMapProps, 'branches' | 'selectedId' | 'nearCoords'>) {
+  const target = branches.find((b) => b.id === selectedId) || (branches.length === 1 ? branches[0] : null);
+  const query = target
+    ? `${target.lat},${target.lng}`
+    : nearCoords
+      ? `${nearCoords.lat},${nearCoords.lng}`
+      : 'Muthoot Gold Point - We Buy Gold';
+  const zoom = target ? 16 : nearCoords ? 13 : 5;
+  return (
+    <div className="branch-map-container">
+      <iframe
+        title="Muthoot Gold Point Branch Map"
+        className="branch-map-iframe"
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        src={`https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=${zoom}&output=embed`}
+      />
+    </div>
+  );
+}
+
+export default function BranchMap({ branches, selectedId, nearCoords, onSelect, cluster = false }: BranchMapProps) {
+  const pins = useMemo(() => spreadOverlapping(branches), [branches]);
+  const selected = pins.find((b) => b.id === selectedId) || null;
+
+  if (!GOOGLE_MAPS_API_KEY) {
+    return <EmbedFallback branches={pins} selectedId={selectedId} nearCoords={nearCoords} />;
+  }
 
   return (
     <div className="branch-map-container">
-      <MapContainer
-        center={INDIA_CENTER}
-        zoom={5}
-        maxBounds={INDIA_BOUNDS}
-        maxBoundsViscosity={1}
-        // Whole zoom steps only: the pin grouping (markercluster) drops some single pins at fractional zooms
-        scrollWheelZoom={false}
-        zoomControl={false}
-        className="branch-map-leaflet"
-      >
-        <KeepToIndia />
-        {/* Bottom-right so the zoom buttons never cover a branch details popup */}
-        <ZoomControl position="bottomright" />
-        <FallbackTileLayer />
-        <FitView branches={pins} selected={selected} nearCoords={nearCoords} markerRefs={markerRefs} overview={cluster} />
-        {nearCoords && (
-          <CircleMarker
-            center={[nearCoords.lat, nearCoords.lng]}
-            radius={8}
-            pathOptions={{ color: '#FFFFFF', weight: 3, fillColor: '#2F80ED', fillOpacity: 1 }}
-          />
-        )}
-        {cluster ? (
-          // Nearby pins merge into numbered bubbles; individual pins from city zoom
-          <MarkerClusterGroup
-            key="clustered"
-            iconCreateFunction={clusterIcon}
-            maxClusterRadius={40}
-            disableClusteringAtZoom={12}
-            showCoverageOnHover={false}
-            spiderfyOnMaxZoom
-            // Only ~120 pins, so no need for batching or off-screen culling
-            chunkedLoading={false}
-            removeOutsideVisibleBounds={false}
-          >
-            {markers}
-          </MarkerClusterGroup>
-        ) : (
-          markers
-        )}
-      </MapContainer>
+      <APIProvider apiKey={GOOGLE_MAPS_API_KEY} region="IN" language="en">
+        <Map
+          className="branch-map-google"
+          mapId={GOOGLE_MAPS_MAP_ID}
+          defaultCenter={INDIA_CENTER}
+          defaultZoom={5}
+          restriction={{ latLngBounds: INDIA_BOUNDS, strictBounds: true }}
+          gestureHandling="cooperative"
+          disableDefaultUI
+          zoomControl
+          clickableIcons={false}
+          onClick={() => onSelect?.(null)}
+        >
+          <FitView branches={pins} selected={selected} nearCoords={nearCoords} overview={cluster} />
+          {/* Remount on mode change so pins left hidden by the clusterer reappear in state/search views */}
+          <BranchMarkers key={cluster ? 'grouped' : 'single'} pins={pins} selectedId={selectedId} onSelect={onSelect} cluster={cluster} />
+          {nearCoords && (
+            <AdvancedMarker position={nearCoords} title="You are here" zIndex={999}>
+              <span className="branch-map-you-are-here" />
+            </AdvancedMarker>
+          )}
+        </Map>
+      </APIProvider>
     </div>
   );
 }

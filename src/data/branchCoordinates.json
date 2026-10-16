@@ -4,853 +4,1097 @@
     "lng": 77.590082,
     "precision": "locality",
     "name": "BANGALORE",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Bangalore",
+    "pin": "560001"
   },
   "EXIM001": {
     "lat": 11.001812,
     "lng": 76.962842,
     "precision": "locality",
     "name": "COIMBATORE",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "COIMBATORE",
+    "pin": "641001"
   },
   "EXIM002": {
     "lat": 13.035233,
     "lng": 80.229418,
     "precision": "landmark",
     "name": "CHENNAI",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "CHENNAI",
+    "pin": "600017"
   },
   "EXIM0026": {
     "lat": 12.309295,
     "lng": 76.64819,
     "precision": "landmark",
     "name": "MYSORE",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "MYSORE",
+    "pin": "570001"
   },
   "EXIM003": {
     "lat": 28.666453,
     "lng": 77.216978,
     "precision": "locality",
     "name": "DELHI",
-    "state": "Delhi"
+    "state": "Delhi",
+    "location": "DELHI",
+    "pin": "110005"
   },
   "EXIM005": {
     "lat": 22.572646,
     "lng": 88.363895,
     "precision": "locality",
     "name": "KOLKATA",
-    "state": "West Bengal"
+    "state": "West Bengal",
+    "location": "KOLKATA",
+    "pin": "700025"
   },
   "EXIM007": {
     "lat": 16.511531,
     "lng": 80.616047,
     "precision": "locality",
     "name": "VIJAYAWADA",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "VIJAYAWADA",
+    "pin": "520002"
   },
   "EXIM009": {
     "lat": 9.926115,
     "lng": 78.114098,
     "precision": "locality",
     "name": "MADURAI",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "MADURAI",
+    "pin": "625001"
   },
   "EXIM013": {
     "lat": 9.983322,
     "lng": 76.282438,
     "precision": "landmark",
     "name": "ERNAKULAM",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "ERNAKULAM",
+    "pin": "682035"
   },
   "EXIM018": {
     "lat": 12.976794,
     "lng": 77.590082,
     "precision": "locality",
     "name": "BANGALORE-MV",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Bangalore",
+    "pin": "560001"
   },
   "EXIM019": {
     "lat": 28.571098,
     "lng": 77.324188,
     "precision": "landmark",
     "name": "NOIDA",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "NOIDA",
+    "pin": "201301"
   },
   "EXIM020": {
     "lat": 18.515324,
     "lng": 73.868621,
     "precision": "landmark",
     "name": "PUNE",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "PUNE",
+    "pin": "411030"
   },
   "EXIM021": {
     "lat": 17.360589,
     "lng": 78.474061,
     "precision": "locality",
     "name": "HYDERABAD",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "HYDERABAD",
+    "pin": "500072"
   },
   "EXIM022": {
     "lat": 22.720362,
     "lng": 75.8682,
     "precision": "locality",
     "name": "INDORE",
-    "state": "Madhya Pradesh"
+    "state": "Madhya Pradesh",
+    "location": "INDORE",
+    "pin": "452001"
   },
   "EXIM023": {
     "lat": 17.693553,
     "lng": 83.29213,
     "precision": "locality",
     "name": "VISAKHAPATNAM",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "VISAKHAPATNAM",
+    "pin": "530016"
   },
   "EXIM024": {
     "lat": 19.054999,
     "lng": 72.869203,
     "precision": "locality",
     "name": "MUMBAI-MV",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "Mumbai",
+    "pin": "400013"
   },
   "EXIM025": {
     "lat": 28.464615,
     "lng": 77.029919,
     "precision": "locality",
     "name": "GURGAON",
-    "state": "Haryana"
+    "state": "Haryana",
+    "location": "GURGAON",
+    "pin": "122001"
   },
   "EXIM027": {
     "lat": 17.005045,
     "lng": 81.780473,
     "precision": "locality",
     "name": "RAJAHMUNDRY",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "RAJAHMUNDRY",
+    "pin": "533101"
   },
   "EXIM028": {
     "lat": 13.03941,
     "lng": 77.519735,
     "precision": "locality",
     "name": "JALAHALLI",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Bangalore",
+    "pin": "560057"
   },
   "EXIM029": {
     "lat": 28.671153,
     "lng": 77.412036,
     "precision": "locality",
     "name": "GHAZIABAD",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "Ghaziabad",
+    "pin": "201001"
   },
   "EXIM030": {
     "lat": 13.117511,
     "lng": 80.152976,
     "precision": "landmark",
     "name": "AMBATTUR",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Chennai",
+    "pin": "600053"
   },
   "EXIM031": {
     "lat": 26.915458,
     "lng": 75.818982,
     "precision": "locality",
     "name": "JAIPUR",
-    "state": "Rajasthan"
+    "state": "Rajasthan",
+    "location": "Jaipur",
+    "pin": "302021"
   },
   "EXIM032": {
     "lat": 17.418328,
     "lng": 78.542785,
     "precision": "landmark",
     "name": "UPPAL",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "Uppal - Hyderabad",
+    "pin": "500039"
   },
   "EXIM033": {
     "lat": 19.194329,
     "lng": 72.970178,
     "precision": "locality",
     "name": "THANE",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "Thane",
+    "pin": "400601"
   },
   "EXIM034": {
     "lat": 8.488227,
     "lng": 76.947551,
     "precision": "locality",
     "name": "THIRUVANANTHAPURAM",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "Thiruvananthapuram",
+    "pin": "695023"
   },
   "EXIM035": {
     "lat": 11.655198,
     "lng": 78.158177,
     "precision": "locality",
     "name": "SALEM",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Salem",
+    "pin": "636004"
   },
   "EXIM036": {
     "lat": 28.703268,
     "lng": 77.13225,
     "precision": "locality",
     "name": "PITAMPURA",
-    "state": "Delhi"
+    "state": "Delhi",
+    "location": "Delhi",
+    "pin": "110034"
   },
   "EXIM037": {
     "lat": 15.351159,
     "lng": 75.144586,
     "precision": "locality",
     "name": "HUBBALLI",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Hubballi - Karnataka",
+    "pin": "580020"
   },
   "EXIM038": {
     "lat": 21.149813,
     "lng": 79.082056,
     "precision": "locality",
     "name": "NAGPUR",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "Nagpur",
+    "pin": "440002"
   },
   "EXIM039": {
     "lat": 8.733172,
     "lng": 77.710255,
     "precision": "locality",
     "name": "TIRUNELVELI",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Tirunelveli",
+    "pin": "627001"
   },
   "EXIM040": {
     "lat": 22.715995,
     "lng": 88.491956,
     "precision": "locality",
     "name": "BARASAT",
-    "state": "West Bengal"
+    "state": "West Bengal",
+    "location": "West Bengal",
+    "pin": "700124"
   },
   "EXIM041": {
     "lat": 17.982064,
     "lng": 79.597095,
     "precision": "locality",
     "name": "WARANGAL",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "Warangal",
+    "pin": "506002"
   },
   "EXIM042": {
     "lat": 16.291519,
     "lng": 80.454159,
     "precision": "locality",
     "name": "GUNTUR",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "Guntur",
+    "pin": "522002"
   },
   "EXIM043": {
     "lat": 14.466127,
     "lng": 75.920636,
     "precision": "locality",
     "name": "DAVANAGERE",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Davanagere",
+    "pin": "577002"
   },
   "EXIM044": {
     "lat": 17.331,
     "lng": 76.833423,
     "precision": "locality",
     "name": "KALABURAGI",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Kalaburagi",
+    "pin": "585101"
   },
   "EXIM045": {
     "lat": 20.260296,
     "lng": 85.839452,
     "precision": "locality",
     "name": "BHUBANESWAR",
-    "state": "Odisha"
+    "state": "Odisha",
+    "location": "Bhubaneswar",
+    "pin": "751001"
   },
   "EXIM046": {
     "lat": 30.69088,
     "lng": 76.711488,
     "precision": "locality",
     "name": "MOHALI",
-    "state": "Punjab"
+    "state": "Punjab",
+    "location": "Mohali",
+    "pin": "160059"
   },
   "EXIM047": {
     "lat": 10.51614,
     "lng": 76.208462,
     "precision": "locality",
     "name": "THRISSUR",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "Thrissur",
+    "pin": "680001"
   },
   "EXIM048": {
     "lat": 11.245056,
     "lng": 75.775472,
     "precision": "locality",
     "name": "KOZHIKODE",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "Kozhikode",
+    "pin": "673002"
   },
   "EXIM049": {
     "lat": 26.8381,
     "lng": 80.9346,
     "precision": "locality",
     "name": "LUCKNOW",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "Lucknow",
+    "pin": "226010"
   },
   "EXIM050": {
     "lat": 15.857267,
     "lng": 74.506934,
     "precision": "locality",
     "name": "BELAGAVI",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Belagavi",
+    "pin": "590001"
   },
   "EXIM051": {
     "lat": 12.925792,
     "lng": 80.117919,
     "precision": "locality",
     "name": "TAMBARAM",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Tambaram",
+    "pin": "600045"
   },
   "EXIM053": {
     "lat": 12.907175,
     "lng": 79.13097,
     "precision": "locality",
     "name": "VELLORE",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Vellore",
+    "pin": "632001"
   },
   "EXIM054": {
     "lat": 28.403148,
     "lng": 77.310556,
     "precision": "locality",
     "name": "FARIDABAD",
-    "state": "Haryana"
+    "state": "Haryana",
+    "location": "Faridabad",
+    "pin": "121001"
   },
   "EXIM055": {
     "lat": 10.822246,
     "lng": 78.683404,
     "precision": "landmark",
     "name": "TIRUCHIRAPPALLI",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Tiruchirappalli",
+    "pin": "620018"
   },
   "EXIM056": {
     "lat": 27.495554,
     "lng": 77.685555,
     "precision": "locality",
     "name": "MATHURA",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "Mathura",
+    "pin": "281004"
   },
   "EXIM057": {
     "lat": 22.754995,
     "lng": 88.341667,
     "precision": "locality",
     "name": "SERAMPORE",
-    "state": "West Bengal"
+    "state": "West Bengal",
+    "location": "Serampore",
+    "pin": "712201"
   },
   "EXIM058": {
     "lat": 17.433725,
     "lng": 78.500683,
     "precision": "locality",
     "name": "SECUNDERABAD",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "Secunderabad",
+    "pin": "500056"
   },
   "EXIM059": {
     "lat": 28.628076,
     "lng": 77.279377,
     "precision": "locality",
     "name": "SHAKARPUR",
-    "state": "Delhi"
+    "state": "Delhi",
+    "location": "Delhi",
+    "pin": "110092"
   },
   "EXIM060": {
     "lat": 16.955872,
     "lng": 82.234387,
     "precision": "locality",
     "name": "KAKINADA",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "Andhra Pradesh",
+    "pin": "533001"
   },
   "EXIM061": {
     "lat": 17.36509,
     "lng": 78.392516,
     "precision": "pincode",
     "name": "SUNCITY",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "Suncity",
+    "pin": "500091"
   },
   "EXIM062": {
     "lat": 28.89912,
     "lng": 77.688765,
     "precision": "locality",
     "name": "MEERUT",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "Uttar Pradesh",
+    "pin": "250001"
   },
   "EXIM063": {
     "lat": 17.681398,
     "lng": 83.213006,
     "precision": "locality",
     "name": "GAJUWAKA",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "Gajuwaka",
+    "pin": "530026"
   },
   "EXIM064": {
     "lat": 30.325565,
     "lng": 78.043681,
     "precision": "locality",
     "name": "DEHRADUN",
-    "state": "Uttarakhand"
+    "state": "Uttarakhand",
+    "location": "Dehradun",
+    "pin": "248001"
   },
   "EXIM065": {
     "lat": 11.101781,
     "lng": 77.345192,
     "precision": "locality",
     "name": "TIRUPPUR",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Tiruppur",
+    "pin": "641602"
   },
   "EXIM066": {
     "lat": 19.877263,
     "lng": 75.339024,
     "precision": "locality",
     "name": "CH. SAMBHAJINAGAR",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "Ch Sambhaji Nagar",
+    "pin": "431001"
   },
   "EXIM067": {
     "lat": 12.906351,
     "lng": 80.14935,
     "precision": "landmark",
     "name": "CHENGALPATTU",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Chengalpattu",
+    "pin": "603001"
   },
   "EXIM068": {
     "lat": 19.433892,
     "lng": 72.817694,
     "precision": "landmark",
     "name": "NALLASOPARA",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "Nallasopara",
+    "pin": "401209"
   },
   "EXIM069": {
     "lat": 19.239674,
     "lng": 73.136648,
     "precision": "locality",
     "name": "KALYAN",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "Kalyan",
+    "pin": "421306"
   },
   "EXIM070": {
     "lat": 12.995743,
     "lng": 77.757949,
     "precision": "locality",
     "name": "WHITEFIELD",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Whitefield",
+    "pin": "560066"
   },
   "EXIM071": {
     "lat": 10.768193,
     "lng": 76.652132,
     "precision": "locality",
     "name": "PALAKKAD",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "Palakkad",
+    "pin": "678001"
   },
   "EXIM072": {
     "lat": 8.18399,
     "lng": 77.431544,
     "precision": "locality",
     "name": "NAGERCOIL",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Nagercoil",
+    "pin": "629001"
   },
   "EXIM073": {
     "lat": 13.340077,
     "lng": 77.100621,
     "precision": "locality",
     "name": "TUMAKURU",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Tumakuru",
+    "pin": "572101"
   },
   "EXIM074": {
     "lat": 12.911837,
     "lng": 77.572846,
     "precision": "landmark",
     "name": "BANASHANKARI",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Banashankari",
+    "pin": "560070"
   },
   "EXIM075": {
     "lat": 12.86981,
     "lng": 74.843008,
     "precision": "locality",
     "name": "MANGALURU",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Mangaluru",
+    "pin": "575002"
   },
   "EXIM076": {
     "lat": 29.156269,
     "lng": 75.72923,
     "precision": "locality",
     "name": "HISAR",
-    "state": "Haryana"
+    "state": "Haryana",
+    "location": "Hisar",
+    "pin": "125001"
   },
   "EXIM077": {
     "lat": 27.197332,
     "lng": 78.010406,
     "precision": "landmark",
     "name": "AGRA",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "Agra",
+    "pin": "282002"
   },
   "EXIM078": {
     "lat": 11.876384,
     "lng": 75.373797,
     "precision": "locality",
     "name": "KANNUR",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "Kannur",
+    "pin": "670001"
   },
   "EXIM079": {
     "lat": 12.836393,
     "lng": 79.70533,
     "precision": "locality",
     "name": "KANCHIPURAM",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "Kanchipuram",
+    "pin": "631501"
   },
   "EXIM080": {
     "lat": 24.578721,
     "lng": 73.686257,
     "precision": "locality",
     "name": "UDAIPUR",
-    "state": "Rajasthan"
+    "state": "Rajasthan",
+    "location": "UDAIPUR",
+    "pin": "313001"
   },
   "EXIM081": {
     "lat": 22.697175,
     "lng": 88.380563,
     "precision": "locality",
     "name": "SODEPUR",
-    "state": "West Bengal"
+    "state": "West Bengal",
+    "location": "SODEPUR",
+    "pin": "700110"
   },
   "EXIM082": {
     "lat": 16.542769,
     "lng": 81.527344,
     "precision": "locality",
     "name": "BHIMAVARAM",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "Bhimavaram",
+    "pin": "534201"
   },
   "EXIM083": {
     "lat": 28.621523,
     "lng": 77.061106,
     "precision": "locality",
     "name": "UTTAMNAGAR",
-    "state": "Delhi"
+    "state": "Delhi",
+    "location": "Delhi",
+    "pin": "110059"
   },
   "EXIM084": {
     "lat": 29.391272,
     "lng": 76.977168,
     "precision": "locality",
     "name": "PANIPAT",
-    "state": "Haryana"
+    "state": "Haryana",
+    "location": "Panipat",
+    "pin": "132103"
   },
   "EXIM085": {
     "lat": 18.434812,
     "lng": 79.132804,
     "precision": "locality",
     "name": "KARIMNAGAR",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "KARIMNAGAR",
+    "pin": "505001"
   },
   "EXIM086": {
     "lat": 17.330318,
     "lng": 78.568278,
     "precision": "locality",
     "name": "VANASTHALIPURAM",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "Vanasthalipuram",
+    "pin": "500070"
   },
   "EXIM087": {
     "lat": 18.673191,
     "lng": 78.097819,
     "precision": "locality",
     "name": "NIZAMABAD",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "NIZAMABAD",
+    "pin": "503001"
   },
   "EXIM088": {
     "lat": 23.258486,
     "lng": 77.401989,
     "precision": "locality",
     "name": "BHOPAL",
-    "state": "Madhya Pradesh"
+    "state": "Madhya Pradesh",
+    "location": "BHOPAL",
+    "pin": "462002"
   },
   "EXIM089": {
     "lat": 9.386745,
     "lng": 76.576265,
     "precision": "locality",
     "name": "THIRUVALLA",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "THIRUVALLA",
+    "pin": "689107"
   },
   "EXIM090": {
     "lat": 18.58063,
     "lng": 73.98331,
     "precision": "locality",
     "name": "WAGHOLI",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "WAGHOLI",
+    "pin": "412207"
   },
   "EXIM091": {
     "lat": 25.173702,
     "lng": 75.857419,
     "precision": "locality",
     "name": "KOTA",
-    "state": "Rajasthan"
+    "state": "Rajasthan",
+    "location": "KOTA",
+    "pin": "324007"
   },
   "EXIM092": {
     "lat": 26.4691,
     "lng": 74.639,
     "precision": "locality",
     "name": "AJMER",
-    "state": "Rajasthan"
+    "state": "Rajasthan",
+    "location": "AJMER",
+    "pin": "305004"
   },
   "EXIM093": {
     "lat": 13.631637,
     "lng": 79.423171,
     "precision": "locality",
     "name": "TIRUPATI",
-    "state": "Andhra Pradesh"
+    "state": "Andhra Pradesh",
+    "location": "Tirupati",
+    "pin": "517501"
   },
   "EXIM094": {
     "lat": 13.929885,
     "lng": 75.57121,
     "precision": "landmark",
     "name": "SHIVAMOGGA",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "SHIVAMOGGA",
+    "pin": "577202"
   },
   "EXIM095": {
     "lat": 22.622835,
     "lng": 88.413932,
     "precision": "locality",
     "name": "NAGERBAZAR",
-    "state": "West Bengal"
+    "state": "West Bengal",
+    "location": "NAGERBAZAR",
+    "pin": "700074"
   },
   "EXIM096": {
     "lat": 11.330648,
     "lng": 77.727652,
     "precision": "locality",
     "name": "ERODE",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "ERODE",
+    "pin": "638001"
   },
   "EXIM097": {
     "lat": 16.702841,
     "lng": 74.240533,
     "precision": "locality",
     "name": "KOLHAPUR",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "KOLHAPUR",
+    "pin": "416002"
   },
   "EXIM098": {
     "lat": 21.209489,
     "lng": 72.831706,
     "precision": "locality",
     "name": "SURAT",
-    "state": "Gujarat"
+    "state": "Gujarat",
+    "location": "SURAT",
+    "pin": "395001"
   },
   "EXIM099": {
     "lat": 10.111399,
     "lng": 76.351528,
     "precision": "landmark",
     "name": "ALUVA",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "Ernakulam",
+    "pin": "683101"
   },
   "EXIM100": {
     "lat": 12.917657,
     "lng": 77.483757,
     "precision": "locality",
     "name": "KENGERI",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "KENGERI",
+    "pin": "560060"
   },
   "EXIM101": {
     "lat": 11.934057,
     "lng": 79.830645,
     "precision": "locality",
     "name": "PONDICHERRY",
-    "state": "Puducherry"
+    "state": "Puducherry",
+    "location": "Pondicherry",
+    "pin": "605013"
   },
   "EXIM102": {
     "lat": 22.572159,
     "lng": 88.389421,
     "precision": "locality",
     "name": "PHOOLBAGAN",
-    "state": "West Bengal"
+    "state": "West Bengal",
+    "location": "PHOOLBAGAN",
+    "pin": "700054"
   },
   "EXIM103": {
     "lat": 20.4686,
     "lng": 85.8792,
     "precision": "locality",
     "name": "CUTTACK",
-    "state": "Odisha"
+    "state": "Odisha",
+    "location": "CUTTACK",
+    "pin": "753001"
   },
   "EXIM104": {
     "lat": 18.991097,
     "lng": 73.120585,
     "precision": "locality",
     "name": "PANVEL",
-    "state": "Maharashtra"
+    "state": "Maharashtra",
+    "location": "PANVEL",
+    "pin": "410206"
   },
   "EXIM105": {
     "lat": 12.718336,
     "lng": 77.822948,
     "precision": "locality",
     "name": "HOSUR",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "HOSUR",
+    "pin": "635109"
   },
   "EXIM106": {
     "lat": 26.460914,
     "lng": 80.321759,
     "precision": "locality",
     "name": "KANPUR",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "KANPUR",
+    "pin": "208014"
   },
   "EXIM107": {
     "lat": 29.98568,
     "lng": 77.504065,
     "precision": "locality",
     "name": "SAHARANPUR",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "SAHARANPUR",
+    "pin": "247001"
   },
   "EXIM108": {
     "lat": 17.369165,
     "lng": 78.472133,
     "precision": "locality",
     "name": "HIMAYAT NAGAR",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "Telangana",
+    "pin": "500029"
   },
   "EXIM109": {
     "lat": 28.597138,
     "lng": 77.437875,
     "precision": "locality",
     "name": "GREATER NOIDA",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "Uttar Pradesh",
+    "pin": "201318"
   },
   "EXIM110": {
     "lat": 22.297314,
     "lng": 73.194257,
     "precision": "locality",
     "name": "VADODARA",
-    "state": "Gujarat"
+    "state": "Gujarat",
+    "location": "VADODARA",
+    "pin": "390007"
   },
   "EXIM111": {
     "lat": 8.887053,
     "lng": 76.59067,
     "precision": "locality",
     "name": "KOLLAM",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "KOLLAM",
+    "pin": "691001"
   },
   "EXIM112": {
     "lat": 17.487298,
     "lng": 78.332214,
     "precision": "locality",
     "name": "CHANDA NAGAR",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "CHANDANAGAR",
+    "pin": "500050"
   },
   "EXIM113": {
     "lat": 27.903913,
     "lng": 78.048318,
     "precision": "locality",
     "name": "ALIGARH",
-    "state": "Uttar Pradesh"
+    "state": "Uttar Pradesh",
+    "location": "ALIGRAH",
+    "pin": "202001"
   },
   "EXIM114": {
     "lat": 29.86935,
     "lng": 77.890212,
     "precision": "locality",
     "name": "ROORKEE",
-    "state": "Uttarakhand"
+    "state": "Uttarakhand",
+    "location": "ROORKEE",
+    "pin": "247667"
   },
   "EXIM115": {
     "lat": 10.007796,
     "lng": 77.483498,
     "precision": "landmark",
     "name": "THENI",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "THENI",
+    "pin": "625531"
   },
   "EXIM116": {
     "lat": 13.105371,
     "lng": 77.57724,
     "precision": "landmark",
     "name": "YELAHANKA",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "YELAHANKA",
+    "pin": "560064"
   },
   "EXIM117": {
     "lat": 26.296772,
     "lng": 73.035143,
     "precision": "locality",
     "name": "JODHPUR",
-    "state": "Rajasthan"
+    "state": "Rajasthan",
+    "location": "JODHPUR",
+    "pin": "342001"
   },
   "EXIM118": {
     "lat": 12.899935,
     "lng": 80.23499,
     "precision": "landmark",
     "name": "SHOLINGANALLUR",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "SHOLINGANALLUR",
+    "pin": "600119"
   },
   "EXIM119": {
     "lat": 10.658823,
     "lng": 77.00873,
     "precision": "locality",
     "name": "POLLACHI",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "POLLACHI",
+    "pin": "642001"
   },
   "EXIM120": {
     "lat": 25.609324,
     "lng": 85.123525,
     "precision": "locality",
     "name": "PATNA",
-    "state": "Bihar"
+    "state": "Bihar",
+    "location": "Patna",
+    "pin": "800001"
   },
   "EXIM121": {
     "lat": 21.238091,
     "lng": 81.633699,
     "precision": "locality",
     "name": "RAIPUR",
-    "state": "Chhattisgarh"
+    "state": "Chhattisgarh",
+    "location": "RAIPUR",
+    "pin": "492004"
   },
   "EXIM122": {
     "lat": 12.872256,
     "lng": 77.663486,
     "precision": "locality",
     "name": "Hosa Road",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "Hosa Road",
+    "pin": "560100"
   },
   "EXIM123": {
     "lat": 28.995376,
     "lng": 77.023363,
     "precision": "locality",
     "name": "SONIPAT",
-    "state": "Haryana"
+    "state": "Haryana",
+    "location": "SONIPAT",
+    "pin": "131001"
   },
   "EXIM124": {
     "lat": 9.591564,
     "lng": 76.52216,
     "precision": "locality",
     "name": "KOTTAYAM",
-    "state": "Kerala"
+    "state": "Kerala",
+    "location": "KOTTAYAM",
+    "pin": "686001"
   },
   "EXIM125": {
     "lat": 17.246535,
     "lng": 80.150033,
     "precision": "locality",
     "name": " KHAMMAM",
-    "state": "Telangana"
+    "state": "Telangana",
+    "location": "KHAMMAM",
+    "pin": "507002"
   },
   "EXIM126": {
     "lat": 26.180598,
     "lng": 91.753943,
     "precision": "locality",
     "name": "GUWAHATI",
-    "state": "Assam"
+    "state": "Assam",
+    "location": "GUWAHATI",
+    "pin": "781001"
   },
   "EXIM127": {
     "lat": 10.786027,
     "lng": 79.13815,
     "precision": "locality",
     "name": "THANJAVUR",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "THANJAVUR",
+    "pin": "613009"
   },
   "EXIM128": {
     "lat": 13.060037,
     "lng": 77.731044,
     "precision": "pincode",
     "name": "K R PURAM",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "K R PURAM",
+    "pin": "560049"
   },
   "EXIM130": {
     "lat": 17.916602,
     "lng": 77.511315,
     "precision": "locality",
     "name": "BIDAR",
-    "state": "Karnataka"
+    "state": "Karnataka",
+    "location": "BIDAR",
+    "pin": "585401"
   },
   "EXIM131": {
     "lat": 8.82487,
     "lng": 77.848357,
     "precision": "landmark",
     "name": "THOOTHUKUDI",
-    "state": "Tamil Nadu"
+    "state": "Tamil Nadu",
+    "location": "THOOTHUKUDI",
+    "pin": "628003"
   },
   "EXIM133": {
     "lat": 20.874679,
     "lng": 86.121539,
     "precision": "locality",
     "name": "JAJPUR",
-    "state": "Odisha"
+    "state": "Odisha",
+    "location": "JAJPUR",
+    "pin": "755019"
   },
   "EXIMO0016": {
     "lat": 28.666453,
     "lng": 77.216978,
     "precision": "locality",
     "name": "DELHI",
-    "state": "Delhi"
+    "state": "Delhi",
+    "location": "DELHI",
+    "pin": "110005"
   }
 }
