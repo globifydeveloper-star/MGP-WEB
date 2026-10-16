@@ -70,7 +70,7 @@ const organizationJsonLd = {
       sameAs: [
         'https://www.facebook.com/muthootgoldpoint/',
         'https://www.instagram.com/muthootgoldpoint/',
-        'https://www.linkedin.com/company/muthoot-exim-pvt-ltd',
+        'https://www.linkedin.com/company/muthoot-gold-point-buy-gold/',
         'https://www.youtube.com/@MuthootGoldpoint',
       ],
     },

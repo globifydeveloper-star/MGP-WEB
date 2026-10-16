@@ -52,6 +52,7 @@
   min-height: 600px;
   border-radius: 16px;
   background: #E8E8E8;
+  position: relative;
 }
 
 .branch-map-iframe {
@@ -60,6 +61,65 @@
   min-height: 600px;
   border: 0;
   border-radius: 16px;
+}
+
+/* Selected branch's details, floating at the bottom of the map (above the embed's pin) */
+.branch-map-card {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 24px;
+  max-width: 340px;
+  padding: 14px 16px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(16, 24, 43, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-family: var(--font-outfit), sans-serif;
+  line-height: 1.4;
+}
+
+.branch-map-card-name {
+  color: #10182B;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.branch-map-card-address {
+  color: #5F6368;
+  font-size: 0.85rem;
+}
+
+.branch-map-card-phone {
+  color: #10182B;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.branch-map-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.branch-map-card-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #F5B301;
+  border: 1px solid #F5B301;
+  color: #10182B;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+
+.branch-map-card-btn-outline {
+  background: #FFFFFF;
+  border-color: #10182B;
 }
 
 .branch-locator-map-loading {
@@ -582,4 +642,27 @@
   .branch-locator-map-col,
   .branch-map-container,
   .branch-locator-map-loading { min-height: 260px; }
+}
+
+/* Small maps: keep the details card compact so the pin above it stays visible */
+@media (max-width: 640px) {
+  .branch-map-card {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    padding: 10px 12px;
+    gap: 0.25rem;
+  }
+
+  .branch-map-card-name {
+    font-size: 0.95rem;
+  }
+
+  .branch-map-card-phone {
+    display: none;
+  }
+
+  .branch-map-card-btn {
+    padding: 6px 10px;
+  }
 }

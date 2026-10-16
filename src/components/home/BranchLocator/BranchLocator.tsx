@@ -278,6 +278,7 @@ function formatBranchMapQuery(branch: {
           {/* Map Column */}
           <div className="branch-locator-map-col">
             <BranchMap
+              selectedBranch={activeBranch}
               selectedBranchAddress={
                 activeBranch ? formatBranchMapQuery(activeBranch) : undefined
               }
