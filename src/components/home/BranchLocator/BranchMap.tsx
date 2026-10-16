@@ -3,26 +3,10 @@
 import React from 'react';
 import './BranchLocator.css';
 
-export interface BranchMapDetails {
-  name: string;
-  address?: string;
-  city: string;
-  pincode?: string;
-  phone?: string;
-  url: string;
-}
-
-// Google Maps directions to the same place the branch's "Open in Maps" link searches for
-function directionsUrl(mapsSearchUrl: string): string {
-  const destination = new URL(mapsSearchUrl).searchParams.get('query') || '';
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
-}
-
 interface BranchMapProps {
-  // Shown as a card over the map: the keyless embed can't attach a name/address to a coordinate pin
-  selectedBranch?: BranchMapDetails | null;
   selectedBranchAddress?: string;
-  // Saved coordinates of the selected branch: the pin lands exactly on it even when Google can't find the address
+  // Saved coordinates of the selected branch (src/data/branchCoordinates.json): steer Google's search
+  // to the right spot, and pin it there if the address can't be found
   selectedBranchCoords?: { lat: number; lng: number } | null;
   searchQuery?: string;
   activeStateName?: string;
@@ -30,7 +14,6 @@ interface BranchMapProps {
 }
 
 export default function BranchMap({
-  selectedBranch,
   selectedBranchAddress,
   selectedBranchCoords,
   searchQuery = '',
@@ -41,11 +24,12 @@ export default function BranchMap({
   let mapQuery = 'Muthoot Gold Point - We Buy Gold, Ernakulam';
   let zoom = 17;
 
-  if (selectedBranchCoords) {
-    mapQuery = `${selectedBranchCoords.lat},${selectedBranchCoords.lng}`;
-    zoom = 17;
-  } else if (selectedBranchAddress) {
+  if (selectedBranchAddress) {
+    // Searching by name/address makes Google show its place card (name, address, rating, Open in Maps)
     mapQuery = selectedBranchAddress;
+    zoom = 17;
+  } else if (selectedBranchCoords) {
+    mapQuery = `${selectedBranchCoords.lat},${selectedBranchCoords.lng}`;
     zoom = 17;
   } else if (nearCoords) {
     mapQuery = `${nearCoords.lat},${nearCoords.lng}`;
@@ -58,7 +42,9 @@ export default function BranchMap({
     zoom = 15;
   }
 
-  const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&t=&z=${zoom}&ie=UTF8&iwloc=&output=embed`;
+  // `ll` centres the search on the branch's saved coordinates so Google picks the right listing
+  const near = selectedBranchAddress && selectedBranchCoords ? `&ll=${selectedBranchCoords.lat},${selectedBranchCoords.lng}` : '';
+  const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}${near}&t=&z=${zoom}&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <div className="branch-map-container">
@@ -69,28 +55,6 @@ export default function BranchMap({
         referrerPolicy="no-referrer-when-downgrade"
         src={embedUrl}
       />
-      {selectedBranch && (
-        <div className="branch-map-card">
-          <strong className="branch-map-card-name">{selectedBranch.name}</strong>
-          <span className="branch-map-card-address">
-            {[selectedBranch.address, selectedBranch.city].filter(Boolean).join(', ')}
-            {selectedBranch.pincode ? ` - ${selectedBranch.pincode}` : ''}
-          </span>
-          {selectedBranch.phone && (
-            <a className="branch-map-card-phone" href={`tel:${selectedBranch.phone}`}>
-              📞 {selectedBranch.phone}
-            </a>
-          )}
-          <div className="branch-map-card-actions">
-            <a className="branch-map-card-btn" href={selectedBranch.url} target="_blank" rel="noopener noreferrer">
-              Open in Maps
-            </a>
-            <a className="branch-map-card-btn branch-map-card-btn-outline" href={directionsUrl(selectedBranch.url)} target="_blank" rel="noopener noreferrer">
-              Directions
-            </a>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
