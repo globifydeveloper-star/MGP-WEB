@@ -311,10 +311,12 @@ function getSubmissionHeaders() {
 
 const GENERIC_APPLICATION_ERROR = 'We could not submit your application. Please try again.';
 const GENERIC_FORM_ERROR = 'We could not submit your request. Please try again.';
+// Strapi's requireVerifiedOtp rejects missing/expired/consumed OTPs with 403 and this message.
+const OTP_REQUIRED_MESSAGE = 'Please verify your phone number again.';
 
 // Strapi validation messages written for end users; anything else is replaced by a generic message.
 const USER_FACING_STRAPI_ERRORS = new Set([
-  'Please verify your phone number again.',
+  OTP_REQUIRED_MESSAGE,
   'Please enter a valid 10-digit mobile number.',
   'Please upload a PDF, DOC, or DOCX file under 5 MB.',
   'Could not read the uploaded file. Please try again.',
@@ -447,7 +449,11 @@ export async function submitFormSubmission(payload: {
     });
 
     if (!valuationRes.ok) {
-      return { success: false, error: await toUserFacingError(valuationRes, 'submitFormSubmission', GENERIC_FORM_ERROR) };
+      const error = await toUserFacingError(valuationRes, 'submitFormSubmission', GENERIC_FORM_ERROR);
+      if (valuationRes.status === 403 && error === OTP_REQUIRED_MESSAGE) {
+        return { success: false, code: 'OTP_REQUIRED', error };
+      }
+      return { success: false, error };
     }
 
     const valData = await valuationRes.json().catch(() => ({}));
@@ -458,7 +464,7 @@ export async function submitFormSubmission(payload: {
   } catch (err) {
     if (err instanceof VerificationError) {
       console.warn('[submit] verification failed:', err.code);
-      return { success: false, code: 'OTP_REQUIRED', error: 'Please verify your phone number again.' };
+      return { success: false, code: 'OTP_REQUIRED', error: OTP_REQUIRED_MESSAGE };
     }
     console.error('submitFormSubmission error:', err instanceof Error ? err.message : 'Unknown error');
     return { success: false, error: 'Network error submitting form.' };
