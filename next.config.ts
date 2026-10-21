@@ -1,23 +1,14 @@
 import type { NextConfig } from "next";
-import { PHASE_PRODUCTION_BUILD } from "next/constants";
 
-export default function nextConfig(phase: string): NextConfig {
-  const isProductionBuild = phase === PHASE_PRODUCTION_BUILD;
+export default function nextConfig(): NextConfig {
+  const isDev = process.env.NODE_ENV === "development";
 
+  // Optional: only needed if Strapi ever returns media on its own host. Production media
+  // comes back as absolute S3 URLs, so the build must not depend on the CMS host.
   const publicStrapiUrl = process.env.STRAPI_PUBLIC_URL || process.env.NEXT_PUBLIC_STRAPI_URL;
-  if (!publicStrapiUrl && process.env.NODE_ENV === "production") {
-    throw new Error("STRAPI_PUBLIC_URL or NEXT_PUBLIC_STRAPI_URL is not set");
-  }
-  const strapiUrl = new URL(
-    publicStrapiUrl && /^https?:\/\//.test(publicStrapiUrl) ? publicStrapiUrl : "http://localhost:1337"
-  );
+  const strapiUrl = publicStrapiUrl && /^https?:\/\//.test(publicStrapiUrl) ? new URL(publicStrapiUrl) : null;
 
-  if (!process.env.STRAPI_INTERNAL_URL && process.env.NODE_ENV === "production" && !isProductionBuild) {
-    throw new Error("STRAPI_INTERNAL_URL is not set");
-  }
-  const strapiInternalUrl = (process.env.STRAPI_INTERNAL_URL || "http://localhost:1337").replace(/\/+$/, "");
-
-  const isLocalStrapi = ["localhost", "127.0.0.1", "::1"].includes(strapiUrl.hostname);
+  const isLocalStrapi = !!strapiUrl && ["localhost", "127.0.0.1", "::1"].includes(strapiUrl.hostname);
 
   return {
     reactStrictMode: true,
@@ -25,7 +16,11 @@ export default function nextConfig(phase: string): NextConfig {
     poweredByHeader: false,
     output: "standalone",
     async rewrites() {
-      return [{ source: "/strapi/:path*", destination: `${strapiInternalUrl}/:path*` }];
+      // Dev only: serve local-provider uploads (/uploads/...) through the Next origin.
+      // Production has no /strapi rewrite, so the public site can never proxy to Strapi.
+      if (!isDev) return [];
+      const strapiInternalUrl = (process.env.STRAPI_INTERNAL_URL || "http://localhost:1337").replace(/\/+$/, "");
+      return [{ source: "/strapi/uploads/:path*", destination: `${strapiInternalUrl}/uploads/:path*` }];
     },
     async redirects() {
       return [
@@ -139,12 +134,16 @@ export default function nextConfig(phase: string): NextConfig {
       formats: ["image/avif", "image/webp"],
       qualities: [75, 90],
       remotePatterns: [
-        {
-          protocol: strapiUrl.protocol.replace(":", "") as "http" | "https",
-          hostname: strapiUrl.hostname,
-          port: strapiUrl.port,
-          pathname: "/**",
-        },
+        ...(strapiUrl
+          ? [
+              {
+                protocol: strapiUrl.protocol.replace(":", "") as "http" | "https",
+                hostname: strapiUrl.hostname,
+                port: strapiUrl.port,
+                pathname: "/**",
+              },
+            ]
+          : []),
         {
           protocol: "https",
           hostname: "res.cloudinary.com",

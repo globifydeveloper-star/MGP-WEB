@@ -4,7 +4,9 @@ import crypto from 'crypto';
 export function proxy(request: NextRequest) {
   const nonce = crypto.randomBytes(16).toString('base64');
 
-  const publicStrapiUrl = process.env.STRAPI_PUBLIC_URL || process.env.NEXT_PUBLIC_STRAPI_URL || '';
+  // Origin editors open Strapi Admin on; its content preview iframes this site.
+  const strapiAdminUrl =
+    process.env.STRAPI_ADMIN_URL || process.env.STRAPI_PUBLIC_URL || process.env.NEXT_PUBLIC_STRAPI_URL || '';
 
   // React needs eval in development only (debug stacks); without it the client never hydrates in dev.
   const isDev = process.env.NODE_ENV === 'development';
@@ -20,7 +22,7 @@ export function proxy(request: NextRequest) {
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-ancestors 'self' ${publicStrapiUrl};
+    frame-ancestors 'self' ${strapiAdminUrl};
   `.replace(/\s{2,}/g, ' ').trim();
 
   // Set on the REQUEST headers (not just the response) so Next's own app-render nonce
