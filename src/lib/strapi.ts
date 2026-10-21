@@ -2,20 +2,11 @@ import 'server-only';
 import { cache } from 'react';
 import { cookies } from 'next/headers';
 import { assertVerifiedToken, VerificationError } from '@/lib/otpToken';
+import { getStrapiUrl } from '@/lib/strapiUrl';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StrapiAny = any;
 
-
-// Server: call Strapi directly (STRAPI_INTERNAL_URL).
-function getStrapiUrl(): string {
-  const url = process.env.STRAPI_INTERNAL_URL || process.env.STRAPI_URL || null;
-  if (url) return url.replace(/\/+$/, '');
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('STRAPI_INTERNAL_URL is not set');
-  }
-  return 'http://localhost:1337';
-}
 const PUBLIC_STRAPI_URL = (process.env.STRAPI_PUBLIC_URL || process.env.STRAPI_URL || '/strapi').replace(/\/+$/, '');
 const REVALIDATE_INTERVAL = 60; // 60s ISR background refresh
 
@@ -318,6 +309,26 @@ function getSubmissionHeaders() {
   return headers;
 }
 
+const GENERIC_APPLICATION_ERROR = 'We could not submit your application. Please try again.';
+const GENERIC_FORM_ERROR = 'We could not submit your request. Please try again.';
+
+// Strapi validation messages written for end users; anything else is replaced by a generic message.
+const USER_FACING_STRAPI_ERRORS = new Set([
+  'Please verify your phone number again.',
+  'Please enter a valid 10-digit mobile number.',
+  'Please upload a PDF, DOC, or DOCX file under 5 MB.',
+  'Could not read the uploaded file. Please try again.',
+  'Failed to upload resume file. Please try again.',
+]);
+
+// Logs Strapi's real error server-side and returns only a safe message for the browser.
+async function toUserFacingError(res: Response, context: string, fallback: string): Promise<string> {
+  const errJson = await res.json().catch(() => ({}));
+  const message: unknown = errJson?.error?.message ?? errJson?.message;
+  console.error(`${context}: Strapi responded with ${res.status}`, typeof message === 'string' ? message : '');
+  return typeof message === 'string' && USER_FACING_STRAPI_ERRORS.has(message) ? message : fallback;
+}
+
 export async function submitJobApplication(payload: {
   fullName: string;
   email: string;
@@ -386,8 +397,7 @@ export async function submitJobApplication(payload: {
     }
 
     if (!res.ok) {
-      const errJson = await res.json().catch(() => ({}));
-      return { success: false, error: errJson?.error?.message ?? `Server responded with ${res.status}` };
+      return { success: false, error: await toUserFacingError(res, 'submitJobApplication', GENERIC_APPLICATION_ERROR) };
     }
     return { success: true };
   } catch (err) {
@@ -437,8 +447,7 @@ export async function submitFormSubmission(payload: {
     });
 
     if (!valuationRes.ok) {
-      const errJson = await valuationRes.json().catch(() => ({}));
-      return { success: false, error: errJson?.error?.message ?? `Server responded with ${valuationRes.status}` };
+      return { success: false, error: await toUserFacingError(valuationRes, 'submitFormSubmission', GENERIC_FORM_ERROR) };
     }
 
     const valData = await valuationRes.json().catch(() => ({}));

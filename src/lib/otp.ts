@@ -1,13 +1,5 @@
 import 'server-only';
-
-function getStrapiUrl(): string {
-  const url = process.env.STRAPI_INTERNAL_URL || process.env.STRAPI_URL || null;
-  if (url) return url.replace(/\/+$/, '');
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('STRAPI_INTERNAL_URL is not set');
-  }
-  return 'http://localhost:1337';
-}
+import { getStrapiUrl } from '@/lib/strapiUrl';
 
 function getInternalHeaders(clientIp?: string): Record<string, string> {
   const headers: Record<string, string> = {
