@@ -1,0 +1,23 @@
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -15,9 +15,6 @@ FROM base AS builder
+ WORKDIR /app
+ COPY --from=deps /app/node_modules ./node_modules
+ COPY . .
+-ARG NEXT_PUBLIC_STRAPI_URL
+-
+-ENV NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL
+
+
+ # Next.js telemetry is disabled
+--- a/buildspec.yml
++++ b/buildspec.yml
+@@ -18,7 +18,7 @@ phases:
+     commands:
+       - echo Build started on `date`
+       - echo Building the Docker image...
+-      - docker build --build-arg NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL -t $REPOSITORY_URI:latest .
++      - docker build -t $REPOSITORY_URI:latest .
+       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+   post_build:
+     commands:
