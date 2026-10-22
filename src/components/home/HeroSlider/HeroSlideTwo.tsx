@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import goldsImg from '@/assets/images/golds.png';
+import trustIcon from '@/assets/images/trusticon.png';
+import lineImg from '@/assets/images/Line.png';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import './heroSlider.css';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
@@ -18,11 +20,17 @@ export interface HeroSlideData {
 interface HeroSlideTwoProps {
   slide?: HeroSlideData;
   imageSrc?: any;
+  trustBadgePrefix?: string;
+  trustBadgeHighlight?: string;
+  trustBadgeSuffix?: string;
 }
 
 export default function HeroSlideTwo({
   slide,
   imageSrc,
+  trustBadgePrefix = 'Trusted by',
+  trustBadgeHighlight = 'Customers',
+  trustBadgeSuffix = 'Across India',
 }: HeroSlideTwoProps) {
   const [hasError, setHasError] = useState(false);
   const rawText = slide?.heroText?.trim() || "";
@@ -111,6 +119,31 @@ export default function HeroSlideTwo({
 
       <div className="hero-slide-two-container">
         <div className="hero-slide-two-content">
+          {/* Desktop Trust Badge - Matches Slide 1 exactly */}
+          <div className="hero-trust-badge-v2">
+            <div className="trust-badge-header-v2">
+              <Image
+                src={trustIcon}
+                alt="Trust Icon"
+                width={34}
+                height={34}
+                className="trust-badge-icon-img"
+                priority
+              />
+              <span className="trust-badge-text-v2">
+                <span className="gold-highlight">{trustBadgePrefix || 'Muthoot Gold Point:'}</span> {trustBadgeHighlight || "India's First National Level Organised Gold Buyer"} {trustBadgeSuffix}
+              </span>
+            </div>
+            <div className="trust-badge-line-wrapper">
+              <Image
+                src={lineImg}
+                alt=""
+                className="trust-badge-underline-img"
+                priority
+              />
+            </div>
+          </div>
+
           <h2 className="hero-main-title-v2">
             <span className="hero-title-white-text">{whiteText}</span>
             {goldText && <span className="hero-gold-text">{goldText}</span>}

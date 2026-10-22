@@ -129,14 +129,14 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
                 <HeroSlideTwo
                   slide={slide}
                   imageSrc={imageSrc}
+                  trustBadgePrefix={trustBadgePrefix}
+                  trustBadgeHighlight={trustBadgeHighlight}
+                  trustBadgeSuffix={trustBadgeSuffix}
                 />
               ) : (
                 <HeroSlideThree
                   slide={slide}
                   imageSrc={imageSrc}
-                  trustBadgePrefix={trustBadgePrefix}
-                  trustBadgeHighlight={trustBadgeHighlight}
-                  trustBadgeSuffix={trustBadgeSuffix}
                 />
               )}
             </div>

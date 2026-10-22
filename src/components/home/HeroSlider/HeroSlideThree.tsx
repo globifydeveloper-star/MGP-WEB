@@ -1,13 +1,11 @@
 'use client';
 
 import React from 'react';
-import Image, { getImageProps } from 'next/image';
+import { getImageProps } from 'next/image';
 import Link from 'next/link';
 import HeroGoldRateCard from '@/components/home/Hero/HeroGoldRateCard';
 import slideThreeImg from '@/assets/images/gold-recycling-nature.jpg';
 import slideThreeMobileImg from '@/assets/images/3rdVertic.png';
-import trustIcon from '@/assets/images/trusticon.png';
-import lineImg from '@/assets/images/Line.png';
 import './HeroSlideThree.css';
 import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 
@@ -74,17 +72,11 @@ export interface HeroSlideData {
 interface HeroSlideThreeProps {
   slide?: HeroSlideData;
   imageSrc?: any;
-  trustBadgePrefix?: string;
-  trustBadgeHighlight?: string;
-  trustBadgeSuffix?: string;
 }
 
 export default function HeroSlideThree({
   slide,
   imageSrc,
-  trustBadgePrefix = 'Muthoot Gold Point:',
-  trustBadgeHighlight = 'India’s First Organised Gold Recycler',
-  trustBadgeSuffix = '',
 }: HeroSlideThreeProps) {
   const finalImage = imageSrc || '/images/3rdslide.png' || slideThreeImg;
   const rawText = slide?.heroText?.trim() || '';
@@ -117,31 +109,6 @@ export default function HeroSlideThree({
 
       <div className="hero-slide-three-container">
         <div className="hero-slide-three-content">
-          {/* Desktop Trust Badge - Matches Slide 1 & Slide 2 */}
-          <div className="hero-trust-badge-v2">
-            <div className="trust-badge-header-v2">
-              <Image
-                src={trustIcon}
-                alt="Trust Icon"
-                width={34}
-                height={34}
-                className="trust-badge-icon-img"
-                priority
-              />
-              <span className="trust-badge-text-v2">
-                <span className="gold-highlight">{trustBadgePrefix || 'Muthoot Gold Point:'}</span> {trustBadgeHighlight || "India's First Organised Gold Recycler"} {trustBadgeSuffix}
-              </span>
-            </div>
-            <div className="trust-badge-line-wrapper">
-              <Image
-                src={lineImg}
-                alt=""
-                className="trust-badge-underline-img"
-                priority
-              />
-            </div>
-          </div>
-
           {rawText && (
             <h2 className="hero-main-title-v2">
               <span className="hero-title-white-text">{whiteText}</span>
