@@ -1,91 +1,17 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import type { BranchMasterDetailsItem } from '@/lib/branchMaster';
+import { useState, useCallback, useMemo } from 'react';
+import { useSiteData } from '@/components/providers/SiteDataProvider';
+import type { SiteBranch } from '@/lib/siteData';
 
-export interface UseBranchMasterOptions {
-  autoFetch?: boolean;
-}
-
-interface BranchMasterPayload {
-  states: string[];
-  locationsByState: Record<string, string[]>;
-  branchesByState: Record<string, BranchMasterDetailsItem[]>;
-  allBranches: BranchMasterDetailsItem[];
-}
-
-// One request per page load, shared by every component that uses this hook.
-let branchRequest: Promise<BranchMasterPayload> | null = null;
-
-async function requestBranches(): Promise<BranchMasterPayload> {
-  const res = await fetch('/api/branch/all', { method: 'GET', cache: 'no-store' });
-  const json = await res.json();
-
-  if (!res.ok || !json.success || !Array.isArray(json.states) || json.states.length === 0) {
-    throw new Error(json?.message || 'Failed to fetch Branch Master data.');
-  }
-
-  return {
-    states: json.states,
-    locationsByState: json.locationsByState || {},
-    branchesByState: json.branchesByState || {},
-    allBranches: json.allBranches || [],
-  };
-}
-
-function loadBranches(force: boolean): Promise<BranchMasterPayload> {
-  if (branchRequest && !force) return branchRequest;
-
-  const request = requestBranches();
-  branchRequest = request;
-  // Drop a failed request so the next caller retries instead of reusing the error
-  request.catch(() => {
-    if (branchRequest === request) branchRequest = null;
-  });
-  return request;
-}
-
-export function useBranchMaster(options: UseBranchMasterOptions = {}) {
-  const { autoFetch = true } = options;
-
-  const [states, setStates] = useState<string[]>([]);
-  const [locationsByState, setLocationsByState] = useState<Record<string, string[]>>({});
-  const [branchesByState, setBranchesByState] = useState<Record<string, BranchMasterDetailsItem[]>>({});
-  const [allBranches, setAllBranches] = useState<BranchMasterDetailsItem[]>([]);
+// Branch data arrives with the page (fetched by the root layout on the server), so there is
+// no browser request and nothing to wait for.
+export function useBranchMaster() {
+  const { states, locationsByState, branchesByState, allBranches } = useSiteData().branches;
 
   const [selectedState, setSelectedState] = useState<string>('');
   const [selectedLocation, setSelectedLocation] = useState<string>('');
-  const [selectedBranch, setSelectedBranch] = useState<BranchMasterDetailsItem | null>(null);
-
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchBranches = useCallback(async (force: boolean) => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await loadBranches(force);
-      setStates(data.states);
-      setLocationsByState(data.locationsByState);
-      setBranchesByState(data.branchesByState);
-      setAllBranches(data.allBranches);
-    } catch (err) {
-      console.error('API /api/branch/all fetch error:', err);
-      setError(err instanceof Error ? err.message : 'Network error fetching Branch Master data.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const refetch = useCallback(() => fetchBranches(true), [fetchBranches]);
-
-  useEffect(() => {
-    if (autoFetch) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      fetchBranches(false);
-    }
-  }, [autoFetch, fetchBranches]);
+  const [selectedBranch, setSelectedBranch] = useState<SiteBranch | null>(null);
 
   // Derived location list for selected state
   const availableLocations = useMemo(() => {
@@ -142,9 +68,7 @@ export function useBranchMaster(options: UseBranchMasterOptions = {}) {
     selectedState,
     selectedLocation,
     selectedBranch,
-    loading,
-    error,
-    refetch,
+    loading: false,
     selectState,
     selectLocation,
     setSelectedBranch,

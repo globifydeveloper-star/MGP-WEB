@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import type { CareerPageSettingsData } from '@/lib/strapi';
+import type { CareerPageSettingsData, JobPosition, JobDepartment } from '@/lib/strapi';
 import CareerHero from './careerhero/careerhero';
 import CareerBenefits from './careerbenefits/careerbenefits';
 import OpenPositions from './openpositions/openpositions';
@@ -9,9 +9,13 @@ import ApplyForm from './applyform/applyform';
 import ApplicationSuccessModal from './ApplicationSuccessModal';
 import { submitJobAction } from '@/actions/submitJob';
 
-interface CareerPageProps { data?: CareerPageSettingsData | null; }
+interface CareerPageProps {
+  data?: CareerPageSettingsData | null;
+  jobs: JobPosition[];
+  departments: JobDepartment[];
+}
 
-export default function CareerPage({ data }: CareerPageProps) {
+export default function CareerPage({ data, jobs, departments }: CareerPageProps) {
   // Form State
   const [formData, setFormData] = useState<{
     name: string;
@@ -186,13 +190,16 @@ export default function CareerPage({ data }: CareerPageProps) {
         <CareerBenefits data={data} />
 
         {/* Open Positions List */}
-        <OpenPositions 
+        <OpenPositions
           onApplyForRole={handleApplyForRole}
+          jobs={jobs}
+          departments={departments}
         />
 
         {/* Application Form */}
         <div ref={formRef} style={{ scrollMarginTop: '100px' }}>
-          <ApplyForm 
+          <ApplyForm
+            jobPositions={jobs}
             formData={formData}
             onChangeInput={handleInputChange}
             onChangeFile={handleFileChange}

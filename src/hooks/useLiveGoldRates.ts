@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { GOLD_RATES, PurityKey, PurityRate } from '@/lib/goldRateData';
+import { useSiteData } from '@/components/providers/SiteDataProvider';
 
 export interface LiveGoldRatesState {
   rates: Record<PurityKey, PurityRate>;
@@ -10,104 +11,43 @@ export interface LiveGoldRatesState {
   lastUpdated: string;
 }
 
-// In-memory module cache shared across all components on page
-let sharedState: LiveGoldRatesState = {
-  rates: { ...GOLD_RATES },
-  isLoading: true,
-  isLive: false,
-  lastUpdated: '10:30 AM',
-};
+const LABELS: Record<PurityKey, string> = { '24K': '24K Gold', '22K': '22K Gold', '18K': '18K Gold' };
 
-let listeners: Array<(state: LiveGoldRatesState) => void> = [];
-let fetchPromise: Promise<void> | null = null;
-
-function notifyListeners() {
-  listeners.forEach((listener) => listener(sharedState));
-}
-
-async function fetchRates() {
-  if (fetchPromise) return fetchPromise;
-
-  fetchPromise = (async () => {
-    try {
-      const res = await fetch('/api/gold-quote?all=true');
-      if (res.ok) {
-        const json = await res.json();
-        if (json.success && json.rates) {
-          const newRates: Record<PurityKey, PurityRate> = {
-            '24K': {
-              key: '24K',
-              label: '24K Gold',
-              purity: json.rates['24K'].purity,
-              perGram: json.rates['24K'].perGram,
-              per8Gram: json.rates['24K'].per8Gram,
-              per10Gram: json.rates['24K'].per10Gram,
-              changeAmount: json.rates['24K'].changeAmount,
-              changePercent: json.rates['24K'].changePercent,
-              trend: json.rates['24K'].trend,
-            },
-            '22K': {
-              key: '22K',
-              label: '22K Gold',
-              purity: json.rates['22K'].purity,
-              perGram: json.rates['22K'].perGram,
-              per8Gram: json.rates['22K'].per8Gram,
-              per10Gram: json.rates['22K'].per10Gram,
-              changeAmount: json.rates['22K'].changeAmount,
-              changePercent: json.rates['22K'].changePercent,
-              trend: json.rates['22K'].trend,
-            },
-            '18K': {
-              key: '18K',
-              label: '18K Gold',
-              purity: json.rates['18K'].purity,
-              perGram: json.rates['18K'].perGram,
-              per8Gram: json.rates['18K'].per8Gram,
-              per10Gram: json.rates['18K'].per10Gram,
-              changeAmount: json.rates['18K'].changeAmount,
-              changePercent: json.rates['18K'].changePercent,
-              trend: json.rates['18K'].trend,
-            },
-          };
-
-          sharedState = {
-            rates: newRates,
-            isLoading: false,
-            isLive: json.isLive ?? true,
-            lastUpdated: json.lastUpdated || '10:30 AM',
-          };
-          notifyListeners();
-          return;
-        }
-      }
-    } catch (err) {
-      console.warn('[useLiveGoldRates] Fetch error:', err);
-    }
-
-    sharedState = {
-      ...sharedState,
-      isLoading: false,
-    };
-    notifyListeners();
-  })();
-
-  return fetchPromise;
-}
-
+// Rates arrive with the page (fetched by the root layout on the server), so there is no
+// browser request. Without live rates the static defaults are shown.
 export function useLiveGoldRates(options?: { enabled?: boolean }): LiveGoldRatesState {
   const enabled = options?.enabled ?? true;
-  const [state, setState] = useState<LiveGoldRatesState>(sharedState);
+  const { goldRates } = useSiteData();
 
-  useEffect(() => {
-    if (!enabled) return;
+  return useMemo(() => {
+    if (!enabled) {
+      return { rates: { ...GOLD_RATES }, isLoading: true, isLive: false, lastUpdated: '10:30 AM' };
+    }
+    if (!goldRates?.success || !goldRates.rates) {
+      return { rates: { ...GOLD_RATES }, isLoading: false, isLive: false, lastUpdated: '10:30 AM' };
+    }
 
-    listeners.push(setState);
-    fetchRates();
+    const rates = {} as Record<PurityKey, PurityRate>;
+    for (const key of ['24K', '22K', '18K'] as const) {
+      const r = goldRates.rates[key];
+      rates[key] = {
+        key,
+        label: LABELS[key],
+        purity: r.purity,
+        perGram: r.perGram,
+        per8Gram: r.per8Gram,
+        per10Gram: r.per10Gram,
+        changeAmount: r.changeAmount,
+        changePercent: r.changePercent,
+        trend: r.trend,
+      };
+    }
 
-    return () => {
-      listeners = listeners.filter((l) => l !== setState);
+    return {
+      rates,
+      isLoading: false,
+      isLive: goldRates.isLive ?? true,
+      lastUpdated: goldRates.lastUpdated || '10:30 AM',
     };
-  }, [enabled]);
-
-  return state;
+  }, [enabled, goldRates]);
 }

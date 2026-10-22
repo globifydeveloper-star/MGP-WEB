@@ -24,7 +24,7 @@ cp .env.example .env.local
 ```
 
 You must provide the following required environment variable for Next.js to start:
-- `NEXT_PUBLIC_STRAPI_URL`: The URL of your Strapi backend.
+- `STRAPI_INTERNAL_URL`: Where the Next server reaches Strapi. Read at runtime and never sent to the browser.
 
 Optional environment variables:
 - `BRANCH_MASTER_BASE_URL`: API Base URL for branch details.
@@ -49,12 +49,12 @@ Optional environment variables:
 
 To build the Docker image locally for production testing:
 ```bash
-docker build --build-arg NEXT_PUBLIC_STRAPI_URL=http://your-strapi-url -t mgp-web .
+docker build -t mgp-web .
 ```
 
-Run the container:
+Run the container (backend URLs are passed at runtime, not baked into the image):
 ```bash
-docker run -p 3000:3000 mgp-web
+docker run -p 3000:3000 --env-file .env.local mgp-web
 ```
 
 ## Data Flow & Architecture

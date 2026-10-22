@@ -171,7 +171,7 @@ function formatBranchMapQuery(branch: {
             mobile: b.contactPersonMobile,
             email: b.branchEmail,
             timing: '10:00 AM - 6:30 PM',
-            // From src/data/branchCoordinates.json (via /api/branch/all); pins the branch exactly on the map
+            // From src/data/branchCoordinates.json (attached on the server by lib/siteData.ts); pins the branch exactly on the map
             lat: typeof b.lat === 'number' ? b.lat : null,
             lng: typeof b.lng === 'number' ? b.lng : null,
           };

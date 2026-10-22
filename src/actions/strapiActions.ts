@@ -1,5 +1,5 @@
 'use server';
-import { submitFormSubmission, getJobPositions, getJobDepartments, getNavbarSetting } from '@/lib/strapi';
+import { submitFormSubmission } from '@/lib/strapi';
 import { getDailyCachedBranchMasterData } from '@/lib/branchMaster';
 import { z } from 'zod';
 
@@ -64,6 +64,3 @@ export async function submitFormSubmissionAction(data?: any) {
 
   return (submitFormSubmission as any)(submission);
 }
-export async function getJobPositionsAction() { return (getJobPositions as any)(); }
-export async function getJobDepartmentsAction() { return getJobDepartments(); }
-export async function getNavbarSettingAction() { return getNavbarSetting(); }

@@ -1,42 +1,19 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { getJobPositionsAction as getJobPositions, getJobDepartmentsAction as getJobDepartments } from '@/actions/strapiActions';
+import React, { useState } from 'react';
 import type { JobPosition, JobDepartment } from '@/lib/strapi';
 import './openpositions.css';
 
 interface OpenPositionsProps {
   onApplyForRole: (jobTitle: string) => void;
-  initialJobs?: JobPosition[];
-  initialDepartments?: JobDepartment[];
+  // Fetched on the server by app/career/page.tsx
+  jobs: JobPosition[];
+  departments: JobDepartment[];
 }
 
-export default function OpenPositions({ onApplyForRole, initialJobs, initialDepartments }: OpenPositionsProps) {
-  const [jobs, setJobs] = useState<JobPosition[]>(initialJobs ?? []);
-  const [departments, setDepartments] = useState<JobDepartment[]>(initialDepartments ?? []);
-  const [loading, setLoading] = useState(!initialJobs || initialJobs.length === 0);
+export default function OpenPositions({ onApplyForRole, jobs, departments }: OpenPositionsProps) {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [expandedJobId, setExpandedJobId] = useState<string | number | null>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [fetchedJobs, fetchedDepts] = await Promise.all([
-          getJobPositions(),
-          getJobDepartments()
-        ]);
-        setJobs(fetchedJobs);
-        setDepartments(fetchedDepts);
-      } catch (err) {
-        console.error('Failed to fetch jobs from Strapi:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    if (!initialJobs || initialJobs.length === 0) {
-      fetchData();
-    }
-  }, [initialJobs]);
 
   const toggleJob = (jobId: string | number) => {
     setExpandedJobId(expandedJobId === jobId ? null : jobId);
@@ -74,9 +51,7 @@ export default function OpenPositions({ onApplyForRole, initialJobs, initialDepa
           )}
 
           <div className="career-jobs-list">
-            {loading ? (
-              <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Loading open positions...</p>
-            ) : filteredJobs.length > 0 ? (
+            {filteredJobs.length > 0 ? (
               filteredJobs.map(job => (
                 <div 
                   key={job.documentId ?? job.id} 

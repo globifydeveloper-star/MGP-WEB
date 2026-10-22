@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import type { CareerPageSettingsData, JobPosition } from '@/lib/strapi';
-import { getJobPositionsAction as getJobPositions } from '@/actions/strapiActions';
 import './applyform.css';
 
 interface ApplyFormProps {
+  // Fetched on the server by app/career/page.tsx
+  jobPositions: JobPosition[];
   formData: {
     name: string;
     email: string;
@@ -26,6 +27,7 @@ interface ApplyFormProps {
 }
 
 export default function ApplyForm({
+  jobPositions,
   formData,
   onChangeInput,
   onChangeFile,
@@ -34,20 +36,6 @@ export default function ApplyForm({
   submitSuccess,
   fileInputRef
 }: ApplyFormProps) {
-  const [jobPositions, setJobPositions] = useState<JobPosition[]>([]);
-
-  useEffect(() => {
-    async function loadPositions() {
-      try {
-        const positions = await getJobPositions();
-        setJobPositions(positions);
-      } catch (err) {
-        console.error('Failed to load job positions for apply form:', err);
-      }
-    }
-    loadPositions();
-  }, []);
-
   return (
     <section className="career-form-section">
       <div className="container">

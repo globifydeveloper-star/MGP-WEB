@@ -4,6 +4,8 @@ import BranchSelector from "@/components/home/BranchSelector/BranchSelector";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import GoogleTagManager from "@/components/analytics/GoogleTagManager";
+import { SiteDataProvider } from "@/components/providers/SiteDataProvider";
+import { getSiteBranches, getSiteGoldRates } from "@/lib/siteData";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -93,11 +95,14 @@ const organizationJsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetched here and sent with the page, so the browser makes no API calls for them
+  const [branches, goldRates] = await Promise.all([getSiteBranches(), getSiteGoldRates()]);
+
   return (
     <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} style={{ colorScheme: 'light' }} suppressHydrationWarning>
       <head>
@@ -110,8 +115,10 @@ export default function RootLayout({
       <body style={{ colorScheme: 'light' }}>
         <GoogleTagManager />
         <GoogleAnalytics />
-        {children}
-        <BranchSelector />
+        <SiteDataProvider branches={branches} goldRates={goldRates}>
+          {children}
+          <BranchSelector />
+        </SiteDataProvider>
         <ScrollToTop />
       </body>
     </html>
