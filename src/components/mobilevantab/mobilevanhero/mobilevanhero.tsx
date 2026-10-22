@@ -3,7 +3,7 @@
 import React from 'react';
 import './mobilevanhero.css';
 import { MobileVanPageData } from '@/lib/strapi';
-import vanImgDefault from '@/assets/images/vann.png';
+const vanImgDefault = { src: '/images/mobile-van/mobile-van-hero.png' };
 
 interface MobileVanHeroProps {
   data?: MobileVanPageData | null;
