@@ -56,6 +56,7 @@
 }
 
 .quick-links-col {
+  grid-column: 3;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -72,34 +73,6 @@
   grid-template-columns: auto auto;
   justify-content: flex-start;
   gap: 1.75rem;
-}
-
-.reach-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.reach-icon {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.reach-link {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.2s ease, opacity 0.2s ease;
-}
-
-.reach-link:hover {
-  color: #ffffff;
-  text-decoration: underline;
 }
 
 .footer-links-list {
@@ -413,6 +386,10 @@
     gap: 2.5rem 2rem;
   }
 
+  .quick-links-col {
+    grid-column: auto;
+  }
+
   .quick-links-title {
     text-align: left;
   }
@@ -485,15 +462,6 @@
   .footer-logo {
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .reach-us-col {
-    align-items: center;
-    text-align: center;
-  }
-
-  .reach-item {
-    justify-content: center;
   }
 
   .quick-links-col {

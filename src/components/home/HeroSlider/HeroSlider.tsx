@@ -16,7 +16,7 @@ const SLIDE_INTERVAL_MS = 10000; // 10 seconds per slide
 const DEFAULT_SLIDES = [
   {
     heroText: "Sell Your Gold. Get Cash Today.",
-    heroSubtext: "Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you",
+    heroSubtext: "Get the fair value of your gold through a transparent and reliable process, conducted entirely in front of you.",
     button1: { enabled: true, label: "Find Nearest Branch", link: "#branches" },
     button2: { enabled: true, label: "See how it works", link: "#gold-sell-process" },
   },
@@ -129,9 +129,6 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
                 <HeroSlideTwo
                   slide={slide}
                   imageSrc={imageSrc}
-                  trustBadgePrefix={trustBadgePrefix}
-                  trustBadgeHighlight={trustBadgeHighlight}
-                  trustBadgeSuffix={trustBadgeSuffix}
                 />
               ) : (
                 <HeroSlideThree

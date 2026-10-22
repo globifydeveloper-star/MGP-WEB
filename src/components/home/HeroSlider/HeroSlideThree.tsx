@@ -41,7 +41,7 @@ const DEFAULT_FEATURES: SlideFeatureData[] = [
   },
   {
     title: 'Transparent Process',
-    tag: '100% Scientific',
+    tag: '100% Transparent',
     desc: 'Advanced German XRF purity testing right in front of you.',
     iconType: 'trust'
   },

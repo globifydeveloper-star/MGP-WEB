@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Outfit, Montserrat } from "next/font/google";
 import BranchSelector from "@/components/home/BranchSelector/BranchSelector";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import GoogleTagManager from "@/components/analytics/GoogleTagManager";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -106,6 +108,8 @@ export default function RootLayout({
         />
       </head>
       <body style={{ colorScheme: 'light' }}>
+        <GoogleTagManager />
+        <GoogleAnalytics />
         {children}
         <BranchSelector />
         <ScrollToTop />

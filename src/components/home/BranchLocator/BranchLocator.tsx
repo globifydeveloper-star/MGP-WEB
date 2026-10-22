@@ -270,7 +270,7 @@ function formatBranchMapQuery(branch: {
             )}
           </h2>
           <p className="branch-locator-subtitle">
-            {subtitle || 'Every GoldPoint branch runs the same process, uses the same equipment, and upholds the same promise. Choose the nearest — the experience is always identical.'}
+            {subtitle || 'Every Gold Point branch follows the same process, uses the same equipment, and maintains the same standards. Visit the branch nearest to you, and you’ll get the same experience every time.'}
           </p>
         </div>
 
@@ -495,7 +495,7 @@ function formatBranchMapQuery(branch: {
                   <span className="branch-locator-states-subtitle">
                     {stateSummaries.length === 0
                       ? 'Loading branches across India...'
-                      : `Select a state to view branches (${stateSummaries.length} states total)`}
+                      : 'Select a state to view branches'}
                   </span>
                 </div>
 

@@ -520,6 +520,7 @@ export interface SlideFeature {
 export interface HeroSlide {
   id: number;
   heroText?: string;
+  heroSubtext?: string;
   heroImage?: string;
   slideLink?: string;
   button1?: CTA;
@@ -691,6 +692,7 @@ export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroS
     return {
       id: flat.id,
       heroText: flat.heroText,
+      heroSubtext: flat.heroSubtext,
       heroImage: getMediaUrl(flat.heroImage),
       slideLink: flat.slideLink,
       button1: flat.button1,

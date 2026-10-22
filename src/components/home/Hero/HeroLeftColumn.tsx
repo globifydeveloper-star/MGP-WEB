@@ -139,7 +139,7 @@ export default function HeroLeftColumn({ heroText, heroSubtext, button1, button2
 
       <div className="hero-subcopy-wrapper-v2">
         <div className="hero-subcopy-text-v2 w-96 justify-center text-white text-xl font-medium font-['Gilroy']">
-          {heroSubtext || 'Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you'}
+          {heroSubtext || 'Get the fair value of your gold through a transparent and reliable process, conducted entirely in front of you.'}
         </div>
       </div>
 

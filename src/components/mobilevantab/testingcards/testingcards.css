@@ -54,10 +54,10 @@
   color: #A1ADC4;
 }
 
+/* Stretch to the cards column so the image's top/bottom line up with the first/last card */
 .tc-image-col {
   position: relative;
-  height: 80%;
-  align-self: center;
+  align-self: stretch;
 }
 
 .tc-image-glow {
@@ -79,6 +79,8 @@
 }
 
 .tc-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

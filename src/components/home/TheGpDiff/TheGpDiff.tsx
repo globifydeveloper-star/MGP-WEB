@@ -99,7 +99,7 @@ export default function TheGpDiff({ cards }: TheGpDiffProps) {
       <div className="container">
         <div className="gp-diff-header">
           <h2 className="gp-diff-title">
-            Sell your <span className="gp-diff-highlight">Gold</span>
+            Why Choose <span className="gp-diff-highlight">Gold Point</span>
           </h2>
           <p className="gp-diff-subtitle">
             India&apos;s First National Level Organised Gold Buyer
