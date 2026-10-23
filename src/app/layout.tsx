@@ -35,11 +35,10 @@ export const metadata: Metadata = {
   publisher: "Muthoot Exim",
   icons: {
     icon: [
-      { url: '/images/logo.png' },
-      { url: '/favicon.ico' },
+      { url: '/images/newlogo.png', type: 'image/png' },
     ],
-    shortcut: '/images/logo.png',
-    apple: '/images/logo.png',
+    shortcut: '/images/newlogo.png',
+    apple: '/images/newlogo.png',
   },
   alternates: {
     canonical: '/',
