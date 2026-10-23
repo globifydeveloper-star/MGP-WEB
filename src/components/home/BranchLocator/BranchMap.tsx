@@ -5,8 +5,7 @@ import './BranchLocator.css';
 
 interface BranchMapProps {
   selectedBranchAddress?: string;
-  // Saved coordinates of the selected branch (src/data/branchCoordinates.json): steer Google's search
-  // to the right spot, and pin it there if the address can't be found
+  // Saved coordinates of the selected branch (src/data/branchCoordinates.json): pin it there if there is no address
   selectedBranchCoords?: { lat: number; lng: number } | null;
   searchQuery?: string;
   activeStateName?: string;
@@ -42,9 +41,9 @@ export default function BranchMap({
     zoom = 15;
   }
 
-  // `ll` centres the search on the branch's saved coordinates so Google picks the right listing
-  const near = selectedBranchAddress && selectedBranchCoords ? `&ll=${selectedBranchCoords.lat},${selectedBranchCoords.lng}` : '';
-  const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}${near}&t=&z=${zoom}&ie=UTF8&iwloc=&output=embed`;
+  // No `ll` hint: it centres the map on the saved coordinates, which are mostly town-level, so the
+  // branch Google finds ends up off-screen at this zoom. Without it Google centres on its pin.
+  const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&t=&z=${zoom}&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <div className="branch-map-container">
