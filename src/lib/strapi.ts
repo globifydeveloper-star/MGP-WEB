@@ -543,7 +543,7 @@ export interface DifferenceBox {
   boxDescription?: string;
   boxImage?: string;
   order: number;
-  iconType: 'flask' | 'scale' | 'rupee' | 'default';
+  iconType: 'flask' | 'scale' | 'rupee' | 'leaf' | 'default';
 }
 
 export interface PromoSlide {
