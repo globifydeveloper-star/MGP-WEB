@@ -25,7 +25,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.muthootgoldpoint.com'),
   title: {
-    default: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
+    default: "India's Most Trusted Gold Buyer | Muthoot Gold Point",
     template: "%s | Muthoot Goldpoint"
   },
   description: "Sell your old, unused, or pledged gold instantly at Muthoot Goldpoint. Get the true market value through a transparent evaluation process conducted right in front of you.",
@@ -33,11 +33,19 @@ export const metadata: Metadata = {
   authors: [{ name: "Muthoot Exim" }],
   creator: "Muthoot Exim",
   publisher: "Muthoot Exim",
+  icons: {
+    icon: [
+      { url: '/images/logo.png' },
+      { url: '/favicon.ico' },
+    ],
+    shortcut: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
+    title: "India's Most Trusted Gold Buyer | Muthoot Gold Point",
     description: "Get the true market value for your gold through a transparent process.",
     type: "website",
     url: "/",
@@ -46,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Goldpoint - Muthoot Exim | Sell Your Gold & Get Cash Today",
+    title: "India's Most Trusted Gold Buyer | Muthoot Gold Point",
     description: "Sell your old, unused, or pledged gold instantly at Muthoot Goldpoint.",
   },
   other: {
