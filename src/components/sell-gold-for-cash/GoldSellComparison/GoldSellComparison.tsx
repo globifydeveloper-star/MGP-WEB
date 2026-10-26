@@ -242,7 +242,7 @@ export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' 
                   <rect x="65" y="40" width="10" height="15" fill="#fff" stroke="#333" strokeWidth="1"/>
                 </svg>
               </div>
-              <span style={{ fontSize: '0.8rem', color: '#666', fontWeight: 600 }}>Traditional</span>
+              <span style={{ fontSize: '0.8rem', color: '#666', fontWeight: 600 }}>Unorganised Sector</span>
             </div>
           </div>
           <div className={`gsc-acc-wrapper ${mobileInView ? 'in-view' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -277,7 +277,7 @@ export default function GoldSellComparison({ rows, ctaHref = '#gold-value-form' 
                   <div style={{ flex: 1, padding: '1rem', background: '#fafafa' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
                       <span className="td-icon cross" style={{ width: '16px', height: '16px', fontSize: '0.65rem' }}>✕</span>
-                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#888', textTransform: 'uppercase' }}>Traditional</span>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#888', textTransform: 'uppercase' }}>Unorganised Sector</span>
                     </div>
                     <p style={{ margin: 0, fontSize: '0.85rem', color: '#777', lineHeight: 1.4 }}>{row.tradText}</p>
                   </div>

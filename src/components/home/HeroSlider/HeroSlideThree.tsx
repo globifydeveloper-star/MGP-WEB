@@ -79,7 +79,7 @@ export default function HeroSlideThree({
   imageSrc,
 }: HeroSlideThreeProps) {
   const finalImage = imageSrc || '/images/3rdslide.png' || slideThreeImg;
-  const rawText = slide?.heroText?.trim() || '';
+  const rawText = slide?.heroText?.trim() || 'Recycle Your Gold. Protect Nature, Empower the Nation';
   let whiteText = rawText;
   let goldText = '';
 
@@ -122,7 +122,9 @@ export default function HeroSlideThree({
               .map((card, idx) => ({ card, idx, cardType: getCardType(card, idx) }))
               .sort((a, b) => CARD_ORDER.indexOf(a.cardType) - CARD_ORDER.indexOf(b.cardType))
               .map(({ card, idx, cardType }) => {
-              const defaultTag = cardType === 'nature' ? 'Eco Conservation' : cardType === 'nation' ? 'Economic Growth' : '100% Scientific';
+              const defaultTag = cardType === 'nature' ? 'Eco Conservation' : cardType === 'nation' ? 'Economic Growth' : '100% Transparent';
+              // "100% Scientific" was retired in favour of "100% Transparent", even if Strapi still sends it
+              const tag = card.tag && !/scientific/i.test(card.tag) ? card.tag : defaultTag;
               const hasDesc = Boolean(card.desc && card.desc.trim());
 
               return (
@@ -163,7 +165,7 @@ export default function HeroSlideThree({
                   <div className="hero-slide-three-card-body">
                     <div className="hero-slide-three-card-header">
                       <h3 className="hero-slide-three-card-title">{card.title}</h3>
-                      <span className="hero-slide-three-card-tag">{card.tag || defaultTag}</span>
+                      <span className="hero-slide-three-card-tag">{tag}</span>
                     </div>
                     {hasDesc && (
                       <p className="hero-slide-three-card-text">

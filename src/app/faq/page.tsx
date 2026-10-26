@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import FAQPage from '@/components/faq/FAQPage';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { HOME_FAQS } from '@/lib/faqsData';
+import { getFaqs } from '@/lib/strapi';
 
 export const metadata: Metadata = {
   title: 'FAQs | Muthoot Gold Point',
@@ -35,11 +35,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function FAQRoute() {
+export default async function FAQRoute() {
+  const faqs = await getFaqs('home');
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: HOME_FAQS.map((faq) => ({
+    mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {
@@ -56,7 +57,7 @@ export default function FAQRoute() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
       />
       <Navbar />
-      <FAQPage />
+      <FAQPage faqs={faqs} />
       <Footer />
     </>
   );

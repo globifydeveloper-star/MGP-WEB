@@ -570,6 +570,7 @@ export interface FAQ {
   answer: string;
   section: 'home' | 'gold-rate';
   order: number;
+  category?: string;
 }
 
 export interface State {
@@ -802,6 +803,7 @@ export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate
       answer: flat.answer,
       section: flat.section ?? 'home',
       order: flat.order ?? 0,
+      category: flat.category,
     };
   });
 });
@@ -900,6 +902,7 @@ export const getFaqsByPage = cache(async function getFaqsByPage(pageId: number):
       answer: flat.answer,
       section: flat.section ?? 'home',
       order: flat.order ?? 0,
+      category: flat.category,
     };
   });
 });

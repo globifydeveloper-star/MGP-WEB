@@ -39,7 +39,7 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows, page
         {/* Gold Selling Process Section */}
         <GoldSellProcess steps={processSteps} />
 
-        {/* How We're Different From Traditional Jewellers */}
+        {/* How We're Different From Unorganised Sector */}
         <GoldSellComparison rows={comparisonRows} ctaHref="#sell-gold-contact" />
 
         {/* Sell Your Gold, Get Cash Instantly Overview */}
