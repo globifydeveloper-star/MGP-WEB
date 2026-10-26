@@ -72,11 +72,13 @@ export interface HeroSlideData {
 interface HeroSlideThreeProps {
   slide?: HeroSlideData;
   imageSrc?: any;
+  mobileImageSrc?: any;
 }
 
 export default function HeroSlideThree({
   slide,
   imageSrc,
+  mobileImageSrc,
 }: HeroSlideThreeProps) {
   const finalImage = imageSrc || '/images/3rdslide.png' || slideThreeImg;
   const rawText = slide?.heroText?.trim() || 'Recycle Your Gold. Protect Nature, Empower the Nation';
@@ -92,7 +94,7 @@ export default function HeroSlideThree({
   // Art direction: wide image on desktop, portrait 3rdVertic on phones/tablets (each device downloads only its own)
   const bgCommon = { alt: 'Recycle Gold - Protect Nature, Empower the Nation', fill: true, priority: true, sizes: '100vw' } as const;
   const { props: { srcSet: desktopBgSrcSet } } = getImageProps({ ...bgCommon, src: finalImage });
-  const { props: { srcSet: mobileBgSrcSet, ...bgImgProps } } = getImageProps({ ...bgCommon, src: slideThreeMobileImg });
+  const { props: { srcSet: mobileBgSrcSet, ...bgImgProps } } = getImageProps({ ...bgCommon, src: mobileImageSrc || slideThreeMobileImg });
 
   return (
     <section className="hero-slide-three-section">

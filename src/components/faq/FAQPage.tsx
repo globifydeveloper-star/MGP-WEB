@@ -3,12 +3,13 @@
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import BranchLocator from '@/components/home/BranchLocator/BranchLocator';
-import type { FAQ } from '@/lib/strapi';
+import type { FAQ, FAQPageSettings } from '@/lib/strapi';
 import './FAQPage.css';
 
-export default function FAQPage({ faqs }: { faqs: FAQ[] }) {
+export default function FAQPage({ faqs, settings }: { faqs: FAQ[]; settings?: FAQPageSettings | null }) {
+  const allCategoryLabel = settings?.allCategoryLabel || 'All';
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(allCategoryLabel);
   const [searchQuery, setSearchQuery] = useState('');
 
   const faqItems = useMemo(
@@ -16,13 +17,13 @@ export default function FAQPage({ faqs }: { faqs: FAQ[] }) {
     [faqs]
   );
   const categories = useMemo(
-    () => ['All', ...Array.from(new Set(faqItems.map((faq) => faq.category)))],
-    [faqItems]
+    () => [allCategoryLabel, ...Array.from(new Set(faqItems.map((faq) => faq.category)))],
+    [allCategoryLabel, faqItems]
   );
   const filteredFaqs = useMemo(() => {
     const search = searchQuery.toLowerCase();
     return faqItems.filter((item) => {
-      const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+      const matchesCategory = selectedCategory === allCategoryLabel || item.category === selectedCategory;
       return matchesCategory && (
         item.question.toLowerCase().includes(search) || item.answer.toLowerCase().includes(search)
       );
@@ -39,12 +40,11 @@ export default function FAQPage({ faqs }: { faqs: FAQ[] }) {
         <div className="faq-hero-bg-pattern" aria-hidden="true" />
         <div className="container faq-hero-text-container">
           <h1 className="faq-hero-heading">
-            Frequently Asked <br />
-            <span className="faq-gold-text">Questions.</span>
+            {settings?.heroTitle || 'Frequently Asked'} <br />
+            <span className="faq-gold-text">{settings?.heroTitleHighlight || 'Questions.'}</span>
           </h1>
           <p className="faq-hero-lead">
-            Have questions about selling gold, valuation process, or branch visits? <br />
-            Find clear, transparent answers to help you sell your gold with total confidence.
+            {settings?.heroLead || 'Have questions about selling gold, valuation process, or branch visits? Find clear, transparent answers to help you sell your gold with total confidence.'}
           </p>
         </div>
       </section>
@@ -59,7 +59,7 @@ export default function FAQPage({ faqs }: { faqs: FAQ[] }) {
               </svg>
               <input
                 type="text"
-                placeholder="Search your question here..."
+                placeholder={settings?.searchPlaceholder || 'Search your question here...'}
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 className="faq-search-input"
@@ -129,16 +129,16 @@ export default function FAQPage({ faqs }: { faqs: FAQ[] }) {
               })
             ) : (
               <div className="faq-no-results">
-                <p>No questions found matching your search query.</p>
+                <p>{settings?.noResultsText || 'No questions found matching your search query.'}</p>
                 <button
                   type="button"
                   className="faq-reset-btn"
                   onClick={() => {
                     setSearchQuery('');
-                    setSelectedCategory('All');
+                    setSelectedCategory(allCategoryLabel);
                   }}
                 >
-                  View All FAQs
+                  {settings?.resetButtonLabel || 'View All FAQs'}
                 </button>
               </div>
             )}
@@ -146,20 +146,20 @@ export default function FAQPage({ faqs }: { faqs: FAQ[] }) {
 
           <div className="faq-cta-card">
             <div className="faq-cta-content">
-              <h3 className="faq-cta-title">Still have questions?</h3>
+              <h3 className="faq-cta-title">{settings?.ctaTitle || 'Still have questions?'}</h3>
               <p className="faq-cta-subtitle">
-                Can&apos;t find the answer you&apos;re looking for? Please write to us or call our toll-free customer support team.
+                {settings?.ctaSubtitle || "Can't find the answer you're looking for? Please write to us or call our toll-free customer support team."}
               </p>
             </div>
             <div className="faq-cta-buttons">
-              <Link href="/contact-us" className="faq-cta-primary-btn">
-                Contact Us
+              <Link href={settings?.ctaButtonLink || '/contact-us'} className="faq-cta-primary-btn">
+                {settings?.ctaButtonLabel || 'Contact Us'}
               </Link>
-              <a href="tel:18001021616" className="faq-cta-secondary-btn">
+              <a href={`tel:${(settings?.ctaPhoneNumber || '18001021616').replace(/\s+/g, '')}`} className="faq-cta-secondary-btn">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                1800 102 1616
+                {settings?.ctaPhoneLabel || '1800 102 1616'}
               </a>
             </div>
           </div>

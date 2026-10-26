@@ -15,12 +15,16 @@ const SLIDE_INTERVAL_MS = 10000; // 10 seconds per slide
 
 const DEFAULT_SLIDES = [
   {
+    order: 1,
+    variant: 'standard',
     heroText: "Sell Your Gold. Get Cash Today.",
     heroSubtext: "Get the fair value of your gold through a transparent and reliable process, conducted entirely in front of you.",
     button1: { enabled: true, label: "Find Nearest Branch", link: "#branches" },
     button2: { enabled: true, label: "See how it works", link: "#gold-sell-process" },
   },
   {
+    order: 2,
+    variant: 'scientific',
     heroText: "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying",
     heroSubtext: "Sell your gold with complete peace of mind. We use advanced XRF machines for purity testing right in front of you, ensuring you get the exact market rate.",
     heroImage: goldsImg,
@@ -28,6 +32,8 @@ const DEFAULT_SLIDES = [
     button2: { enabled: false, label: "See how it works", link: "#gold-sell-process" },
   },
   {
+    order: 3,
+    variant: 'recycling',
     heroText: "Recycle Your Gold. Protect Nature, Empower the Nation",
     heroSubtext: "Helping Nature by reducing mining for extracting gold, helping government through reducing Current Account Deficit, and 100% transparent process.",
     heroImage: '/images/3rdslide.png',
@@ -111,10 +117,11 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
         {slideList.map((slide, idx) => {
           const isActive = activeSlide === idx;
           const mediaType = slide?.mediaType || (slide?.media?.mime?.startsWith('video/') ? 'video' : 'image');
-          const imageSrc = slide?.heroImage || slide?.media?.url || (idx === 1 ? goldsImg : idx === 2 ? '/images/3rdslide.png' : undefined);
+          const variant = slide?.variant || (idx === 1 ? 'scientific' : idx === 2 ? 'recycling' : 'standard');
+          const imageSrc = slide?.heroImage || slide?.media?.url || (variant === 'scientific' ? goldsImg : variant === 'recycling' ? '/images/3rdslide.png' : undefined);
           return (
             <div key={idx} className={`hero-slider-slide${isActive ? ' is-active' : ''}`} aria-hidden={!isActive}>
-              {idx === 0 ? (
+              {variant === 'standard' ? (
                 <Hero
                   slide={slide}
                   imageSrc={imageSrc}
@@ -125,7 +132,7 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
                   trustBadgeHighlight={trustBadgeHighlight}
                   trustBadgeSuffix={trustBadgeSuffix}
                 />
-              ) : idx === 1 ? (
+              ) : variant === 'scientific' ? (
                 <HeroSlideTwo
                   slide={slide}
                   imageSrc={imageSrc}
@@ -137,6 +144,7 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
                 <HeroSlideThree
                   slide={slide}
                   imageSrc={imageSrc}
+                  mobileImageSrc={slide?.mobileImage}
                 />
               )}
             </div>

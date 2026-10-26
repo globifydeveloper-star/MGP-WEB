@@ -519,9 +519,12 @@ export interface SlideFeature {
 
 export interface HeroSlide {
   id: number;
+  order?: number;
+  variant?: 'standard' | 'scientific' | 'recycling';
   heroText?: string;
   heroSubtext?: string;
   heroImage?: string;
+  mobileImage?: string;
   slideLink?: string;
   button1?: CTA;
   button2?: CTA;
@@ -568,9 +571,31 @@ export interface FAQ {
   id: number;
   question: string;
   answer: string;
-  section: 'home' | 'gold-rate';
+  section: 'home' | 'gold-rate' | 'about-us' | 'faq';
   order: number;
   category?: string;
+}
+
+export interface FAQPageSettings {
+  heroTitle?: string;
+  heroTitleHighlight?: string;
+  heroLead?: string;
+  searchPlaceholder?: string;
+  allCategoryLabel?: string;
+  noResultsText?: string;
+  resetButtonLabel?: string;
+  ctaTitle?: string;
+  ctaSubtitle?: string;
+  ctaButtonLabel?: string;
+  ctaButtonLink?: string;
+  ctaPhoneLabel?: string;
+  ctaPhoneNumber?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  ogImage?: string;
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
 }
 
 export interface State {
@@ -683,7 +708,7 @@ export const getGlobalStats = cache(async function getGlobalStats(): Promise<Glo
 
 export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroSlide[]> {
   const data = await fetchStrapi<StrapiAny[]>(
-    '/api/hero-slides?populate[0]=features&populate[1]=button1&populate[2]=button2&populate[3]=heroImage',
+    '/api/hero-slides?populate=*&sort=order:asc',
     { cache: 'no-store' },
     'getHeroSlides'
   );
@@ -692,9 +717,12 @@ export const getHeroSlides = cache(async function getHeroSlides(): Promise<HeroS
     const flat = unwrap<StrapiAny>(entry);
     return {
       id: flat.id,
+      order: flat.order,
+      variant: flat.variant,
       heroText: flat.heroText,
       heroSubtext: flat.heroSubtext,
       heroImage: getMediaUrl(flat.heroImage),
+      mobileImage: getMediaUrl(flat.mobileImage),
       slideLink: flat.slideLink,
       button1: flat.button1,
       button2: flat.button2,
@@ -792,7 +820,7 @@ export const getTestimonials = cache(async function getTestimonials(): Promise<T
   });
 });
 
-export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate' | 'about-us' = 'home'): Promise<FAQ[]> {
+export const getFaqs = cache(async function getFaqs(section: FAQ['section'] = 'home'): Promise<FAQ[]> {
   const data = await fetchStrapi<StrapiAny[]>(`/api/faqs?filters[section][$eq]=${section}&populate=*&sort=order:asc`, { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFaqs');
   const arr = Array.isArray(data) ? data : [];
   return arr.map((entry: StrapiAny) => {
@@ -806,6 +834,33 @@ export const getFaqs = cache(async function getFaqs(section: 'home' | 'gold-rate
       category: flat.category,
     };
   });
+});
+
+export const getFAQPageSettings = cache(async function getFAQPageSettings(): Promise<FAQPageSettings | null> {
+  const data = await fetchStrapi<StrapiAny>('/api/faq-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFAQPageSettings');
+  if (!data) return null;
+  const flat = unwrap<StrapiAny>(data);
+  return {
+    heroTitle: flat.heroTitle,
+    heroTitleHighlight: flat.heroTitleHighlight,
+    heroLead: flat.heroLead,
+    searchPlaceholder: flat.searchPlaceholder,
+    allCategoryLabel: flat.allCategoryLabel,
+    noResultsText: flat.noResultsText,
+    resetButtonLabel: flat.resetButtonLabel,
+    ctaTitle: flat.ctaTitle,
+    ctaSubtitle: flat.ctaSubtitle,
+    ctaButtonLabel: flat.ctaButtonLabel,
+    ctaButtonLink: flat.ctaButtonLink,
+    ctaPhoneLabel: flat.ctaPhoneLabel,
+    ctaPhoneNumber: flat.ctaPhoneNumber,
+    seoTitle: flat.seoTitle,
+    seoDescription: flat.seoDescription,
+    seoKeywords: flat.seoKeywords,
+    ogImage: getMediaUrl(flat.ogImage),
+    hideNavbar: flat.hideNavbar,
+    hideFooter: flat.hideFooter,
+  };
 });
 
 export interface DynamicPageSection {

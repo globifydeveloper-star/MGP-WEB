@@ -2,41 +2,27 @@ import { Metadata } from 'next';
 import FAQPage from '@/components/faq/FAQPage';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { getFaqs } from '@/lib/strapi';
+import { getFAQPageSettings, getFaqs } from '@/lib/strapi';
 
-export const metadata: Metadata = {
-  title: 'FAQs | Muthoot Gold Point',
-  description: 'Frequently Asked Questions about selling gold, gold valuation process, purity testing, live rates, and branch visits at Muthoot Gold Point.',
-  keywords: ['Gold Point FAQ', 'Sell Gold Questions', 'How to sell gold', 'Gold valuation process', 'Muthoot Gold Point Help'],
-  authors: [{ name: 'Muthoot Gold Point' }],
-  alternates: {
-    canonical: '/faq',
-  },
-  openGraph: {
-    title: 'Frequently Asked Questions | Muthoot Gold Point',
-    description: 'Find answers to all your questions regarding selling gold for cash, XRF scientific purity evaluation, instant payments, and document requirements.',
-    url: '/faq',
-    siteName: 'Muthoot Gold Point',
-    type: 'website',
-    images: [
-      {
-        url: '/default-og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Muthoot Gold Point FAQs',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'FAQs | Muthoot Gold Point',
-    description: 'Frequently Asked Questions about selling gold, gold valuation process, purity testing, and live rates.',
-    images: ['/default-og-image.jpg'],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getFAQPageSettings();
+  const title = settings?.seoTitle || 'FAQs | Muthoot Gold Point';
+  const description = settings?.seoDescription || 'Frequently Asked Questions about selling gold, gold valuation process, purity testing, live rates, and branch visits at Muthoot Gold Point.';
+  const ogImage = settings?.ogImage || '/default-og-image.jpg';
+  return {
+    title,
+    description,
+    keywords: settings?.seoKeywords?.split(',').map((keyword) => keyword.trim()) || ['Gold Point FAQ', 'Sell Gold Questions', 'How to sell gold', 'Gold valuation process', 'Muthoot Gold Point Help'],
+    authors: [{ name: 'Muthoot Gold Point' }],
+    alternates: { canonical: '/faq' },
+    openGraph: { title, description, url: '/faq', siteName: 'Muthoot Gold Point', type: 'website', images: [{ url: ogImage, width: 1200, height: 630, alt: title }] },
+    twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
+  };
+}
 
 export default async function FAQRoute() {
-  const faqs = await getFaqs('home');
+  const [settings, dedicatedFaqs] = await Promise.all([getFAQPageSettings(), getFaqs('faq')]);
+  const faqs = dedicatedFaqs.length > 0 ? dedicatedFaqs : await getFaqs('home');
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -56,9 +42,9 @@ export default async function FAQRoute() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
       />
-      <Navbar />
-      <FAQPage faqs={faqs} />
-      <Footer />
+      {!settings?.hideNavbar && <Navbar />}
+      <FAQPage faqs={faqs} settings={settings} />
+      {!settings?.hideFooter && <Footer />}
     </>
   );
 }
