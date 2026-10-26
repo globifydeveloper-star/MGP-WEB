@@ -23,12 +23,11 @@ export default function GoldSellOverview({ overviewImage1, overviewImage2 }: { o
           </h2>
 
           <p className="gso-subtitle">
-            Muthoot Gold Point offers safe, transparent &amp; scientifically tested ways of buying your Gold.
+           Muthoot Gold Point offers a safe and transparent way to sell your gold.
           </p>
 
           <p className="gso-desc">
-            We give you an unparalleled experience of selling your old Gold for instant cash. Our 11 state of the art branches across India and mobile van (presently only in Mumbai) are equipped with the latest ultrasonic and XRF machines to clean your Gold for free and check its accurate weight &amp; purity. Not just the process is transparent, rates at which we buy your Gold are as per the market rates.
-          </p>
+Muthoot Gold Point makes it easy and convenient to sell gold for cash with a safe and transparent process. With branches across India and mobile van services in selected cities (Mumbai, Kalyan & Bengaluru), customers can get their gold cleaned for free and have its weight and purity checked using advanced XRF machines. The transparent evaluation process helps customers understand the value of their gold before selling it. Payments up to ₹10,000 are made in cash, while higher amounts are transferred securely through IMPS, NEFT, or RTGS. By promoting gold recycling, Muthoot Gold Point helps reduce the need for gold mining, conserve natural resources, protect the environment, and reduce India’s dependence on gold imports.          </p>
 
           <Link href="/#branches" className="btn btn-primary gso-cta">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

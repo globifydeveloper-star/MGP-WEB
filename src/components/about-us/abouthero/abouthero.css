@@ -356,13 +356,17 @@
     margin: 0 auto 2rem;
   }
 
-  .about-hero-eyebrow,
-  .about-hero-checklist li {
+  .about-hero-eyebrow {
     justify-content: center;
   }
 
   .about-hero-checklist {
-    align-items: center;
+    align-items: stretch;
+  }
+
+  .about-hero-checklist li {
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .about-hero-footer-row {
