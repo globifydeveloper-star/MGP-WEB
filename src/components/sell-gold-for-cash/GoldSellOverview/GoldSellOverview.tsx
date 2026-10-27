@@ -84,7 +84,7 @@ Muthoot Gold Point makes it easy and convenient to sell gold for cash with a saf
                   <path d="M21 3v6h-6" />
                 </svg>
               </span>
-              <p>100%<br />Transparent<br />Process</p>
+              <p>100% Transparent<br />Process</p>
             </div>
           </div>
         </div>

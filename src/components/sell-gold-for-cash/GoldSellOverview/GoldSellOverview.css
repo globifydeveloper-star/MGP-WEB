@@ -98,6 +98,9 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   box-shadow: 0 25px 60px rgba(12, 31, 108, 0.25);
+  background: #0c1f6c;
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .gso-quad {
@@ -146,8 +149,21 @@
   line-height: 1.35;
 }
 
+/* Directional padding nudges content towards the circle's center, away from the curved outer edges */
+.gso-quad:nth-child(1) {
+  padding: 1.3rem 1.4rem 0.9rem 1.8rem;
+}
+
+.gso-quad:nth-child(2) {
+  padding: 1.3rem 1.8rem 0.9rem 1.4rem;
+}
+
+.gso-quad:nth-child(3) {
+  padding: 0.9rem 1.4rem 1.3rem 1.8rem;
+}
+
 .gso-quad:nth-child(4) {
-  transform: translate(-8px, -8px);
+  padding: 0.9rem 1.6rem 1.5rem 1.2rem;
 }
 
 .gso-quad--photo p {
@@ -221,6 +237,22 @@
   }
 
   .gso-quad {
-    padding: 0.9rem 1.3rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .gso-quad:nth-child(1) {
+    padding: 1rem 0.8rem 0.6rem 1.1rem;
+  }
+
+  .gso-quad:nth-child(2) {
+    padding: 1rem 1.1rem 0.6rem 0.8rem;
+  }
+
+  .gso-quad:nth-child(3) {
+    padding: 0.6rem 0.8rem 1rem 1.1rem;
+  }
+
+  .gso-quad:nth-child(4) {
+    padding: 0.6rem 1.1rem 1rem 0.8rem;
   }
 }
