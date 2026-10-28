@@ -34,15 +34,34 @@ export default function GoldRatePage({
 
         {showCalculator && <GoldValueForm sectionImage={goldValueFormImage} />}
 
-        <WhyRatesChange sectionImage={data?.whyGoldRateChangesImage} />
+        <WhyRatesChange
+          sectionImage={data?.whyGoldRateChangesImage}
+          title={data?.whyTitle}
+          titleHighlight={data?.whyTitleHighlight}
+          titleSuffix={data?.whyTitleSuffix}
+          reasons={data?.whyReasons}
+        />
 
-        <ValuationProcess sectionImage={data?.valuationProcessImage} />
+        <ValuationProcess
+          sectionImage={data?.valuationProcessImage}
+          title={data?.valuationTitle}
+          titleHighlight={data?.valuationTitleHighlight}
+          titleSuffix={data?.valuationTitleSuffix}
+          steps={data?.valuationSteps}
+        />
 
-        <GoldRateCTA onSellGoldClick={() => setIsSellGoldOpen(true)} />
+        <GoldRateCTA
+          onSellGoldClick={() => setIsSellGoldOpen(true)}
+          title={data?.ctaTitle}
+          subtext={data?.ctaSubtext}
+          primaryButtonLabel={data?.ctaPrimaryLabel}
+          secondaryButtonLabel={data?.ctaSecondaryLabel}
+          secondaryButtonLink={data?.ctaSecondaryLink}
+        />
 
         <GoldRateFAQ faqs={data?.faqs} />
 
-        <TrustStrip />
+        <TrustStrip items={data?.trustItems} />
       </main>
 
       <SellGoldModal isOpen={isSellGoldOpen} onClose={() => setIsSellGoldOpen(false)} />

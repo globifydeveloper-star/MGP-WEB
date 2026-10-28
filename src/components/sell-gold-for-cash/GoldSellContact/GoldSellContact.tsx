@@ -9,7 +9,23 @@ import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './GoldSellContact.css';
 import contactBgImg from '../../../../public/images/sell-gold-for-cash/get-in-touch-form-bg.jpg';
 
-export default function GoldSellContact() {
+interface GoldSellContactProps {
+  contactTitle?: string;
+  contactTitleHighlight?: string;
+  contactDescription?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  contactSuccessText?: string;
+}
+
+export default function GoldSellContact({
+  contactTitle,
+  contactTitleHighlight,
+  contactDescription,
+  contactPhone,
+  contactEmail,
+  contactSuccessText,
+}: GoldSellContactProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -145,10 +161,10 @@ export default function GoldSellContact() {
       <div className="grct-inner">
         <div className="grct-content">
           <h2 className="grct-title">
-            Get in <span className="grct-title-gold">Touch</span>
+            {contactTitle || 'Get in'} <span className="grct-title-gold">{contactTitleHighlight || 'Touch'}</span>
           </h2>
-          <p className="grct-desc">
-            Have questions about your gold valuation? Our experts are here to help you through the entire process.
+          <p className="grct-desc" style={{ whiteSpace: 'pre-line' }}>
+            {contactDescription || 'Have questions about your gold valuation? Our experts are here to help you through the entire process.'}
           </p>
 
           <div className="grct-info-row">
@@ -157,7 +173,7 @@ export default function GoldSellContact() {
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
             </span>
-            <a href="tel:1800 102 1616">1800 102 1616</a>
+            <a href={`tel:${(contactPhone || '1800 102 1616').replace(/\s+/g, '')}`}>{contactPhone || '1800 102 1616'}</a>
           </div>
 
           <div className="grct-info-row">
@@ -167,7 +183,7 @@ export default function GoldSellContact() {
                 <path d="m3 6 9 7 9-7" />
               </svg>
             </span>
-            <a href="mailto:info@muthootexim.com">info@muthootexim.com</a>
+            <a href={`mailto:${contactEmail || 'info@muthootexim.com'}`}>{contactEmail || 'info@muthootexim.com'}</a>
           </div>
         </div>
 
@@ -175,7 +191,7 @@ export default function GoldSellContact() {
           {isSubmitted ? (
             <div className="grct-success">
               <h3>Thank You!</h3>
-              <p>Thank you for contacting us, we have received your enquiry. Our team will get back to you shortly.</p>
+              <p style={{ whiteSpace: 'pre-line' }}>{contactSuccessText || 'Thank you for contacting us, we have received your enquiry. Our team will get back to you shortly.'}</p>
               <button type="button" className="grct-submit-btn" onClick={() => {
                 setIsSubmitted(false);
               }}>

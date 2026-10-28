@@ -11,6 +11,7 @@ import volleyball2Img from '@/assets/images/community/v2.jpg';
 import rajasthanImg from '@/assets/images/community/cmd.jpg';
 import football1Img from '@/assets/images/f1.jpg';
 import football3Img from '@/assets/images/f3.png';
+import type { CommunityPageData } from '@/lib/strapi';
 
 const STAKEHOLDERS = [
   'Customers',
@@ -143,7 +144,32 @@ function CheckIcon() {
   );
 }
 
-export default function CommunityPage() {
+export default function CommunityPage({ data }: { data?: CommunityPageData | null }) {
+  const displayInitiatives = INITIATIVES.map((item) => {
+    if (item.id === 'smile' && (data?.smileTitle || data?.smileDescription)) {
+      return {
+        ...item,
+        title: data.smileTitle || item.title,
+        paragraphs: data.smileDescription ? [data.smileDescription] : item.paragraphs,
+      };
+    }
+    if (item.id === 'football' && (data?.footballTitle || data?.footballDescription)) {
+      return {
+        ...item,
+        title: data.footballTitle || item.title,
+        paragraphs: data.footballDescription ? [data.footballDescription] : item.paragraphs,
+      };
+    }
+    if (item.id === 'volleyball' && (data?.volleyballTitle || data?.volleyballDescription)) {
+      return {
+        ...item,
+        title: data.volleyballTitle || item.title,
+        paragraphs: data.volleyballDescription ? [data.volleyballDescription] : item.paragraphs,
+      };
+    }
+    return item;
+  });
+
   return (
     <main className="community-page">
       {/* Hero */}
@@ -153,10 +179,14 @@ export default function CommunityPage() {
             <div className="community-hero-content">
               <span className="community-eyebrow">Muthoot Pappachan Foundation</span>
               <h1 className="community-hero-title">
-                Committed to the <span className="gold-text">Community</span>
+                {data?.heroTitle ? (
+                  <span dangerouslySetInnerHTML={{ __html: data.heroTitle }} />
+                ) : (
+                  <>Committed to the <span className="gold-text">Community</span></>
+                )}
               </h1>
-              <p className="community-text">
-                Armed with a commitment to society, the Muthoot Pappachan Foundation (MPF), a Public Charitable Trust — the CSR arm of Muthoot Pappachan Group (MPG) — was formed and has touched thousands of lives through its diverse programs. It tackles issues affecting the communities in which its businesses operate.
+              <p className="community-text" style={{ whiteSpace: 'pre-line' }}>
+                {data?.heroSubtitle || 'Armed with a commitment to society, the Muthoot Pappachan Foundation (MPF), a Public Charitable Trust — the CSR arm of Muthoot Pappachan Group (MPG) — was formed and has touched thousands of lives through its diverse programs. It tackles issues affecting the communities in which its businesses operate.'}
               </p>
               <p className="community-text">
                 Our primary aim is to build a portfolio of CSR activities that are in line with our core strengths as a business and our various business units. Such CSR initiatives of MPG revolve around the theme &lsquo;HEEL&rsquo;, covering Health, Education, Environment and Livelihood.
@@ -188,10 +218,14 @@ export default function CommunityPage() {
           <div className="community-header">
             <span className="community-eyebrow">Our Foundation</span>
             <h2 className="community-title">
-              Role of <span className="gold-text">Muthoot Pappachan Foundation</span>
+              {data?.heelTitle ? (
+                <span dangerouslySetInnerHTML={{ __html: data.heelTitle }} />
+              ) : (
+                <>Role of <span className="gold-text">Muthoot Pappachan Foundation</span></>
+              )}
             </h2>
-            <p className="community-text">
-              Muthoot Pappachan Foundation spearheads the planning and execution of CSR initiatives aligned with organisational objectives, driving impactful programs across various Group companies. The core aim of the Foundation is to facilitate all the CSR activities and programmes of the entire Group, which are bound by the theme HEEL — Health, Education, Environment and Livelihood. MPF facilitates company-level and Group-level CSR activities adhering to this theme for the following stakeholders:
+            <p className="community-text" style={{ whiteSpace: 'pre-line' }}>
+              {data?.heelDescription || 'Muthoot Pappachan Foundation spearheads the planning and execution of CSR initiatives aligned with organisational objectives, driving impactful programs across various Group companies. The core aim of the Foundation is to facilitate all the CSR activities and programmes of the entire Group, which are bound by the theme HEEL — Health, Education, Environment and Livelihood. MPF facilitates company-level and Group-level CSR activities adhering to this theme for the following stakeholders:'}
             </p>
           </div>
 
@@ -288,7 +322,7 @@ export default function CommunityPage() {
           </div>
 
           <div className="community-initiatives">
-            {INITIATIVES.map((item, idx) => (
+            {displayInitiatives.map((item, idx) => (
               <article
                 key={item.id}
                 id={item.id}

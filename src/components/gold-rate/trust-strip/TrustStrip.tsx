@@ -47,11 +47,22 @@ const ITEMS = [
   },
 ];
 
-export default function TrustStrip() {
+interface TrustStripProps {
+  items?: string[];
+}
+
+export default function TrustStrip({ items }: TrustStripProps) {
+  const displayItems = items && items.length > 0
+    ? items.map((label, idx) => ({
+        label,
+        icon: ITEMS[idx % ITEMS.length]?.icon || ITEMS[0].icon,
+      }))
+    : ITEMS;
+
   return (
     <section className="ts-section">
       <div className="container ts-grid">
-        {ITEMS.map((item) => (
+        {displayItems.map((item) => (
           <div className="ts-item" key={item.label}>
             <span className="ts-icon-circle">{item.icon}</span>
             <span className="ts-label">{item.label}</span>

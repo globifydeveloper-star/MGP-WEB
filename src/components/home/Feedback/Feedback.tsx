@@ -21,6 +21,7 @@ const StarIcon = () => (
 
 interface FeedbackProps {
   reviews?: any[];
+  heading?: string;
 }
 
 const DEFAULT_REVIEWS = [
@@ -60,7 +61,7 @@ const DEFAULT_REVIEWS = [
   },
 ];
 
-export default function Feedback({ reviews }: FeedbackProps) {
+export default function Feedback({ reviews, heading }: FeedbackProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [offset, setOffset] = useState(0);
@@ -154,7 +155,7 @@ export default function Feedback({ reviews }: FeedbackProps) {
     <section id="testimonials" className="feedback-section">
       <div className="container">
         <div className="feedback-header">
-          <h2 className="feedback-title-main">What do our customers say about us?</h2>
+          <h2 className="feedback-title-main">{heading || 'What do our customers say about us?'}</h2>
           <div className="feedback-divider" />
         </div>
         <div className="feedback-slider-wrap">

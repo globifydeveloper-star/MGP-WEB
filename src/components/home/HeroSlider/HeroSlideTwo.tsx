@@ -34,9 +34,7 @@ export default function HeroSlideTwo({
 }: HeroSlideTwoProps) {
   const [hasError, setHasError] = useState(false);
   const rawText = slide?.heroText?.trim() || "";
-  const text = (rawText.toLowerCase().includes('get 100% value') || !rawText)
-    ? "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying"
-    : rawText;
+  const text = rawText || "Sell Your Gold Get Cash Instantly. 100% Fair & Precise Gold Buying";
   
   let whiteText = text;
   let goldText = "";

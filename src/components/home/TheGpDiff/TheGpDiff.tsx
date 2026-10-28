@@ -3,6 +3,9 @@ import './TheGpDiff.css';
 
 interface TheGpDiffProps {
   cards?: any[];
+  heading?: string;
+  headingHighlight?: string;
+  subtitle?: string;
 }
 
 const DEFAULT_CARDS = [
@@ -76,7 +79,7 @@ const isOldGdpDiff = (title?: string) => {
   return t.includes('xrf over touchstone') || t.includes('three-decimal weight') || t.includes('bank transfer, not cash');
 };
 
-export default function TheGpDiff({ cards }: TheGpDiffProps) {
+export default function TheGpDiff({ cards, heading, headingHighlight, subtitle }: TheGpDiffProps) {
   const activeCards = cards && cards.length > 0 && !cards.some((c) => isOldGdpDiff(c.boxTitle))
     ? [...cards]
         .sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -99,10 +102,10 @@ export default function TheGpDiff({ cards }: TheGpDiffProps) {
       <div className="container">
         <div className="gp-diff-header">
           <h2 className="gp-diff-title">
-            Why Choose <span className="gp-diff-highlight">Gold Point</span>
+            {heading || 'Why Choose'} <span className="gp-diff-highlight">{headingHighlight || 'Gold Point'}</span>
           </h2>
           <p className="gp-diff-subtitle">
-            India&apos;s First National Level Organised Gold Buyer
+            {subtitle || "India's First National Level Organised Gold Buyer"}
           </p>
           <div className="gp-diff-divider" />
         </div>

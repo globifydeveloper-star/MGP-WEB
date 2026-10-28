@@ -7,20 +7,31 @@ import StatsStrip from './statsstrip/statsstrip';
 import TestimonialsGrid from './testimonialsgrid/testimonialsgrid';
 import TestimonialsCTA from './cta/TestimonialsCTA';
 
-export default function TestimonialsPage() {
+import type { TestimonialsPageData } from '@/lib/strapi';
+
+export default function TestimonialsPage({ data }: { data?: TestimonialsPageData | null }) {
   const [isSellGoldOpen, setIsSellGoldOpen] = useState(false);
 
   return (
     <>
-      
       <main>
-        <TestimonialsHero />
+        <TestimonialsHero
+          title={data?.heroTitle}
+          subtitle={data?.heroSubtitle}
+          description={data?.heroDescription}
+        />
 
         <StatsStrip />
 
         <TestimonialsGrid />
 
-        <TestimonialsCTA onSellGoldClick={() => setIsSellGoldOpen(true)} />
+        <TestimonialsCTA
+          onSellGoldClick={() => setIsSellGoldOpen(true)}
+          title={data?.ctaTitle}
+          subtitle={data?.ctaSubtitle}
+          buttonText={data?.ctaButtonText}
+          buttonLink={data?.ctaButtonLink}
+        />
       </main>
 
       

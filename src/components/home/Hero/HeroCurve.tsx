@@ -6,7 +6,30 @@ import { animate, createTimeline, stagger, set } from 'animejs';
 import starImg from '@/assets/images/Star.png';
 import './heroCurve.css';
 
-export default function HeroCurve() {
+interface HeroCurveProps {
+  label1?: string;
+  label2?: string;
+  label3?: string;
+}
+
+function renderArcLabel(text: string | undefined, defaultEl: React.ReactNode) {
+  if (!text) return defaultEl;
+  const parts = text.split('*');
+  if (parts.length === 1) {
+    return <span className="label-text-white">{text}</span>;
+  }
+  return (
+    <>
+      {parts.map((part, i) => (
+        <span key={i} className={i % 2 === 1 ? 'label-text-gold' : 'label-text-white'}>
+          {part}
+        </span>
+      ))}
+    </>
+  );
+}
+
+export default function HeroCurve({ label1, label2, label3 }: HeroCurveProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
 
@@ -197,9 +220,13 @@ export default function HeroCurve() {
         className="curve-text-label label-top"
         style={{ left: 669, top: 208, opacity: 0 }}
       >
-        <span className="label-text-white">Get the</span>
-        <span className="label-text-gold">Fair Value</span>
-        <span className="label-text-white">for your gold</span>
+        {renderArcLabel(label1, (
+          <>
+            <span className="label-text-white">Get the</span>
+            <span className="label-text-gold">Fair Value</span>
+            <span className="label-text-white">for your gold</span>
+          </>
+        ))}
       </div>
 
       {/* Label 2: Transparent */}
@@ -207,9 +234,13 @@ export default function HeroCurve() {
         className="curve-text-label label-middle"
         style={{ left: 595, top: 412, opacity: 0 }}
       >
-        <span className="label-text-gold">Transparent</span>
-        <span className="label-text-white">Gold evaluation</span>
-        <span className="label-text-white">process</span>
+        {renderArcLabel(label2, (
+          <>
+            <span className="label-text-gold">Transparent</span>
+            <span className="label-text-white">Gold evaluation</span>
+            <span className="label-text-white">process</span>
+          </>
+        ))}
       </div>
 
       {/* Label 3: Instant Payment */}
@@ -217,8 +248,12 @@ export default function HeroCurve() {
         className="curve-text-label label-bottom"
         style={{ left: 625, top: 660, opacity: 0 }}
       >
-        <span className="label-text-gold">Instant Payment</span>
-        <span className="label-text-white">after valuation</span>
+        {renderArcLabel(label3, (
+          <>
+            <span className="label-text-gold">Instant Payment</span>
+            <span className="label-text-white">after valuation</span>
+          </>
+        ))}
       </div>
 
       {/* Mid curve star */}

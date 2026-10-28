@@ -107,10 +107,19 @@ export default async function Home() {
         trustBadgePrefix={homepageData?.trustBadgePrefix}
         trustBadgeHighlight={homepageData?.trustBadgeHighlight}
         trustBadgeSuffix={homepageData?.trustBadgeSuffix}
+        heroArcLabel1={homepageData?.heroArcLabel1}
+        heroArcLabel2={homepageData?.heroArcLabel2}
+        heroArcLabel3={homepageData?.heroArcLabel3}
       />
 
       {/* 2. Gold Selling Process Section */}
-      <GoldSellProcess steps={processSteps} sectionImage={homepageData?.processSectionImage} />
+      <GoldSellProcess
+        steps={processSteps}
+        sectionImage={homepageData?.processSectionImage}
+        heading={homepageData?.processHeading}
+        headingHighlight={homepageData?.processHeadingHighlight}
+        stepLabel={homepageData?.processStepLabel}
+      />
 
       {/* 3. Video Section with Contact Enquiry Form */}
       <VideoSection videos={homepageData?.homeVideos} />
@@ -119,14 +128,18 @@ export default async function Home() {
       <GoldSellComparison rows={comparisonRows} />
 
       {/* 5. Why Choose Muthoot Gold Point */}
-      <TheGpDiff cards={differenceBoxes} />
-
-
-
-      {/* 8. Hero Stats */}
+      <TheGpDiff
+        cards={differenceBoxes}
+        heading={homepageData?.diffHeading}
+        headingHighlight={homepageData?.diffHeadingHighlight}
+        subtitle={homepageData?.diffSubtitle}
+      />
 
       {/* 9. Testimonials */}
-      <Feedback reviews={testimonials} />
+      <Feedback
+        reviews={testimonials}
+        heading={homepageData?.feedbackHeading}
+      />
 
       {/* 10. Branch Locator */}
       <BranchLocator
@@ -141,13 +154,27 @@ export default async function Home() {
         headingBold={homepageData?.vanHeadingBold}
         description={homepageData?.vanDescription}
         buttonLabel={homepageData?.vanButtonLabel}
+        features={homepageData?.vanFeatures}
       />
 
       {/* 11. FAQ */}
-      <FAQ faqs={faqs} />
+      <FAQ
+        faqs={faqs}
+        heading={homepageData?.faqHeading}
+        headingHighlight={homepageData?.faqHeadingHighlight}
+        readMoreLabel={homepageData?.faqReadMoreLabel}
+        viewLessLabel={homepageData?.faqViewLessLabel}
+      />
 
       {/* 12. Blog Post */}
-      <RecentPost posts={recentPosts} />
+      <RecentPost
+        posts={recentPosts}
+        heading={homepageData?.recentPostsHeading}
+        headingHighlight={homepageData?.recentPostsHeadingHighlight}
+        headingSuffix={homepageData?.recentPostsHeadingSuffix}
+        emptyText={homepageData?.recentPostsEmptyText}
+        readMoreLabel={homepageData?.recentPostsReadMoreLabel}
+      />
 
       {/* 13. Footer Section */}
       { !homepageData?.hideFooter && <Footer /> }

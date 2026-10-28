@@ -53,10 +53,25 @@ const DEFAULT_STEPS = [
 interface GoldSellProcessProps {
   steps?: any[];
   sectionImage?: string;
+  heading?: string;
+  headingHighlight?: string;
+  stepLabel?: string;
 }
 
 /* ── Desktop accordion ── */
-function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; sectionImage?: string }) {
+function GoldSellProcessDesktop({
+  steps,
+  sectionImage,
+  heading,
+  headingHighlight,
+  stepLabel
+}: {
+  steps: any[];
+  sectionImage?: string;
+  heading?: string;
+  headingHighlight?: string;
+  stepLabel?: string;
+}) {
   const [openIndex, setOpenIndex] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -146,7 +161,7 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
       {/* Left Column: Heading, description & image */}
       <div className="gsp-left">
         <h2 className="gsp-heading">
-          Gold Selling <span className="gsp-heading-highlight">Process</span>
+          {heading || 'Gold Selling'} <span className="gsp-heading-highlight">{headingHighlight || 'Process'}</span>
         </h2>
         <div key={activeIndex} className="gsp-left-content">
           <div className="gsp-image-wrap">
@@ -177,7 +192,7 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
               >
                 <div className="gsp-step-body">
                   <div className="gsp-step-num-wrap">
-                    <span className="gsp-step-badge-label">Step</span>
+                    <span className="gsp-step-badge-label">{stepLabel || 'Step'}</span>
                     <span className="gsp-step-badge-num">{step.num}</span>
                   </div>
                   <button
@@ -216,7 +231,19 @@ function GoldSellProcessDesktop({ steps, sectionImage }: { steps: any[]; section
 }
 
 /* ── Mobile / Tablet carousel ── */
-function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectionImage?: string }) {
+function GoldSellProcessCarousel({
+  steps,
+  sectionImage,
+  heading,
+  headingHighlight,
+  stepLabel
+}: {
+  steps: any[];
+  sectionImage?: string;
+  heading?: string;
+  headingHighlight?: string;
+  stepLabel?: string;
+}) {
   const [current, setCurrent] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -295,7 +322,7 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
       {/* Section header */}
       <div className="gsp-carousel-header">
         <h2 className="gsp-heading">
-          Gold Selling <span className="gsp-heading-highlight">Process</span>
+          {heading || 'Gold Selling'} <span className="gsp-heading-highlight">{headingHighlight || 'Process'}</span>
         </h2>
         <p className="gsp-carousel-subtitle">
           Follow our simple 5-step process to sell your gold quickly, safely, and at the best price.
@@ -325,7 +352,7 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
           {/* Step content */}
           <div className="gsp-carousel-content">
             <div className="gsp-carousel-step-badge">
-              <span className="gsp-carousel-step-label">Step</span>
+              <span className="gsp-carousel-step-label">{stepLabel || 'Step'}</span>
               <span className="gsp-carousel-step-num">{step?.num}</span>
             </div>
             <h3 className="gsp-carousel-step-title">{step?.title}</h3>
@@ -390,7 +417,13 @@ function GoldSellProcessCarousel({ steps, sectionImage }: { steps: any[]; sectio
 }
 
 /* ── Root component: renders carousel on mobile/tablet, accordion on desktop ── */
-export default function GoldSellProcess({ steps, sectionImage }: GoldSellProcessProps) {
+export default function GoldSellProcess({
+  steps,
+  sectionImage,
+  heading,
+  headingHighlight,
+  stepLabel
+}: GoldSellProcessProps) {
   const activeSteps = steps && steps.length > 0
     ? [...steps]
         .sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -407,10 +440,22 @@ export default function GoldSellProcess({ steps, sectionImage }: GoldSellProcess
     <section className="gsp-section" id="gold-sell-process">
       <div className="container">
         <div className="gsp-desktop-view">
-          <GoldSellProcessDesktop steps={activeSteps} sectionImage={sectionImage} />
+          <GoldSellProcessDesktop
+            steps={activeSteps}
+            sectionImage={sectionImage}
+            heading={heading}
+            headingHighlight={headingHighlight}
+            stepLabel={stepLabel}
+          />
         </div>
         <div className="gsp-mobile-view">
-          <GoldSellProcessCarousel steps={activeSteps} sectionImage={sectionImage} />
+          <GoldSellProcessCarousel
+            steps={activeSteps}
+            sectionImage={sectionImage}
+            heading={heading}
+            headingHighlight={headingHighlight}
+            stepLabel={stepLabel}
+          />
         </div>
       </div>
     </section>

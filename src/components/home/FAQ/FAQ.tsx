@@ -7,11 +7,21 @@ import './FAQ.css';
 
 interface FAQProps {
   faqs?: any[];
+  heading?: string;
+  headingHighlight?: string;
+  readMoreLabel?: string;
+  viewLessLabel?: string;
 }
 
 const DEFAULT_FAQS = HOME_FAQS;
 
-export default function FAQ({ faqs }: FAQProps) {
+export default function FAQ({
+  faqs,
+  heading,
+  headingHighlight,
+  readMoreLabel,
+  viewLessLabel
+}: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [showAll, setShowAll] = useState(false);
 
@@ -31,7 +41,7 @@ export default function FAQ({ faqs }: FAQProps) {
       <div className="container">
         <div className="faq2-header">
           <h2 className="faq2-title">
-            <span className="faq2-title-highlight">Frequently</span> Asked Questions
+            <span className="faq2-title-highlight">{headingHighlight || 'Frequently'}</span> {heading || 'Asked Questions'}
           </h2>
           <div className="faq2-divider" />
         </div>
@@ -84,7 +94,7 @@ export default function FAQ({ faqs }: FAQProps) {
                 {isSixth && (
                   <div className="faq2-show-more-overlay">
                     <button className="faq2-show-more-btn" onClick={() => setShowAll(true)}>
-                      Read More FAQs
+                      {readMoreLabel || 'Read More FAQs'}
                     </button>
                   </div>
                 )}
@@ -103,7 +113,7 @@ export default function FAQ({ faqs }: FAQProps) {
               const faqEl = document.getElementById('faq');
               if (faqEl) faqEl.scrollIntoView({ behavior: 'smooth' });
             }}>
-              View Less FAQs
+              {viewLessLabel || 'View Less FAQs'}
             </button>
           </div>
         )}

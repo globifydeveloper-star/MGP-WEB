@@ -19,9 +19,30 @@ interface SellGoldHeroProps {
   trustBadgePrefix?: string;
   trustBadgeHighlight?: string;
   trustBadgeSuffix?: string;
+  heroTitle?: string;
+  heroTitleHighlight?: string;
+  heroSubtitle?: string;
+  heroBullets?: string[];
+  heroFormTitle?: string;
+  heroFormSubtitle?: string;
+  heroFormSuccessText?: string;
+  heroFormResetLabel?: string;
 }
 
-export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: SellGoldHeroProps) {
+export default function SellGoldHero({
+  heroImage,
+  trustBadgePrefix,
+  trustBadgeHighlight,
+  trustBadgeSuffix,
+  heroTitle,
+  heroTitleHighlight,
+  heroSubtitle,
+  heroBullets,
+  heroFormTitle,
+  heroFormSubtitle,
+  heroFormSuccessText,
+  heroFormResetLabel
+}: SellGoldHeroProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -226,27 +247,25 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
           <div className="sg-title-row">
             <div className="sg-title-text-wrap">
               <h1 className="sg-hero-title">
-                Sell Your Old Gold <br />
-                <span className="gold-text">GET CASH INSTANTLY</span>
+                {heroTitle || 'Sell Your Old Gold'} <br />
+                <span className="gold-text">{heroTitleHighlight || 'GET CASH INSTANTLY'}</span>
               </h1>
-              <p className="sg-hero-subtitle">100% Fair & Precise Gold Buying</p>
+              <p className="sg-hero-subtitle">{heroSubtitle || '100% Fair & Precise Gold Buying'}</p>
             </div>
           </div>
 
           {/* Bullet Points */}
           <ul className="sg-hero-bullets">
-            <li>
-              <span className="sg-bullet-check">✓</span>
-              <span>Free purity testing of your gold</span>
-            </li>
-            <li>
-              <span className="sg-bullet-check">✓</span>
-              <span>100% transparent process</span>
-            </li>
-            <li>
-              <span className="sg-bullet-check">✓</span>
-              <span>Free Ultrasonic cleaning of ornaments</span>
-            </li>
+            {(heroBullets && heroBullets.length > 0 ? heroBullets : [
+              'Free purity testing of your gold',
+              '100% transparent process',
+              'Free Ultrasonic cleaning of ornaments'
+            ]).map((bullet, idx) => (
+              <li key={idx}>
+                <span className="sg-bullet-check">✓</span>
+                <span>{bullet}</span>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -265,7 +284,7 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
                 </div>
                 <h3 className="sg-success-title">Thank You!</h3>
                 <p className="sg-success-desc">
-                  Thank you for contacting us, we have received your enquiry. Our team will get in touch with you shortly.
+                  {heroFormSuccessText || 'Thank you for contacting us, we have received your enquiry. Our team will get in touch with you shortly.'}
                 </p>
                 <button
                   type="button"
@@ -274,14 +293,14 @@ export default function SellGoldHero({ heroImage, trustBadgePrefix, trustBadgeHi
                     setIsSubmitted(false);
                   }}
                 >
-                  Submit Another Request
+                  {heroFormResetLabel || 'Submit Another Request'}
                 </button>
               </div>
             ) : (
               <form className="sg-contact-form" onSubmit={handleSubmit}>
-                <h2 className="sg-form-title">GET IN TOUCH</h2>
+                <h2 className="sg-form-title">{heroFormTitle || 'GET IN TOUCH'}</h2>
                 <p className="sg-form-subtitle">
-                  Fill in the form and our team will get back to you with various information of Muthoot Gold Point.
+                  {heroFormSubtitle || 'Fill in the form and our team will get back to you with various information of Muthoot Gold Point.'}
                 </p>
 
                 {/* Name */}

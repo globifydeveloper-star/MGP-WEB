@@ -24,19 +24,31 @@ function stripHtml(html: string): string {
 
 interface RecentPostProps {
   posts: BlogPost[];
+  heading?: string;
+  headingHighlight?: string;
+  headingSuffix?: string;
+  emptyText?: string;
+  readMoreLabel?: string;
 }
 
-export default function RecentPost({ posts }: RecentPostProps) {
+export default function RecentPost({
+  posts,
+  heading,
+  headingHighlight,
+  headingSuffix,
+  emptyText,
+  readMoreLabel,
+}: RecentPostProps) {
   return (
     <section className="recent-post-section">
       <div className="container">
         <h2 className="recent-post-title">
-          Our <span className="recent-post-highlight">Recent</span> Posts
+          {heading || 'Our'} <span className="recent-post-highlight">{headingHighlight || 'Recent'}</span> {headingSuffix || 'Posts'}
         </h2>
 
         {posts.length === 0 ? (
           <div className="recent-post-empty">
-            <p>No recent posts available.</p>
+            <p>{emptyText || 'No recent posts available.'}</p>
           </div>
         ) : (
           <div className="recent-post-grid">
@@ -70,7 +82,7 @@ export default function RecentPost({ posts }: RecentPostProps) {
                       {post.excerpt || (post.body ? stripHtml(post.body).slice(0, 120) + '...' : '')}
                     </p>
                     <Link href={`/blog/${post.slug}`} className="recent-post-btn-link">
-                      <button className="recent-post-btn">Read More</button>
+                      <button className="recent-post-btn">{readMoreLabel || 'Read More'}</button>
                     </Link>
                   </div>
                 </div>

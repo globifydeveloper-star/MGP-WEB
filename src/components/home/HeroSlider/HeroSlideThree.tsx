@@ -11,6 +11,7 @@ import { SHOW_GOLD_RATE_CARD } from '@/lib/featureFlags';
 
 export interface SlideFeatureData {
   id?: number;
+  order?: number;
   title: string;
   desc?: string;
   tag?: string;
@@ -20,8 +21,8 @@ export interface SlideFeatureData {
 
 type CardType = 'nature' | 'nation' | 'trust';
 
-// Cards always show in this order, whatever order Strapi returns them in.
-const CARD_ORDER: CardType[] = ['nation', 'trust', 'nature'];
+// Fallback card types order if not determined by icon or title
+const DEFAULT_CARD_TYPES: CardType[] = ['nation', 'trust', 'nature'];
 
 // Blog post each card opens (a `link` set on the card in Strapi takes priority).
 const CARD_LINKS: Record<CardType, string> = {
@@ -55,9 +56,9 @@ function getCardType(card: SlideFeatureData, idx: number): CardType {
   const normIcon = (card.iconType || '').toLowerCase();
   const normTitle = (card.title || '').toLowerCase();
   if (normIcon === 'nature' || normTitle.includes('nature') || normTitle.includes('environment')) return 'nature';
-  if (normIcon === 'economy' || normTitle.includes('government') || normTitle.includes('economy') || normTitle.includes('cad')) return 'nation';
+  if (normIcon === 'economy' || normIcon === 'nation' || normTitle.includes('government') || normTitle.includes('economy') || normTitle.includes('cad') || normTitle.includes('nation')) return 'nation';
   if (normIcon === 'trust' || normTitle.includes('transparent') || normTitle.includes('process')) return 'trust';
-  return CARD_ORDER[idx % CARD_ORDER.length];
+  return DEFAULT_CARD_TYPES[idx % DEFAULT_CARD_TYPES.length];
 }
 
 export interface HeroSlideData {
@@ -121,13 +122,19 @@ export default function HeroSlideThree({
           {/* 3 Themed Feature Cards with Distinct Visual Accents (Dynamic from Strapi with fallback) */}
           <div className="hero-slide-three-pillars">
             {(slide?.features && slide.features.length > 0 ? slide.features : DEFAULT_FEATURES)
-              .map((card, idx) => ({ card, idx, cardType: getCardType(card, idx) }))
-              .sort((a, b) => CARD_ORDER.indexOf(a.cardType) - CARD_ORDER.indexOf(b.cardType))
-              .map(({ card, idx, cardType }) => {
-              const defaultTag = cardType === 'nature' ? 'Eco Conservation' : cardType === 'nation' ? 'Economic Growth' : '100% Transparent';
-              // "100% Scientific" was retired in favour of "100% Transparent", even if Strapi still sends it
-              const tag = card.tag && !/scientific/i.test(card.tag) ? card.tag : defaultTag;
-              const hasDesc = Boolean(card.desc && card.desc.trim());
+              .slice()
+              .sort((a, b) => {
+                if (typeof a.order === 'number' && typeof b.order === 'number') {
+                  return a.order - b.order;
+                }
+                return 0; // preserve order from Strapi
+              })
+              .map((card, idx) => {
+                const cardType = getCardType(card, idx);
+                const defaultTag = cardType === 'nature' ? 'Eco Conservation' : cardType === 'nation' ? 'Economic Growth' : '100% Transparent';
+                // "100% Scientific" was retired in favour of "100% Transparent", even if Strapi still sends it
+                const tag = card.tag && !/scientific/i.test(card.tag) ? card.tag : defaultTag;
+                const hasDesc = Boolean(card.desc && card.desc.trim());
 
               return (
                 <Link

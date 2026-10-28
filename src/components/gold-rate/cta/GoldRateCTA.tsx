@@ -8,23 +8,35 @@ import handHoldingGoldImg from '@/assets/images/gold_rate_component_photos/05-ct
 
 interface GoldRateCTAProps {
   onSellGoldClick: () => void;
+  title?: string;
+  subtext?: string;
+  primaryButtonLabel?: string;
+  secondaryButtonLabel?: string;
+  secondaryButtonLink?: string;
 }
 
-export default function GoldRateCTA({ onSellGoldClick }: GoldRateCTAProps) {
+export default function GoldRateCTA({
+  onSellGoldClick,
+  title,
+  subtext,
+  primaryButtonLabel,
+  secondaryButtonLabel,
+  secondaryButtonLink,
+}: GoldRateCTAProps) {
   return (
     <section className="grc-section">
       <div className="container grc-inner">
         <div className="grc-content">
-          <h2 className="grc-title">Ready to Know What Your Gold Is Worth?</h2>
+          <h2 className="grc-title">{title || 'Ready to Know What Your Gold Is Worth?'}</h2>
           <p className="grc-subtext">
-            Get a transparent valuation for your gold from our experts.
+            {subtext || 'Get a transparent valuation for your gold from our experts.'}
           </p>
           <div className="grc-cta-row">
             <button type="button" className="grc-btn grc-btn-dark" onClick={onSellGoldClick}>
-              Sell Your Gold
+              {primaryButtonLabel || 'Sell Your Gold'}
             </button>
-            <a href="/#branches" className="grc-btn grc-btn-outline">
-              Find a Branch
+            <a href={secondaryButtonLink || '/#branches'} className="grc-btn grc-btn-outline">
+              {secondaryButtonLabel || 'Find a Branch'}
             </a>
           </div>
         </div>

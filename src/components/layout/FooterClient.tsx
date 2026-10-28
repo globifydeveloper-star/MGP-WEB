@@ -144,18 +144,24 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
               />
             </Link>
             <p className="footer-desc">
-              Muthoot Gold Point, a unit of Muthoot<br />
-              Exim (P) Ltd. (Precious Metals Division) is<br />
-              a venture of the Muthoot Pappachan<br />
-              Group. It is the first National level<br />
-              organised sector venture to get into<br />
-              recycling of Gold.
+              {footerSettings?.footerDescription ? (
+                <span style={{ whiteSpace: 'pre-line' }}>{footerSettings.footerDescription}</span>
+              ) : (
+                <>
+                  Muthoot Gold Point, a unit of Muthoot<br />
+                  Exim (P) Ltd. (Precious Metals Division) is<br />
+                  a venture of the Muthoot Pappachan<br />
+                  Group. It is the first National level<br />
+                  organised sector venture to get into<br />
+                  recycling of Gold.
+                </>
+              )}
             </p>
           </div>
 
           {/* Col 3: Quick Links (col 2 left empty to stay aligned with the bottom bar) */}
           <div className="footer-col quick-links-col">
-            <h4 className="footer-col-title quick-links-title">Quick Links</h4>
+            <h4 className="footer-col-title quick-links-title">{footerSettings?.quickLinksHeading || 'Quick Links'}</h4>
             <div className="quick-links-subgrid">
               <ul className="footer-links-list">
                 {quickLinksCol1.map((link) => renderQuickLinkItem(link))}
@@ -194,10 +200,13 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
         <div className="footer-middle-bar">
           <div className="container middle-bar-container">
             <div className="legal-text-string">
-              CIN: U51909KL1998PTC012492 | GST Number: 32AACCM4564E1ZS | Contact ID: <a href="mailto:info@muthootexim.com" className="legal-contact-link">info@muthootexim.com</a>
+              {footerSettings?.legalText || 'CIN: U51909KL1998PTC012492 | GST Number: 32AACCM4564E1ZS | Contact ID: '}{' '}
+              <a href={`mailto:${footerSettings?.legalEmail || 'info@muthootexim.com'}`} className="legal-contact-link">
+                {footerSettings?.legalEmail || 'info@muthootexim.com'}
+              </a>
             </div>
             <div className="middle-bar-right">
-              <WebsiteDropdown />
+              <WebsiteDropdown options={footerSettings?.otherWebsites} label={footerSettings?.otherWebsitesLabel} />
             </div>
           </div>
         </div>
@@ -207,8 +216,8 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
 
           {/* Col 1: Toll Free */}
           <div className="footer-col bottom-col-toll-free">
-            <h4 className="bottom-col-title">Our Toll Free Number</h4>
-            <p className="toll-free-desc">Call our toll-free number and talk to a customer care representative.</p>
+            <h4 className="bottom-col-title">{footerSettings?.tollFreeHeading || 'Our Toll Free Number'}</h4>
+            <p className="toll-free-desc">{footerSettings?.tollFreeDescription || 'Call our toll-free number and talk to a customer care representative.'}</p>
             <a href={`tel:${(footerSettings?.tollFreeNumber || '1800 102 1616').replace(/\s+/g, '')}`} className="toll-free-number" style={{ textDecoration: 'none' }}>
               {footerSettings?.tollFreeNumber || '1800 102 1616'}
             </a>
@@ -217,7 +226,7 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
           {/* Col 2: Registered Office */}
           <div className="footer-col bottom-col-office">
             <div className="office-content">
-              <h4 className="bottom-col-title">Registered Office</h4>
+              <h4 className="bottom-col-title">{footerSettings?.officeHeading || 'Registered Office'}</h4>
               <p className="office-address">
                 {footerSettings?.officeAddress ? (
                   <span style={{ whiteSpace: 'pre-line' }}>{footerSettings.officeAddress}</span>
@@ -237,7 +246,7 @@ export default function FooterClient({ footerSettings }: FooterClientProps) {
           {/* Col 3: Socials & Copyright */}
           <div className="footer-col bottom-col-socials">
             <div className="socials-header-wrap">
-              <h4 className="bottom-col-title">Follow Us On</h4>
+              <h4 className="bottom-col-title">{footerSettings?.socialsHeading || 'Follow Us On'}</h4>
               <div className="social-row">
                 <a href={footerSettings?.facebookUrl || "https://www.facebook.com/MGoldPoint/"} target="_blank" rel="noopener noreferrer" className="social-circle" aria-label="Facebook">
                   <svg width="28" height="28" viewBox="0 0 24 24">

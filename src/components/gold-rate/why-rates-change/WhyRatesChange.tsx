@@ -63,9 +63,31 @@ const REASONS = [
   },
 ];
 
-export default function WhyRatesChange({ sectionImage }: { sectionImage?: string }) {
+interface WhyRatesChangeProps {
+  sectionImage?: string;
+  title?: string;
+  titleHighlight?: string;
+  titleSuffix?: string;
+  reasons?: { title: string; desc: string }[];
+}
+
+export default function WhyRatesChange({
+  sectionImage,
+  title,
+  titleHighlight,
+  titleSuffix,
+  reasons,
+}: WhyRatesChangeProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const animatedRef = useRef(false);
+
+  const displayReasons = reasons && reasons.length > 0
+    ? reasons.map((r, idx) => ({
+        title: r.title,
+        desc: r.desc,
+        icon: REASONS[idx % REASONS.length]?.icon || REASONS[0].icon,
+      }))
+    : REASONS;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -136,11 +158,11 @@ export default function WhyRatesChange({ sectionImage }: { sectionImage?: string
         <div className="wrc-content-col">
           <div className="wrc-content-inner">
             <h2 className="wrc-title">
-              Why <span className="wrc-title-gold">Gold Rates</span> Change
+              {title || 'Why'} <span className="wrc-title-gold">{titleHighlight || 'Gold Rates'}</span> {titleSuffix || 'Change'}
             </h2>
 
             <div className="wrc-grid">
-              {REASONS.map((r) => (
+              {displayReasons.map((r) => (
                 <div className="wrc-card" key={r.title}>
                   <span className="wrc-icon-circle">{r.icon}</span>
                   <h3 className="wrc-card-title">{r.title}</h3>

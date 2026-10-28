@@ -50,9 +50,23 @@ interface HeroSliderProps {
   trustBadgePrefix?: string;
   trustBadgeHighlight?: string;
   trustBadgeSuffix?: string;
+  heroArcLabel1?: string;
+  heroArcLabel2?: string;
+  heroArcLabel3?: string;
 }
 
-export default function HeroSlider({ slides, layout = 'full', globalStats, showStats = true, trustBadgePrefix, trustBadgeHighlight, trustBadgeSuffix }: HeroSliderProps) {
+export default function HeroSlider({
+  slides,
+  layout = 'full',
+  globalStats,
+  showStats = true,
+  trustBadgePrefix,
+  trustBadgeHighlight,
+  trustBadgeSuffix,
+  heroArcLabel1,
+  heroArcLabel2,
+  heroArcLabel3,
+}: HeroSliderProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
@@ -131,6 +145,9 @@ export default function HeroSlider({ slides, layout = 'full', globalStats, showS
                   trustBadgePrefix={trustBadgePrefix}
                   trustBadgeHighlight={trustBadgeHighlight}
                   trustBadgeSuffix={trustBadgeSuffix}
+                  heroArcLabel1={heroArcLabel1}
+                  heroArcLabel2={heroArcLabel2}
+                  heroArcLabel3={heroArcLabel3}
                 />
               ) : variant === 'scientific' ? (
                 <HeroSlideTwo

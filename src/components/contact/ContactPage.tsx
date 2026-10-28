@@ -222,13 +222,23 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
 
           <div className="container cp-hero-text-container">
             <h1 className="cp-hero-heading">
-              We’re Just A Message <br />
-              <span className="cp-gold-text">Away.</span>
+              {data?.heroHeading ? (
+                <span dangerouslySetInnerHTML={{ __html: data.heroHeading }} />
+              ) : (
+                <>
+                  We’re Just A Message <br />
+                  <span className="cp-gold-text">Away.</span>
+                </>
+              )}
             </h1>
-            <p className="cp-hero-lead">
-              Have questions or need assistance? <br />
-              We’re here to help you with all your gold selling &amp; <br />
-              valuation needs.
+            <p className="cp-hero-lead" style={{ whiteSpace: 'pre-line' }}>
+              {data?.heroLead || (
+                <>
+                  Have questions or need assistance? <br />
+                  We’re here to help you with all your gold selling &amp; <br />
+                  valuation needs.
+                </>
+              )}
             </p>
           </div>
         </section>
@@ -240,7 +250,9 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
             {/* LEFT / MIDDLE COLUMN: Registered Office & Map */}
             <div className="cp-left-col">
               <h2 className="cp-office-title">
-                Registered <span className="cp-gold-text-dark">Office</span>
+                {data?.officeTitle || (
+                  <>Registered <span className="cp-gold-text-dark">Office</span></>
+                )}
               </h2>
               <div className="cp-office-title-line" />
 
@@ -352,8 +364,8 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                       </svg>
                     </div>
                     <h3 className="cp-success-head">Thank You!</h3>
-                    <p className="cp-success-text">
-                      Thank you for contacting us, we have received your enquiry. Our team will get back to you shortly.
+                    <p className="cp-success-text" style={{ whiteSpace: 'pre-line' }}>
+                      {data?.formSuccessText || 'Thank you for contacting us, we have received your enquiry. Our team will get back to you shortly.'}
                     </p>
                     <button
                       type="button"
@@ -369,7 +381,9 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                   <form className="cp-form" onSubmit={handleSubmit}>
                     <div className="cp-form-head">
                       <h2 className="cp-form-title">
-                        Write <span className="cp-gold-text">to us</span>
+                        {data?.formTitle || (
+                          <>Write <span className="cp-gold-text">to us</span></>
+                        )}
                       </h2>
                       <div className="cp-form-title-line" />
                     </div>
@@ -467,10 +481,14 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                         required
                         className={`cp-select-field ${!formData.service ? 'cp-placeholder-selected' : ''}`}
                       >
-                        <option value="" disabled>Select Service*</option>
-                        {SERVICES.map((s) => (
-                          <option key={s} value={s}>{s}</option>
-                        ))}
+                        <option value="" disabled>{data?.formServicePlaceholder || 'Select Service*'}</option>
+                        {(data?.formServices && data.formServices.length > 0 ? data.formServices : SERVICES).map((s, idx) => {
+                          const val = typeof s === 'string' ? s : s.text;
+                          const key = typeof s === 'string' ? s : (s.id || idx);
+                          return (
+                            <option key={key} value={val}>{val}</option>
+                          );
+                        })}
                       </select>
                       <ChevronDownIcon />
                     </div>
@@ -538,7 +556,7 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        placeholder="Message*"
+                        placeholder={data?.formMessagePlaceholder || 'Message*'}
                         maxLength={500}
                         rows={3}
                         required
@@ -581,7 +599,7 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                       }
                       className="cp-submit-btn"
                     >
-                      <span>{isSubmitting ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Sending... </>) : ('Send Message')}</span>
+                      <span>{isSubmitting ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> {data?.formSendingLabel || 'Sending...'} </>) : (data?.formSubmitLabel || 'Send Message')}</span>
                       <span className="cp-btn-arrow-circle">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="9 18 15 12 9 6" />

@@ -506,10 +506,32 @@ export interface HomepageData {
   locatorHeading?: string;
   locatorHighlight?: string;
   locatorSubtitle?: string;
+  heroArcLabel1?: string;
+  heroArcLabel2?: string;
+  heroArcLabel3?: string;
+  processHeading?: string;
+  processHeadingHighlight?: string;
+  processSubtitle?: string;
+  processStepLabel?: string;
+  diffHeading?: string;
+  diffHeadingHighlight?: string;
+  diffSubtitle?: string;
+  feedbackHeading?: string;
+  vanFeatures?: { id?: number; text: string }[];
+  faqHeading?: string;
+  faqHeadingHighlight?: string;
+  faqReadMoreLabel?: string;
+  faqViewLessLabel?: string;
+  recentPostsHeading?: string;
+  recentPostsHeadingHighlight?: string;
+  recentPostsHeadingSuffix?: string;
+  recentPostsEmptyText?: string;
+  recentPostsReadMoreLabel?: string;
 }
 
 export interface SlideFeature {
   id?: number;
+  order?: number;
   title: string;
   desc?: string;
   tag?: string;
@@ -626,7 +648,7 @@ function getMediaUrl(media: StrapiAny): string | undefined {
 
 export const getHomepageData = cache(async function getHomepageData(): Promise<HomepageData | null> {
   const data = await fetchStrapi<StrapiAny>(
-    '/api/homepage?populate[heroFirstSlideImage]=true&populate[processSectionImage]=true&populate[vanImage]=true&populate[ogImage]=true&populate[homeVideos][populate]=*',
+    '/api/homepage?populate[heroFirstSlideImage]=true&populate[processSectionImage]=true&populate[vanImage]=true&populate[ogImage]=true&populate[homeVideos][populate]=*&populate[vanFeatures][populate]=*',
     { cache: 'no-store' },
     'getHomepageData'
   );
@@ -653,6 +675,27 @@ export const getHomepageData = cache(async function getHomepageData(): Promise<H
     locatorHeading: flat.locatorHeading,
     locatorHighlight: flat.locatorHighlight,
     locatorSubtitle: flat.locatorSubtitle,
+    heroArcLabel1: flat.heroArcLabel1,
+    heroArcLabel2: flat.heroArcLabel2,
+    heroArcLabel3: flat.heroArcLabel3,
+    processHeading: flat.processHeading,
+    processHeadingHighlight: flat.processHeadingHighlight,
+    processSubtitle: flat.processSubtitle,
+    processStepLabel: flat.processStepLabel,
+    diffHeading: flat.diffHeading,
+    diffHeadingHighlight: flat.diffHeadingHighlight,
+    diffSubtitle: flat.diffSubtitle,
+    feedbackHeading: flat.feedbackHeading,
+    vanFeatures: Array.isArray(flat.vanFeatures) ? flat.vanFeatures.map(unwrap) : undefined,
+    faqHeading: flat.faqHeading,
+    faqHeadingHighlight: flat.faqHeadingHighlight,
+    faqReadMoreLabel: flat.faqReadMoreLabel,
+    faqViewLessLabel: flat.faqViewLessLabel,
+    recentPostsHeading: flat.recentPostsHeading,
+    recentPostsHeadingHighlight: flat.recentPostsHeadingHighlight,
+    recentPostsHeadingSuffix: flat.recentPostsHeadingSuffix,
+    recentPostsEmptyText: flat.recentPostsEmptyText,
+    recentPostsReadMoreLabel: flat.recentPostsReadMoreLabel,
     homeVideos: Array.isArray(flat.homeVideos)
       ? flat.homeVideos.map((item: StrapiAny) => ({
         id: item.id,
@@ -1094,7 +1137,14 @@ export interface ContactUsPageData {
   heroLead?: string;
   heroImage?: string;
   formTitle?: string;
-  formServices?: { id: number; text: string }[];
+  officeTitle?: string;
+  formServices?: { id?: number; text: string }[];
+  formServicePlaceholder?: string;
+  formMessagePlaceholder?: string;
+  formSubmitLabel?: string;
+  formSendingLabel?: string;
+  formSuccessText?: string;
+  formResetLabel?: string;
   officeName?: string;
   officeAddress?: string;
   officePhone1?: string;
@@ -1120,7 +1170,14 @@ export const getContactUsPage = cache(async function getContactUsPage(): Promise
     heroLead: flat.heroLead,
     heroImage: getMediaUrl(flat.heroImage),
     formTitle: flat.formTitle,
-    formServices: flat.formServices,
+    officeTitle: flat.officeTitle,
+    formServices: Array.isArray(flat.formServices) ? flat.formServices.map(unwrap) : undefined,
+    formServicePlaceholder: flat.formServicePlaceholder,
+    formMessagePlaceholder: flat.formMessagePlaceholder,
+    formSubmitLabel: flat.formSubmitLabel,
+    formSendingLabel: flat.formSendingLabel,
+    formSuccessText: flat.formSuccessText,
+    formResetLabel: flat.formResetLabel,
     officeName: flat.officeName,
     officeAddress: flat.officeAddress,
     officePhone1: flat.officePhone1,
@@ -1131,8 +1188,10 @@ export const getContactUsPage = cache(async function getContactUsPage(): Promise
     officeMapPopupText: flat.officeMapPopupText,
     seoTitle: flat.seoTitle,
     seoDescription: flat.seoDescription,
+    seoKeywords: flat.seoKeywords,
     ogImage: getMediaUrl(flat.ogImage),
     hideFooter: flat.hideFooter ?? false,
+    hideNavbar: flat.hideNavbar ?? false,
   };
 });
 
@@ -1152,19 +1211,28 @@ export interface FooterSetting {
   presenceHeading?: string;
   presenceStates?: NavItem[];
   footerDescription?: string;
+  quickLinksHeading?: string;
+  legalText?: string;
+  legalEmail?: string;
+  otherWebsitesLabel?: string;
+  otherWebsites?: NavItem[];
+  tollFreeHeading?: string;
+  tollFreeDescription?: string;
+  tollFreeNumber?: string;
+  officeHeading?: string;
+  officeAddress?: string;
+  officeHours?: string;
+  socialsHeading?: string;
   facebookUrl?: string;
   instagramUrl?: string;
   youtubeUrl?: string;
   linkedinUrl?: string;
   twitterUrl?: string;
-  officeAddress?: string;
-  officeHours?: string;
-  tollFreeNumber?: string;
   copyrightText?: string;
 }
 
 export const getFooterSetting = cache(async function getFooterSetting(): Promise<FooterSetting | null> {
-  const data = await fetchStrapi<StrapiAny>('/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*&populate[presenceStates][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFooterSetting');
+  const data = await fetchStrapi<StrapiAny>('/api/footer-setting?populate[quickLinks][populate]=*&populate[legalLinks][populate]=*&populate[presenceStates][populate]=*&populate[otherWebsites][populate]=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getFooterSetting');
   if (!data) return null;
   const flat = unwrap<StrapiAny>(data);
   return {
@@ -1173,14 +1241,23 @@ export const getFooterSetting = cache(async function getFooterSetting(): Promise
     presenceHeading: flat.presenceHeading,
     presenceStates: Array.isArray(flat.presenceStates) ? flat.presenceStates : [],
     footerDescription: flat.footerDescription,
+    quickLinksHeading: flat.quickLinksHeading,
+    legalText: flat.legalText,
+    legalEmail: flat.legalEmail,
+    otherWebsitesLabel: flat.otherWebsitesLabel,
+    otherWebsites: Array.isArray(flat.otherWebsites) ? flat.otherWebsites : [],
+    tollFreeHeading: flat.tollFreeHeading,
+    tollFreeDescription: flat.tollFreeDescription,
+    tollFreeNumber: flat.tollFreeNumber,
+    officeHeading: flat.officeHeading,
+    officeAddress: flat.officeAddress,
+    officeHours: flat.officeHours,
+    socialsHeading: flat.socialsHeading,
     facebookUrl: flat.facebookUrl,
     instagramUrl: flat.instagramUrl,
     youtubeUrl: flat.youtubeUrl,
     linkedinUrl: flat.linkedinUrl,
     twitterUrl: flat.twitterUrl,
-    officeAddress: flat.officeAddress,
-    officeHours: flat.officeHours,
-    tollFreeNumber: flat.tollFreeNumber,
     copyrightText: flat.copyrightText,
   };
 });
@@ -1230,16 +1307,37 @@ export interface GoldRatePageData {
   heroImage?: string;
   whyGoldRateChangesImage?: string;
   faqs?: FAQ[];
+  whyTitle?: string;
+  whyTitleHighlight?: string;
+  whyTitleSuffix?: string;
+  whyReasons?: { id?: number; title: string; desc?: string }[];
+  valuationTitle?: string;
+  valuationTitleHighlight?: string;
+  valuationTitleSuffix?: string;
+  valuationSteps?: { id?: number; title: string; desc?: string }[];
+  valuationProcessImage?: string;
+  ctaTitle?: string;
+  ctaSubtext?: string;
+  ctaPrimaryLabel?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryLink?: string;
+  faqHeading?: string;
+  trustItems?: { id?: number; text: string }[];
 }
 
 export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<GoldRatePageData | null> {
-  const data = await fetchStrapi<StrapiAny>('/api/gold-rate-page?populate=ogImage,faqs,heroImage,whyGoldRateChangesImage', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getGoldRatePage');
+  const data = await fetchStrapi<StrapiAny>(
+    '/api/gold-rate-page?populate[ogImage]=*&populate[faqs]=*&populate[heroImage]=*&populate[whyGoldRateChangesImage]=*&populate[whyReasons]=*&populate[valuationSteps]=*&populate[trustItems]=*&populate[valuationProcessImage]=*',
+    { next: { revalidate: REVALIDATE_INTERVAL } },
+    'getGoldRatePage'
+  );
   if (!data) return null;
   const flat = unwrap<StrapiAny>(data);
   const ogImageRaw = flat.ogImage ? unwrap<StrapiAny>(flat.ogImage) : undefined;
   return {
     seoTitle: flat.seoTitle,
     seoDescription: flat.seoDescription,
+    seoKeywords: flat.seoKeywords,
     ogImage: ogImageRaw?.url ? (resolveMediaUrl(ogImageRaw.url) ?? ogImageRaw.url) : undefined,
     hideFooter: Boolean(flat.hideFooter),
     hideNavbar: Boolean(flat.hideNavbar),
@@ -1248,6 +1346,22 @@ export const getGoldRatePage = cache(async function getGoldRatePage(): Promise<G
     heroImage: getMediaUrl(flat.heroImage),
     whyGoldRateChangesImage: getMediaUrl(flat.whyGoldRateChangesImage),
     faqs: Array.isArray(flat.faqs) ? flat.faqs.map(unwrap) : [],
+    whyTitle: flat.whyTitle,
+    whyTitleHighlight: flat.whyTitleHighlight,
+    whyTitleSuffix: flat.whyTitleSuffix,
+    whyReasons: Array.isArray(flat.whyReasons) ? flat.whyReasons.map(unwrap) : undefined,
+    valuationTitle: flat.valuationTitle,
+    valuationTitleHighlight: flat.valuationTitleHighlight,
+    valuationTitleSuffix: flat.valuationTitleSuffix,
+    valuationSteps: Array.isArray(flat.valuationSteps) ? flat.valuationSteps.map(unwrap) : undefined,
+    valuationProcessImage: getMediaUrl(flat.valuationProcessImage),
+    ctaTitle: flat.ctaTitle,
+    ctaSubtext: flat.ctaSubtext,
+    ctaPrimaryLabel: flat.ctaPrimaryLabel,
+    ctaSecondaryLabel: flat.ctaSecondaryLabel,
+    ctaSecondaryLink: flat.ctaSecondaryLink,
+    faqHeading: flat.faqHeading,
+    trustItems: Array.isArray(flat.trustItems) ? flat.trustItems.map(unwrap) : undefined,
   };
 });
 
@@ -1421,6 +1535,31 @@ export interface SellGoldPageSettings {
   trustBadgePrefix?: string;
   trustBadgeHighlight?: string;
   trustBadgeSuffix?: string;
+  heroTitle?: string;
+  heroTitleHighlight?: string;
+  heroSubtitle?: string;
+  heroBullets?: { id?: number; text: string }[];
+  heroFormTitle?: string;
+  heroFormSubtitle?: string;
+  heroFormSuccessText?: string;
+  heroFormResetLabel?: string;
+  overviewEyebrow?: string;
+  overviewTitle?: string;
+  overviewTitleHighlight?: string;
+  overviewSubtitle?: string;
+  overviewDescription?: string;
+  overviewButtonLabel?: string;
+  overviewButtonLink?: string;
+  overviewTile1?: string;
+  overviewTile2?: string;
+  overviewTile3?: string;
+  overviewTile4?: string;
+  contactTitle?: string;
+  contactTitleHighlight?: string;
+  contactDescription?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  contactSuccessText?: string;
 }
 
 export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
@@ -1438,6 +1577,166 @@ export const getSellGoldPageSettings = cache(async function getSellGoldPageSetti
     trustBadgePrefix: flat.trustBadgePrefix,
     trustBadgeHighlight: flat.trustBadgeHighlight,
     trustBadgeSuffix: flat.trustBadgeSuffix,
+    heroTitle: flat.heroTitle,
+    heroTitleHighlight: flat.heroTitleHighlight,
+    heroSubtitle: flat.heroSubtitle,
+    heroBullets: Array.isArray(flat.heroBullets) ? flat.heroBullets.map(unwrap) : undefined,
+    heroFormTitle: flat.heroFormTitle,
+    heroFormSubtitle: flat.heroFormSubtitle,
+    heroFormSuccessText: flat.heroFormSuccessText,
+    heroFormResetLabel: flat.heroFormResetLabel,
+    overviewEyebrow: flat.overviewEyebrow,
+    overviewTitle: flat.overviewTitle,
+    overviewTitleHighlight: flat.overviewTitleHighlight,
+    overviewSubtitle: flat.overviewSubtitle,
+    overviewDescription: flat.overviewDescription,
+    overviewButtonLabel: flat.overviewButtonLabel,
+    overviewButtonLink: flat.overviewButtonLink,
+    overviewTile1: flat.overviewTile1,
+    overviewTile2: flat.overviewTile2,
+    overviewTile3: flat.overviewTile3,
+    overviewTile4: flat.overviewTile4,
+    contactTitle: flat.contactTitle,
+    contactTitleHighlight: flat.contactTitleHighlight,
+    contactDescription: flat.contactDescription,
+    contactPhone: flat.contactPhone,
+    contactEmail: flat.contactEmail,
+    contactSuccessText: flat.contactSuccessText,
+  };
+});
+
+// --- CONTENT PAGES (Community, Testimonials, Privacy Policy) ---
+
+export interface CommunityPageData {
+  heroEyebrow?: string;
+  heroTitle?: string;
+  heroTitleHighlight?: string;
+  heroBody?: string;
+  heelItems?: { id?: number; text: string }[];
+  heroLogo?: string;
+  roleEyebrow?: string;
+  roleTitle?: string;
+  roleTitleHighlight?: string;
+  roleBody?: string;
+  stakeholdersHeading?: string;
+  stakeholders?: { id?: number; text: string }[];
+  objectivesHeading?: string;
+  objectivesBody?: string;
+  objectives?: { id?: number; text: string }[];
+  sustainabilityEyebrow?: string;
+  sustainabilityTitle?: string;
+  sustainabilityTitleHighlight?: string;
+  sustainabilityBody?: string;
+  sustainabilityAimsHeading?: string;
+  sustainabilityAims?: { id?: number; text: string }[];
+  impactEyebrow?: string;
+  impactTitle?: string;
+  impactTitleHighlight?: string;
+  impactBody?: string;
+  smileBadge?: string;
+  smileTitle?: string;
+  smileBody?: string;
+  smileStats?: { id?: number; number: string; label: string }[];
+  initiativesEyebrow?: string;
+  initiativesTitle?: string;
+  initiativesTitleHighlight?: string;
+  initiativesBody?: string;
+  focusEyebrow?: string;
+  focusTitle?: string;
+  focusTitleHighlight?: string;
+  focusCards?: { id?: number; title: string; desc?: string }[];
+  footballTitle?: string;
+  footballBody?: string;
+  footballLogo?: string;
+  touchingLivesTitle?: string;
+  touchingLivesSubtitle?: string;
+  touchingLivesStats?: { id?: number; number: string; label: string }[];
+  ctaTitle?: string;
+  ctaSubtext?: string;
+  ctaPrimaryLabel?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryLink?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  ogImage?: string;
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
+}
+
+export const getCommunityPage = cache(async function getCommunityPage(): Promise<CommunityPageData | null> {
+  const data = await fetchStrapi<StrapiAny>('/api/community-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getCommunityPage');
+  if (!data) return null;
+  const flat = unwrap<StrapiAny>(data);
+  return {
+    ...flat,
+    ogImage: getMediaUrl(flat.ogImage),
+    heroLogo: getMediaUrl(flat.heroLogo),
+    footballLogo: getMediaUrl(flat.footballLogo),
+  };
+});
+
+export interface TestimonialsPageData {
+  heroEyebrow?: string;
+  heroTitle?: string;
+  heroTitleHighlight?: string;
+  heroDescription?: string;
+  stats?: { id?: number; number: string; label: string }[];
+  gridTitle?: string;
+  gridPretitle?: string;
+  gridSubtitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+  ctaTitle?: string;
+  ctaSubtext?: string;
+  ctaPrimaryLabel?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryLink?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  ogImage?: string;
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
+}
+
+export const getTestimonialsPage = cache(async function getTestimonialsPage(): Promise<TestimonialsPageData | null> {
+  const data = await fetchStrapi<StrapiAny>('/api/testimonials-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getTestimonialsPage');
+  if (!data) return null;
+  const flat = unwrap<StrapiAny>(data);
+  return {
+    ...flat,
+    ogImage: getMediaUrl(flat.ogImage),
+  };
+});
+
+export interface PrivacyPolicyPageData {
+  breadcrumbLabel?: string;
+  heroTitle?: string;
+  heroTitleHighlight?: string;
+  heroSubtitle?: string;
+  body?: string;
+  contactHeading?: string;
+  contactIntro?: string;
+  contactName?: string;
+  contactAddress?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  ogImage?: string;
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
+}
+
+export const getPrivacyPolicyPage = cache(async function getPrivacyPolicyPage(): Promise<PrivacyPolicyPageData | null> {
+  const data = await fetchStrapi<StrapiAny>('/api/privacy-policy-page?populate=*', { next: { revalidate: REVALIDATE_INTERVAL } }, 'getPrivacyPolicyPage');
+  if (!data) return null;
+  const flat = unwrap<StrapiAny>(data);
+  return {
+    ...flat,
+    ogImage: getMediaUrl(flat.ogImage),
   };
 });
 

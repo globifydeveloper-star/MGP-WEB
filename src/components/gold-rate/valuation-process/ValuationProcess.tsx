@@ -64,12 +64,31 @@ const STEPS = [
 
 interface ValuationProcessProps {
   sectionImage?: string;
+  title?: string;
+  titleHighlight?: string;
+  titleSuffix?: string;
+  steps?: { title: string; desc: string }[];
 }
 
-export default function ValuationProcess({ sectionImage }: ValuationProcessProps) {
+export default function ValuationProcess({
+  sectionImage,
+  title,
+  titleHighlight,
+  titleSuffix,
+  steps,
+}: ValuationProcessProps) {
   const imageSrc = sectionImage || DEFAULT_VALUE_GOLD_IMAGE;
   const sectionRef = useRef<HTMLDivElement>(null);
   const animatedRef = useRef(false);
+
+  const displaySteps = steps && steps.length > 0
+    ? steps.map((s, idx) => ({
+        num: String(idx + 1).padStart(2, '0'),
+        title: s.title,
+        desc: s.desc,
+        icon: STEPS[idx % STEPS.length]?.icon || STEPS[0].icon,
+      }))
+    : STEPS;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -162,12 +181,12 @@ export default function ValuationProcess({ sectionImage }: ValuationProcessProps
         <div className="vp-left">
           <div className="vp-left-inner">
             <h2 className="vp-title">
-              How We <span className="vp-title-gold">Value</span> Your Gold
+              {title || 'How We'} <span className="vp-title-gold">{titleHighlight || 'Value'}</span> {titleSuffix || 'Your Gold'}
             </h2>
 
             <div className="vp-steps">
               <div className="vp-steps-line" aria-hidden="true" />
-              {STEPS.map((step) => (
+              {displaySteps.map((step) => (
                 <div className="vp-step" key={step.num}>
                   <div className="vp-step-circle">{step.icon}</div>
                   <div className="vp-step-text">

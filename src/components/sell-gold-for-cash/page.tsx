@@ -34,6 +34,14 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows, page
           trustBadgePrefix={pageSettings?.trustBadgePrefix}
           trustBadgeHighlight={pageSettings?.trustBadgeHighlight}
           trustBadgeSuffix={pageSettings?.trustBadgeSuffix}
+          heroTitle={pageSettings?.heroTitle}
+          heroTitleHighlight={pageSettings?.heroTitleHighlight}
+          heroSubtitle={pageSettings?.heroSubtitle}
+          heroBullets={pageSettings?.heroBullets}
+          heroFormTitle={pageSettings?.heroFormTitle}
+          heroFormSubtitle={pageSettings?.heroFormSubtitle}
+          heroFormSuccessText={pageSettings?.heroFormSuccessText}
+          heroFormResetLabel={pageSettings?.heroFormResetLabel}
         />
 
         {/* Gold Selling Process Section */}
@@ -43,13 +51,34 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows, page
         <GoldSellComparison rows={comparisonRows} ctaHref="#sell-gold-contact" />
 
         {/* Sell Your Gold, Get Cash Instantly Overview */}
-        <GoldSellOverview overviewImage1={pageSettings?.overviewImage1} overviewImage2={pageSettings?.overviewImage2} />
+        <GoldSellOverview
+          overviewEyebrow={pageSettings?.overviewEyebrow}
+          overviewTitle={pageSettings?.overviewTitle}
+          overviewTitleHighlight={pageSettings?.overviewTitleHighlight}
+          overviewSubtitle={pageSettings?.overviewSubtitle}
+          overviewDescription={pageSettings?.overviewDescription}
+          overviewButtonLabel={pageSettings?.overviewButtonLabel}
+          overviewButtonLink={pageSettings?.overviewButtonLink}
+          overviewTile1Text={pageSettings?.overviewTile1Text}
+          overviewTile2Text={pageSettings?.overviewTile2Text}
+          overviewTile3Text={pageSettings?.overviewTile3Text}
+          overviewTile4Text={pageSettings?.overviewTile4Text}
+          overviewImage1={pageSettings?.overviewImage1}
+          overviewImage2={pageSettings?.overviewImage2}
+        />
 
         {/* About Muthoot Gold Point */}
         <AboutHero onExploreClick={() => scrollToSection('sell-gold-form')} headingLevel="h2" />
 
         {/* Get in Touch */}
-        <GoldSellContact />
+        <GoldSellContact
+          contactTitle={pageSettings?.contactTitle}
+          contactTitleHighlight={pageSettings?.contactTitleHighlight}
+          contactDescription={pageSettings?.contactDescription}
+          contactPhone={pageSettings?.contactPhone}
+          contactEmail={pageSettings?.contactEmail}
+          contactSuccessText={pageSettings?.contactSuccessText}
+        />
 
       </main>
 

@@ -34,6 +34,9 @@ interface HeroProps {
   trustBadgePrefix?: string;
   trustBadgeHighlight?: string;
   trustBadgeSuffix?: string;
+  heroArcLabel1?: string;
+  heroArcLabel2?: string;
+  heroArcLabel3?: string;
 }
 
 export default function Hero({
@@ -45,6 +48,9 @@ export default function Hero({
   trustBadgePrefix,
   trustBadgeHighlight,
   trustBadgeSuffix,
+  heroArcLabel1,
+  heroArcLabel2,
+  heroArcLabel3,
 }: HeroProps) {
   return (
     <section
@@ -129,7 +135,13 @@ export default function Hero({
 
           <HeroModelPhoto imageSrc={imageSrc} mediaType={mediaType} isFirstSlide={isFirstSlide} />
           {SHOW_GOLD_RATE_CARD && <HeroGoldRateCard />}
-          {isFirstSlide && <HeroCurve />}
+          {isFirstSlide && (
+            <HeroCurve
+              label1={heroArcLabel1}
+              label2={heroArcLabel2}
+              label3={heroArcLabel3}
+            />
+          )}
 
         </div>
       </div>

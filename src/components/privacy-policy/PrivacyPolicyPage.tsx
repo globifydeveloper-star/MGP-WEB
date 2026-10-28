@@ -2,9 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 import './PrivacyPolicyPage.css';
+import type { PrivacyPolicyPageData } from '@/lib/strapi';
 
-export default function PrivacyPolicyPage() {
+export default function PrivacyPolicyPage({ data }: { data?: PrivacyPolicyPageData | null }) {
   return (
     <div className="privacy-page-root">
       {/* Hero Header */}
@@ -16,10 +18,17 @@ export default function PrivacyPolicyPage() {
             <span>Privacy Policy</span>
           </nav>
           <h1 className="privacy-hero-title">
-            Privacy <span>Policy</span>
+            {data?.heroTitle ? (
+              <>
+                {data.heroTitle}{' '}
+                {data.heroTitleHighlight ? <span>{data.heroTitleHighlight}</span> : null}
+              </>
+            ) : (
+              <>Privacy <span>Policy</span></>
+            )}
           </h1>
           <p className="privacy-hero-subtitle">
-            Understand how Muthoot Gold Point collects, uses, protects, and handles your personal information.
+            {data?.heroSubtitle || 'Understand how Muthoot Gold Point collects, uses, protects, and handles your personal information.'}
           </p>
         </div>
       </section>
@@ -27,6 +36,12 @@ export default function PrivacyPolicyPage() {
       {/* Policy Content */}
       <div className="privacy-content-wrapper">
         <article className="privacy-card">
+          {data?.body ? (
+            <div className="privacy-section" style={{ lineHeight: '1.8' }}>
+              <ReactMarkdown>{data.body}</ReactMarkdown>
+            </div>
+          ) : (
+            <>
           <div className="privacy-section">
             <h2 className="privacy-section-title">What information do we collect?</h2>
             <p className="privacy-text">
@@ -132,7 +147,9 @@ export default function PrivacyPolicyPage() {
               </div>
             </div>
           </div>
-        </article>
+        </>
+      )}
+    </article>
       </div>
     </div>
   );
