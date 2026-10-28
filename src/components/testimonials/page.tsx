@@ -16,21 +16,33 @@ export default function TestimonialsPage({ data }: { data?: TestimonialsPageData
     <>
       <main>
         <TestimonialsHero
-          title={data?.heroTitle}
-          subtitle={data?.heroSubtitle}
+          title={
+            data?.heroTitle
+              ? data.heroTitleHighlight
+                ? `${data.heroTitle} <span class="gold-text">${data.heroTitleHighlight}</span>`
+                : data.heroTitle
+              : undefined
+          }
+          subtitle={data?.heroEyebrow || data?.heroSubtitle}
           description={data?.heroDescription}
         />
 
-        <StatsStrip />
+        <StatsStrip stats={data?.stats} />
 
-        <TestimonialsGrid />
+        <TestimonialsGrid
+          title={data?.gridTitle}
+          pretitle={data?.gridPretitle}
+          subtitle={data?.gridSubtitle}
+          readMoreLabel={data?.readMoreLabel}
+          readLessLabel={data?.readLessLabel}
+        />
 
         <TestimonialsCTA
           onSellGoldClick={() => setIsSellGoldOpen(true)}
           title={data?.ctaTitle}
-          subtitle={data?.ctaSubtitle}
-          buttonText={data?.ctaButtonText}
-          buttonLink={data?.ctaButtonLink}
+          subtitle={data?.ctaSubtext || data?.ctaSubtitle}
+          buttonText={data?.ctaPrimaryLabel || data?.ctaButtonText}
+          buttonLink={data?.ctaSecondaryLink || data?.ctaButtonLink}
         />
       </main>
 

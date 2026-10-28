@@ -146,18 +146,18 @@ function CheckIcon() {
 
 export default function CommunityPage({ data }: { data?: CommunityPageData | null }) {
   const displayInitiatives = INITIATIVES.map((item) => {
-    if (item.id === 'smile' && (data?.smileTitle || data?.smileDescription)) {
+    if (item.id === 'smile' && (data?.smileTitle || data?.smileDescription || data?.smileBody)) {
       return {
         ...item,
         title: data.smileTitle || item.title,
-        paragraphs: data.smileDescription ? [data.smileDescription] : item.paragraphs,
+        paragraphs: (data.smileDescription || data.smileBody) ? [data.smileDescription || data.smileBody || ''] : item.paragraphs,
       };
     }
-    if (item.id === 'football' && (data?.footballTitle || data?.footballDescription)) {
+    if (item.id === 'football' && (data?.footballTitle || data?.footballDescription || data?.footballBody)) {
       return {
         ...item,
         title: data.footballTitle || item.title,
-        paragraphs: data.footballDescription ? [data.footballDescription] : item.paragraphs,
+        paragraphs: (data.footballDescription || data.footballBody) ? [data.footballDescription || data.footballBody || ''] : item.paragraphs,
       };
     }
     if (item.id === 'volleyball' && (data?.volleyballTitle || data?.volleyballDescription)) {
@@ -170,6 +170,25 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
     return item;
   });
 
+  const stakeholders = data?.stakeholders && data.stakeholders.length > 0
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? data.stakeholders.map((s: any) => (typeof s === 'string' ? s : s.text))
+    : STAKEHOLDERS;
+
+  const sustainabilityAims = data?.sustainabilityAims && data.sustainabilityAims.length > 0
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? data.sustainabilityAims.map((s: any) => (typeof s === 'string' ? s : s.text))
+    : SUSTAINABILITY_AIMS;
+
+  const smileStats = data?.smileStats && data.smileStats.length > 0
+    ? data.smileStats.map((s) => ({ value: s.number, label: s.label }))
+    : SMILE_STATS;
+
+  const jeevanAims = data?.jeevanAims && data.jeevanAims.length > 0
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? data.jeevanAims.map((s: any) => (typeof s === 'string' ? s : s.text))
+    : JEEVAN_JYOTHI_AIMS;
+
   return (
     <main className="community-page">
       {/* Hero */}
@@ -177,16 +196,20 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
         <div className="container">
           <div className="community-hero-grid">
             <div className="community-hero-content">
-              <span className="community-eyebrow">Muthoot Pappachan Foundation</span>
+              <span className="community-eyebrow">{data?.heroEyebrow || 'Muthoot Pappachan Foundation'}</span>
               <h1 className="community-hero-title">
                 {data?.heroTitle ? (
-                  <span dangerouslySetInnerHTML={{ __html: data.heroTitle }} />
+                  data.heroTitleHighlight ? (
+                    <>{data.heroTitle} <span className="gold-text">{data.heroTitleHighlight}</span></>
+                  ) : (
+                    <span dangerouslySetInnerHTML={{ __html: data.heroTitle }} />
+                  )
                 ) : (
                   <>Committed to the <span className="gold-text">Community</span></>
                 )}
               </h1>
               <p className="community-text" style={{ whiteSpace: 'pre-line' }}>
-                {data?.heroSubtitle || 'Armed with a commitment to society, the Muthoot Pappachan Foundation (MPF), a Public Charitable Trust — the CSR arm of Muthoot Pappachan Group (MPG) — was formed and has touched thousands of lives through its diverse programs. It tackles issues affecting the communities in which its businesses operate.'}
+                {data?.heroSubtitle || data?.heroBody || 'Armed with a commitment to society, the Muthoot Pappachan Foundation (MPF), a Public Charitable Trust — the CSR arm of Muthoot Pappachan Group (MPG) — was formed and has touched thousands of lives through its diverse programs. It tackles issues affecting the communities in which its businesses operate.'}
               </p>
               <p className="community-text">
                 Our primary aim is to build a portfolio of CSR activities that are in line with our core strengths as a business and our various business units. Such CSR initiatives of MPG revolve around the theme &lsquo;HEEL&rsquo;, covering Health, Education, Environment and Livelihood.
@@ -202,10 +225,13 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
             </div>
             <div className="community-hero-media community-hero-logo">
               <Image
-                src={muthootLogo}
+                src={data?.heroLogo || muthootLogo}
                 alt="Muthoot Pappachan Group logo"
                 className="community-hero-logo-img"
                 priority
+                width={300}
+                height={200}
+                style={{ objectFit: 'contain' }}
               />
             </div>
           </div>
@@ -216,34 +242,47 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
       <section className="community-section community-section-alt">
         <div className="container">
           <div className="community-header">
-            <span className="community-eyebrow">Our Foundation</span>
+            <span className="community-eyebrow">{data?.roleEyebrow || 'Our Foundation'}</span>
             <h2 className="community-title">
-              {data?.heelTitle ? (
-                <span dangerouslySetInnerHTML={{ __html: data.heelTitle }} />
+              {data?.heelTitle || data?.roleTitle ? (
+                data.roleTitleHighlight ? (
+                  <>{data.roleTitle || data.heelTitle} <span className="gold-text">{data.roleTitleHighlight}</span></>
+                ) : (
+                  <span dangerouslySetInnerHTML={{ __html: data.heelTitle || data.roleTitle || '' }} />
+                )
               ) : (
                 <>Role of <span className="gold-text">Muthoot Pappachan Foundation</span></>
               )}
             </h2>
             <p className="community-text" style={{ whiteSpace: 'pre-line' }}>
-              {data?.heelDescription || 'Muthoot Pappachan Foundation spearheads the planning and execution of CSR initiatives aligned with organisational objectives, driving impactful programs across various Group companies. The core aim of the Foundation is to facilitate all the CSR activities and programmes of the entire Group, which are bound by the theme HEEL — Health, Education, Environment and Livelihood. MPF facilitates company-level and Group-level CSR activities adhering to this theme for the following stakeholders:'}
+              {data?.heelDescription || data?.roleBody || 'Muthoot Pappachan Foundation spearheads the planning and execution of CSR initiatives aligned with organisational objectives, driving impactful programs across various Group companies. The core aim of the Foundation is to facilitate all the CSR activities and programmes of the entire Group, which are bound by the theme HEEL — Health, Education, Environment and Livelihood. MPF facilitates company-level and Group-level CSR activities adhering to this theme for the following stakeholders:'}
             </p>
           </div>
 
-          <h3 className="community-subheading community-center">Key Values and Vision</h3>
+          <h3 className="community-subheading community-center">{data?.stakeholdersHeading || 'Key Values and Vision'}</h3>
           <ul className="community-chips">
-            {STAKEHOLDERS.map((item) => (
+            {stakeholders.map((item) => (
               <li key={item} className="community-chip">{item}</li>
             ))}
           </ul>
 
           <div className="community-objectives">
-            <h3 className="community-subheading">The CSR Objectives of the Muthoot Pappachan Foundation</h3>
+            <h3 className="community-subheading">{data?.objectivesHeading || 'The CSR Objectives of the Muthoot Pappachan Foundation'}</h3>
             <p className="community-text">
-              With a long-term and futuristic perspective, the entire range of CSR activities undertaken by the various group companies is streamlined through the Foundation — to build a framework of CSR activities with a philanthropic approach in line with business unit objectives, which also benefits the organisation at large.
+              {data?.objectivesBody || 'With a long-term and futuristic perspective, the entire range of CSR activities undertaken by the various group companies is streamlined through the Foundation — to build a framework of CSR activities with a philanthropic approach in line with business unit objectives, which also benefits the organisation at large.'}
             </p>
             <ul className="community-checklist">
-              <li><CheckIcon />Social returns together with financial returns, while imbibing the organisation&apos;s ethos and value systems.</li>
-              <li><CheckIcon />Build sustainability for the organisation by &lsquo;Engaging the Community&rsquo;.</li>
+              {data?.objectives && data.objectives.length > 0 ? (
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                data.objectives.map((obj: any, idx: number) => (
+                  <li key={idx}><CheckIcon />{typeof obj === 'string' ? obj : obj.text}</li>
+                ))
+              ) : (
+                <>
+                  <li><CheckIcon />Social returns together with financial returns, while imbibing the organisation&apos;s ethos and value systems.</li>
+                  <li><CheckIcon />Build sustainability for the organisation by &lsquo;Engaging the Community&rsquo;.</li>
+                </>
+              )}
             </ul>
           </div>
         </div>
@@ -254,18 +293,26 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
         <div className="container">
           <div className="community-split">
             <div>
-              <span className="community-eyebrow">Sustainability</span>
+              <span className="community-eyebrow">{data?.sustainabilityEyebrow || 'Sustainability'}</span>
               <h2 className="community-title">
-                Understanding our Mission of <span className="gold-text">Sustainability</span>
+                {data?.sustainabilityTitle ? (
+                  data.sustainabilityTitleHighlight ? (
+                    <>{data.sustainabilityTitle} <span className="gold-text">{data.sustainabilityTitleHighlight}</span></>
+                  ) : (
+                    <span dangerouslySetInnerHTML={{ __html: data.sustainabilityTitle }} />
+                  )
+                ) : (
+                  <>Understanding our Mission of <span className="gold-text">Sustainability</span></>
+                )}
               </h2>
-              <p className="community-text">
-                Under the sustainability mission, MPF partners with projects to ensure long-term sustainability. We plan and implement strategic CSR initiatives that are a blend of philanthropy and business, looking for the combined social and economic benefit of all stakeholders.
+              <p className="community-text" style={{ whiteSpace: 'pre-line' }}>
+                {data?.sustainabilityBody || 'Under the sustainability mission, MPF partners with projects to ensure long-term sustainability. We plan and implement strategic CSR initiatives that are a blend of philanthropy and business, looking for the combined social and economic benefit of all stakeholders.'}
               </p>
             </div>
             <div className="community-card">
-              <h3 className="community-subheading">With our sustainability mission, we aim to:</h3>
+              <h3 className="community-subheading">{data?.sustainabilityAimsHeading || 'With our sustainability mission, we aim to:'}</h3>
               <ul className="community-checklist">
-                {SUSTAINABILITY_AIMS.map((item) => (
+                {sustainabilityAims.map((item) => (
                   <li key={item}><CheckIcon />{item}</li>
                 ))}
               </ul>
@@ -279,28 +326,36 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
         <div className="bg-overlay" />
         <div className="container">
           <div className="community-header">
-            <span className="community-eyebrow">Reach &amp; Impact</span>
+            <span className="community-eyebrow">{data?.impactEyebrow || 'Reach & Impact'}</span>
             <h2 className="community-title community-title-light">
-              The Reach &amp; Impact of Our <span className="gold-text">CSR Activities</span>
+              {data?.impactTitle ? (
+                data.impactTitleHighlight ? (
+                  <>{data.impactTitle} <span className="gold-text">{data.impactTitleHighlight}</span></>
+                ) : (
+                  <span dangerouslySetInnerHTML={{ __html: data.impactTitle }} />
+                )
+              ) : (
+                <>The Reach &amp; Impact of Our <span className="gold-text">CSR Activities</span></>
+              )}
             </h2>
-            <p className="community-text community-text-light">
-              Muthoot Blue is at the forefront of promoting CSR activities through its various branches and companies. We are actively involved in engaging with the underprivileged groups and marginalised sections of society through intelligently conceived and executed programmes. The benefits received by our stakeholders encourage us to continue our long-term focus on, and support in, the areas of health, education and livelihood. Our focus is on empowerment, which has had an indelible impact on the communities as a whole.
+            <p className="community-text community-text-light" style={{ whiteSpace: 'pre-line' }}>
+              {data?.impactBody || 'Muthoot Blue is at the forefront of promoting CSR activities through its various branches and companies. We are actively involved in engaging with the underprivileged groups and marginalised sections of society through intelligently conceived and executed programmes. The benefits received by our stakeholders encourage us to continue our long-term focus on, and support in, the areas of health, education and livelihood. Our focus is on empowerment, which has had an indelible impact on the communities as a whole.'}
             </p>
           </div>
 
           <div className="community-smile">
             <div className="community-smile-content">
-              <span className="community-badge">Among India&apos;s 11 best CSR projects — MCA</span>
-              <h3 className="community-subheading community-subheading-light">Smile Mission</h3>
-              <p className="community-text community-text-light">
-                The Muthoot Pappachan Foundation&apos;s &ldquo;Smile Please&rdquo; initiative supports children from lower socio-economic backgrounds with congenital cleft lip/palate by providing free surgeries, comprehensive care including speech therapy, and raising awareness about the condition. This project is executed in partnership with the medical charity organisation &ldquo;Mission Smile&rdquo;, a pioneer in the country&apos;s cleft lip space.
+              <span className="community-badge">{data?.smileBadge || "Among India's 11 best CSR projects — MCA"}</span>
+              <h3 className="community-subheading community-subheading-light">{data?.smileTitle || 'Smile Mission'}</h3>
+              <p className="community-text community-text-light" style={{ whiteSpace: 'pre-line' }}>
+                {data?.smileBody || data?.smileDescription || "The Muthoot Pappachan Foundation's \u201cSmile Please\u201d initiative supports children from lower socio-economic backgrounds with congenital cleft lip/palate by providing free surgeries, comprehensive care including speech therapy, and raising awareness about the condition. This project is executed in partnership with the medical charity organisation \u201cMission Smile\u201d, a pioneer in the country's cleft lip space."}
               </p>
               <p className="community-text community-text-light">
                 The &lsquo;Smile Please&rsquo; mission was implemented across the country and has been acknowledged by IICA / Ministry of Corporate Affairs as one among the 11 best CSR initiatives of India.
               </p>
             </div>
             <div className="community-stats">
-              {SMILE_STATS.map((stat) => (
+              {smileStats.map((stat) => (
                 <div key={stat.label} className="community-stat">
                   <span className="community-stat-value gold-text">{stat.value}</span>
                   <span className="community-stat-label">{stat.label}</span>
@@ -315,9 +370,17 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
       <section className="community-section">
         <div className="container">
           <div className="community-header">
-            <span className="community-eyebrow">Our Initiatives</span>
+            <span className="community-eyebrow">{data?.initiativesEyebrow || 'Our Initiatives'}</span>
             <h2 className="community-title">
-              Programs That <span className="gold-text">Change Lives</span>
+              {data?.initiativesTitle ? (
+                data.initiativesTitleHighlight ? (
+                  <>{data.initiativesTitle} <span className="gold-text">{data.initiativesTitleHighlight}</span></>
+                ) : (
+                  <span dangerouslySetInnerHTML={{ __html: data.initiativesTitle }} />
+                )
+              ) : (
+                <>Programs That <span className="gold-text">Change Lives</span></>
+              )}
             </h2>
           </div>
 
@@ -376,18 +439,26 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
         <div className="container">
           <div className="community-split">
             <div>
-              <span className="community-eyebrow">MELP Initiatives</span>
+              <span className="community-eyebrow">{data?.jeevanEyebrow || 'MELP Initiatives'}</span>
               <h2 className="community-title">
-                Jeevan Jyothi: <span className="gold-text">Providing More Light to Lives</span>
+                {data?.jeevanTitle ? (
+                  data.jeevanTitleHighlight ? (
+                    <>{data.jeevanTitle} <span className="gold-text">{data.jeevanTitleHighlight}</span></>
+                  ) : (
+                    <span dangerouslySetInnerHTML={{ __html: data.jeevanTitle }} />
+                  )
+                ) : (
+                  <>Jeevan Jyothi: <span className="gold-text">Providing More Light to Lives</span></>
+                )}
               </h2>
-              <p className="community-text">
-                MPF supports Jeevan Jyothi, a charitable foundation working in the red-light district of Budhwar Peth in Pune. Through this, we help provide a &lsquo;safe home&rsquo; for the children of women in prostitution and help them realise that there is more to life than what they perceive. We believe that educating neglected community children and giving them a safe environment will help them come out of the vicious circles they are trapped in.
+              <p className="community-text" style={{ whiteSpace: 'pre-line' }}>
+                {data?.jeevanBody || 'MPF supports Jeevan Jyothi, a charitable foundation working in the red-light district of Budhwar Peth in Pune. Through this, we help provide a \u2018safe home\u2019 for the children of women in prostitution and help them realise that there is more to life than what they perceive. We believe that educating neglected community children and giving them a safe environment will help them come out of the vicious circles they are trapped in.'}
               </p>
             </div>
             <div className="community-card">
-              <h3 className="community-subheading">Through Jeevan Jyothi, we aim to:</h3>
+              <h3 className="community-subheading">{data?.jeevanAimsHeading || 'Through Jeevan Jyothi, we aim to:'}</h3>
               <ul className="community-checklist">
-                {JEEVAN_JYOTHI_AIMS.map((item) => (
+                {jeevanAims.map((item) => (
                   <li key={item}><CheckIcon />{item}</li>
                 ))}
               </ul>
@@ -402,9 +473,9 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
           <article className="community-initiative">
             <div className="community-initiative-content">
               <span className="community-tag">Sports</span>
-              <h3 className="community-initiative-title">Muthoot Football Academy</h3>
-              <p className="community-text">
-                The Muthoot Football Academy, a flagship initiative of the Muthoot Pappachan Foundation&apos;s sports division, aims to identify and train young football talents to become future stars. With a curriculum designed by international coaches, the Academy focuses on grassroots talent from districts where football is popular, conducting talent hunts in Kozhikode, Kochi, and Thiruvananthapuram.
+              <h3 className="community-initiative-title">{data?.footballTitle || 'Muthoot Football Academy'}</h3>
+              <p className="community-text" style={{ whiteSpace: 'pre-line' }}>
+                {data?.footballBody || data?.footballDescription || "The Muthoot Football Academy, a flagship initiative of the Muthoot Pappachan Foundation's sports division, aims to identify and train young football talents to become future stars. With a curriculum designed by international coaches, the Academy focuses on grassroots talent from districts where football is popular, conducting talent hunts in Kozhikode, Kochi, and Thiruvananthapuram."}
               </p>
               <p className="community-text">
                 Forty-two selected talents receive comprehensive training, high-quality education, nutrition, healthcare, life skills, and career training. The Academy, a full-fledged residential facility near several schools, offers scholarships covering all expenses, including schooling, food, medical insurance, and accommodation. Students also benefit from physiotherapy services and participate in competitive matches and tournaments to hone their skills.
@@ -421,10 +492,14 @@ export default function CommunityPage({ data }: { data?: CommunityPageData | nul
           </article>
 
           <div className="community-conclusion">
-            <p>
-              Muthoot Exim, the <strong>precious metal vertical of the Muthoot Pappachan Group</strong>, specialises in innovative products and offerings in the precious metal space. Customers have access to quality products that meet the highest standards, at an affordable price. For more details on the Muthoot Pappachan Group, visit{' '}
-              <a href="https://www.muthoot.com" target="_blank" rel="noopener noreferrer">www.muthoot.com</a>.
-            </p>
+            {data?.conclusion ? (
+              <div dangerouslySetInnerHTML={{ __html: data.conclusion }} />
+            ) : (
+              <p>
+                Muthoot Exim, the <strong>precious metal vertical of the Muthoot Pappachan Group</strong>, specialises in innovative products and offerings in the precious metal space. Customers have access to quality products that meet the highest standards, at an affordable price. For more details on the Muthoot Pappachan Group, visit{' '}
+                <a href="https://www.muthoot.com" target="_blank" rel="noopener noreferrer">www.muthoot.com</a>.
+              </p>
+            )}
           </div>
         </div>
       </section>

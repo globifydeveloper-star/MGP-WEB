@@ -8,12 +8,20 @@ const STATS = [
   { value: '100%', label: 'Transparent Valuation' },
 ];
 
-export default function StatsStrip() {
+interface StatsStripProps {
+  stats?: { id?: number; number: string; label: string }[];
+}
+
+export default function StatsStrip({ stats }: StatsStripProps) {
+  const displayStats = stats && stats.length > 0
+    ? stats.map((s) => ({ value: s.number, label: s.label }))
+    : STATS;
+
   return (
     <section className="testimonials-stats-section">
       <div className="container">
         <div className="testimonials-stats-grid">
-          {STATS.map((stat) => (
+          {displayStats.map((stat) => (
             <div className="testimonials-stat-item" key={stat.label}>
               <span className="testimonials-stat-value">{stat.value}</span>
               <span className="testimonials-stat-label">{stat.label}</span>

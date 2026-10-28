@@ -19,7 +19,21 @@ const StarIcon = () => (
   </svg>
 );
 
-export default function TestimonialsGrid() {
+interface TestimonialsGridProps {
+  title?: string;
+  pretitle?: string;
+  subtitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
+export default function TestimonialsGrid({
+  title,
+  pretitle,
+  subtitle,
+  readMoreLabel,
+  readLessLabel,
+}: TestimonialsGridProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   const toggleExpanded = (name: string) => {
@@ -38,10 +52,10 @@ export default function TestimonialsGrid() {
     <section className="testimonials-grid-section">
       <div className="container">
         <div className="testimonials-grid-header">
-          <h2 className="testimonials-grid-title">Feedback about Gold Point</h2>
-          <h3 className="testimonials-grid-pretitle">What do our customers say about us?</h3>
+          <h2 className="testimonials-grid-title">{title || 'Feedback about Gold Point'}</h2>
+          <h3 className="testimonials-grid-pretitle">{pretitle || 'What do our customers say about us?'}</h3>
           <p className="testimonials-grid-subtitle">
-            We are a dedicated gold buying company &ndash; Built on science, not guesswork.
+            {subtitle || 'We are a dedicated gold buying company – Built on science, not guesswork.'}
           </p>
           <div className="testimonials-grid-divider" />
         </div>
@@ -102,7 +116,7 @@ export default function TestimonialsGrid() {
                     className="testimonials-readmore-btn"
                     onClick={() => toggleExpanded(review.name)}
                   >
-                    {isExpanded ? 'Read Less' : 'Read More'}
+                    {isExpanded ? (readLessLabel || 'Read Less') : (readMoreLabel || 'Read More')}
                   </button>
                 )}
               </div>
