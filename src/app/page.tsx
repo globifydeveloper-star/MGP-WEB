@@ -92,8 +92,6 @@ export default async function Home() {
     getComparisonRows(),
   ]);
 
-  const recentPosts = posts.slice(0, 3);
-
   return (
     <main>
       {/* Navbar Navigation */}
@@ -168,7 +166,7 @@ export default async function Home() {
 
       {/* 12. Blog Post */}
       <RecentPost
-        posts={recentPosts}
+        posts={posts}
         heading={homepageData?.recentPostsHeading}
         headingHighlight={homepageData?.recentPostsHeadingHighlight}
         headingSuffix={homepageData?.recentPostsHeadingSuffix}
