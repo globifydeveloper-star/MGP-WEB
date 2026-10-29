@@ -24,10 +24,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.muthootgoldpoint.com'),
-  title: {
-    default: "India's Most Trusted Gold Buyer | Muthoot Gold Point",
-    template: "%s | Muthoot Goldpoint"
-  },
+  // No title template: page titles (from Strapi) already include the brand and are used verbatim.
+  title: "India's Most Trusted Gold Buyer | Muthoot Gold Point",
   description: "Sell your old, unused, or pledged gold instantly at Muthoot Goldpoint. Get the true market value through a transparent evaluation process conducted right in front of you.",
   keywords: ["sell gold", "gold for cash", "muthoot gold point", "gold buyers", "gold valuation", "sell gold online", "old gold buyers", "cash for gold"],
   authors: [{ name: "Muthoot Exim" }],

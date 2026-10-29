@@ -128,6 +128,17 @@ export default function nextConfig(): NextConfig {
             }
           ],
         },
+        {
+          // Keep UAT/staging hosts out of search engines; only production gets indexed.
+          source: "/:path*",
+          missing: [{ type: "host", value: "(www\\.)?muthootgoldpoint\\.com" }],
+          headers: [
+            {
+              key: "X-Robots-Tag",
+              value: "noindex, nofollow",
+            },
+          ],
+        },
       ];
     },
     images: {
