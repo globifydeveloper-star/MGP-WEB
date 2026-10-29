@@ -27,7 +27,7 @@ const SERVICES = [
 const REGISTERED_OFFICE = {
   name: 'MUTHOOT GOLD POINT',
   address: 'Muthoot Exim Private Limited, 40/7384 Muthoot Towers, M.G. Road, Ernakulam, Kerala - 682035',
-  phone1: '0484 2351481',
+  phone1: '1800 102 1616',
   phone2: '0484 2351494',
   email: 'info@muthootexim.com',
   mapEmbedUrl: 'https://maps.google.com/maps?q=Muthoot%20Gold%20Point,%20AVS%20Building,%20MG%20Road,%20Ernakulam,%20Kerala%20682035&t=&z=16&ie=UTF8&iwloc=&output=embed',
@@ -65,6 +65,12 @@ const PinIconGold = () => (
   <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
     <circle cx="12" cy="10" r="3" fill="#F1B933" />
+  </svg>
+);
+
+const PhoneIconGold = () => (
+  <svg className="cp-badge-icon" viewBox="0 0 24 24" fill="none" stroke="#F1B933" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
   </svg>
 );
 
@@ -267,6 +273,20 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                     <div className="cp-card-item-body">
                       <h3 className="cp-company-title">{data?.officeName || REGISTERED_OFFICE.name}</h3>
                       <p className="cp-company-addr">{data?.officeAddress || REGISTERED_OFFICE.address}</p>
+                    </div>
+                  </div>
+
+                  <div className="cp-dotted-line" />
+
+                  {/* Phone */}
+                  <div className="cp-card-item">
+                    <div className="cp-badge-circle">
+                      <PhoneIconGold />
+                    </div>
+                    <div className="cp-card-item-body">
+                      <a href={`tel:${(data?.officePhone1 || REGISTERED_OFFICE.phone1).replace(/\s+/g, '')}`} className="cp-contact-link">
+                        {data?.officePhone1 || REGISTERED_OFFICE.phone1}
+                      </a>
                     </div>
                   </div>
 

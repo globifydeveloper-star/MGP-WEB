@@ -10,7 +10,7 @@ export default function PrivacyPolicyPage({ data }: { data?: PrivacyPolicyPageDa
   const contactName = data?.contactName || 'Muthoot Exim Pvt Ltd.';
   const contactAddress = data?.contactAddress || '40/7384 Muthoot Towers, M.G. Road, Ernakulam, Kerala - 682035';
   const contactEmail = data?.contactEmail || 'info@muthootexim.com';
-  const contactPhone = data?.contactPhone || '0484 2351481';
+  const contactPhone = data?.contactPhone || '1800 102 1616';
 
   return (
     <div className="privacy-page-root">
