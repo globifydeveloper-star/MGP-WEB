@@ -218,6 +218,7 @@ export interface JobDepartment {
 export interface JobPosition {
   id: number;
   documentId: string;
+  jobCode?: string;
   title: string;
   slug: string;
   department?: JobDepartment;
@@ -275,6 +276,7 @@ export const getJobPositions = cache(async function getJobPositions(): Promise<J
     return {
       id: flat.id,
       documentId: flat.documentId ?? String(flat.id),
+      jobCode: flat.jobCode,
       title: flat.title,
       slug: flat.slug,
       department,
@@ -340,6 +342,7 @@ export async function submitJobApplication(payload: {
   noticePeriod?: string;
   coverNote?: string;
   jobPosition?: string;
+  jobCode?: string;
   resumeFile?: File | null;
 }): Promise<{ success: boolean; error?: string; code?: string }> {
   try {
@@ -377,6 +380,7 @@ export async function submitJobApplication(payload: {
         noticePeriod: payload.noticePeriod,
         coverNote: payload.coverNote,
         jobPosition: payload.jobPosition,
+        jobCode: payload.jobCode,
       };
       
       formData.append('data', JSON.stringify(data));
