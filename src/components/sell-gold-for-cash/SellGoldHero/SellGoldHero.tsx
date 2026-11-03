@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp, isValidLeadRef } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
+import type { SellGoldPageSettings } from '@/lib/strapi';
 
 import './SellGoldHero.css';
 import coupleImg from '../../../../public/images/sell-gold-for-cash/sell-gold-hero-model.png';
@@ -22,7 +23,7 @@ interface SellGoldHeroProps {
   heroTitle?: string;
   heroTitleHighlight?: string;
   heroSubtitle?: string;
-  heroBullets?: string[];
+  heroBullets?: SellGoldPageSettings['heroBullets'];
   heroFormTitle?: string;
   heroFormSubtitle?: string;
   heroFormSuccessText?: string;
@@ -106,7 +107,7 @@ export default function SellGoldHero({
     }
 
     setFormData(prev => {
-      const updates: any = { [name]: val };
+      const updates: Partial<typeof prev> = { [name]: val };
       if (name === 'state') {
         updates.city = '';
         updates.branchCode = '';
@@ -211,6 +212,8 @@ export default function SellGoldHero({
           <Image
             src={heroImage || coupleImg}
             alt="Muthoot Gold Point representative"
+            width={coupleImg.width}
+            height={coupleImg.height}
             className="sg-couple-photo"
             priority
           />
@@ -257,13 +260,13 @@ export default function SellGoldHero({
           {/* Bullet Points */}
           <ul className="sg-hero-bullets">
             {(heroBullets && heroBullets.length > 0 ? heroBullets : [
-              'Free purity testing of your gold',
-              '100% transparent process',
-              'Free Ultrasonic cleaning of ornaments'
+              { text: 'Free purity testing of your gold' },
+              { text: '100% transparent process' },
+              { text: 'Free Ultrasonic cleaning of ornaments' }
             ]).map((bullet, idx) => (
               <li key={idx}>
                 <span className="sg-bullet-check">✓</span>
-                <span>{bullet}</span>
+                <span>{bullet.text}</span>
               </li>
             ))}
           </ul>

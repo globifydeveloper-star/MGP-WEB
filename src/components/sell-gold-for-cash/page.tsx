@@ -8,11 +8,12 @@ import GoldSellOverview from './GoldSellOverview/GoldSellOverview';
 import AboutHero from '@/components/about-us/abouthero/abouthero';
 import GoldSellContact from './GoldSellContact/GoldSellContact';
 import StickyWatchNow from './StickyWatchNow/StickyWatchNow';
+import type { ComparisonRow, ProcessStep, SellGoldPageSettings } from '@/lib/strapi';
 
 interface SellGoldForCashPageProps {
-  processSteps?: any[];
-  comparisonRows?: { title?: string; mgpText?: string; tradText?: string }[];
-  pageSettings?: any;
+  processSteps?: ProcessStep[];
+  comparisonRows?: ComparisonRow[];
+  pageSettings?: SellGoldPageSettings | null;
 }
 
 export default function SellGoldForCashPage({ processSteps, comparisonRows, pageSettings }: SellGoldForCashPageProps) {
@@ -59,10 +60,10 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows, page
           overviewDescription={pageSettings?.overviewDescription}
           overviewButtonLabel={pageSettings?.overviewButtonLabel}
           overviewButtonLink={pageSettings?.overviewButtonLink}
-          overviewTile1Text={pageSettings?.overviewTile1Text}
-          overviewTile2Text={pageSettings?.overviewTile2Text}
-          overviewTile3Text={pageSettings?.overviewTile3Text}
-          overviewTile4Text={pageSettings?.overviewTile4Text}
+          overviewTile1Text={pageSettings?.overviewTile1}
+          overviewTile2Text={pageSettings?.overviewTile2}
+          overviewTile3Text={pageSettings?.overviewTile3}
+          overviewTile4Text={pageSettings?.overviewTile4}
           overviewImage1={pageSettings?.overviewImage1}
           overviewImage2={pageSettings?.overviewImage2}
         />
