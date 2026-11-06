@@ -24,21 +24,21 @@ const DEFAULT_STEPS = [
     title: 'Professional Gold Purity Assessment',
     desc: 'Our experts assess the purity of your gold using advanced XRF technology, right in front of you, for complete transparency.',
     leftDesc: 'Our experts use advanced XRF technology to test the purity of your gold right in front of you, ensuring complete transparency.',
-    image: '/ImageSet/Homepage/ProcessStep3.jpg'
+    image: '/ImageSet/GoldPurityAssesement.jpg'
   },
   {
     num: '4',
     title: 'Get the Latest Live Gold Rate',
     desc: 'Your gold is valued against the current live market rate, ensuring you always get the fairest, most accurate price.',
     leftDesc: "We value your gold against today's live market rate, so you always get the fairest and most accurate price.",
-    image: '/ImageSet/Homepage/ProcessStep4.jpg'
+    image: '/ImageSet/GoldValuation2.jpg'
   },
   {
     num: '5',
     title: 'Instant Payment',
     desc: 'Receive your payment instantly via bank transfer or cash, immediately after the valuation is complete.',
     leftDesc: 'Once the valuation is complete, receive your payment instantly via bank transfer or cash — no waiting around.',
-    image: '/ImageSet/Homepage/ProcessStep5.jpg'
+    image: '/ImageSet/Processtepimage.jpg'
   },
   {
     num: '6',

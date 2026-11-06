@@ -15,7 +15,7 @@ interface AboutHeroProps {
 
 const DEFAULT_HERO_IMAGES = [
   '/ImageSet/About us page/About us Hero 1536×1024 px-01.jpg',
-  '/ImageSet/About us page/About us Hero 1536×1024 px-02.jpg',
+  '/ImageSet/About Us New Hero Creative.jpg',
   '/ImageSet/About us page/About us Hero 1536×1024 px-03.jpg',
 ];
 
@@ -208,22 +208,22 @@ export default function AboutHero({ onExploreClick, data, headingLevel = 'h1' }:
               ))}
             </div>
           ) : (
-          <div className="about-hero-info-grid">
-            <div className="about-hero-info-card">
-              <h3 className="about-hero-subheading">Corporate Information</h3>
-              <p className="about-hero-desc">Visit the corporate website of Muthoot EXIM (P) Ltd to know more about the company: <a href="http://www.muthootexim.com" target="_blank" rel="noopener noreferrer" className="about-hero-link">www.muthootexim.com</a></p>
-            </div>
+            <div className="about-hero-info-grid">
+              <div className="about-hero-info-card">
+                <h3 className="about-hero-subheading">Corporate Information</h3>
+                <p className="about-hero-desc">Visit the corporate website of Muthoot EXIM (P) Ltd to know more about the company: <a href="http://www.muthootexim.com" target="_blank" rel="noopener noreferrer" className="about-hero-link">www.muthootexim.com</a></p>
+              </div>
 
-            <div className="about-hero-info-card">
-              <h3 className="about-hero-subheading">Industry Pioneer</h3>
-              <p className="about-hero-desc">Muthoot Gold Point is the first national-level organised sector player to get into the recycling of gold that is in sync with the Vision laid down by the Government of India for the Indian Gold Industry.</p>
-            </div>
+              <div className="about-hero-info-card">
+                <h3 className="about-hero-subheading">Industry Pioneer</h3>
+                <p className="about-hero-desc">Muthoot Gold Point is the first national-level organised sector player to get into the recycling of gold that is in sync with the Vision laid down by the Government of India for the Indian Gold Industry.</p>
+              </div>
 
-            <div className="about-hero-info-card">
-              <h3 className="about-hero-subheading">Transparent Process</h3>
-              <p className="about-hero-desc">We enable customers to <a href="#" onClick={onExploreClick ? (e) => { e.preventDefault(); onExploreClick(); } : undefined} className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point – India&apos;s first mobile gold buying van – brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
+              <div className="about-hero-info-card">
+                <h3 className="about-hero-subheading">Transparent Process</h3>
+                <p className="about-hero-desc">We enable customers to <a href="#" onClick={onExploreClick ? (e) => { e.preventDefault(); onExploreClick(); } : undefined} className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point – India&apos;s first mobile gold buying van – brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
+              </div>
             </div>
-          </div>
           )}
 
           <div className="about-hero-footer-row">
