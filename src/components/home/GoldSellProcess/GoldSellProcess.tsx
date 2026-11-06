@@ -7,8 +7,8 @@ import './GoldSellProcess.css';
 const DEFAULT_STEPS = [
   {
     num: '1',
-    title: 'Visit Your Nearest White Gold Branch',
-    desc: 'Customers give their Gold to Muthoot Gold Point for valuation, Gold to Muthoot Gold Point for valuation.',
+    title: 'Find Your Nearest Muthoot Gold Point Branch',
+    desc: 'Walk into any of our nearest branches with your gold. Our team will greet you and guide you through the entire selling process, step by step.',
     leftDesc: 'Walk into any of our branches with your gold jewellery. Our team will greet you and guide you through the entire selling process step by step.',
     image: '/ImageSet/Homepage/ProcessStep1.jpg'
   },
@@ -21,30 +21,30 @@ const DEFAULT_STEPS = [
   },
   {
     num: '3',
-    title: 'Professional Gold Purity Assessment',
-    desc: 'Our experts assess the purity of your gold using advanced XRF technology, right in front of you, for complete transparency.',
-    leftDesc: 'Our experts use advanced XRF technology to test the purity of your gold right in front of you, ensuring complete transparency.',
+    title: 'Gold Purity Assessment',
+    desc: 'Our experts test your gold using advanced XRF technology. The purity is checked in front of you, giving you a clear and transparent assessment of your gold.',
+    leftDesc: 'Our experts test your gold using advanced XRF technology. The purity is checked in front of you, giving you a clear and transparent assessment of your gold.',
     image: '/ImageSet/GoldPurityAssesement.jpg'
   },
   {
     num: '4',
-    title: 'Get the Latest Live Gold Rate',
-    desc: 'Your gold is valued against the current live market rate, ensuring you always get the fairest, most accurate price.',
-    leftDesc: "We value your gold against today's live market rate, so you always get the fairest and most accurate price.",
+    title: 'Gold Valuation',
+    desc: 'Once the purity and weight of your gold are confirmed, we calculate its value based on the applicable gold rate. Our team will clearly explain the valuation to you.',
+    leftDesc: "Once the purity and weight of your gold are confirmed, we calculate its value based on the applicable gold rate. Our team will clearly explain the valuation to you.",
     image: '/ImageSet/GoldValuation2.jpg'
   },
   {
     num: '5',
-    title: 'Instant Payment',
+    title: 'KYC Verification',
     desc: 'Receive your payment instantly via bank transfer or cash, immediately after the valuation is complete.',
     leftDesc: 'Once the valuation is complete, receive your payment instantly via bank transfer or cash — no waiting around.',
     image: '/ImageSet/Processtepimage.jpg'
   },
   {
     num: '6',
-    title: 'Get Your Gold Valued',
-    desc: 'Your gold is carefully weighed and assessed for its true market value using the latest technology.',
-    leftDesc: 'Our certified experts weigh your gold precisely and provide you with an accurate valuation based on current market rates.',
+    title: 'Instant Payment',
+    desc: 'Get up to Rs 10,000 as cash. Amounts higher than Rs 10,000 instantly paid to your bank account via NEFT/IMPS/RTGS',
+    leftDesc: 'Get up to Rs 10,000 as cash. Amounts higher than Rs 10,000 instantly paid to your bank account via NEFT/IMPS/RTGS',
     image: '/ImageSet/Homepage/ProcessStep6.jpg'
   }
 ];
