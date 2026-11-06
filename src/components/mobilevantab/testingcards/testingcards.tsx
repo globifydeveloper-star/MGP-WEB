@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import './testingcards.css';
-import purityImg from '@/assets/images/purity.png';
+import purityImg from '@/ImageSet/Vanhero.jpg';
 import { MobileVanPageData } from '@/lib/strapi';
 
 const DEFAULT_CARDS = [
