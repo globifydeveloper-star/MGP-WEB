@@ -1,10 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 import './testingcards.css';
-import purityImg from '@/ImageSet/Vanhero.jpg';
+import purityImg from '@/ImageSet/MobileVan.jpg';
 import { MobileVanPageData } from '@/lib/strapi';
 
-const DEFAULT_CARDS = [
+const DEFAULT_CARDS = [ 
   {
     title: 'No-Damage Testing',
     desc: 'Our XRF spectrometer determines gold purity without any touchstone scraping or melting of your precious jewelry.',
