@@ -9,10 +9,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: data?.seoTitle || 'Careers | Muthoot Gold Point',
     description: data?.seoDescription || 'Join the Muthoot Gold Point team. Explore our current job openings and build a rewarding career with India\'s first organized gold recycler.',
+    alternates: { canonical: '/career' },
     openGraph: {
       title: data?.seoTitle || 'Careers | Muthoot Gold Point',
       description: data?.seoDescription || 'Explore our current job openings and build a rewarding career.',
       type: 'website',
+      url: '/career',
     }
   };
 }

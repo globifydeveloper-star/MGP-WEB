@@ -30,9 +30,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: page.seoTitle || `${page.title} | Muthoot Gold Point`,
     description: page.seoDescription || `Learn more about ${page.title} at Muthoot Gold Point.`,
-    openGraph: page.ogImage ? {
-      images: [page.ogImage.url]
-    } : undefined
+    alternates: { canonical: `/${encodeURIComponent(slug)}` },
+    openGraph: {
+      title: page.seoTitle || `${page.title} | Muthoot Gold Point`,
+      description: page.seoDescription || `Learn more about ${page.title} at Muthoot Gold Point.`,
+      type: 'website',
+      url: `/${encodeURIComponent(slug)}`,
+      ...(page.ogImage ? { images: [page.ogImage.url] } : {}),
+    }
   };
 }
 

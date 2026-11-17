@@ -218,7 +218,12 @@ function GoldSellProcessDesktop({
                 </div>
                 <div className="gsp-step-desc-wrapper">
                   <div className="gsp-step-desc-content">
-                    <p>{step.desc}</p>
+                    {step.desc && <p>{step.desc}</p>}
+                    {step.bullets?.length > 0 && (
+                      <ul className="gsp-step-bullets">
+                        {step.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}
+                      </ul>
+                    )}
                   </div>
                 </div>
               </div>
@@ -356,7 +361,12 @@ function GoldSellProcessCarousel({
               <span className="gsp-carousel-step-num">{step?.num}</span>
             </div>
             <h3 className="gsp-carousel-step-title">{step?.title}</h3>
-            <p className="gsp-carousel-step-desc">{step?.desc}</p>
+            {step?.desc && <p className="gsp-carousel-step-desc">{step.desc}</p>}
+            {step?.bullets?.length > 0 && (
+              <ul className="gsp-step-bullets gsp-carousel-step-desc">
+                {step.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}
+              </ul>
+            )}
           </div>
 
           {/* Step image */}
@@ -432,6 +442,7 @@ export default function GoldSellProcess({
           title: s.stepTitle || s.title || `Step ${idx + 1}`,
           desc: s.stepDescription || s.desc || '',
           leftDesc: s.leftDescription || s.leftDesc || s.stepDescription || s.desc || '',
+          bullets: Array.isArray(s.bulletPoints) ? s.bulletPoints : [],
           image: s.stepImage || s.image || DEFAULT_STEPS[idx % DEFAULT_STEPS.length].image
         }))
     : DEFAULT_STEPS;

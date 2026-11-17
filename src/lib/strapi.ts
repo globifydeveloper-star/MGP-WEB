@@ -563,6 +563,7 @@ export interface ProcessStep {
   stepTitle?: string;
   stepDescription?: string;
   leftDescription?: string;
+  bulletPoints?: string[];
   stepImage?: string;
 }
 
@@ -791,6 +792,9 @@ export const getProcessSteps = cache(async function getProcessSteps(): Promise<P
       stepTitle: flat.stepTitle,
       stepDescription: flat.stepDescription,
       leftDescription: flat.leftDescription,
+      bulletPoints: Array.isArray(flat.bulletPoints)
+        ? flat.bulletPoints.map((b: StrapiAny) => (b?.text || '').trim()).filter(Boolean)
+        : [],
       stepImage: getMediaUrl(flat.stepImage),
     };
   });

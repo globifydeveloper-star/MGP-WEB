@@ -25,10 +25,12 @@ export async function generateMetadata({ params }: BlogPostRouteProps): Promise<
   return {
     title: post.metaTitle ?? `${post.title} | Gold Point Blog`,
     description: post.metaDescription ?? post.excerpt,
+    alternates: { canonical: `/blog/${encodeURIComponent(slug)}` },
     openGraph: {
       title: post.metaTitle ?? post.title,
       description: post.metaDescription ?? post.excerpt,
       type: 'article',
+      url: `/blog/${encodeURIComponent(slug)}`,
     },
   };
 }

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Outfit, Montserrat } from "next/font/google";
 import BranchSelector from "@/components/home/BranchSelector/BranchSelector";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import GoogleTagManager from "@/components/analytics/GoogleTagManager";
+import AttributionCapture from "@/components/analytics/AttributionCapture";
 import { SiteDataProvider } from "@/components/providers/SiteDataProvider";
 import { getSiteBranches, getSiteGoldRates } from "@/lib/siteData";
 import "./globals.css";
@@ -38,14 +40,12 @@ export const metadata: Metadata = {
     shortcut: '/images/newlogo.png',
     apple: '/images/newlogo.png',
   },
-  alternates: {
-    canonical: '/',
-  },
+  // No canonical / og:url here: child routes inherit them, so a root '/' would tell Google
+  // every page without its own canonical is a duplicate of the homepage. Each page sets its own.
   openGraph: {
     title: "India's Most Trusted Gold Buyer | Muthoot Gold Point",
     description: "Get the true market value for your gold through a transparent process.",
     type: "website",
-    url: "/",
     siteName: "Muthoot Goldpoint",
     locale: "en_IN",
   },
@@ -106,7 +106,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // Fetched here and sent with the page, so the browser makes no API calls for them
-  const [branches, goldRates] = await Promise.all([getSiteBranches(), getSiteGoldRates()]);
+  const [branches, goldRates, requestHeaders] = await Promise.all([getSiteBranches(), getSiteGoldRates(), headers()]);
+  // Set by src/proxy.ts. <Script> only gets the CSP nonce when it's passed explicitly;
+  // without it 'strict-dynamic' blocks the GTM/GA inline bootstraps in production.
+  const nonce = requestHeaders.get('x-nonce') ?? undefined;
 
   return (
     <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} style={{ colorScheme: 'light' }} suppressHydrationWarning>
@@ -118,8 +121,9 @@ export default async function RootLayout({
         />
       </head>
       <body style={{ colorScheme: 'light' }}>
-        <GoogleTagManager />
-        <GoogleAnalytics />
+        <GoogleTagManager nonce={nonce} />
+        <GoogleAnalytics nonce={nonce} />
+        <AttributionCapture />
         <SiteDataProvider branches={branches} goldRates={goldRates}>
           {children}
           <BranchSelector />

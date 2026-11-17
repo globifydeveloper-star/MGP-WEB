@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { sendOtpAction as sendOtp, verifyOtpAction as verifyOtp } from '@/actions/otpActions';
 import type { EnquiryDetails } from '@/lib/otp';
+import { getAttribution } from '@/lib/attribution';
 
 export interface VerifyOtpResult {
   success: boolean;
@@ -129,7 +130,11 @@ export function useOtpVerification(options: UseOtpVerificationOptions = {}) {
       }
 
       setState('verifying');
-      const res = await verifyOtp(phone, code, details);
+      const res = await verifyOtp(
+        phone,
+        code,
+        details ? { ...details, attribution: details.attribution ?? getAttribution() } : details
+      );
       if (res.success && res.verified) {
         setState('verified');
         if (typeof window !== 'undefined') {

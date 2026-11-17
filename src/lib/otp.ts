@@ -1,5 +1,6 @@
 import 'server-only';
 import { getStrapiUrl } from '@/lib/strapiUrl';
+import type { LeadAttribution } from '@/lib/attribution';
 
 function getInternalHeaders(clientIp?: string): Record<string, string> {
   const headers: Record<string, string> = {
@@ -80,6 +81,8 @@ export interface EnquiryDetails {
   enquiryType?: string;
   formType?: FormType;
   branchValidated?: boolean;
+  /** Where the visitor came from (UTM / ad click ID / referrer). See src/lib/attribution.ts */
+  attribution?: LeadAttribution;
 }
 
 /**
