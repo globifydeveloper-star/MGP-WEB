@@ -9,44 +9,19 @@
 
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 60% 70% at 30% 45%, #fffaf0 0%, rgba(255, 250, 240, 0) 70%),
-    linear-gradient(120deg, #fbe9c4 0%, #fdf3dd 35%, #f8dfa6 75%, #efc568 100%);
+  background: linear-gradient(120deg, #fdf6e7 0%, #fbedd0 55%, #f6dca0 100%);
   color: var(--sg-brown);
 }
 
-/* Decorative sweeping arc (top-left) */
-.sg-hero-arc {
-  position: absolute;
-  top: -40%;
-  left: -18%;
-  width: 70%;
-  height: 160%;
-  border-radius: 50%;
-  border: 2px solid rgba(226, 169, 43, 0.35);
-  box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.5);
-  pointer-events: none;
-}
-
-.sg-hero-glow {
-  position: absolute;
-  right: -10%;
-  bottom: -30%;
-  width: 55%;
-  height: 90%;
-  background: radial-gradient(circle, rgba(232, 172, 48, 0.35) 0%, rgba(232, 172, 48, 0) 70%);
-  filter: blur(40px);
-  pointer-events: none;
-}
-
+/* Photo | heading (sized to its one-line text) | form */
 .sg-hero-container {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.25fr) minmax(360px, 440px);
+  grid-template-columns: minmax(0, 1fr) auto minmax(340px, 400px);
   align-items: center;
-  gap: 1.5rem;
-  min-height: 600px;
+  gap: 1.25rem;
+  min-height: 560px;
 }
 
 /* ---------- Photo ---------- */
@@ -68,7 +43,6 @@
   object-position: bottom center;
   display: block;
   margin-bottom: -1px;
-  filter: drop-shadow(0 18px 30px rgba(120, 80, 10, 0.18));
 }
 
 /* ---------- Headline + features ---------- */
@@ -86,38 +60,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   margin: 0;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.08;
+  line-height: 1.1;
+}
+
+/* Each sentence stays on a single line */
+.sg-hero-title-main,
+.sg-hero-title-highlight {
+  display: block;
+  white-space: nowrap;
 }
 
 .sg-hero-title-main {
-  font-size: clamp(2rem, 3.3vw, 3.2rem);
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
   color: #111;
 }
 
 .sg-hero-title-highlight {
   position: relative;
-  display: inline-block;
-  padding: 0.12em 0.45em 0.18em;
-  font-size: clamp(2.2rem, 3.9vw, 3.8rem);
+  padding: 0.1em 0.4em 0.15em;
+  font-size: clamp(1.8rem, 2.9vw, 2.7rem);
   color: var(--sg-brown);
   z-index: 0;
 }
 
-/* Brush-stroke style gold band behind the highlight */
+/* Flat gold band behind the highlight */
 .sg-hero-title-highlight::before {
   content: '';
   position: absolute;
-  inset: 8% 0 2% 0;
+  inset: 6% 0 4% 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(247, 205, 98, 0.15) 0%, #f7cd62 12%, #f4c34a 60%, #f9d77c 100%);
-  border-radius: 6px 18px 4px 22px;
-  transform: skewX(-8deg);
-  box-shadow: 0 6px 18px rgba(214, 155, 30, 0.25);
+  background: #f5c94f;
+  border-radius: 6px;
+  transform: skewX(-6deg);
 }
 
 .sg-hero-subtitle {
@@ -135,7 +114,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  max-width: 560px;
+  max-width: 480px;
 }
 
 .sg-hero-feature {
@@ -161,22 +140,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 88px;
-  height: 88px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fffdf6 0%, #fdf0d2 70%, #f6e0ad 100%);
-  box-shadow: 0 8px 22px rgba(184, 128, 26, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  background: #fffaf0;
+  border: 1px solid #efdcb2;
 }
 
 .sg-feature-icon svg {
-  width: 46px;
-  height: 46px;
+  width: 30px;
+  height: 30px;
 }
 
 .sg-feature-text {
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 0.98rem;
+  font-weight: 700;
   line-height: 1.2;
   color: #1a1206;
   max-width: 9.5rem;
@@ -192,12 +171,12 @@
 
 .sg-form-card {
   width: 100%;
-  max-width: 440px;
-  padding: 2rem 1.75rem 1.5rem;
-  background: rgba(255, 252, 246, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(140, 95, 15, 0.18), 0 2px 8px rgba(140, 95, 15, 0.06);
+  max-width: 400px;
+  padding: 1.75rem 1.5rem 1.25rem;
+  background: #fff;
+  border: 1px solid #f0e2c4;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(140, 95, 15, 0.1);
 }
 
 .sg-contact-form {
@@ -209,7 +188,7 @@
 .sg-form-title {
   margin: 0;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-size: 1.65rem;
+  font-size: 1.4rem;
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -264,11 +243,11 @@
 .sg-form-input,
 .sg-form-select {
   width: 100%;
-  height: 50px;
+  height: 46px;
   padding: 0 0.9rem 0 2.85rem;
   background: #fff;
-  border: 1.5px solid var(--sg-line);
-  border-radius: 12px;
+  border: 1px solid var(--sg-line);
+  border-radius: 10px;
   color: #2a1d0c;
   font-family: var(--font-outfit), sans-serif;
   font-size: 0.95rem;
@@ -400,25 +379,21 @@
   justify-content: center;
   gap: 0.6rem;
   width: 100%;
-  height: 58px;
+  height: 50px;
   margin-top: 0.35rem;
   border: none;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #e8b23c 0%, #c98b16 55%, #a86f0c 100%);
-  box-shadow: 0 10px 22px rgba(168, 111, 12, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #dca233 0%, #b8801a 100%);
   color: #fff;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-size: 1.25rem;
-  font-weight: 800;
-  text-shadow: 0 1px 2px rgba(90, 55, 0, 0.35);
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .sg-submit-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  filter: brightness(1.05);
-  box-shadow: 0 14px 28px rgba(168, 111, 12, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  filter: brightness(1.06);
 }
 
 .sg-submit-btn:disabled {
@@ -548,22 +523,11 @@
 /* ---------- Responsive ---------- */
 @media (max-width: 1280px) {
   .sg-hero-container {
-    grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.2fr) minmax(340px, 400px);
     gap: 1rem;
   }
 
-  .sg-feature-icon {
-    width: 74px;
-    height: 74px;
-  }
-
-  .sg-feature-icon svg {
-    width: 38px;
-    height: 38px;
-  }
-
   .sg-feature-text {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -593,10 +557,6 @@
   .sg-form-card {
     max-width: 560px;
   }
-
-  .sg-hero-arc {
-    display: none;
-  }
 }
 
 /* Mobile: headline, features, form (photo hidden to keep form near the fold) */
@@ -615,31 +575,32 @@
     gap: 1.4rem;
   }
 
+  /* Scale with screen width so each line still fits on one row */
   .sg-hero-title-main {
-    font-size: 1.85rem;
+    font-size: min(6.4vw, 1.9rem);
   }
 
   .sg-hero-title-highlight {
-    font-size: 2.05rem;
+    font-size: min(7.2vw, 2.1rem);
   }
 
   .sg-hero-feature {
     padding: 0 0.35rem;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
 
   .sg-feature-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
   }
 
   .sg-feature-icon svg {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
   }
 
   .sg-feature-text {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .sg-hero-right {
@@ -666,8 +627,8 @@
   }
 
   .sg-submit-btn {
-    height: 52px;
-    font-size: 1.1rem;
+    height: 48px;
+    font-size: 1rem;
   }
 }
 

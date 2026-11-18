@@ -201,8 +201,6 @@ export default function SellGoldHero({
 
   return (
     <section className="sg-hero-root">
-      <div className="sg-hero-arc" aria-hidden="true" />
-      <div className="sg-hero-glow" aria-hidden="true" />
 
       <div className="container sg-hero-container">
         {/* Left: couple photo */}
