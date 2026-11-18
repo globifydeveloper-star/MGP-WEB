@@ -6,8 +6,8 @@ import { getGoldRatePage, getSharedMedia } from '@/lib/strapi';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getGoldRatePage();
-  const title = data?.seoTitle ?? "Today's Gold Rate | Gold Price Per Gram | Gold Point";
-  const description = data?.seoDescription ?? "Check today's gold rate and gold price per gram. Calculate the estimated value of your gold and explore transparent gold valuation with Gold Point.";
+  const title = data?.seoTitle || "Today's Gold Rate | Gold Price Per Gram | Gold Point";
+  const description = data?.seoDescription || "Check today's gold rate and gold price per gram. Calculate the estimated value of your gold and explore transparent gold valuation with Gold Point.";
   const ogImage = data?.ogImage || '/default-og-image.jpg';
 
   return {

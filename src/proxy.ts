@@ -1,7 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { resolveLegacyRedirect } from '@/lib/legacyRedirects';
 
 export function proxy(request: NextRequest) {
+  // Trailing slashes and legacy URLs are resolved here in a single hop
+  // (next.config sets skipTrailingSlashRedirect so Next doesn't add its own hop first).
+  const { pathname } = request.nextUrl;
+  const stripped = pathname.length > 1 ? pathname.replace(/\/+$/, '') || '/' : pathname;
+  const legacyTarget = resolveLegacyRedirect(stripped);
+  if (legacyTarget || stripped !== pathname) {
+    // Plain URL, not nextUrl.clone(): NextURL re-adds the original trailing slash when
+    // serialized, which would loop. Query string is kept; a '#hash' in the target is kept.
+    const url = new URL(legacyTarget ?? stripped, request.url);
+    url.search = request.nextUrl.search;
+    return NextResponse.redirect(url, 308);
+  }
+
   const nonce = crypto.randomBytes(16).toString('base64');
 
   // Origin editors open Strapi Admin on; its content preview iframes this site.

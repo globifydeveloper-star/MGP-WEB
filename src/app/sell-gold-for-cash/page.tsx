@@ -1,9 +1,7 @@
 import SellGoldForCashPage from '@/components/sell-gold-for-cash/page';
 import Footer from '@/components/layout/Footer';
 import { getProcessSteps, getSellGoldPageSettings, getComparisonRows } from '@/lib/strapi';
-import Image from 'next/image';
-import Link from 'next/link';
-import logoImg from '@/assets/images/gp-logo.png';
+import SellGoldHeader from '@/components/sell-gold-for-cash/SellGoldHeader/SellGoldHeader';
 
 export async function generateMetadata() {
   const data = await getSellGoldPageSettings();
@@ -52,24 +50,7 @@ export default async function Page() {
 
   return (
     <>
-      <header style={{ 
-        backgroundColor: '#ffffff', 
-        padding: '1.2rem 0', 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        position: 'sticky',
-        top: 0,
-        zIndex: 9999,
-        transform: 'translateZ(0)',
-        willChange: 'transform',
-        borderBottom: '1px solid #eaeaea',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.05)'
-      }}>
-        <Link href="/">
-          <Image src={logoImg} alt="GOLDPOINT - We Buy Gold" width={220} height={60} priority style={{ display: 'block' }} />
-        </Link>
-      </header>
+      <SellGoldHeader phone={pageSettings?.contactPhone} />
       <SellGoldForCashPage processSteps={processSteps} comparisonRows={comparisonRows} pageSettings={pageSettings} />
       <Footer />
     </>

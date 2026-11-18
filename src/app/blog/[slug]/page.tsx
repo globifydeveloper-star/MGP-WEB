@@ -23,12 +23,12 @@ export async function generateMetadata({ params }: BlogPostRouteProps): Promise<
   }
 
   return {
-    title: post.metaTitle ?? `${post.title} | Gold Point Blog`,
-    description: post.metaDescription ?? post.excerpt,
+    title: post.metaTitle || `${post.title} | Gold Point Blog`,
+    description: post.metaDescription || post.excerpt,
     alternates: { canonical: `/blog/${encodeURIComponent(slug)}` },
     openGraph: {
-      title: post.metaTitle ?? post.title,
-      description: post.metaDescription ?? post.excerpt,
+      title: post.metaTitle || post.title,
+      description: post.metaDescription || post.excerpt,
       type: 'article',
       url: `/blog/${encodeURIComponent(slug)}`,
     },
@@ -104,7 +104,10 @@ export default async function BlogPostRoute({ params }: BlogPostRouteProps) {
 
             <div
               className="blog-post-body"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body || '') }}
+              // Imported WordPress bodies contain their own <h1>s; demote them so the post title stays the only H1.
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(post.body || '').replace(/<(\/?)h1(?=[\s>])/gi, '<$1h2'),
+              }}
             />
 
             {post.cta?.enabled && post.cta.link && (

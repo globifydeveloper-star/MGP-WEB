@@ -29,8 +29,8 @@ import {
 
 export async function generateMetadata() {
   const homepageData = await getHomepageData();
-  const title = homepageData?.seoTitle ?? "India's Most Trusted Gold Buyer | Muthoot Gold Point";
-  const description = homepageData?.seoDescription ?? 'Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you';
+  const title = homepageData?.seoTitle || "India's Most Trusted Gold Buyer | Muthoot Gold Point";
+  const description = homepageData?.seoDescription || 'Get the True Market Value Old, Unused or pledged gold through a transparent process conducted entirely in front of you';
   const ogImage = homepageData?.ogImage || '/default-og-image.jpg';
 
   return {

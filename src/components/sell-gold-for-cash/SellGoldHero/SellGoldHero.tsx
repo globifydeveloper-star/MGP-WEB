@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp, isValidLeadRef } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
@@ -11,9 +10,6 @@ import type { SellGoldPageSettings } from '@/lib/strapi';
 
 import './SellGoldHero.css';
 import coupleImg from '../../../../public/images/sell-gold-for-cash/sell-gold-hero-model.png';
-import trustIcon from '@/assets/images/trusticon.png';
-import lineImg from '@/assets/images/Line.png';
-import bannerLogo from '@/assets/images/banner-logo.png';
 
 interface SellGoldHeroProps {
   heroImage?: string;
@@ -32,9 +28,6 @@ interface SellGoldHeroProps {
 
 export default function SellGoldHero({
   heroImage,
-  trustBadgePrefix,
-  trustBadgeHighlight,
-  trustBadgeSuffix,
   heroTitle,
   heroTitleHighlight,
   heroSubtitle,
@@ -198,20 +191,25 @@ export default function SellGoldHero({
     }
   };
 
+  const bullets = heroBullets && heroBullets.length > 0 ? heroBullets : [
+    { text: 'Free Purity Testing' },
+    { text: '100% Transparent Process' },
+    { text: 'Free Ultrasonic Cleaning' }
+  ];
+
+  const errStyle: React.CSSProperties = { color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' };
+
   return (
-    <div style={{ position: 'relative' }}>
-      <section className="sg-hero-root">
-        {/* Background patterns/glows matching home design */}
-      <div className="sg-hero-bg-overlay" aria-hidden="true" />
-      <div className="sg-hero-glow-1" aria-hidden="true" />
-      <div className="sg-hero-glow-2" aria-hidden="true" />
+    <section className="sg-hero-root">
+      <div className="sg-hero-arc" aria-hidden="true" />
+      <div className="sg-hero-glow" aria-hidden="true" />
 
       <div className="container sg-hero-container">
-        {/* Section 1: Photo */}
+        {/* Left: couple photo */}
         <div className="sg-hero-visual">
           <Image
             src={heroImage || coupleImg}
-            alt="Muthoot Gold Point representative"
+            alt="Happy couple selling gold at Muthoot Gold Point"
             width={coupleImg.width}
             height={coupleImg.height}
             className="sg-couple-photo"
@@ -219,64 +217,27 @@ export default function SellGoldHero({
           />
         </div>
 
-        {/* Section 2: Content - Trust Badge, Heading, Bullets, We Buy Gold */}
+        {/* Middle: heading + feature icons */}
         <div className="sg-hero-content">
-          {/* Trust Badge */}
-          <div className="sg-trust-badge">
-            <div className="sg-trust-badge-header">
-              <Image
-                src={trustIcon}
-                alt="Trust Icon"
-                width={30}
-                height={30}
-                className="sg-trust-icon"
-                priority
-              />
-              <span className="sg-trust-badge-text">
-                {trustBadgePrefix || 'Trusted by'} <span className="sg-gold-highlight">{trustBadgeHighlight || 'Customers'}</span> {trustBadgeSuffix || 'Across India'}
-              </span>
-            </div>
-            <div className="sg-trust-badge-line-wrap">
-              <Image
-                src={lineImg}
-                alt=""
-                className="sg-trust-underline"
-                priority
-              />
-            </div>
-          </div>
+          <h1 className="sg-hero-title">
+            <span className="sg-hero-title-main">{heroTitle || 'Sell Your Gold for Cash'}</span>
+            <span className="sg-hero-title-highlight">{heroTitleHighlight || 'Get Cash Instantly'}</span>
+          </h1>
+          {heroSubtitle && <p className="sg-hero-subtitle">{heroSubtitle}</p>}
 
-          {/* Heading */}
-          <div className="sg-title-row">
-            <div className="sg-title-text-wrap">
-              <h1 className="sg-hero-title">
-                {heroTitle || 'Sell Your Old Gold'} <br />
-                <span className="gold-text">{heroTitleHighlight || 'GET CASH INSTANTLY'}</span>
-              </h1>
-              <p className="sg-hero-subtitle">{heroSubtitle || '100% Fair & Precise Gold Buying'}</p>
-            </div>
-          </div>
-
-          {/* Bullet Points */}
-          <ul className="sg-hero-bullets">
-            {(heroBullets && heroBullets.length > 0 ? heroBullets : [
-              { text: 'Free purity testing of your gold' },
-              { text: '100% transparent process' },
-              { text: 'Free Ultrasonic cleaning of ornaments' }
-            ]).map((bullet, idx) => (
-              <li key={idx}>
-                <span className="sg-bullet-check">✓</span>
-                <span>{bullet.text}</span>
+          <ul className="sg-hero-features">
+            {bullets.slice(0, 3).map((bullet, idx) => (
+              <li key={idx} className="sg-hero-feature">
+                <span className="sg-feature-icon" aria-hidden="true">{FEATURE_ICONS[idx % FEATURE_ICONS.length]}</span>
+                <span className="sg-feature-text">{bullet.text}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Section 3: Get In Touch Form */}
+        {/* Right: enquiry form */}
         <div className="sg-hero-right" id="sell-gold-form">
-          <div className="sg-form-card glass-panel">
-
-
+          <div className="sg-form-card">
             {isSubmitted ? (
               <div className="sg-form-success">
                 <div className="sg-success-checkmark-circle">
@@ -289,88 +250,75 @@ export default function SellGoldHero({
                 <p className="sg-success-desc">
                   {heroFormSuccessText || 'Thank you for contacting us, we have received your enquiry. Our team will get in touch with you shortly.'}
                 </p>
-                <button
-                  type="button"
-                  className="btn btn-primary sg-success-reset-btn"
-                  onClick={() => {
-                    setIsSubmitted(false);
-                  }}
-                >
+                <button type="button" className="sg-submit-btn" onClick={() => setIsSubmitted(false)}>
                   {heroFormResetLabel || 'Submit Another Request'}
                 </button>
               </div>
             ) : (
               <form className="sg-contact-form" onSubmit={handleSubmit}>
-                <h2 className="sg-form-title">{heroFormTitle || 'GET IN TOUCH'}</h2>
+                <h2 className="sg-form-title">{heroFormTitle || 'Get a Free Gold Evaluation'}</h2>
                 <p className="sg-form-subtitle">
-                  {heroFormSubtitle || 'Fill in the form and our team will get back to you with various information of Muthoot Gold Point.'}
+                  {heroFormSubtitle || 'Share your details and our team will get in touch with you soon.'}
                 </p>
 
                 {/* Name */}
                 <div className="sg-form-group">
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Name*"
-                    className="sg-form-input"
-                  />
-                  {errors.name && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.name}</span>}
-                </div>
-
-                {/* Email */}
-                <div className="sg-form-group">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="Email*"
-                    className="sg-form-input"
-                  />
-                  {errors.email && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.email}</span>}
-                </div>
-
-                {/* Mobile Number, OTP button & OTP input in one row */}
-                <div className="sg-form-row sg-phone-otp-row">
-                  <input
-                    type="text"
-                    name="company_website"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                    value={companyWebsite}
-                    onChange={(e) => setCompanyWebsite(e.target.value)}
-                    style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
-                  />
-                  <div className="sg-form-group sg-phone-input-wrapper">
+                  <div className="sg-input-wrap">
+                    <span className="sg-input-icon" aria-hidden="true">{ICONS.user}</span>
                     <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
+                      type="text"
+                      id="name"
+                      name="name"
                       required
-                      pattern="[0-9]{10}"
-                      maxLength={10}
-                      value={formData.phone}
+                      value={formData.name}
                       onChange={handleInputChange}
-                      placeholder="Mobile Number*"
-                      className="sg-form-input sg-phone-input"
+                      placeholder="Full Name *"
+                      aria-label="Full Name"
+                      className="sg-form-input"
                     />
-                    <button
-                      type="button"
-                      className="btn btn-primary sg-get-otp-btn"
-                      onClick={handleGetOtp}
-                      disabled={otpState === 'sending' || otpState === 'verifying' || otpCountdown > 0 || !/^\d{10}$/.test(formData.phone)}
-                    >
-                      {otpState === 'sending' ? '...' : otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
-                    </button>
                   </div>
-                  {errors.phone && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block', gridColumn: '1 / -1'}}>{errors.phone}</span>}
+                  {errors.name && <span className="otp-error-msg" style={errStyle}>{errors.name}</span>}
+                </div>
+
+                {/* Mobile + OTP */}
+                <input
+                  type="text"
+                  name="company_website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={companyWebsite}
+                  onChange={(e) => setCompanyWebsite(e.target.value)}
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
+                />
+                <div className="sg-form-row">
+                  <div className="sg-form-group">
+                    <div className="sg-input-wrap">
+                      <span className="sg-input-icon" aria-hidden="true">{ICONS.phone}</span>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        pattern="[0-9]{10}"
+                        maxLength={10}
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="Mobile Number *"
+                        aria-label="Mobile Number"
+                        className="sg-form-input sg-phone-input"
+                      />
+                      <button
+                        type="button"
+                        className="sg-get-otp-btn"
+                        onClick={handleGetOtp}
+                        disabled={otpState === 'sending' || otpState === 'verifying' || otpCountdown > 0 || !/^\d{10}$/.test(formData.phone)}
+                      >
+                        {otpState === 'sending' ? '...' : otpCountdown > 0 ? `${otpCountdown}s` : 'GET OTP'}
+                      </button>
+                    </div>
+                    {errors.phone && <span className="otp-error-msg" style={errStyle}>{errors.phone}</span>}
+                  </div>
 
                   <div className="sg-form-group sg-otp-group">
                     <input
@@ -378,83 +326,112 @@ export default function SellGoldHero({
                       id="otp"
                       name="otp"
                       required
+                      inputMode="numeric"
                       disabled={otpState === 'idle' || otpState === 'sending' || otpState === 'verifying'}
                       value={formData.otp}
                       onChange={handleInputChange}
-                      placeholder="OTP*"
+                      placeholder="OTP *"
+                      aria-label="OTP"
+                      className="sg-form-input sg-no-icon"
+                    />
+                    {errors.otp && <span className="otp-error-msg" style={errStyle}>{errors.otp}</span>}
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="sg-form-group">
+                  <div className="sg-input-wrap">
+                    <span className="sg-input-icon" aria-hidden="true">{ICONS.mail}</span>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Email Address *"
+                      aria-label="Email Address"
                       className="sg-form-input"
                     />
-                    {errors.otp && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.otp}</span>}
+                  </div>
+                  {errors.email && <span className="otp-error-msg" style={errStyle}>{errors.email}</span>}
+                </div>
+
+                {/* State & City */}
+                <div className="sg-form-row sg-form-row-even">
+                  <div className="sg-form-group">
+                    <div className="sg-input-wrap">
+                      <span className="sg-input-icon" aria-hidden="true">{ICONS.map}</span>
+                      <select
+                        id="state"
+                        name="state"
+                        required
+                        aria-label="State"
+                        value={formData.state}
+                        onChange={handleInputChange}
+                        className={`sg-form-select ${!formData.state ? 'sg-placeholder-selected' : ''}`}
+                      >
+                        <option value="" disabled>Select State *</option>
+                        {statesList.map(state => (
+                          <option key={state} value={state}>{state}</option>
+                        ))}
+                      </select>
+                      <span className="sg-select-arrow" aria-hidden="true">{ICONS.chevron}</span>
+                    </div>
+                    {errors.state && <span className="otp-error-msg" style={errStyle}>{errors.state}</span>}
+                  </div>
+
+                  <div className="sg-form-group">
+                    <div className="sg-input-wrap">
+                      <span className="sg-input-icon" aria-hidden="true">{ICONS.pin}</span>
+                      <select
+                        id="city"
+                        name="city"
+                        required
+                        aria-label="City"
+                        disabled={!formData.state}
+                        value={formData.city}
+                        onChange={handleInputChange}
+                        className={`sg-form-select ${!formData.city ? 'sg-placeholder-selected' : ''}`}
+                      >
+                        <option value="" disabled>Select City *</option>
+                        {availableCities.map(city => (
+                          <option key={city} value={city}>{city}</option>
+                        ))}
+                      </select>
+                      <span className="sg-select-arrow" aria-hidden="true">{ICONS.chevron}</span>
+                    </div>
+                    {errors.city && <span className="otp-error-msg" style={errStyle}>{errors.city}</span>}
                   </div>
                 </div>
 
-                {/* State & City Selects */}
-                <div className="sg-form-row">
-                  <div className="sg-form-group sg-select-wrapper">
-                    <select
-                      id="state"
-                      name="state"
-                      required
-                      value={formData.state}
-                      onChange={handleInputChange}
-                      className={`sg-form-select ${!formData.state ? 'sg-placeholder-selected' : ''}`}
-                    >
-                      <option value="" disabled>Select State*</option>
-                      {statesList.map(state => (
-                        <option key={state} value={state}>{state}</option>
-                      ))}
-                    </select>
-                    <span className="sg-select-arrow" />
-                    {errors.state && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.state}</span>}
-                  </div>
-
-                  <div className="sg-form-group sg-select-wrapper">
-                    <select
-                      id="city"
-                      name="city"
-                      required
-                      disabled={!formData.state}
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className={`sg-form-select ${!formData.city ? 'sg-placeholder-selected' : ''}`}
-                    >
-                      <option value="" disabled>
-                        {formData.state ? 'Select City*' : 'Select City*'}
-                      </option>
-                      {availableCities.map(city => (
-                        <option key={city} value={city}>{city}</option>
-                      ))}
-                    </select>
-                    <span className="sg-select-arrow" />
-                    {errors.city && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.city}</span>}
-                  </div>
-                </div>
-
-                {/* Branch Select */}
-                <div className="sg-form-row">
-                  <div className="sg-form-group sg-select-wrapper">
+                {/* Branch */}
+                <div className="sg-form-group">
+                  <div className="sg-input-wrap">
+                    <span className="sg-input-icon" aria-hidden="true">{ICONS.store}</span>
                     <select
                       id="branchCode"
                       name="branchCode"
                       required
+                      aria-label="Branch"
                       disabled={!formData.city}
                       value={formData.branchCode}
                       onChange={handleInputChange}
                       className={`sg-form-select ${!formData.branchCode ? 'sg-placeholder-selected' : ''}`}
                     >
                       <option value="" disabled>
-                        {formData.city ? 'Select Branch*' : 'Select Branch (Select City First)*'}
+                        {formData.city ? 'Select Branch *' : 'Select Branch (Select City First) *'}
                       </option>
                       {availableBranches.map(b => (
                         <option key={b.branchCode} value={b.branchCode}>{b.branchName}</option>
                       ))}
                     </select>
-                    <span className="sg-select-arrow" />
-                    {errors.branchCode && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.branchCode}</span>}
+                    <span className="sg-select-arrow" aria-hidden="true">{ICONS.chevron}</span>
                   </div>
+                  {errors.branchCode && <span className="otp-error-msg" style={errStyle}>{errors.branchCode}</span>}
                 </div>
 
-                {/* Consent checkbox */}
+                {/* Consent */}
                 <div className="sg-consent-group">
                   <label className="sg-consent-label">
                     <input
@@ -469,16 +446,15 @@ export default function SellGoldHero({
                       <ConsentText />
                     </span>
                   </label>
-                  {errors.consent && <span className="otp-error-msg" style={{color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>{errors.consent}</span>}
+                  {errors.consent && <span className="otp-error-msg" style={errStyle}>{errors.consent}</span>}
                 </div>
 
                 {otpErrorMessage && (
-                  <div className="otp-error-msg" role="alert" style={{ color: '#DC2626', fontSize: '0.75rem', marginTop: '-0.5rem', marginBottom: '0.5rem', padding: '0 0.25rem' }}>
+                  <div className="otp-error-msg" role="alert" style={{ color: '#DC2626', fontSize: '0.75rem', padding: '0 0.25rem' }}>
                     {otpErrorMessage}
                   </div>
                 )}
 
-                {/* Submit button */}
                 <button
                   type="submit"
                   disabled={
@@ -494,28 +470,61 @@ export default function SellGoldHero({
                     !formData.branchCode ||
                     !formData.consent
                   }
-                  className="btn btn-primary sg-submit-btn"
+                  className="sg-submit-btn"
                 >
                   {otpState === 'verifying' ? (
                     <>
-                      <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span>
-                      SUBMITTING...
+                      <span className="sg-spinner" aria-hidden="true" />
+                      Submitting...
                     </>
                   ) : (
-                    'SUBMIT ENQUIRY'
+                    <>
+                      Submit Enquiry
+                      <span className="sg-submit-arrow" aria-hidden="true">{ICONS.arrow}</span>
+                    </>
                   )}
                 </button>
+
+                <p className="sg-secure-note">
+                  <span aria-hidden="true">{ICONS.lock}</span>
+                  Your details are safe and secure with us.
+                </p>
               </form>
             )}
           </div>
         </div>
       </div>
-      </section>
-
-      {/* Banner Logo overlapping bottom */}
-      <Link href="/" className="sg-banner-logo-container" title="Muthoot Gold Point">
-        <Image src={bannerLogo} alt="We Buy Gold" className="sg-banner-logo-img" />
-      </Link>
-    </div>
+    </section>
   );
 }
+
+const svgProps = {
+  xmlns: 'http://www.w3.org/2000/svg',
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.8,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
+const ICONS = {
+  user: (<svg {...svgProps}><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" /></svg>),
+  phone: (<svg {...svgProps}><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" /></svg>),
+  mail: (<svg {...svgProps}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>),
+  map: (<svg {...svgProps}><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z" /><path d="M9 4v14M15 6v14" /></svg>),
+  pin: (<svg {...svgProps}><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" /><circle cx="12" cy="10" r="2.5" /></svg>),
+  store: (<svg {...svgProps}><path d="M3 9 4.5 4h15L21 9" /><path d="M3 9h18v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0V9z" /><path d="M5 13v8h14v-8" /></svg>),
+  chevron: (<svg {...svgProps} strokeWidth={2.2}><path d="m6 9 6 6 6-6" /></svg>),
+  arrow: (<svg {...svgProps} strokeWidth={2.4}><path d="M5 12h14M13 6l6 6-6 6" /></svg>),
+  lock: (<svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="10" width="16" height="12" rx="2.5" fill="#E2A92B" /><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#B8801A" strokeWidth="2.2" /><circle cx="12" cy="16" r="1.6" fill="#7a4f0c" /></svg>),
+};
+
+const FEATURE_ICONS = [
+  // Flask - purity testing
+  (<svg key="flask" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M19 6h10M21 6v12L11 37a4 4 0 0 0 3.5 6h19a4 4 0 0 0 3.5-6L27 18V6" fill="none" stroke="#B8801A" strokeWidth="2.6" strokeLinejoin="round" /><path d="M14.5 32h19l3 5.6a2 2 0 0 1-1.8 3H13.3a2 2 0 0 1-1.8-3z" fill="url(#sgGoldGrad)" /><circle cx="22" cy="36" r="1.6" fill="#fff8e1" /><circle cx="27" cy="34" r="1.1" fill="#fff8e1" /><defs><linearGradient id="sgGoldGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F8CE5A" /><stop offset="1" stopColor="#C98B16" /></linearGradient></defs></svg>),
+  // Shield check - transparent
+  (<svg key="shield" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M24 4 8 10v11c0 10.5 6.8 19.3 16 23 9.2-3.7 16-12.5 16-23V10z" fill="url(#sgGoldGrad2)" /><path d="m16.5 24 5.5 5.5 10-11" fill="none" stroke="#fff" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" /><defs><linearGradient id="sgGoldGrad2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F8CE5A" /><stop offset="1" stopColor="#C98B16" /></linearGradient></defs></svg>),
+  // Sparkles - ultrasonic cleaning
+  (<svg key="sparkle" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgGoldGrad3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F8CE5A" /><stop offset="1" stopColor="#C98B16" /></linearGradient></defs><path d="M20 10c1.2 7.2 3.8 9.8 11 11-7.2 1.2-9.8 3.8-11 11-1.2-7.2-3.8-9.8-11-11 7.2-1.2 9.8-3.8 11-11z" fill="url(#sgGoldGrad3)" /><path d="M35 4c.6 3.6 1.9 4.9 5.5 5.5-3.6.6-4.9 1.9-5.5 5.5-.6-3.6-1.9-4.9-5.5-5.5 3.6-.6 4.9-1.9 5.5-5.5z" fill="url(#sgGoldGrad3)" /><path d="M36 30c.6 3.6 1.9 4.9 5.5 5.5-3.6.6-4.9 1.9-5.5 5.5-.6-3.6-1.9-4.9-5.5-5.5 3.6-.6 4.9-1.9 5.5-5.5z" fill="url(#sgGoldGrad3)" /></svg>),
+];

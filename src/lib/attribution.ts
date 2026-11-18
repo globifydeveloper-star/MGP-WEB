@@ -9,6 +9,9 @@
  *   /sell-gold-for-cash?utm_source=facebook&utm_medium=paid_social&utm_campaign=sell_gold_nov
  *   /sell-gold-for-cash?utm_source=twitter&utm_medium=paid_social&utm_campaign=sell_gold_nov
  * Facebook (fbclid) and X/Twitter (twclid) click IDs are detected as a fallback.
+ * Any other parameters on the ad link (the client's own tags) are kept in `customParams`.
+ * They are recorded only together with a real traffic source (UTM, click ID or external
+ * referrer), so internal links such as ?page=2 never overwrite the ad source.
  */
 
 export interface LeadAttribution {
@@ -22,12 +25,34 @@ export interface LeadAttribution {
   clickId?: string;
   referrer?: string;
   landingPage?: string;
+  /** Any other query parameters on the ad link (the client's own tags), e.g. { ref: 'diwali' } */
+  customParams?: Record<string, string>;
   capturedAt: string;
 }
 
 const STORAGE_KEY = 'mgp_lead_attribution';
 const TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const MAX_LEN = 200;
+const MAX_CUSTOM_PARAMS = 15;
+const CUSTOM_KEY_PATTERN = /^[A-Za-z0-9_.-]{1,50}$/;
+const KNOWN_PARAMS = new Set([
+  'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+  'fbclid', 'twclid', 'gclid',
+]);
+
+function readCustomParams(params: URLSearchParams): Record<string, string> | undefined {
+  const out: Record<string, string> = {};
+  let count = 0;
+  for (const [key, value] of params) {
+    if (count >= MAX_CUSTOM_PARAMS) break;
+    if (KNOWN_PARAMS.has(key.toLowerCase()) || !CUSTOM_KEY_PATTERN.test(key) || key in out) continue;
+    const v = clip(value);
+    if (!v) continue;
+    out[key] = v;
+    count++;
+  }
+  return count ? out : undefined;
+}
 
 const clip = (v: string | null | undefined): string | undefined => {
   const s = v?.trim();
@@ -98,6 +123,7 @@ function fromCurrentUrl(): LeadAttribution | null {
     clickId: fbclid || twclid || gclid,
     referrer,
     landingPage: clip(window.location.pathname),
+    customParams: readCustomParams(params),
     capturedAt: new Date().toISOString(),
   };
 }

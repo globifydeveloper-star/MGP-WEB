@@ -1,0 +1,111 @@
+.sgh-root {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: #fffdf9;
+  border-bottom: 1px solid #f0e6d2;
+  box-shadow: 0 2px 12px rgba(120, 80, 10, 0.06);
+  transform: translateZ(0);
+}
+
+.sgh-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+.sgh-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.sgh-logo-link {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.sgh-logo {
+  display: block;
+  width: 200px;
+  height: auto;
+}
+
+.sgh-divider {
+  width: 1px;
+  height: 44px;
+  background: #d9c7a3;
+}
+
+.sgh-unit {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f1a12;
+  white-space: nowrap;
+}
+
+.sgh-muthoot {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 1.15em;
+  letter-spacing: -0.02em;
+  color: #0f5cc0;
+}
+
+.sgh-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #b8801a;
+  border-radius: 16px;
+  background: #fffaf0;
+  color: #3a2208;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sgh-phone:hover {
+  background: #fdf0d2;
+  box-shadow: 0 4px 14px rgba(184, 128, 26, 0.2);
+}
+
+.sgh-phone-icon {
+  width: 22px;
+  height: 22px;
+  color: #6b3f0a;
+}
+
+@media (max-width: 860px) {
+  .sgh-divider,
+  .sgh-unit {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .sgh-logo {
+    width: 140px;
+  }
+
+  .sgh-phone {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    gap: 0.4rem;
+  }
+
+  .sgh-phone-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
