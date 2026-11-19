@@ -69,6 +69,7 @@ export default function SellGoldHero({
   }, [formData.state, formData.city, branchesByState]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showGoldImage, setShowGoldImage] = useState(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [companyWebsite, setCompanyWebsite] = useState('');
 
@@ -231,6 +232,22 @@ export default function SellGoldHero({
               </li>
             ))}
           </ul>
+
+          {/* Gold ornaments image — transparent PNG at public/images/sell-gold-for-cash/hero-gold.png */}
+          {showGoldImage && (
+            <div className="sg-hero-gold">
+              <Image
+                src={HERO_GOLD_IMAGE}
+                alt="Gold bangles and jewellery"
+                width={1536}
+                height={1024}
+                sizes="(max-width: 680px) 260px, 420px"
+                className="sg-hero-gold-img"
+                onError={() => setShowGoldImage(false)}
+                priority
+              />
+            </div>
+          )}
         </div>
 
         {/* Right: enquiry form */}
@@ -495,6 +512,8 @@ export default function SellGoldHero({
     </section>
   );
 }
+
+const HERO_GOLD_IMAGE = '/images/sell-gold-for-cash/hero-gold.png';
 
 const svgProps = {
   xmlns: 'http://www.w3.org/2000/svg',

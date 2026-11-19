@@ -161,6 +161,22 @@
   max-width: 9.5rem;
 }
 
+/* Gold ornaments image under the features */
+.sg-hero-gold {
+  width: 100%;
+  max-width: 420px;
+  margin-top: -1rem;
+}
+
+/* Image has a white (non-transparent) background — multiply blends it into the cream hero */
+.sg-hero-gold-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
 /* ---------- Form card ---------- */
 .sg-hero-right {
   display: flex;
@@ -601,6 +617,11 @@
 
   .sg-feature-text {
     font-size: 0.8rem;
+  }
+
+  .sg-hero-gold {
+    max-width: 260px;
+    margin-top: -0.25rem;
   }
 
   .sg-hero-right {
