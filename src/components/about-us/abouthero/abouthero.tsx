@@ -73,7 +73,7 @@ export default function AboutHero({ onExploreClick, data, headingLevel = 'h1' }:
           </span>
 
           <Heading className="about-hero-title">
-            {data?.heroTitle || 'Muthoot Gold Point — Trusted Gold Buyer'}
+            {data?.heroTitle || 'Muthoot Gold Point, Trusted Gold Buyer'}
           </Heading>
         </div>
 
@@ -221,7 +221,7 @@ export default function AboutHero({ onExploreClick, data, headingLevel = 'h1' }:
 
               <div className="about-hero-info-card">
                 <h3 className="about-hero-subheading">Transparent Process</h3>
-                <p className="about-hero-desc">We enable customers to <a href="#" onClick={onExploreClick ? (e) => { e.preventDefault(); onExploreClick(); } : undefined} className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point – India&apos;s first mobile gold buying van – brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
+                <p className="about-hero-desc">We enable customers to <a href="#" onClick={onExploreClick ? (e) => { e.preventDefault(); onExploreClick(); } : undefined} className="about-hero-link">sell gold</a> in a transparent and efficient manner. The unparalleled experience of selling old gold for instant cash is fair and precise, with a safe and scientifically tested process. Mobile Muthoot Gold Point, India&apos;s first mobile gold buying van, brings XRF and ultrasonic testing to the customer&apos;s doorstep.</p>
               </div>
             </div>
           )}

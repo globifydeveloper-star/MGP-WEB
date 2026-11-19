@@ -31,7 +31,6 @@ export default function SellGoldHero({
   heroTitle,
   heroTitleHighlight,
   heroSubtitle,
-  heroBullets,
   heroFormTitle,
   heroFormSubtitle,
   heroFormSuccessText,
@@ -192,12 +191,6 @@ export default function SellGoldHero({
     }
   };
 
-  const bullets = heroBullets && heroBullets.length > 0 ? heroBullets : [
-    { text: 'Free Purity Testing' },
-    { text: '100% Transparent Process' },
-    { text: 'Free Ultrasonic Cleaning' }
-  ];
-
   const errStyle: React.CSSProperties = { color: '#DC2626', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' };
 
   return (
@@ -226,10 +219,12 @@ export default function SellGoldHero({
           {heroSubtitle && <p className="sg-hero-subtitle">{heroSubtitle}</p>}
 
           <ul className="sg-hero-features">
-            {bullets.slice(0, 3).map((bullet, idx) => (
-              <li key={idx} className="sg-hero-feature">
-                <span className="sg-feature-icon" aria-hidden="true">{FEATURE_ICONS[idx % FEATURE_ICONS.length]}</span>
-                <span className="sg-feature-text">{bullet.text}</span>
+            {FEATURES.map((feature) => (
+              <li key={feature.key} className="sg-hero-feature">
+                <span className="sg-feature-icon" aria-hidden="true">{feature.icon}</span>
+                <span className="sg-feature-text">{feature.lines.map((line, i) => (
+                  <span key={i} className="sg-feature-line">{line}</span>
+                ))}</span>
               </li>
             ))}
           </ul>
@@ -536,11 +531,82 @@ const ICONS = {
   lock: (<svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="10" width="16" height="12" rx="2.5" fill="#E2A92B" /><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#B8801A" strokeWidth="2.2" /><circle cx="12" cy="16" r="1.6" fill="#7a4f0c" /></svg>),
 };
 
-const FEATURE_ICONS = [
-  // Flask - purity testing
-  (<svg key="flask" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M19 6h10M21 6v12L11 37a4 4 0 0 0 3.5 6h19a4 4 0 0 0 3.5-6L27 18V6" fill="none" stroke="#B8801A" strokeWidth="2.6" strokeLinejoin="round" /><path d="M14.5 32h19l3 5.6a2 2 0 0 1-1.8 3H13.3a2 2 0 0 1-1.8-3z" fill="url(#sgGoldGrad)" /><circle cx="22" cy="36" r="1.6" fill="#fff8e1" /><circle cx="27" cy="34" r="1.1" fill="#fff8e1" /><defs><linearGradient id="sgGoldGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F8CE5A" /><stop offset="1" stopColor="#C98B16" /></linearGradient></defs></svg>),
-  // Shield check - transparent
-  (<svg key="shield" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M24 4 8 10v11c0 10.5 6.8 19.3 16 23 9.2-3.7 16-12.5 16-23V10z" fill="url(#sgGoldGrad2)" /><path d="m16.5 24 5.5 5.5 10-11" fill="none" stroke="#fff" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" /><defs><linearGradient id="sgGoldGrad2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F8CE5A" /><stop offset="1" stopColor="#C98B16" /></linearGradient></defs></svg>),
-  // Sparkles - ultrasonic cleaning
-  (<svg key="sparkle" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgGoldGrad3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F8CE5A" /><stop offset="1" stopColor="#C98B16" /></linearGradient></defs><path d="M20 10c1.2 7.2 3.8 9.8 11 11-7.2 1.2-9.8 3.8-11 11-1.2-7.2-3.8-9.8-11-11 7.2-1.2 9.8-3.8 11-11z" fill="url(#sgGoldGrad3)" /><path d="M35 4c.6 3.6 1.9 4.9 5.5 5.5-3.6.6-4.9 1.9-5.5 5.5-.6-3.6-1.9-4.9-5.5-5.5 3.6-.6 4.9-1.9 5.5-5.5z" fill="url(#sgGoldGrad3)" /><path d="M36 30c.6 3.6 1.9 4.9 5.5 5.5-3.6.6-4.9 1.9-5.5 5.5-.6-3.6-1.9-4.9-5.5-5.5 3.6-.6 4.9-1.9 5.5-5.5z" fill="url(#sgGoldGrad3)" /></svg>),
+/* Feature icons — gold line art on navy medallions, matching the GoldPoint print design */
+const iconProps = {
+  viewBox: '0 0 48 48',
+  xmlns: 'http://www.w3.org/2000/svg',
+  fill: 'none',
+  stroke: 'url(#sgIconGold)',
+  strokeWidth: 2,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
+const IconGoldDefs = () => (
+  <defs>
+    <linearGradient id="sgIconGold" x1="0" y1="0" x2="0" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stopColor="#FFE39A" />
+      <stop offset="0.5" stopColor="#F2C14E" />
+      <stop offset="1" stopColor="#C98B16" />
+    </linearGradient>
+  </defs>
+);
+
+const FEATURES = [
+  {
+    key: 'transparent',
+    lines: ['100%', 'Transparent', 'Process'],
+    icon: (
+      <svg {...iconProps}>
+        <IconGoldDefs />
+        <path d="M24 5 9 10.5v10.2C9 30.5 15.4 38.8 24 42.5c8.6-3.7 15-12 15-21.8V10.5z" />
+        <path d="M24 9.5 13 13.6v7.3c0 7.5 4.6 13.9 11 17 6.4-3.1 11-9.5 11-17v-7.3z" strokeWidth="1.2" opacity="0.7" />
+        <path d="m17.5 23.5 4.6 4.6 8.6-9.4" strokeWidth="2.6" />
+      </svg>
+    ),
+  },
+  {
+    key: 'ultrasonic',
+    lines: ['Free', 'Ultrasonic', 'Gold Cleaning'],
+    icon: (
+      <svg {...iconProps}>
+        <IconGoldDefs />
+        <rect x="6" y="15" width="36" height="22" rx="3" />
+        <path d="M9 15v-3h30v3" />
+        <path d="M10 21c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0 4 1.6 6 0 4-1.6 4 0" strokeWidth="1.6" />
+        <path d="M10 25.5c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0 4 1.6 6 0 4-1.6 4 0" strokeWidth="1.6" />
+        <rect x="9" y="30" width="18" height="4" rx="1" strokeWidth="1.4" />
+        <circle cx="33" cy="32" r="1.6" strokeWidth="1.6" />
+        <circle cx="38" cy="32" r="1.6" strokeWidth="1.6" />
+        <path d="M10 37v3M38 37v3" />
+      </svg>
+    ),
+  },
+  {
+    key: 'xrf',
+    lines: ['Free', 'XRF Gold', 'Purity Testing'],
+    icon: (
+      <svg {...iconProps}>
+        <IconGoldDefs />
+        <path d="M8 16 24 8l16 8v18l-16 8-16-8z" />
+        <path d="m8 16 16 8 16-8M24 24v18" />
+        <path d="m12 22.5 8 4v9l-8-4z" strokeWidth="1.4" />
+        <path d="M30 28.5v6M33.5 27v6" strokeWidth="1.6" />
+        <circle cx="31.8" cy="24" r="1.2" strokeWidth="1.4" />
+      </svg>
+    ),
+  },
+  {
+    key: 'payment',
+    lines: ['Get', 'Instant', 'Payment'],
+    icon: (
+      <svg {...iconProps}>
+        <IconGoldDefs />
+        <circle cx="27" cy="15" r="9" />
+        <path d="M23 11h8M23 14h8M25 11c3 0 4.2 1.4 4.2 3S28 17 25 17h-1.5l5.5 5" strokeWidth="1.6" />
+        <path d="M5 32h6l6.5-4h7a2.5 2.5 0 0 1 0 5H19" />
+        <path d="m19 33 8.5-.2 8.8-6a2.6 2.6 0 0 1 3.4 3.9L30 39.5H15L11 42H5" />
+      </svg>
+    ),
+  },
 ];
