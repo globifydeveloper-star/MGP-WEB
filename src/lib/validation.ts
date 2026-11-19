@@ -24,7 +24,7 @@ export const validatePhone = (phone: string): string | null => {
 
 export const validateEmail = (email: string): string | null => {
   if (!email || email.trim() === '') {
-    return 'Email is required';
+    return null; // email is optional
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email.trim())) {

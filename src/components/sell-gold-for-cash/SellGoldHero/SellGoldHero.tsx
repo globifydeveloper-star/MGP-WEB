@@ -160,7 +160,7 @@ export default function SellGoldHero({
 
     const res = await verifyOtp(formData.phone, formData.otp, {
       name: formData.name,
-      email: formData.email,
+      email: formData.email.trim() || undefined,
       state: formData.state,
       city: formData.city,
       branchCode: formData.branchCode,
@@ -362,10 +362,9 @@ export default function SellGoldHero({
                       type="email"
                       id="email"
                       name="email"
-                      required
                       value={formData.email}
                       onChange={handleInputChange}
-                      placeholder="Email Address *"
+                      placeholder="Email Address (optional)"
                       aria-label="Email Address"
                       className="sg-form-input"
                     />
@@ -478,7 +477,6 @@ export default function SellGoldHero({
                     otpState === 'sending' ||
                     otpState === 'verifying' ||
                     !formData.name ||
-                    !formData.email ||
                     !formData.phone ||
                     !formData.otp ||
                     !formData.state ||

@@ -172,7 +172,7 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
     try {
       const res = await verifyOtp(formData.phone, formData.otp, {
         name: formData.name,
-        email: formData.email,
+        email: formData.email.trim() || undefined,
         state: formData.state,
         city: formData.city,
         branchCode: formData.branchCode,
@@ -435,8 +435,7 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                           name="email"
                           value={formData.email}
                           onChange={handleChange}
-                          placeholder="Email*"
-                          required
+                          placeholder="Email (optional)"
                           className="cp-input-field"
                         />
                       </div>
@@ -608,7 +607,6 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
                         otpState === 'sending' ||
                         otpState === 'verifying' ||
                         !formData.name ||
-                        !formData.email ||
                         !formData.phone ||
                         !formData.otp ||
                         !formData.service ||

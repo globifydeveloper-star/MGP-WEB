@@ -98,7 +98,7 @@ export default function GoldSellContact({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.branchCode) {
+    if (!formData.name || !formData.phone || !formData.otp || !formData.state || !formData.city || !formData.branchCode) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -110,7 +110,7 @@ export default function GoldSellContact({
     try {
       const res = await verifyOtp(formData.phone, formData.otp, {
         name: formData.name,
-        email: formData.email,
+        email: formData.email.trim() || undefined,
         state: formData.state,
         city: formData.city,
         branchCode: formData.branchCode,
@@ -226,8 +226,7 @@ export default function GoldSellContact({
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Email*"
-                  required
+                  placeholder="Email (optional)"
                 />
               </div>
 
@@ -364,7 +363,6 @@ export default function GoldSellContact({
                   otpState === 'sending' ||
                   otpState === 'verifying' ||
                   !formData.name ||
-                  !formData.email ||
                   !formData.phone ||
                   !formData.otp ||
                   !formData.state ||

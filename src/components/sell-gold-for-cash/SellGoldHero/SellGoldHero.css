@@ -48,15 +48,19 @@
   position: relative;
   align-self: stretch;
   z-index: 1;
+  overflow: hidden; /* keep the couple inside its own column */
 }
 
+/* Fills the column height (slightly cropped at the bottom) but never wider than the column */
 .sg-couple-photo {
   position: absolute;
-  top: 7%;
+  top: 10%;
   left: 0;
-  height: 120%;
-  width: auto;
+  width: 100%;
+  height: 102%;
   max-width: none;
+  object-fit: contain;
+  object-position: top left;
   display: block;
 }
 

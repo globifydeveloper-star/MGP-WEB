@@ -172,7 +172,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
 
     const res = await verifyOtp(formData.phone, formData.otp, {
       name: formData.name,
-      email: formData.email,
+      email: formData.email.trim() || undefined,
       state: formData.state,
       city: formData.city,
       branchCode: formData.branchCode,
@@ -251,8 +251,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
               <input
                 type="email"
                 name="email"
-                placeholder="Email*"
-                required
+                placeholder="Email (optional)"
                 className="sg-input"
                 value={formData.email}
                 onChange={handleChange}
@@ -426,7 +425,6 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
                 otpState === 'sending' ||
                 otpState === 'verifying' ||
                 !formData.name ||
-                !formData.email ||
                 !formData.phone ||
                 !formData.otp ||
                 !formData.state ||
