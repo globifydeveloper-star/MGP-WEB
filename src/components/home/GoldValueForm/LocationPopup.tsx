@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import './LocationPopup.css';
 
 interface LocationPopupProps {
@@ -29,6 +30,9 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedData, setSubmittedData] = useState<{name: string, phone: string, weight: string} | null>(null);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
@@ -71,7 +75,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedState(e.target.value);
@@ -146,7 +150,9 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
     }
   };
 
-  return (
+  // Portal to <body> so the modal escapes parent stacking contexts
+  // (otherwise later page sections paint over it on mobile).
+  return createPortal(
     <div className="lp-modal-overlay">
       <div className="lp-modal-container">
         {/* Header */}
@@ -256,6 +262,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
           </form>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
