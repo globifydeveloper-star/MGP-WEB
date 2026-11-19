@@ -18,10 +18,6 @@ export default function SellGoldHeader({ phone }: SellGoldHeaderProps) {
           <Link href="/" className="sgh-logo-link" aria-label="Muthoot Gold Point home">
             <Image src={logoImg} alt="GOLDPOINT - We Buy Gold" width={200} height={55} priority className="sgh-logo" />
           </Link>
-          <span className="sgh-divider" aria-hidden="true" />
-          <span className="sgh-unit">
-            A unit of <strong className="sgh-muthoot">muthoot</strong> EXIM Pvt. Ltd.
-          </span>
         </div>
 
         <a href={telHref} className="sgh-phone">

@@ -1,4 +1,4 @@
-/* SellGoldHero.css — warm gold hero with couple, features and enquiry card */
+/* SellGoldHero.css — warm gold hero: couple (left), headline + bangles (centre), enquiry card (right) */
 
 .sg-hero-root {
   --sg-brown: #3a2208;
@@ -9,50 +9,68 @@
 
   position: relative;
   overflow: hidden;
-  background: linear-gradient(120deg, #fdf6e7 0%, #fbedd0 55%, #f6dca0 100%);
+  background:
+    radial-gradient(ellipse 55% 75% at 42% 42%, #fffaf0 0%, rgba(255, 250, 240, 0.85) 35%, rgba(255, 250, 240, 0) 75%),
+    linear-gradient(115deg, #f6d68a 0%, #fbe8c0 30%, #fcefd6 50%, #f7dea3 75%, #efc461 100%);
   color: var(--sg-brown);
 }
 
-/* Photo | heading (sized to its one-line text) | form */
+/* Soft sweeping arc on the left, as in the design */
+.sg-hero-arc {
+  position: absolute;
+  top: -55%;
+  left: -32%;
+  width: 72%;
+  height: 190%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Photo (flush left) | headline + bangles | form card */
 .sg-hero-container {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(340px, 400px);
+  grid-template-columns: minmax(240px, 1fr) auto minmax(340px, 440px);
   align-items: center;
-  gap: 1.25rem;
-  min-height: 560px;
+  gap: 1.5rem;
+  max-width: 1600px;
+  min-height: clamp(580px, 44vw, 720px);
+  padding-left: 0;
+  padding-right: 2.5rem;
 }
 
-/* ---------- Photo ---------- */
+/* ---------- Photo: large, anchored bottom-left, cropped at the knees ---------- */
 .sg-hero-visual {
-  align-self: end;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 100%;
-  padding-top: 2.5rem;
+  position: relative;
+  align-self: stretch;
+  z-index: 1;
 }
 
 .sg-couple-photo {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  max-height: 600px;
-  object-fit: contain;
-  object-position: bottom center;
+  position: absolute;
+  top: 7%;
+  left: 0;
+  height: 120%;
+  width: auto;
+  max-width: none;
   display: block;
-  margin-bottom: -1px;
 }
 
-/* ---------- Headline + features ---------- */
+/* ---------- Headline + features + bangles ---------- */
 .sg-hero-content {
+  position: relative;
+  z-index: 3;
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 2.25rem;
-  padding: 3rem 0;
+  gap: 2rem;
+  padding-top: clamp(2.5rem, 4.5vw, 4.5rem);
   animation: sgFadeUp 0.8s ease-out both;
 }
 
@@ -60,11 +78,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
   margin: 0;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1.1;
 }
 
@@ -76,27 +94,27 @@
 }
 
 .sg-hero-title-main {
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+  font-size: clamp(1.9rem, 3vw, 3.4rem);
   color: #111;
 }
 
 .sg-hero-title-highlight {
   position: relative;
-  padding: 0.1em 0.4em 0.15em;
-  font-size: clamp(1.8rem, 2.9vw, 2.7rem);
+  padding: 0.08em 0.35em 0.14em;
+  font-size: clamp(2.1rem, 3.4vw, 3.8rem);
   color: var(--sg-brown);
   z-index: 0;
 }
 
-/* Flat gold band behind the highlight */
+/* Gold band behind the highlight, fading in from the left like a brush stroke */
 .sg-hero-title-highlight::before {
   content: '';
   position: absolute;
-  inset: 6% 0 4% 0;
+  inset: 8% -2% 4% -2%;
   z-index: -1;
-  background: #f5c94f;
-  border-radius: 6px;
-  transform: skewX(-6deg);
+  background: linear-gradient(90deg, rgba(246, 205, 98, 0.25) 0%, #f6cd62 14%, #f5c84f 70%, #f9da84 100%);
+  border-radius: 4px 14px 4px 14px;
+  transform: skewX(-8deg);
 }
 
 .sg-hero-subtitle {
@@ -109,12 +127,12 @@
 
 .sg-hero-features {
   list-style: none;
-  margin: 0;
+  margin: 0.5rem 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
 }
 
 .sg-hero-feature {
@@ -122,7 +140,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.75rem;
   padding: 0 0.75rem;
 }
 
@@ -130,55 +148,57 @@
   content: '';
   position: absolute;
   left: 0;
-  top: 30%;
-  height: 55%;
+  top: 32%;
+  height: 58%;
   width: 1px;
-  background: linear-gradient(to bottom, rgba(184, 128, 26, 0), rgba(184, 128, 26, 0.55), rgba(184, 128, 26, 0));
+  background: linear-gradient(to bottom, rgba(184, 128, 26, 0), rgba(184, 128, 26, 0.6), rgba(184, 128, 26, 0));
 }
 
 .sg-feature-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: clamp(64px, 5.5vw, 88px);
+  height: clamp(64px, 5.5vw, 88px);
   border-radius: 50%;
-  background: #fffaf0;
-  border: 1px solid #efdcb2;
+  background: radial-gradient(circle at 35% 30%, #fffdf6 0%, #fdf1d6 70%, #f8e4b6 100%);
+  box-shadow: 0 6px 16px rgba(184, 128, 26, 0.14);
 }
 
 .sg-feature-icon svg {
-  width: 30px;
-  height: 30px;
+  width: 50%;
+  height: 50%;
 }
 
 .sg-feature-text {
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-size: 0.98rem;
-  font-weight: 700;
+  font-size: clamp(0.95rem, 1.25vw, 1.3rem);
+  font-weight: 800;
   line-height: 1.2;
   color: #1a1206;
   max-width: 9.5rem;
 }
 
-/* Gold ornaments image under the features */
+/* Bangles — transparent PNG sitting at the bottom of the centre column */
 .sg-hero-gold {
   width: 100%;
-  max-width: 420px;
-  margin-top: -1rem;
+  max-width: clamp(380px, 34vw, 600px);
+  margin-top: auto;
+  /* the PNG has empty space above/below the bangles; pull it in */
+  margin-bottom: -6%;
 }
 
-/* Image has a white (non-transparent) background — multiply blends it into the cream hero */
 .sg-hero-gold-img {
   display: block;
   width: 100%;
   height: auto;
-  object-fit: contain;
-  mix-blend-mode: multiply;
+  margin-top: -14%;
 }
 
 /* ---------- Form card ---------- */
 .sg-hero-right {
+  position: relative;
+  z-index: 3;
   display: flex;
   justify-content: flex-end;
   padding: 2.5rem 0;
@@ -187,12 +207,12 @@
 
 .sg-form-card {
   width: 100%;
-  max-width: 400px;
-  padding: 1.75rem 1.5rem 1.25rem;
-  background: #fff;
-  border: 1px solid #f0e2c4;
-  border-radius: 18px;
-  box-shadow: 0 12px 32px rgba(140, 95, 15, 0.1);
+  max-width: 440px;
+  padding: 2rem 1.75rem 1.4rem;
+  background: rgba(255, 253, 249, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(140, 95, 15, 0.16);
 }
 
 .sg-contact-form {
@@ -204,7 +224,7 @@
 .sg-form-title {
   margin: 0;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-size: 1.4rem;
+  font-size: clamp(1.45rem, 1.7vw, 1.85rem);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -259,11 +279,11 @@
 .sg-form-input,
 .sg-form-select {
   width: 100%;
-  height: 46px;
+  height: 52px;
   padding: 0 0.9rem 0 2.85rem;
   background: #fff;
   border: 1px solid var(--sg-line);
-  border-radius: 10px;
+  border-radius: 12px;
   color: #2a1d0c;
   font-family: var(--font-outfit), sans-serif;
   font-size: 0.95rem;
@@ -303,7 +323,7 @@
 .sg-get-otp-btn {
   position: absolute;
   right: 6px;
-  height: 38px;
+  height: 40px;
   padding: 0 0.8rem;
   border: none;
   border-radius: 9px;
@@ -395,15 +415,15 @@
   justify-content: center;
   gap: 0.6rem;
   width: 100%;
-  height: 50px;
+  height: 56px;
   margin-top: 0.35rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 14px;
   background: linear-gradient(180deg, #dca233 0%, #b8801a 100%);
   color: #fff;
   font-family: 'Gilroy', var(--font-outfit), sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 800;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
@@ -553,15 +573,35 @@
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     min-height: 0;
     gap: 0.5rem 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .sg-hero-arc {
+    display: none;
   }
 
   .sg-hero-content {
-    padding: 2rem 0 1.5rem;
+    padding: 2rem 0 1rem;
     gap: 1.5rem;
   }
 
+  .sg-hero-visual {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
   .sg-couple-photo {
-    max-height: 420px;
+    position: static;
+    height: auto;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .sg-hero-gold {
+    max-width: 360px;
+    margin-bottom: -4%;
   }
 
   .sg-hero-right {
@@ -620,8 +660,8 @@
   }
 
   .sg-hero-gold {
-    max-width: 260px;
-    margin-top: -0.25rem;
+    max-width: 280px;
+    margin-bottom: -2%;
   }
 
   .sg-hero-right {

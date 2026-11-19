@@ -202,6 +202,7 @@ export default function SellGoldHero({
 
   return (
     <section className="sg-hero-root">
+      <div className="sg-hero-arc" aria-hidden="true" />
 
       <div className="container sg-hero-container">
         {/* Left: couple photo */}
@@ -241,7 +242,7 @@ export default function SellGoldHero({
                 alt="Gold bangles and jewellery"
                 width={1536}
                 height={1024}
-                sizes="(max-width: 680px) 260px, 420px"
+                sizes="(max-width: 680px) 280px, 600px"
                 className="sg-hero-gold-img"
                 onError={() => setShowGoldImage(false)}
                 priority
