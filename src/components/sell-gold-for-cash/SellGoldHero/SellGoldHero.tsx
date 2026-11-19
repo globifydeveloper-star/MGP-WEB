@@ -213,7 +213,7 @@ export default function SellGoldHero({
         {/* Middle: heading + feature icons */}
         <div className="sg-hero-content">
           <h1 className="sg-hero-title">
-            <span className="sg-hero-title-main">{heroTitle || 'Sell Your Gold for Cash'}</span>
+            <span className="sg-hero-title-main">{heroTitle || 'Sell Your Gold'}</span>
             <span className="sg-hero-title-highlight">{heroTitleHighlight || 'Get Cash Instantly'}</span>
           </h1>
           {heroSubtitle && <p className="sg-hero-subtitle">{heroSubtitle}</p>}
