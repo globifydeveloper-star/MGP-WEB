@@ -8,6 +8,7 @@ import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './SellGoldModal.css';
+import { trackLeadConversion } from '@/lib/analytics';
 
 interface SellGoldModalProps {
   isOpen: boolean;
@@ -185,6 +186,7 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
       formType: 'sell-gold-modal',
     });
     if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+      trackLeadConversion('Sell Gold Modal', res.leadRef);
       setIsSubmitted(true);
     } else {
       setErrors(prev => ({

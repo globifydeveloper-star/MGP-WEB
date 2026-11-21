@@ -10,6 +10,7 @@ import { useBranchMaster } from '@/hooks/useBranchMaster';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './ContactPage.css';
 import type { ContactUsPageData, GlobalStatsData } from '@/lib/strapi';
+import { trackLeadConversion } from '@/lib/analytics';
 
 const DEFAULT_CONTACT_HERO = '/ImageSet/Contact Us page/Hero Section 1774x887 px-01.jpg';
 
@@ -184,6 +185,7 @@ export default function ContactPage({ data, globalStats }: { data?: ContactUsPag
         formType: 'contact',
       });
       if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+        trackLeadConversion('Contact Us Form', res.leadRef);
         setIsSubmitted(true);
         setFormData({
           name: '',

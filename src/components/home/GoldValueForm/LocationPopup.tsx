@@ -21,6 +21,7 @@ import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { submitFormSubmissionAction as submitFormSubmission } from '@/actions/strapiActions';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { isValidLeadRef } from '@/lib/validation';
+import { trackLeadConversion } from '@/lib/analytics';
 
 export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, onOtpRequired }: LocationPopupProps) {
   const [selectedState, setSelectedState] = useState('');
@@ -131,6 +132,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
       }
 
       if (res && res.success === true && isValidLeadRef((res as any).leadRef)) {
+        trackLeadConversion('Gold Value Form', (res as any).leadRef);
         setIsSubmitted(true);
         if (onSuccess) {
           onSuccess();

@@ -8,6 +8,7 @@ import { isValidLeadRef } from '@/lib/validation';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './GoldSellContact.css';
 import contactBgImg from '../../../../public/images/sell-gold-for-cash/get-in-touch-form-bg.jpg';
+import { trackLeadConversion } from '@/lib/analytics';
 
 interface GoldSellContactProps {
   contactTitle?: string;
@@ -122,6 +123,7 @@ export default function GoldSellContact({
         formType: 'sell-gold-page',
       });
       if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+        trackLeadConversion('Sell Gold Contact Form', res.leadRef);
         setIsSubmitted(true);
         setFormData({
           name: '',

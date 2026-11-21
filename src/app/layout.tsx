@@ -4,10 +4,13 @@ import { Outfit, Montserrat } from "next/font/google";
 import BranchSelector from "@/components/home/BranchSelector/BranchSelector";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import GoogleAds from "@/components/analytics/GoogleAds";
+import MetaPixel from "@/components/analytics/MetaPixel";
 import GoogleTagManager from "@/components/analytics/GoogleTagManager";
 import AttributionCapture from "@/components/analytics/AttributionCapture";
 import { SiteDataProvider } from "@/components/providers/SiteDataProvider";
 import { getSiteBranches, getSiteGoldRates } from "@/lib/siteData";
+import { getLeadSourceAliases } from "@/lib/strapi";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -106,7 +109,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // Fetched here and sent with the page, so the browser makes no API calls for them
-  const [branches, goldRates, requestHeaders] = await Promise.all([getSiteBranches(), getSiteGoldRates(), headers()]);
+  const [branches, goldRates, sourceAliases, requestHeaders] = await Promise.all([
+    getSiteBranches(),
+    getSiteGoldRates(),
+    getLeadSourceAliases(),
+    headers(),
+  ]);
   // Set by src/proxy.ts. <Script> only gets the CSP nonce when it's passed explicitly;
   // without it 'strict-dynamic' blocks the GTM/GA inline bootstraps in production.
   const nonce = requestHeaders.get('x-nonce') ?? undefined;
@@ -123,7 +131,9 @@ export default async function RootLayout({
       <body style={{ colorScheme: 'light' }}>
         <GoogleTagManager nonce={nonce} />
         <GoogleAnalytics nonce={nonce} />
-        <AttributionCapture />
+        <GoogleAds nonce={nonce} />
+        <MetaPixel nonce={nonce} />
+        <AttributionCapture sourceAliases={sourceAliases} />
         <SiteDataProvider branches={branches} goldRates={goldRates}>
           {children}
           <BranchSelector />

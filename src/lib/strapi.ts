@@ -1764,3 +1764,25 @@ export const getPrivacyPolicyPage = cache(async function getPrivacyPolicyPage():
   };
 });
 
+
+/**
+ * utm_source aliases from Strapi "Lead Source Settings", e.g. { "1": "facebook" }.
+ * Keys and values are lower-cased; an empty object means "use the built-in names only".
+ */
+export const getLeadSourceAliases = cache(async function getLeadSourceAliases(): Promise<Record<string, string>> {
+  const data = await fetchStrapi<StrapiAny>(
+    '/api/lead-source-setting?populate=*',
+    { next: { revalidate: REVALIDATE_INTERVAL } },
+    'getLeadSourceAliases'
+  );
+  if (!data) return {};
+  const flat = unwrap<StrapiAny>(data);
+  const rows: StrapiAny[] = Array.isArray(flat?.sourceAliases) ? flat.sourceAliases : [];
+  const out: Record<string, string> = {};
+  for (const row of rows.slice(0, 200)) {
+    const code = typeof row?.code === 'string' ? row.code.trim().toLowerCase().slice(0, 100) : '';
+    const source = typeof row?.source === 'string' ? row.source.trim().toLowerCase().slice(0, 100) : '';
+    if (code && source) out[code] = source;
+  }
+  return out;
+});

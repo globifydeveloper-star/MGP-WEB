@@ -7,6 +7,7 @@ import type { FormType } from '@/lib/otp';
 import { isValidLeadRef } from '@/lib/validation';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './OTPEnquiryForm.css';
+import { trackLeadConversion } from '@/lib/analytics';
 
 export default function OTPEnquiryForm({
   sourceForm = 'OTP Enquiry Form',
@@ -91,6 +92,7 @@ export default function OTPEnquiryForm({
     });
     
     if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+      trackLeadConversion('Page Builder Enquiry Form', res.leadRef);
       setSubmittedLeadRef(res.leadRef);
       setSubmitError(null);
     } else {

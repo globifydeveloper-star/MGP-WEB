@@ -69,8 +69,18 @@ const REFERRER_CHANNELS: Array<[RegExp, string]> = [
   [/(^|\.)bing\.com$/, 'bing'],
 ];
 
+// Editable in Strapi → "Lead Source Settings" (e.g. "1" → "facebook"); set by AttributionCapture.
+let customAliases: Record<string, string> = {};
+
+/** Load the Strapi utm_source aliases. Call before captureAttribution(). */
+export function setSourceAliases(aliases: Record<string, string> | undefined): void {
+  customAliases = aliases ?? {};
+}
+
 const normaliseSource = (src: string): string => {
   const s = src.toLowerCase();
+  // Strapi aliases win over the built-in names below.
+  if (Object.prototype.hasOwnProperty.call(customAliases, s)) return customAliases[s];
   if (s === 'fb' || s.includes('facebook') || s === 'meta') return 'facebook';
   if (s === 'ig' || s.includes('instagram')) return 'instagram';
   if (s === 'x' || s.includes('twitter')) return 'twitter';

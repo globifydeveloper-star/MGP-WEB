@@ -7,6 +7,7 @@ import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { MobileVanPageData } from '@/lib/strapi';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './appoinment.css';
+import { trackLeadConversion } from '@/lib/analytics';
 
 const DEFAULT_VAN_IMAGE = '/images/home/mobile-van-hero.png';
 
@@ -167,6 +168,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
     });
 
     if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+      trackLeadConversion('Mobile Van Appointment', res.leadRef);
       setIsSubmitted(true);
       setFormData({
         fullName: '',

@@ -10,6 +10,7 @@ import type { SellGoldPageSettings } from '@/lib/strapi';
 
 import './SellGoldHero.css';
 import coupleImg from '../../../../public/images/sell-gold-for-cash/sell-gold-hero-model.png';
+import { trackLeadConversion } from '@/lib/analytics';
 
 interface SellGoldHeroProps {
   heroImage?: string;
@@ -171,6 +172,7 @@ export default function SellGoldHero({
     });
 
     if (res.success === true && res.verified === true && isValidLeadRef(res.leadRef)) {
+      trackLeadConversion('Sell Gold Hero Form', res.leadRef);
       setIsSubmitted(true);
       setFormData({
         name: '',

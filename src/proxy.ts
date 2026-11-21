@@ -32,7 +32,7 @@ export function proxy(request: NextRequest) {
     img-src 'self' blob: data: https:;
     font-src 'self' data: https:;
     connect-src 'self' https:;
-    frame-src 'self' https://maps.google.com https://www.google.com;
+    frame-src 'self' https://maps.google.com https://www.google.com https://www.googletagmanager.com https://td.doubleclick.net https://www.facebook.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';
