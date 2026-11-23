@@ -260,7 +260,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
                   SUBMITTING...
                 </>
               ) : (
-                'SUBMIT'
+                'Submit Enquiry'
               )}
             </button>
           </form>

@@ -10,8 +10,8 @@ const DEFAULT_LANGUAGES = [
   { code: 'ml', label: 'മലയാളം', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-malayalam.mp4' },
   { code: 'ta', label: 'தமிழ்', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-tamil.mp4' },
   { code: 'kn', label: 'ಕನ್ನಡ', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-kannada.mp4' },
+  { code: 'te', label: 'తెలుగు', poster: '/images/home/video_thumb.png', video: '/videos/goldpoint-telugu.mp4' },
   // { code: 'en', label: 'EN', poster: '/images/home/video_thumb.png', video: null },
-  // { code: 'te', label: 'తెలుగు', poster: '/images/home/video_thumb.png', video: null },
   // { code: 'mr', label: 'मराठी', poster: '/images/home/video_thumb.png', video: null },
   // { code: 'bn', label: 'বাংলা', poster: '/images/home/video_thumb.png', video: null },
 ];
@@ -164,7 +164,7 @@ export default function VideoSection({ videos, showCalculator = false }: VideoSe
               isSideForm={true} 
               heading="Contact us today" 
               headingHighlight="" 
-              buttonLabel="Enquiry" 
+              buttonLabel="Submit Enquiry" 
             />
           </div>
         </div>

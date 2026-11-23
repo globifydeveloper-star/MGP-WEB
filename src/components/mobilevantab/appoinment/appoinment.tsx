@@ -426,7 +426,7 @@ export default function Appoinment({ data }: AppoinmentProps) {
                   }
                   className="apt-submit-btn"
                 >
-                  {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Confirming... </>) : ('Book Appointment')}
+                  {otpState === 'verifying' ? (<> <span style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '8px', verticalAlign: 'middle' }}></span> Confirming... </>) : ('Submit Enquiry')}
                 </button>
               </form>
             )}
