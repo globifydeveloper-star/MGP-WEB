@@ -304,7 +304,7 @@ export default function SellGoldHero({
                   onChange={(e) => setCompanyWebsite(e.target.value)}
                   style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0, width: 0, margin: 0, padding: 0, border: 0 }}
                 />
-                <div className="sg-form-row">
+                <div className="sg-form-row sg-phone-otp-row">
                   <div className="sg-form-group">
                     <div className="sg-input-wrap">
                       <span className="sg-input-icon" aria-hidden="true">{ICONS.phone}</span>

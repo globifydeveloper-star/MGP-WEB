@@ -69,7 +69,20 @@ export default function SellGoldForCashPage({ processSteps, comparisonRows, page
         />
 
         {/* About Muthoot Gold Point */}
-        <AboutHero onExploreClick={() => scrollToSection('sell-gold-form')} headingLevel="h2" />
+        <AboutHero
+          onExploreClick={() => scrollToSection('sell-gold-form')}
+          headingLevel="h2"
+          data={{
+            heroEyebrow: pageSettings?.aboutEyebrow,
+            heroTitle: pageSettings?.aboutTitle,
+            heroWhoWeAreHeading: pageSettings?.aboutHeading,
+            heroDescription: pageSettings?.aboutDescription,
+            heroChecklist: pageSettings?.aboutChecklist,
+            heroInfoCards: pageSettings?.aboutInfoCards,
+            heroButtonText: pageSettings?.aboutButtonText,
+            heroImages: pageSettings?.aboutImages,
+          }}
+        />
 
         {/* Get in Touch */}
         <GoldSellContact

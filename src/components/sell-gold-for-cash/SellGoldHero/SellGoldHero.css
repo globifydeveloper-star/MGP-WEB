@@ -333,8 +333,15 @@
   opacity: 0.75;
 }
 
-.sg-phone-input {
-  padding-right: 5.4rem;
+/* Mobile + OTP row: the OTP box only needs ~6 digits, so give the
+   phone field (which also holds the GET OTP button) the remaining width */
+.sg-form-card .sg-phone-otp-row {
+  grid-template-columns: minmax(0, 1fr) 6.5rem;
+}
+
+.sg-form-card .sg-phone-input {
+  padding-right: 5.6rem;
+  text-overflow: ellipsis;
 }
 
 .sg-get-otp-btn {
@@ -723,7 +730,8 @@
 
 @media (max-width: 380px) {
   .sg-form-row,
-  .sg-form-row-even {
+  .sg-form-row-even,
+  .sg-form-card .sg-phone-otp-row {
     grid-template-columns: 1fr;
   }
 }

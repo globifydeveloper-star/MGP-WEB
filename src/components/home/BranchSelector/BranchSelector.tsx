@@ -19,10 +19,12 @@ export default function BranchSelector() {
   const tabClass = isMinimized === true ? 'is-visible' : isMinimized === null ? 'is-hidden is-default' : 'is-hidden';
 
   // Reset selector bar to its default state on route change
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setIsVisible(true);
     setIsMinimized(null);
-  }, [pathname]);
+  }
 
   // Hide bar on scroll down, reveal on scroll up
   useEffect(() => {

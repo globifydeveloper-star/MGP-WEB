@@ -1568,6 +1568,15 @@ export interface SellGoldPageSettings {
   contactPhone?: string;
   contactEmail?: string;
   contactSuccessText?: string;
+  /** "About Muthoot Gold Point" section; separate from the About Us page's copy. */
+  aboutEyebrow?: string;
+  aboutTitle?: string;
+  aboutHeading?: string;
+  aboutDescription?: string;
+  aboutChecklist?: { id: number; text: string }[];
+  aboutInfoCards?: TextSection[];
+  aboutButtonText?: string;
+  aboutImages?: string[];
 }
 
 export const getSellGoldPageSettings = cache(async function getSellGoldPageSettings(): Promise<SellGoldPageSettings | null> {
@@ -1610,6 +1619,14 @@ export const getSellGoldPageSettings = cache(async function getSellGoldPageSetti
     contactPhone: flat.contactPhone,
     contactEmail: flat.contactEmail,
     contactSuccessText: flat.contactSuccessText,
+    aboutEyebrow: flat.aboutEyebrow,
+    aboutTitle: flat.aboutTitle,
+    aboutHeading: flat.aboutHeading,
+    aboutDescription: flat.aboutDescription,
+    aboutChecklist: Array.isArray(flat.aboutChecklist) ? flat.aboutChecklist.map(unwrap) : undefined,
+    aboutInfoCards: Array.isArray(flat.aboutInfoCards) ? flat.aboutInfoCards.map(unwrap) : undefined,
+    aboutButtonText: flat.aboutButtonText,
+    aboutImages: Array.isArray(flat.aboutImages) ? flat.aboutImages.map(getMediaUrl).filter(Boolean) as string[] : undefined,
   };
 });
 

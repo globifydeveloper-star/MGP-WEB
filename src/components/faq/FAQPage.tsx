@@ -28,7 +28,7 @@ export default function FAQPage({ faqs, settings }: { faqs: FAQ[]; settings?: FA
         item.question.toLowerCase().includes(search) || item.answer.toLowerCase().includes(search)
       );
     });
-  }, [faqItems, searchQuery, selectedCategory]);
+  }, [allCategoryLabel, faqItems, searchQuery, selectedCategory]);
 
   const toggleFAQ = (id: number) => {
     setOpenIndex(openIndex === id ? null : id);

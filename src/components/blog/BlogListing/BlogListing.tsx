@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { BlogPost, Category, BlogPageSettings } from '@/lib/strapi';
 import BlogCard from '../BlogCard/BlogCard';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
@@ -36,7 +36,7 @@ interface BlogListingProps {
 export default function BlogListing({ initialPosts, categories, settings }: BlogListingProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [requestedPage, setCurrentPage] = useState(1);
 
   const visiblePosts = useMemo(() => {
     const filtered = selectedCategory
@@ -51,13 +51,18 @@ export default function BlogListing({ initialPosts, categories, settings }: Blog
 
   const totalPages = Math.max(1, Math.ceil(visiblePosts.length / POSTS_PER_PAGE));
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory, sortOrder]);
+  // Never point past the last page (e.g. after the post list shrinks)
+  const currentPage = Math.min(requestedPage, totalPages);
 
-  useEffect(() => {
-    if (currentPage > totalPages) setCurrentPage(totalPages);
-  }, [currentPage, totalPages]);
+  // Changing the filter or sort order goes back to page 1
+  const handleCategoryChange = (category: string | null) => {
+    setSelectedCategory(category);
+    setCurrentPage(1);
+  };
+  const handleSortChange = (order: SortOrder) => {
+    setSortOrder(order);
+    setCurrentPage(1);
+  };
 
   const paginatedPosts = useMemo(() => {
     const start = (currentPage - 1) * POSTS_PER_PAGE;
@@ -80,12 +85,12 @@ export default function BlogListing({ initialPosts, categories, settings }: Blog
         <CategoryFilter
           categories={categories}
           selected={selectedCategory}
-          onChange={setSelectedCategory}
+          onChange={handleCategoryChange}
           settings={settings}
         />
         <SortToggle 
           sortOrder={sortOrder} 
-          onChange={setSortOrder} 
+          onChange={handleSortChange}
           settings={settings}
         />
       </div>
@@ -107,7 +112,7 @@ export default function BlogListing({ initialPosts, categories, settings }: Blog
               <button
                 type="button"
                 className="blog-listing-page-btn"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
               >
                 Prev
@@ -134,7 +139,7 @@ export default function BlogListing({ initialPosts, categories, settings }: Blog
               <button
                 type="button"
                 className="blog-listing-page-btn"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
               >
                 Next

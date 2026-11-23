@@ -35,12 +35,17 @@ export default function VideoModal({ isOpen, onClose, title = 'Muthoot Gold Poin
 
   const activeLanguage = VIDEO_LANGUAGES.find((l) => l.code === activeCode) ?? VIDEO_LANGUAGES[0];
 
-  // Pause video & reset playback state when language or isOpen changes
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
+  // Reset playback state when the modal opens or closes
+  // (language changes already reset it in the language-select handler)
+  const [wasOpen, setWasOpen] = useState(isOpen);
+  if (wasOpen !== isOpen) {
+    setWasOpen(isOpen);
     setIsPlaying(false);
+  }
+
+  // Pause the video element when language or isOpen changes
+  useEffect(() => {
+    videoRef.current?.pause();
   }, [activeCode, isOpen]);
 
   // Handle ESC key to close modal & lock body/html scroll

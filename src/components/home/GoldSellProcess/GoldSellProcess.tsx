@@ -143,14 +143,15 @@ function GoldSellProcessDesktop({
   }, [openIndex, steps]);
 
   // Auto-cycle Desktop steps unless user is hovering
+  const stepCount = steps?.length ?? 0;
   useEffect(() => {
-    if (!steps || steps.length === 0 || isHovered) return;
+    if (stepCount === 0 || isHovered) return;
     const timer = setInterval(() => {
-      setOpenIndex((prev) => (prev + 1) % steps.length);
-      setActiveIndex((prev) => (prev + 1) % steps.length);
+      setOpenIndex((prev) => (prev + 1) % stepCount);
+      setActiveIndex((prev) => (prev + 1) % stepCount);
     }, 4000); // Changes every 4 seconds
     return () => clearInterval(timer);
-  }, [steps.length, isHovered]);
+  }, [stepCount, isHovered]);
 
   return (
     <div 
@@ -165,8 +166,8 @@ function GoldSellProcessDesktop({
         </h2>
         <div key={activeIndex} className="gsp-left-content">
           <div className="gsp-image-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             {(activeStep?.image) && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={activeStep?.image} alt={activeStep?.title} className="gsp-image" />
             )}
           </div>
@@ -271,13 +272,14 @@ function GoldSellProcessCarousel({
   }, [current, goTo]);
 
   // Auto-cycle Mobile steps
+  const stepCount = steps?.length ?? 0;
   useEffect(() => {
-    if (!steps || steps.length === 0) return;
+    if (stepCount === 0) return;
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % steps.length);
+      setCurrent((prev) => (prev + 1) % stepCount);
     }, 3500); // Changes every 3.5 seconds
     return () => clearInterval(timer);
-  }, [steps.length]);
+  }, [stepCount]);
 
   // Touch handlers
   const onTouchStart = (e: React.TouchEvent) => {
@@ -371,8 +373,8 @@ function GoldSellProcessCarousel({
 
           {/* Step image */}
           <div className="gsp-carousel-img-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             {(step?.image) && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={step?.image}
                 alt={step?.title}

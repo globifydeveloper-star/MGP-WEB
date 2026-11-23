@@ -20,6 +20,7 @@ interface LocationPopupProps {
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { submitFormSubmissionAction as submitFormSubmission } from '@/actions/strapiActions';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { useIsClient } from '@/hooks/useIsClient';
 import { isValidLeadRef } from '@/lib/validation';
 import { trackLeadConversion } from '@/lib/analytics';
 
@@ -32,8 +33,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedData, setSubmittedData] = useState<{name: string, phone: string, weight: string} | null>(null);
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useIsClient();
 
   const { states: bmStates, locationsByState, branchesByState } = useBranchMaster();
 
@@ -64,8 +64,10 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
     };
   }, [isOpen, onClose]);
 
-  // Reset state when closed
-  useEffect(() => {
+  // Reset state when closed (adjusted during render when isOpen flips to false)
+  const [wasOpen, setWasOpen] = useState(isOpen);
+  if (wasOpen !== isOpen) {
+    setWasOpen(isOpen);
     if (!isOpen) {
       setSelectedState('');
       setSelectedCity('');
@@ -74,7 +76,7 @@ export default function LocationPopup({ isOpen, onClose, clientData, onSuccess, 
       setSubmitError(null);
       setSubmittedData(null);
     }
-  }, [isOpen]);
+  }
 
   if (!isOpen || !mounted) return null;
 

@@ -85,32 +85,37 @@ function BranchLocatorInner({
   const [selectedBranchId, setSelectedBranchId] = useState<string | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [nearCoords, setNearCoords] = useState<{ lat: number; lng: number } | null>(null);
-  const appliedStateParam = useRef<string | null>(null);
+  const [deepLinkedState, setDeepLinkedState] = useState<{ param: string; match: string | null } | null>(null);
 
   const { states: apiStates, branchesByState, loading: branchesLoading } = useBranchMaster();
 
   // Deep-link from the footer's "Our Presence - States" links: ?state=<name>#branches
   // selects that state's branch list as soon as the Branch Master data loads.
-  useEffect(() => {
-    const stateParam = searchParams.get('state');
-    if (!stateParam || apiStates.length === 0) return;
-    if (appliedStateParam.current === stateParam) return;
-    appliedStateParam.current = stateParam;
-
-    const match = apiStates.find((s) => s.toLowerCase() === stateParam.toLowerCase());
+  // State is adjusted during render; only the scroll (a DOM side effect) runs in an effect.
+  const stateParam = searchParams.get('state');
+  if (stateParam && apiStates.length > 0 && deepLinkedState?.param !== stateParam) {
+    const match = apiStates.find((s) => s.toLowerCase() === stateParam.toLowerCase()) ?? null;
+    setDeepLinkedState({ param: stateParam, match });
     if (match) {
       setQuery('');
       setSelectedState(match);
+    }
+  }
+
+  useEffect(() => {
+    if (deepLinkedState?.match) {
       sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [searchParams, apiStates]);
+  }, [deepLinkedState]);
 
   // Clear the pinned branch whenever the user changes search/state context;
   // a search or state pick also replaces the "Near Me" map view
-  useEffect(() => {
+  const [prevContext, setPrevContext] = useState({ query, selectedState });
+  if (prevContext.query !== query || prevContext.selectedState !== selectedState) {
+    setPrevContext({ query, selectedState });
     setSelectedBranchId(null);
     if (query.trim() || selectedState) setNearCoords(null);
-  }, [query, selectedState]);
+  }
 
 function cleanBranchAddress(address?: string): string {
   if (!address) return '';

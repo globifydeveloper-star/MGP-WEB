@@ -10,6 +10,7 @@ import './appoinment.css';
 import { trackLeadConversion } from '@/lib/analytics';
 
 const DEFAULT_VAN_IMAGE = '/images/home/mobile-van-hero.png';
+const MOBILE_VAN_CITIES = ['mumbai', 'kalyan', 'bengaluru', 'bangalore'];
 
 const GaugeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -47,8 +48,6 @@ export default function Appoinment({ data }: AppoinmentProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const { states: statesList, locationsByState, branchesByState } = useBranchMaster();
-
-  const MOBILE_VAN_CITIES = ['mumbai', 'kalyan', 'bengaluru', 'bangalore'];
 
   const availableStates = useMemo(() => {
     return statesList.filter(state => {

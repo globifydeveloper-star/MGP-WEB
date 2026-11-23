@@ -6,6 +6,7 @@ import { useOtpVerification } from '@/hooks/useOtpVerification';
 import { validateName, validateEmail, validatePhone, validateRequired, validateOtp, isValidLeadRef } from '@/lib/validation';
 import { useBranchMaster } from '@/hooks/useBranchMaster';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { useIsClient } from '@/hooks/useIsClient';
 import ConsentText from '@/components/common/ConsentText/ConsentText';
 import './SellGoldModal.css';
 import { trackLeadConversion } from '@/lib/analytics';
@@ -15,24 +16,23 @@ interface SellGoldModalProps {
   onClose: () => void;
 }
 
-export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+const INITIAL_FORM_DATA = {
+  name: '',
+  email: '',
+  phone: '',
+  otp: '',
+  state: '',
+  city: '',
+  branchCode: '',
+  purity: '',
+  weight: '',
+  consent: false
+};
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    otp: '',
-    state: '',
-    city: '',
-    branchCode: '',
-    purity: '',
-    weight: '',
-    consent: false
-  });
+export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
+  const mounted = useIsClient();
+
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
 
   const { states: availableStates, locationsByState, branchesByState } = useBranchMaster();
 
@@ -73,26 +73,14 @@ export default function SellGoldModal({ isOpen, onClose }: SellGoldModalProps) {
     };
   }, [isOpen, onClose]);
 
-  // Reset form and submission status only after successful submission when modal is closed
-  useEffect(() => {
-    if (!isOpen && isSubmitted) {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        otp: '',
-        state: '',
-        city: '',
-        branchCode: '',
-        purity: '',
-        weight: '',
-        consent: false
-      });
-      setCompanyWebsite('');
-      setIsSubmitted(false);
-      resetOtpState();
-    }
-  }, [isOpen, isSubmitted, resetOtpState]);
+  // Reset form and submission status only after successful submission when modal is closed.
+  // Done during render (not in an effect) so React applies it before painting.
+  if (!isOpen && isSubmitted) {
+    setFormData(INITIAL_FORM_DATA);
+    setCompanyWebsite('');
+    setIsSubmitted(false);
+    resetOtpState();
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target as HTMLInputElement;

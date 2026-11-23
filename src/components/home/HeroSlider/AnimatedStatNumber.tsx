@@ -12,29 +12,25 @@ export function AnimatedStatNumber({ value, duration = 2000 }: AnimatedStatNumbe
   const domRef = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
 
+  const raw = String(value || '').trim();
+
+  // Extract non-digit prefix (e.g., ₹, $)
+  const prefixMatch = raw.match(/^[^\d]+/);
+  const prefix = prefixMatch ? prefixMatch[0] : '';
+
+  // Extract non-digit suffix (e.g., +, Cr, K, etc.)
+  const suffixMatch = raw.match(/[^\d.]+$/);
+  const suffix = suffixMatch ? suffixMatch[0] : '';
+
+  // Clean numeric string
+  const numericPart = raw.slice(prefix.length, suffix ? raw.length - suffix.length : undefined).replace(/,/g, '');
+  const targetNumber = parseFloat(numericPart);
+
+  // Empty or non-numeric values are shown as-is, without animating
+  const staticValue = !raw ? '0' : isNaN(targetNumber) ? raw : null;
+
   useEffect(() => {
-    const raw = String(value || '').trim();
-    if (!raw) {
-      setDisplayValue('0');
-      return;
-    }
-
-    // Extract non-digit prefix (e.g., ₹, $)
-    const prefixMatch = raw.match(/^[^\d]+/);
-    const prefix = prefixMatch ? prefixMatch[0] : '';
-
-    // Extract non-digit suffix (e.g., +, Cr, K, etc.)
-    const suffixMatch = raw.match(/[^\d.]+$/);
-    const suffix = suffixMatch ? suffixMatch[0] : '';
-
-    // Clean numeric string
-    const numericPart = raw.slice(prefix.length, suffix ? raw.length - suffix.length : undefined).replace(/,/g, '');
-    const targetNumber = parseFloat(numericPart);
-
-    if (isNaN(targetNumber)) {
-      setDisplayValue(raw);
-      return;
-    }
+    if (staticValue !== null) return;
 
     const hasDecimals = numericPart.includes('.');
     const decimalPlaces = hasDecimals ? (numericPart.split('.')[1]?.length || 0) : 0;
@@ -92,11 +88,11 @@ export function AnimatedStatNumber({ value, duration = 2000 }: AnimatedStatNumbe
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [value, duration]);
+  }, [staticValue, prefix, suffix, numericPart, targetNumber, duration]);
 
   return (
     <span ref={domRef} className="hero-stat-metric-value">
-      {displayValue}
+      {staticValue ?? displayValue}
     </span>
   );
 }

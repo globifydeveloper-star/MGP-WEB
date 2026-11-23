@@ -43,7 +43,7 @@ Optional environment variables:
    npm run dev
    ```
 
-3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
 ## Docker
 

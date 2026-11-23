@@ -1,7 +1,7 @@
 // Geocodes branch addresses into src/data/branchCoordinates.json (the Branch Master API has no lat/lng).
 //
 // Usage (with the dev server running):
-//   curl -s http://localhost:3000/api/branch/all > branches.json
+//   curl -s http://localhost:3001/api/branch/all > branches.json
 //   node scripts/geocode-branches.mjs branches.json src/data/branchCoordinates.json
 //
 // Branches already geocoded from the same PIN + city are skipped, so re-running only looks up new or
