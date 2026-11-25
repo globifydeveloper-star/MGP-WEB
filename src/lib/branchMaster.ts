@@ -2,6 +2,17 @@ import 'server-only';
 import { resolveAuthToken } from './authService';
 import { requireEnv } from './env.server';
 
+// Cache tag on the branch list fetch; /api/revalidate-branches clears it on demand.
+export const BRANCH_MASTER_CACHE_TAG = 'branch-master';
+
+// How long (seconds) the branch list is cached before it is fetched again.
+// Set BRANCH_CACHE_SECONDS to override; defaults to 15 minutes, minimum 60s.
+const DEFAULT_BRANCH_CACHE_SECONDS = 900;
+function getBranchCacheSeconds(): number {
+  const n = parseInt(process.env.BRANCH_CACHE_SECONDS ?? '', 10);
+  return Number.isFinite(n) && n >= 60 ? n : DEFAULT_BRANCH_CACHE_SECONDS;
+}
+
 export function getBranchMasterBaseUrl(): string {
   return requireEnv('BRANCH_MASTER_BASE_URL').replace(/\/$/, '');
 }
@@ -58,7 +69,7 @@ export async function fetchAllBranchDetails(): Promise<BranchMasterDetail[]> {
       res = await fetch(url, {
         method: 'GET',
         headers,
-        next: { revalidate: 86400 },
+        next: { revalidate: getBranchCacheSeconds(), tags: [BRANCH_MASTER_CACHE_TAG] },
         signal: controller.signal,
       });
     } finally {
