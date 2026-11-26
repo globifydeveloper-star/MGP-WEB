@@ -28,11 +28,11 @@ export function proxy(request: NextRequest) {
   const csp = `
     default-src 'self';
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
-    style-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://www.gstatic.com;
     img-src 'self' blob: data: https:;
     font-src 'self' data: https:;
     connect-src 'self' https:;
-    frame-src 'self' https://maps.google.com https://www.google.com https://www.googletagmanager.com https://td.doubleclick.net https://www.facebook.com;
+    frame-src 'self' https://maps.google.com https://www.google.com https://translate.google.com https://translate.googleapis.com https://www.googletagmanager.com https://td.doubleclick.net https://www.facebook.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';

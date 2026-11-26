@@ -228,7 +228,7 @@
 .navbar-right-group {
   justify-content: flex-end;
   align-items: center;
-  gap: 24px;
+  gap: 14px;
   display: flex;
   flex-shrink: 0;
 }
@@ -597,9 +597,13 @@
     gap: 8px;
   }
 
+  .navbar-right-group {
+    gap: 8px;
+  }
+
   .navbar-logo {
-    width: 165px;
-    max-width: 50vw;
+    width: 155px;
+    max-width: 44vw;
   }
 
   .navbar-cta-btn-v2 {
@@ -618,9 +622,13 @@
     padding: 0 12px;
   }
 
+  .navbar-right-group {
+    gap: 6px;
+  }
+
   .navbar-logo {
-    width: 150px;
-    max-width: 48vw;
+    width: 136px;
+    max-width: 40vw;
   }
 
   .navbar-cta-btn-v2 {

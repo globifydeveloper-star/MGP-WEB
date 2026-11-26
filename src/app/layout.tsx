@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { Outfit, Montserrat } from "next/font/google";
 import BranchSelector from "@/components/home/BranchSelector/BranchSelector";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import GoogleTranslate from "@/components/layout/GoogleTranslate";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import GoogleAds from "@/components/analytics/GoogleAds";
 import MetaPixel from "@/components/analytics/MetaPixel";
@@ -133,6 +134,7 @@ export default async function RootLayout({
         <GoogleAnalytics nonce={nonce} />
         <GoogleAds nonce={nonce} />
         <MetaPixel nonce={nonce} />
+        <GoogleTranslate nonce={nonce} />
         <AttributionCapture sourceAliases={sourceAliases} />
         <SiteDataProvider branches={branches} goldRates={goldRates}>
           {children}

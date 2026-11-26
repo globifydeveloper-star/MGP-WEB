@@ -1,0 +1,162 @@
+.mgp-lang-selector {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(235, 175, 32, 0.45);
+  color: #ffffff;
+  font-family: 'Gilroy', var(--font-outfit), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.mgp-lang-selector:hover,
+.mgp-lang-selector:focus-within {
+  border-color: #EBAF20;
+  background: rgba(235, 175, 32, 0.14);
+}
+
+.mgp-lang-globe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #EBAF20;
+  flex-shrink: 0;
+}
+
+.mgp-lang-label-full {
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mgp-lang-label-short {
+  display: none;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.mgp-lang-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.78);
+  flex-shrink: 0;
+}
+
+.mgp-lang-native-select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: #111A41;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.mgp-lang-native-select option {
+  background-color: #111A41;
+  color: #ffffff;
+}
+
+/* Light header variant (e.g. /sell-gold-for-cash standalone header) */
+.mgp-lang-light {
+  background: #fffbeb;
+  border: 1px solid rgba(180, 120, 20, 0.35);
+  color: #1e1b4b;
+  height: 38px;
+}
+
+.mgp-lang-light:hover,
+.mgp-lang-light:focus-within {
+  background: #fef3c7;
+  border-color: #b47814;
+}
+
+.mgp-lang-light .mgp-lang-globe {
+  color: #b47814;
+}
+
+.mgp-lang-light .mgp-lang-chevron {
+  color: #4b5563;
+}
+
+/* Mobile menu full-width variant */
+.mgp-lang-mobile {
+  width: 100%;
+  height: 48px;
+  justify-content: space-between;
+  padding: 0 14px;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 16px;
+}
+
+.mgp-lang-mobile .mgp-lang-label-full {
+  max-width: none;
+  flex: 1;
+}
+
+/* Compact laptops (1025px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .mgp-lang-navbar {
+    height: 38px;
+    padding: 0 10px;
+    font-size: 13.5px;
+  }
+
+  .mgp-lang-navbar .mgp-lang-label-full {
+    display: none;
+  }
+
+  .mgp-lang-navbar .mgp-lang-label-short {
+    display: inline-block;
+  }
+}
+
+/* Tablet & Mobile header pill */
+@media (max-width: 1024px) {
+  .mgp-lang-navbar,
+  .mgp-lang-light {
+    height: 36px;
+    padding: 0 9px;
+    gap: 5px;
+    font-size: 13px;
+  }
+
+  .mgp-lang-navbar .mgp-lang-label-full,
+  .mgp-lang-light .mgp-lang-label-full {
+    display: none;
+  }
+
+  .mgp-lang-navbar .mgp-lang-label-short,
+  .mgp-lang-light .mgp-lang-label-short {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 480px) {
+  .mgp-lang-navbar {
+    height: 34px;
+    padding: 0 7px;
+    gap: 3px;
+  }
+
+  .mgp-lang-navbar .mgp-lang-label-short {
+    display: none;
+  }
+}

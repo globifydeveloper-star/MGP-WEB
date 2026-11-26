@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import logoImg from '@/assets/images/logo.png';
 import SellGoldModal from './SellGoldModal';
+import LanguageSelector from './LanguageSelector';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import type { NavItem } from '@/lib/strapi';
 const DEFAULT_NAV_LINKS: NavItem[] = [
@@ -142,6 +143,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
         </nav>
 
         <div className="navbar-right-group">
+          <LanguageSelector variant="navbar" />
           <button
             type="button"
             className="navbar-cta-btn-v2"
@@ -180,6 +182,7 @@ export default function NavbarClient({ initialData }: { initialData: any }) {
               </Link>
             )
           })}
+          <LanguageSelector variant="mobile" />
         </nav>
       </div>
 
