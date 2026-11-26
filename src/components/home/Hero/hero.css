@@ -9,12 +9,13 @@
 .hero-section-root-v2 {
   position: relative;
   width: 100%;
-  height: calc(100dvh - 80px);
-  min-height: calc(100dvh - 80px);
+  height: auto;
+  min-height: max(100%, calc(100dvh - 80px));
   box-sizing: border-box;
   background: linear-gradient(114.79deg, #06132E 0%, #0F224C 50.96%, #163376 100%);
   overflow: hidden;
-  padding-top: 80px;
+  padding-top: 92px;
+  padding-bottom: 36px;
   display: flex;
   flex-direction: column;
   justify-content: center;

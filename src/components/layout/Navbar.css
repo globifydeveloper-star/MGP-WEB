@@ -177,6 +177,8 @@
   align-items: center;
   gap: 20px;
   flex-wrap: nowrap;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .navbar-nav-v2 a {
@@ -663,4 +665,60 @@
 @keyframes logo-shine {
   0% { left: -30%; }
   100% { left: 110%; }
+}
+
+/* ── Translated UI (Tamil, Telugu, Malayalam, etc.) Navbar Fit ── */
+@media (min-width: 1025px) {
+  html.translated-ltr .navbar-container-v2,
+  html.translated-rtl .navbar-container-v2 {
+    padding: 0 20px;
+    gap: 10px;
+  }
+
+  html.translated-ltr .navbar-logo,
+  html.translated-rtl .navbar-logo {
+    width: clamp(140px, 11vw, 185px);
+  }
+
+  html.translated-ltr .navbar-nav-v2,
+  html.translated-rtl .navbar-nav-v2 {
+    gap: clamp(6px, 0.75vw, 14px);
+  }
+
+  html.translated-ltr .navbar-nav-v2 a,
+  html.translated-rtl .navbar-nav-v2 a,
+  html.translated-ltr .navbar-more-trigger,
+  html.translated-rtl .navbar-more-trigger {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.18;
+    font-size: clamp(12px, 0.9vw, 14.5px);
+    padding: 4px 6px 8px 6px;
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 155px;
+  }
+
+  html.translated-ltr .navbar-nav-v2 a.navbar-dropdown-item,
+  html.translated-rtl .navbar-nav-v2 a.navbar-dropdown-item {
+    max-width: none;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  html.translated-ltr .navbar-cta-btn-v2,
+  html.translated-rtl .navbar-cta-btn-v2 {
+    width: auto;
+    min-width: 120px;
+    max-width: 195px;
+    padding: 0 14px;
+    height: 40px;
+  }
+
+  html.translated-ltr .navbar-cta-btn-v2 span,
+  html.translated-rtl .navbar-cta-btn-v2 span {
+    font-size: clamp(12px, 0.9vw, 15px);
+    white-space: normal;
+    line-height: 1.15;
+  }
 }

@@ -354,3 +354,59 @@
     max-width: 320px;
   }
 }
+
+/* Translated UI adjustments for shared Hero Left Column */
+@media (min-width: 1025px) {
+  html.translated-ltr .trust-badge-text-v2,
+  html.translated-rtl .trust-badge-text-v2 {
+    font-size: clamp(14px, 1.15vw, 18px);
+    line-height: 1.3;
+  }
+
+  html.translated-ltr .hero-trust-badge-v2,
+  html.translated-rtl .hero-trust-badge-v2 {
+    margin-bottom: 1rem;
+    min-height: 44px;
+  }
+
+  html.translated-ltr .hero-main-title-v2,
+  html.translated-rtl .hero-main-title-v2 {
+    font-size: clamp(26px, 2.2vw, 38px);
+    line-height: 1.18;
+    margin-bottom: 0.9rem;
+  }
+
+  html.translated-ltr .hero-subcopy-text-v2,
+  html.translated-rtl .hero-subcopy-text-v2 {
+    font-size: clamp(14.5px, 1.15vw, 18px);
+    line-height: 1.45;
+  }
+
+  html.translated-ltr .btn-gold-gradient,
+  html.translated-rtl .btn-gold-gradient,
+  html.translated-ltr .btn-white-outline-v2,
+  html.translated-rtl .btn-white-outline-v2 {
+    width: auto;
+    min-width: clamp(180px, 14vw, 230px);
+    max-width: 280px;
+    padding: 8px 20px;
+    height: auto;
+    min-height: 48px;
+    line-height: 1.2;
+    text-align: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  html.translated-ltr .trust-badge-text-v2,
+  html.translated-rtl .trust-badge-text-v2 {
+    white-space: normal;
+  }
+
+  html.translated-ltr .hero-cta-group-v2 button,
+  html.translated-rtl .hero-cta-group-v2 button {
+    white-space: normal;
+    line-height: 1.2;
+    text-align: center;
+  }
+}

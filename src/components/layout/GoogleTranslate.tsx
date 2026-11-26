@@ -75,6 +75,7 @@ export default function GoogleTranslate({ nonce }: GoogleTranslateProps) {
                   new window.google.translate.TranslateElement(
                     {
                       pageLanguage: 'en',
+                      includedLanguages: 'en,hi,te,ml,kn,ta,bn,or,gu',
                       autoDisplay: false
                     },
                     'google_translate_element'

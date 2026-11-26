@@ -67,11 +67,12 @@
 .hero-slide-two-section {
   position: relative;
   width: 100%;
-  height: calc(100dvh - 80px);
-  min-height: calc(100dvh - 80px);
+  height: auto;
+  min-height: max(100%, calc(100dvh - 80px));
   background: linear-gradient(135deg, #06132E 0%, #0F224C 55%, #163376 100%);
   overflow: hidden;
-  padding-top: 80px;
+  padding-top: 96px;
+  padding-bottom: 48px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -129,7 +130,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 2.5rem;
+  padding-top: 1rem;
 }
 
 .hero-slide-two-badge {
@@ -360,5 +361,52 @@
   .hero-slide-two-mobile-btn-container .hero-slide-two-btn {
     height: 48px;
     font-size: 0.95rem;
+  }
+}
+
+/* Translated UI adjustments for Slide 2 */
+@media (min-width: 1025px) {
+  html.translated-ltr .hero-slide-two-container,
+  html.translated-rtl .hero-slide-two-container {
+    gap: 2.5rem;
+    padding: 1rem 2rem 2.5rem 2rem;
+  }
+
+  html.translated-ltr .hero-slide-two-content,
+  html.translated-rtl .hero-slide-two-content {
+    padding-top: 0.5rem;
+  }
+
+  html.translated-ltr .hero-slide-two-subcopy,
+  html.translated-rtl .hero-slide-two-subcopy {
+    margin-bottom: 1rem;
+  }
+
+  html.translated-ltr .hero-slide-two-features-list,
+  html.translated-rtl .hero-slide-two-features-list {
+    gap: 10px;
+  }
+
+  html.translated-ltr .hero-slide-two-features-list li,
+  html.translated-rtl .hero-slide-two-features-list li {
+    font-size: clamp(14px, 1.15vw, 18px);
+    line-height: 1.4;
+  }
+
+  html.translated-ltr .hero-slide-two-cta-group,
+  html.translated-rtl .hero-slide-two-cta-group {
+    margin-top: 1.5rem;
+  }
+
+  html.translated-ltr .hero-slide-two-btn,
+  html.translated-rtl .hero-slide-two-btn {
+    width: auto;
+    min-width: clamp(180px, 14vw, 230px);
+    max-width: 280px;
+    padding: 8px 20px;
+    height: auto;
+    min-height: 48px;
+    line-height: 1.2;
+    text-align: center;
   }
 }

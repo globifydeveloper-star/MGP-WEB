@@ -101,12 +101,14 @@
   display: flex;
   gap: 1rem;
   flex-grow: 1;
+  min-width: 0;
   max-width: 520px;
 }
 
 .select-wrapper {
   position: relative;
-  flex-grow: 1;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .custom-select {
@@ -114,13 +116,16 @@
   background: rgba(10, 19, 44, 0.5);
   border: 1px solid var(--border-gold);
   border-radius: 6px;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  padding: 0.75rem 2.25rem 0.75rem 0.9rem;
   color: var(--text-white);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transition: var(--transition-smooth);
 }
 
@@ -476,5 +481,33 @@
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+  }
+}
+
+/* Translated UI adjustments for BranchSelector bar */
+@media (min-width: 769px) {
+  html.translated-ltr .branch-selector-bar,
+  html.translated-rtl .branch-selector-bar {
+    padding: 0.85rem 1.25rem;
+    gap: 1rem;
+  }
+
+  html.translated-ltr .info-subtitle,
+  html.translated-rtl .info-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.25;
+  }
+
+  html.translated-ltr .custom-select,
+  html.translated-rtl .custom-select {
+    font-size: 0.82rem;
+    padding: 0.65rem 2rem 0.65rem 0.75rem;
+  }
+
+  html.translated-ltr .direction-btn,
+  html.translated-rtl .direction-btn {
+    padding: 0.65rem 1.15rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
   }
 }

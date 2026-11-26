@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useSyncExternalStore } from 'react';
+import React, { useSyncExternalStore } from 'react';
 import './LanguageSelector.css';
 
 interface LanguageOption {
@@ -12,26 +12,16 @@ interface LanguageSelectorProps {
   variant?: 'navbar' | 'mobile' | 'light';
 }
 
-const FALLBACK_LANGUAGES: LanguageOption[] = [
+const SUPPORTED_LANGUAGES: LanguageOption[] = [
   { code: 'en', label: 'English' },
   { code: 'hi', label: 'Hindi' },
-  { code: 'ta', label: 'Tamil' },
   { code: 'te', label: 'Telugu' },
-  { code: 'kn', label: 'Kannada' },
   { code: 'ml', label: 'Malayalam' },
-  { code: 'mr', label: 'Marathi' },
+  { code: 'kn', label: 'Kannada' },
+  { code: 'ta', label: 'Tamil' },
   { code: 'bn', label: 'Bengali' },
+  { code: 'or', label: 'Odiya' },
   { code: 'gu', label: 'Gujarati' },
-  { code: 'pa', label: 'Punjabi' },
-  { code: 'or', label: 'Odia (Oriya)' },
-  { code: 'as', label: 'Assamese' },
-  { code: 'ur', label: 'Urdu' },
-  { code: 'ar', label: 'Arabic' },
-  { code: 'zh-CN', label: 'Chinese (Simplified)' },
-  { code: 'fr', label: 'French' },
-  { code: 'de', label: 'German' },
-  { code: 'ja', label: 'Japanese' },
-  { code: 'es', label: 'Spanish' },
 ];
 
 function readGoogTransCookie(): string {
@@ -65,26 +55,6 @@ function setGoogTransCookie(langCode: string) {
   }
 }
 
-function readComboLanguages(): LanguageOption[] | null {
-  if (typeof document === 'undefined') return null;
-  const combo = document.querySelector<HTMLSelectElement>('.goog-te-combo');
-  if (!combo || combo.options.length <= 1) return null;
-
-  const list: LanguageOption[] = [{ code: 'en', label: 'English' }];
-  const seen = new Set<string>(['en']);
-
-  for (let i = 0; i < combo.options.length; i++) {
-    const opt = combo.options[i];
-    const code = opt.value?.trim();
-    const label = opt.textContent?.trim();
-    if (!code || !label || seen.has(code)) continue;
-    seen.add(code);
-    list.push({ code, label });
-  }
-
-  return list.length > 1 ? list : null;
-}
-
 function subscribeToLangChange(callback: () => void) {
   window.addEventListener('mgp-lang-change', callback);
   return () => window.removeEventListener('mgp-lang-change', callback);
@@ -93,31 +63,7 @@ function subscribeToLangChange(callback: () => void) {
 const getServerLang = () => 'en';
 
 export default function LanguageSelector({ variant = 'navbar' }: LanguageSelectorProps) {
-  const [languages, setLanguages] = useState<LanguageOption[]>(FALLBACK_LANGUAGES);
   const currentLang = useSyncExternalStore(subscribeToLangChange, readGoogTransCookie, getServerLang);
-
-  useEffect(() => {
-    const syncFromCombo = () => {
-      const liveList = readComboLanguages();
-      if (liveList) {
-        setLanguages(liveList);
-      }
-    };
-
-    const timerId = window.setTimeout(syncFromCombo, 0);
-
-    const container = document.getElementById('google_translate_element');
-    let observer: MutationObserver | null = null;
-    if (container) {
-      observer = new MutationObserver(syncFromCombo);
-      observer.observe(container, { childList: true, subtree: true });
-    }
-
-    return () => {
-      window.clearTimeout(timerId);
-      observer?.disconnect();
-    };
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = e.target.value;
@@ -139,7 +85,7 @@ export default function LanguageSelector({ variant = 'navbar' }: LanguageSelecto
     }
   };
 
-  const activeOption = languages.find((l) => l.code === currentLang);
+  const activeOption = SUPPORTED_LANGUAGES.find((l) => l.code === currentLang);
   const displayLabel = activeOption?.label || 'English';
   const shortCode = currentLang.split('-')[0].toUpperCase();
 
@@ -190,7 +136,7 @@ export default function LanguageSelector({ variant = 'navbar' }: LanguageSelecto
         value={currentLang}
         onChange={handleChange}
       >
-        {languages.map((lang) => (
+        {SUPPORTED_LANGUAGES.map((lang) => (
           <option key={lang.code} value={lang.code} className="notranslate">
             {lang.label}
           </option>
